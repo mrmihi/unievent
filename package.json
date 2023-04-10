@@ -1,0 +1,19 @@
+{
+  "name": "itp_wd_b01_g11",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrmihi/ITP_WD_B01_G11.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrmihi/ITP_WD_B01_G11/issues"
+  },
+  "homepage": "https://github.com/mrmihi/ITP_WD_B01_G11#readme"
+}
