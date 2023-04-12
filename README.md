@@ -7,7 +7,9 @@ Please go under edit and edit this file as needed for your project
 ### Member 3 - IT21170034 - Miss. Shabina Farveen (probablyshabina)
 ### Member 4 - 
 ### Member 5 - IT21171338 - Miss. Thareendra Tennakoon (Thareendra2000) 
-### Member 6 - 
+
+### Member 6 - IT21260988 - Miss. Supuni Eleesha Randeniya (Radser2001)
+
 ### Member 7 - IT21178368 - Miss. Kavindi Sathsarani Perera (ksathperera)
 ### Member 8 - IT21176456 - Mr. Maleesha Gimmana (maleeshag)
 
