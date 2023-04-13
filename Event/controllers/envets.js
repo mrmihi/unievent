@@ -1,1 +1,0 @@
-const yrt = 'Hello';

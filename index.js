@@ -1,4 +1,4 @@
-const config = require('./utils/config');
+const config = require('./Event/utils/config');
 const app = require('./app');
 
 app.listen(config.PORT, () => {
