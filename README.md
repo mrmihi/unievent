@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Please go under edit and edit this file as needed for your project
 
 # Project Name - UniEventPro - Event Management System for Higher Education Institutes
@@ -18,3 +19,6 @@ Please go under edit and edit this file as needed for your project
 
 Note - The student's github account should be given in brackets e.g. (asiriRepos), this ideally should be your student id 
 
+=======
+# ITP_WD_B01_G11
+>>>>>>> 68a601cb38cf6c98c75b073625ea81f8e8a22999
