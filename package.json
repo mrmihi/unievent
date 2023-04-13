@@ -40,4 +40,5 @@
         "testEnvironment": "node",
         "globalTeardown": "./tests/teardown.js"
     }
+
 }
