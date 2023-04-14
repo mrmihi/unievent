@@ -1,21 +1,25 @@
 const Event = require('../models/event.model');
 
-const createEvent = async ({
-  name,
-  description,
-  headerImage,
-  venue,
-  startTime,
-  endTime,
-  status,
-  category,
-  speakers,
-  capacity,
-  tags,
-  joinLink,
-  host,
-  club,
-}) => {
+const createEvent = async (
+  {
+    name,
+    description,
+    headerImage,
+    venue,
+    startTime,
+    endTime,
+    status,
+    category,
+    speakers,
+    capacity,
+    tags,
+    joinLink,
+    host,
+    club,
+  },
+  user
+) => {
+  const uId = user._id;
   const event = new Event({
     name,
     description,
@@ -31,6 +35,7 @@ const createEvent = async ({
     host,
     joinLink,
     club,
+    user: uId,
   });
 
   return event.save();
