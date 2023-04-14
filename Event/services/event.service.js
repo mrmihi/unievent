@@ -14,7 +14,7 @@ const createEvent = async ({
   tags,
   joinLink,
   host,
-  faculty,
+  club,
 }) => {
   const event = new Event({
     name,
@@ -30,7 +30,7 @@ const createEvent = async ({
     tags,
     host,
     joinLink,
-    faculty,
+    club,
   });
 
   return event.save();
