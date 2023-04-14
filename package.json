@@ -21,6 +21,7 @@
         "jsonwebtoken": "^9.0.0",
         "lodash": "^4.17.21",
         "mongoose": "^7.0.3",
+        "mongoose-paginate-v2": "^1.7.1",
         "mongoose-unique-validator": "^4.0.0",
         "morgan": "^1.10.0"
     },
@@ -40,5 +41,4 @@
         "testEnvironment": "node",
         "globalTeardown": "./tests/teardown.js"
     }
-
 }
