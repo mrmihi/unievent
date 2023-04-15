@@ -20,6 +20,7 @@ const createEvent = async (
   user
 ) => {
   const uId = user._id;
+  console.log('uId : ', uId);
   const event = new Event({
     name,
     description,

@@ -7,20 +7,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 
 const createEvent = async (req, res) => {
-  const token = tokenHelper.getTokenFrom(req);
-
-  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-  if (!decodedToken.id) {
-    return makeResponse({
-      res,
-      message: 'token missing or invalid',
-      status: HTTP_STATUS.UNAUTHORIZED,
-    });
-  }
-
-  const user = await User.findById(decodedToken.id);
-
-  const event = await EventService.createEvent(req.body, user);
+  const event = await EventService.createEvent(req.body, req.user);
   console.log(req.body);
   return makeResponse({
     res,
