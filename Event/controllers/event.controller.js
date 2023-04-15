@@ -1,7 +1,7 @@
 const EventService = require('../services/event.service');
 const { HTTP_STATUS } = require('../utils/http');
 const { makeResponse } = require('../utils/response');
-const { event } = require('../models/event.model');
+const { Event } = require('../models/event.model');
 const tokenHelper = require('../helpers/token.helper');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
@@ -22,10 +22,10 @@ const getAllEvents = async (req, res) => {
 };
 
 const getEventById = async (req, res) => {
-  const blog = await event.findById(req.params.id);
+  const blog = await Event.findById(req.params.id);
 
   if (blog) {
-    res.json(event.toJSON());
+    res.json(Event.toJSON());
   } else {
     res.status(404).end();
   }

@@ -5,11 +5,8 @@ const { makeResponse } = require('../utils/response');
 const tokenHelper = require('../helpers/token.helper');
 
 const protect = async (req, res, next) => {
-  console.log('protect middleware');
   const token = tokenHelper.getTokenFrom(req);
-  console.log('token : ', token);
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-  console.log('decodedToken : ', decodedToken);
   if (!decodedToken.id) {
     return makeResponse({
       res,
@@ -18,7 +15,6 @@ const protect = async (req, res, next) => {
     });
   }
   req.user = await User.findById(decodedToken.id);
-  console.log('req.user : ', req.user);
   next();
 };
 
