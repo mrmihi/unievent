@@ -6,6 +6,8 @@ const app = express();
 const cors = require('cors');
 const logger = require('./Event/utils/logger');
 const mongoose = require('mongoose');
+const errorHandler = require('./Event/middleware/error_handler');
+const unknownEndpoint = require('./Event/middleware/unknown_endpoint');
 
 logger.info('connecting to MongoDB');
 
@@ -22,4 +24,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/', router);
 
+app.use(errorHandler);
+app.use(unknownEndpoint);
 module.exports = app;
