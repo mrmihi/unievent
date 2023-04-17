@@ -1,12 +1,10 @@
 const express = require('express');
+const { createVenue } = require('../controllers/venue.controller');
+const { protect, venueManagerProtect } = require('../../User/middleware/authMiddleware');
 
 const venueRouter = express.Router();
 
-venueRouter.get('/info', (req, res) => {
-  res.json('Venue Router');
-});
-
-// venueRouter.post('/', createVenue)
+venueRouter.post('/', protect, venueManagerProtect, createVenue)
 // venueRouter.get('/', protect, getAllVenues)
 // venueRouter.get('/:id', getVenueById)
 //venueRouter.get('/manager/:id', getVenuesByManagerId)
