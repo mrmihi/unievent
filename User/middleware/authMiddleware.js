@@ -35,7 +35,7 @@ const protect = async (req, res, next) => {
 
 //check if user is admin
 const adminProtect = async (req, res, next) => {
-  console.log(req.user);
+
   if (req.user && req.user.role === 'admin') {
     next();
   } //if user is admin
@@ -46,7 +46,7 @@ const adminProtect = async (req, res, next) => {
 
 //check if user is student
 const studentProtect = async (req, res, next) => {
-  console.log(req.user);
+
   if (req.user && req.user.role === 'student') {
     next();
   } else {
@@ -56,7 +56,7 @@ const studentProtect = async (req, res, next) => {
 
 //check if user is attendee
 const attendeeProtect = async (req, res, next) => {
-  console.log(req.user);
+
   if (req.user && req.user.role === 'attendee manager') {
     next();
   } else {
@@ -66,7 +66,7 @@ const attendeeProtect = async (req, res, next) => {
 
 //check if user is financial manager
 const financialManagerProtect = async (req, res, next) => {
-  console.log(req.user);
+
   if (req.user && req.user.role === 'accountant') {
     next();
   } else {
@@ -76,7 +76,6 @@ const financialManagerProtect = async (req, res, next) => {
 
 //check if user is venue manager
 const venueManagerProtect = async (req, res, next) => {
-  console.log(req.user);
   if (req.user && req.user.role === 'venue manager') {
     next();
   } else {
@@ -86,7 +85,7 @@ const venueManagerProtect = async (req, res, next) => {
 
 //check if user is resource manager
 const resourceManagerProtect = async (req, res, next) => {
-  console.log(req.user);
+
   if (req.user && req.user.role === 'resource manager') {
     next();
   } else {
@@ -96,7 +95,7 @@ const resourceManagerProtect = async (req, res, next) => {
 
 //check if user is staff
 const staffProtect = async (req, res, next) => {
-  console.log(req.user);
+
   if (req.user && req.user.role === 'staff') {
     next();
   } else {
@@ -106,7 +105,7 @@ const staffProtect = async (req, res, next) => {
 
 //check if user is organization
 const organizationProtect = async (req, res, next) => {
-  console.log(req.organization);
+
   if (req.organization && req.user.role === 'organization') {
     next();
   } else {
