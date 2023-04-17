@@ -15,12 +15,14 @@ const { protect,
 
 const userRouter = express.Router();//create router
 
-userRouter.post('/register',protect,adminProtect,createUser); //create user
+userRouter.post('/register', createUser); //create user
 userRouter.post('/login',loginUser);//login user
 userRouter.get('/', getAllUsers);//get all users
 userRouter.delete('/:id', deleteUser);//delete user
 userRouter.put('/:id', updateUser);//update user
-
+userRouter.get('/test', async (req, res) => {
+    res.send('test')
+})
 
 module.exports = userRouter;
 

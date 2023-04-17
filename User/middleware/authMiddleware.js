@@ -115,10 +115,6 @@ const staffProtect = async (req, res, next) => {
     }
 }
 
-
-
-
-///////////////////////////check this //////////////////////////////
 //check if user is organization
 const organizationProtect = async (req, res, next) => {
     console.log(req.organization)
@@ -129,7 +125,6 @@ const organizationProtect = async (req, res, next) => {
         res.status(401).json({message: 'Not authorized as a organization'})
     }
 }
-//////////////////////////////////////////////////////////////////////
 
 //export all middleware
 module.exports = {

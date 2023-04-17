@@ -23,7 +23,8 @@
         "mongoose": "^7.0.3",
         "mongoose-paginate-v2": "^1.7.1",
         "mongoose-unique-validator": "^4.0.0",
-        "morgan": "^1.10.0"
+        "morgan": "^1.10.0",
+        "mongoose-aggregate-paginate-v2": "^1.0.6"
     },
     "devDependencies": {
         "cross-env": "^7.0.3",
