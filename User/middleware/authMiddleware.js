@@ -50,7 +50,7 @@ const studentProtect = async (req, res, next) => {
 
 //check if user is attendee
 const attendeeProtect = async (req, res, next) => {
-  if (req.user && req.user.role === 'attendee manager') {
+  if (req.user && req.user.role === 'attendee') {
     next();
   } else {
     res.status(401).json({ message: 'Not authorized as a attendee' });
@@ -68,7 +68,7 @@ const financialManagerProtect = async (req, res, next) => {
 
 //check if user is venue manager
 const venueManagerProtect = async (req, res, next) => {
-  if (req.user && req.user.role === 'venue manager') {
+  if (req.user && req.user.role === 'venue') {
     next();
   } else {
     res.status(401).json({ message: 'Not authorized as a venue manager' });
@@ -77,7 +77,7 @@ const venueManagerProtect = async (req, res, next) => {
 
 //check if user is resource manager
 const resourceManagerProtect = async (req, res, next) => {
-  if (req.user && req.user.role === 'resource manager') {
+  if (req.user && req.user.role === 'resource') {
     next();
   } else {
     res.status(401).json({ message: 'Not authorized as a resource manager' });
