@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
+const Org = require('../../User/model/org.model');
 const { HTTP_STATUS } = require('../utils/http');
 const { makeResponse } = require('../utils/response');
 const tokenHelper = require('../helpers/token.helper');
@@ -15,15 +15,15 @@ const protect = async (req, res, next) => {
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   }
-  req.user = await User.findById(decodedToken.id);
+  req.org = await Org.findById(decodedToken.id);
   next();
 };
 
 const authOrg = async (req, res, next) => {
   const event = await Event.findById(req.params.id);
-  console.log('event user : ' + event.user);
-  console.log('req user : ' + req.user._id);
-  if (req.user._id.toString() !== event.user.toString())
+  console.log('event org : ' + event.user);
+  console.log('req org : ' + req.org._id);
+  if (req.org._id.toString() !== event.user.toString())
     return makeResponse({ res, status: 403, message: 'Unauthorized' });
   next();
 };

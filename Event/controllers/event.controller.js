@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 
 const createEvent = async (req, res) => {
-  const event = await EventService.createEvent(req.body, req.user);
+  const event = await EventService.createEvent(req.body, req.org);
   console.log(req.body);
   return makeResponse({
     res,

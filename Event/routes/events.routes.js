@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const EventController = require('../controllers/event.controller');
-const { protect, authOrg } = require('../middleware/auth.middleware');
+const {
+  protect,
+  authOrg,
+} = require('../../User/middleware/orgAuth.middleware');
 
 router.get('/info', async (request, response) => {
   response.json('Welcome to the Event API');

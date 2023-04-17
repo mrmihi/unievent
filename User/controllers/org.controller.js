@@ -3,9 +3,9 @@ const bcrypt = require('bcrypt');
 const generateToken = require('../util/token.js');
 
 //create organization
-const createOrganization = async (req, res) => {
+const createOrg = async (req, res) => {
   try {
-    const { email, name, password, mobile, website } = req.body; //get email, name, password and mobile from request body
+    const { email, name, password, mobile, website } = req.body; //get email, name, password, mobile and website from request body
     const salt = await bcrypt.genSalt(10); //generate salt
     const hashedPassword = await bcrypt.hash(password, salt); //hash password
     const organization = await Organization.create({
@@ -14,7 +14,6 @@ const createOrganization = async (req, res) => {
       password: hashedPassword,
       mobile,
       website,
-      club,
     });
     if (organization) {
       res.status(201).json({
@@ -34,7 +33,7 @@ const createOrganization = async (req, res) => {
 }; //create organization
 
 //login organization
-const loginOrganization = async (req, res) => {
+const loginOrg = async (req, res) => {
   try {
     const { email, password } = req.body; //get email and password from request body
     const organization = await Organization.findOne({ email }); //find organization by email
@@ -62,7 +61,7 @@ const loginOrganization = async (req, res) => {
 }; //login organization
 
 //get all organizations
-const getAllOrganizations = async (req, res) => {
+const getAllOrg = async (req, res) => {
   try {
     const organizations = await Organization.find({}); //find all organizations
     res.status(200).json(organizations); //return all organizations
@@ -72,7 +71,7 @@ const getAllOrganizations = async (req, res) => {
 }; //get all organizations
 
 //delete organization
-const deleteOrganization = async (req, res) => {
+const deleteOrg = async (req, res) => {
   try {
     const { id } = req.params; //get id from request params
     const review = await Organization.findByIdAndDelete({ _id: id }); //delete organization by id
@@ -89,7 +88,7 @@ const deleteOrganization = async (req, res) => {
 };
 
 //update organization
-const updateOrganization = async (req, res) => {
+const updateOrg = async (req, res) => {
   try {
     const { id } = req.params; //get id from request params
     const { email, name, mobile, website } = req.body; //get name, email, password and mobile from request body
@@ -112,9 +111,9 @@ const updateOrganization = async (req, res) => {
 };
 
 module.exports = {
-  createOrganization,
-  loginOrganization,
-  getAllOrganizations,
-  deleteOrganization,
-  updateOrganization,
+  createOrg,
+  loginOrg,
+  getAllOrg,
+  deleteOrg,
+  updateOrg,
 }; //export all functions

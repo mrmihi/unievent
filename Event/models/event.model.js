@@ -79,7 +79,7 @@ const eventSchema = new Schema(
     org: {
       type: [String],
     },
-    user: {
+    orgId: {
       type: Schema.Types.ObjectId,
       required: true,
     },
