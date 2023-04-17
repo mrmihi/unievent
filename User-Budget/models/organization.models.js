@@ -23,14 +23,7 @@ const organizationSchema = new mongoose.Schema({
     website:{
         type: String,
         required: true
-    },
-    club:{
-        type: String,
-        required: true,
     }
-
-
-    
     // active: {
     //     type: Boolean,
     //     default: true

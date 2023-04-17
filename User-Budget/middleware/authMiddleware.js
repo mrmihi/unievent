@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
+const User = require('../models/user.models.js');
+const Organization = require('../models/organization.models.js');
 require('dotenv').config();
 
 
@@ -14,6 +15,9 @@ const protect = async (req, res, next) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET)  //verify token
 
             req.user = await User.findOne({_id:decoded.id}).select('-password') //get user from database
+            req.organization=await Organization.findOne({_id:decoded.id}).select('-password') //get organization from database
+
+
 
             next()//go to next middleware
         } catch (error) {
@@ -42,16 +46,7 @@ const adminProtect = async (req, res, next) => {
     }//if user is not admin
 }
 
-//check if user is organization
-const organizationProtect = async (req, res, next) => {
-    console.log(req.user)
-    if(req.user && req.user.role === 'organization'){
-        next()
-    }
-    else{
-        res.status(401).json({message: 'Not authorized as a organization'})
-    }
-}
+
 
 //check if user is student
 const studentProtect = async (req, res, next) => {
@@ -120,6 +115,21 @@ const staffProtect = async (req, res, next) => {
     }
 }
 
+
+
+
+///////////////////////////check this //////////////////////////////
+//check if user is organization
+const organizationProtect = async (req, res, next) => {
+    console.log(req.organization)
+    if(req.organization && req.user.role === 'organization'){
+        next()
+    }
+    else{
+        res.status(401).json({message: 'Not authorized as a organization'})
+    }
+}
+//////////////////////////////////////////////////////////////////////
 
 //export all middleware
 module.exports = {
