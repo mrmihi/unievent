@@ -1,7 +1,6 @@
 const config = require('./Event/utils/config');
 const express = require('express');
 require('express-async-errors');
-const router = require('./Event/routes/index.routes');
 const app = express();
 const cors = require('cors');
 const logger = require('./Event/utils/logger');
@@ -37,6 +36,8 @@ const Tracing = require('@sentry/tracing');
 // app.use(Sentry.Handlers.tracingHandler());
 
 // <-------------- Sentry Intergration Ends -------------------->
+
+const router = require('./index.routes');
 
 logger.info('connecting to MongoDB');
 
