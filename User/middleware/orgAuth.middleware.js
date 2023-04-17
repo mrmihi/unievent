@@ -9,20 +9,20 @@ const protect = async (req, res, next) => {
   const token = tokenHelper.getTokenFrom(req);
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   if (!decodedToken.id) {
+    console.log('token missing or invalid');
     return makeResponse({
       res,
       message: 'token missing or invalid',
       status: HTTP_STATUS.UNAUTHORIZED,
     });
   }
-  req.org = await Org.findById(decodedToken.id);
+  req.org = await Org.findById({ _id: decodedToken.id }).select('-password');
   next();
 };
 
 const authOrg = async (req, res, next) => {
   const event = await Event.findById(req.params.id);
-  console.log('event org : ' + event.user);
-  console.log('req org : ' + req.org._id);
+
   if (req.org._id.toString() !== event.user.toString())
     return makeResponse({ res, status: 403, message: 'Unauthorized' });
   next();
