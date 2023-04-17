@@ -17,12 +17,12 @@ const createEvent = async (
     tags,
     joinLink,
     host,
-    club,
+    org,
   },
-  user
+  Org
 ) => {
-  const uId = user._id;
-  console.log('uId : ', uId);
+  const cId = Org._id;
+  console.log('cId : ', cId);
   const event = new Event({
     name,
     description,
@@ -37,8 +37,8 @@ const createEvent = async (
     tags,
     host,
     joinLink,
-    club,
-    user: uId,
+    org,
+    orgId: cId,
   });
 
   return event.save();

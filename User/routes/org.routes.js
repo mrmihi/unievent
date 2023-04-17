@@ -1,40 +1,20 @@
 const express = require('express');
-// const { createUser, loginUser, getAllUsers,deleteUser,updateUser } = require('../controllers/user.js');
-const {
-  adminProtect,
-  organizationProtect,
-  studentProtect,
-  attendeeProtect,
-  financialManagerProtect,
-  venueManagerProtect,
-  resourceManagerProtect,
-  staffProtect,
-} = require('../middleware/authMiddleware.js');
+const { protect, authOrg } = require('../middleware/orgAuth.middleware.js');
 
 const {
-  createOrganization,
-  getAllOrganizations,
-  deleteOrganization,
-  updateOrganization,
-  loginOrganization,
+  createOrg,
+  getAllOrg,
+  deleteOrg,
+  updateOrg,
+  loginOrg,
 } = require('../controllers/org.controller.js');
 
-const organizationRouter = express.Router(); //create router
+const orgRouter = express.Router();
 
-organizationRouter.post('/register', createOrganization, adminProtect); //create organization
-organizationRouter.post('/login', loginOrganization); //login organization
-organizationRouter.get('/', getAllOrganizations, adminProtect); //get all organizations
-organizationRouter.delete(
-  '/:id',
-  deleteOrganization,
-  organizationProtect,
-  adminProtect
-); //delete organization
-organizationRouter.put(
-  '/:id',
-  updateOrganization,
-  organizationProtect,
-  adminProtect
-); //update organization
+orgRouter.post('/register', createOrg);
+orgRouter.post('/login', loginOrg);
+orgRouter.get('/', getAllOrg);
+orgRouter.delete('/:id', deleteOrg);
+orgRouter.put('/:id', updateOrg);
 
-module.exports = organizationRouter;
+module.exports = orgRouter;
