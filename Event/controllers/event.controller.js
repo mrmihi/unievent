@@ -4,7 +4,6 @@ const { makeResponse } = require('../utils/response');
 const Event = require('../models/event.model');
 const tokenHelper = require('../helpers/token.helper');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
 
 const createEvent = async (req, res) => {
   const event = await EventService.createEvent(req.body, req.org);
