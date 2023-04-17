@@ -67,7 +67,7 @@ const studentProtect = async (req, res, next) => {
 //check if user is attendee
 const attendeeProtect = async (req, res, next) => {
     console.log(req.user)
-    if(req.user && req.user.role === 'attendee'){
+    if(req.user && req.user.role === 'attendee manager'){
         next()
     }
     else{
@@ -78,7 +78,7 @@ const attendeeProtect = async (req, res, next) => {
 //check if user is financial manager
 const financialManagerProtect = async (req, res, next) => {
     console.log(req.user)
-    if(req.user && req.user.role === 'financial'){
+    if(req.user && req.user.role === 'accountant'){
         next()
     }
     else{
@@ -90,7 +90,7 @@ const financialManagerProtect = async (req, res, next) => {
 //check if user is venue manager
 const venueManagerProtect = async (req, res, next) => {
     console.log(req.user)
-    if(req.user && req.user.role === 'venue'){
+    if(req.user && req.user.role === 'venue manager'){
         next()
     }
     else{
@@ -98,5 +98,38 @@ const venueManagerProtect = async (req, res, next) => {
     }
 }
 
+//check if user is resource manager
+const resourceManagerProtect = async (req, res, next) => {
+    console.log(req.user)
+    if(req.user && req.user.role === 'resource manager'){
+        next()
+    }
+    else{
+        res.status(401).json({message: 'Not authorized as a resource manager'})
+    }
+}
+
+//check if user is staff
+const staffProtect = async (req, res, next) => {
+    console.log(req.user)
+    if(req.user && req.user.role === 'staff'){
+        next()
+    }
+    else{
+        res.status(401).json({message: 'Not authorized as a staff'})
+    }
+}
+
+
 //export all middleware
-module.exports = {protect, adminProtect, organizationProtect, studentProtect, attendeeProtect, financialManagerProtect, venueManagerProtect}
+module.exports = {
+    protect, 
+    adminProtect, 
+    organizationProtect, 
+    studentProtect, 
+    attendeeProtect, 
+    financialManagerProtect, 
+    venueManagerProtect ,
+    resourceManagerProtect,
+    staffProtect
+}

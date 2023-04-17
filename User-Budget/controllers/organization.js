@@ -37,31 +37,31 @@ const createOrganization= async (req, res) => {
 }//create organization
 
 
-// //login organization
-// const loginOrganization = async (req, res) => {
-//     try{
-//         const {email, password} = req.body//get email and password from request body
-//         const organization=await Organization.findOne({email})//find organization by email
+//login organization
+const loginOrganization = async (req, res) => {
+    try{
+        const {email, password} = req.body//get email and password from request body
+        const organization=await Organization.findOne({email})//find organization by email
 
-//         if(organization && (await bcrypt.compare(password, organization.password))){
-//             res.status(201).json({
-//                 _id: organization._id,
-//                 name: organization.name,
-//                 email: organization.email,
-//                 mobile: organization.mobile,
-//                 website: organization.website,
-//                 token: generateToken(organization._id)
-//             })//generate token
+        if(organization && (await bcrypt.compare(password, organization.password))){
+            res.status(201).json({
+                _id: organization._id,
+                name: organization.name,
+                email: organization.email,
+                mobile: organization.mobile,
+                website: organization.website,
+                token: generateToken(organization._id)
+            })//generate token
 
-//             // res.status(201).json(organization)//return organization
-//         }else{
-//             res.status(401).json({message: 'Invalid email or password'})
-//         }//if organization is not created
+            // res.status(201).json(organization)//return organization
+        }else{
+            res.status(401).json({message: 'Invalid email or password'})
+        }//if organization is not created
 
-//     }catch(error){
-//         res.status(500).json({message: error.message})
-//     }//catch error
-// }//login organization
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }//catch error
+}//login organization
 
 
 
@@ -97,9 +97,9 @@ const deleteOrganization = async (req, res) => {
 const updateOrganization = async (req, res) => {
     try{
         const {id}  = req.params//get id from request params
-        const {name,mobile} = req.body//get name, email, password and mobile from request body
+        const {email,name,mobile,website} = req.body//get name, email, password and mobile from request body
 
-        const organization = await Organization.findByIdAndUpdate({_id:id}, {email,name, mobile},{new:true});//update organization by id
+        const organization = await Organization.findByIdAndUpdate({_id:id}, {email,name, mobile,website},{new:true});//update organization by id
 
         if(!organization){
             return res.status(404).json({message: 'Organization not found'})
@@ -114,7 +114,7 @@ const updateOrganization = async (req, res) => {
 
 module.exports = {
     createOrganization,
-    // loginOrganization,
+    loginOrganization,
     getAllOrganizations,
     deleteOrganization,
     updateOrganization
