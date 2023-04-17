@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-const Org = require('../../User/model/org.model');
-const { HTTP_STATUS } = require('../utils/http');
-const { makeResponse } = require('../utils/response');
-const tokenHelper = require('../helpers/token.helper');
-const Event = require('../models/event.model');
+const Org = require('../models/org.model');
+const { HTTP_STATUS } = require('../../Event/utils/http');
+const { makeResponse } = require('../../Event/utils/response');
+const tokenHelper = require('../../Event/helpers/token.helper');
+const Event = require('../../Event/models/event.model');
 
 const protect = async (req, res, next) => {
   const token = tokenHelper.getTokenFrom(req);

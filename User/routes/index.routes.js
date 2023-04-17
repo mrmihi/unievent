@@ -1,6 +1,6 @@
 const express = require('express');
 const userRoutes = require('./user.routes');
-const orgRouter = require('./organization.routes');
+const orgRouter = require('./org.routes');
 
 const routes = express.Router(); //create router
 

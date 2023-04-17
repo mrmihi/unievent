@@ -1,4 +1,4 @@
-const Organization = require('../models/Organization');
+const Organization = require('../models/org.model');
 const bcrypt = require('bcrypt');
 const generateToken = require('../util/token.js');
 
