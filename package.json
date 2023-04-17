@@ -13,6 +13,8 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@sentry/node": "^7.48.0",
+        "@sentry/tracing": "^7.48.0",
         "bcrypt": "^5.1.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
@@ -40,6 +42,6 @@
     },
     "jest": {
         "testEnvironment": "node",
-        "globalTeardown": "./tests/teardown.js"
+        "globalTeardown": "./Event/helpers/teardown.js"
     }
 }

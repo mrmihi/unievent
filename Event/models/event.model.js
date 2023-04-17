@@ -76,8 +76,12 @@ const eventSchema = new Schema(
     host: {
       type: String,
     },
-    faculty: {
+    org: {
       type: [String],
+    },
+    orgId: {
+      type: Schema.Types.ObjectId,
+      required: true,
     },
   },
   { timestamps: true }
