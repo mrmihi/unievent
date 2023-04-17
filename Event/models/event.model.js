@@ -76,7 +76,7 @@ const eventSchema = new Schema(
     host: {
       type: String,
     },
-    club: {
+    org: {
       type: [String],
     },
     user: {

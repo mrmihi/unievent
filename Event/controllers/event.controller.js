@@ -11,7 +11,7 @@ const createEvent = async (req, res) => {
   console.log(req.body);
   return makeResponse({
     res,
-    message: 'Event added successfully',
+    message: 'Event added successfully!',
     data: event,
   });
 };

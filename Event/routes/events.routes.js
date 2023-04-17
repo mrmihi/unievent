@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const EventController = require('../controllers/event.controller');
-const { protect, authUser } = require('../middleware/auth.middleware');
+const { protect, authOrg } = require('../middleware/auth.middleware');
 
 router.get('/info', async (request, response) => {
   response.json('Welcome to the Event API');
@@ -12,9 +12,9 @@ router.get('/:id', EventController.getEventById);
 
 router.post('/', protect, EventController.createEvent);
 
-router.put('/:id', protect, authUser, EventController.updateEventById);
+router.put('/:id', protect, authOrg, EventController.updateEventById);
 
-router.delete('/:id', protect, authUser, EventController.deleteEventById);
+router.delete('/:id', protect, authOrg, EventController.deleteEventById);
 
 // router.get(
 //   '/allevents/:club',
