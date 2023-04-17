@@ -1,4 +1,4 @@
-const User = require('../models/user.models.js')
+const User = require('../models/user.model.js')
 const bcrypt = require('bcrypt')
 const generateToken = require('../util/token.js')
 
@@ -108,10 +108,21 @@ const updateUser = async (req, res) => {
     }//catch error
 }
 
+//get me
+const getMe = async (req, res) => {
+    try{
+        const me = await User.findById(req.user.id).select('-password');
+        res.status(200).json(me)
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }//catch error
+}
+
 module.exports = {
     createUser,
     loginUser,
     getAllUsers,
     deleteUser,
-    updateUser
+    updateUser,
+    getMe
 }//export all functions
