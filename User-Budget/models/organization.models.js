@@ -23,6 +23,10 @@ const organizationSchema = new mongoose.Schema({
     website:{
         type: String,
         required: true
+    },
+    role:{
+        type: String,
+        default: 'organization'
     }
     // active: {
     //     type: Boolean,

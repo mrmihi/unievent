@@ -17,7 +17,7 @@ const userRouter = express.Router();//create router
 
 userRouter.post('/register',protect,adminProtect,createUser); //create user
 userRouter.post('/login',loginUser);//login user
-userRouter.get('/', getAllUsers);//get all users
+userRouter.get('/',getAllUsers);//get all users
 userRouter.delete('/:id', deleteUser);//delete user
 userRouter.put('/:id', updateUser);//update user
 userRouter.put('/reset/:id', resetPassword);//reset password
