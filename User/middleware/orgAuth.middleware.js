@@ -21,9 +21,7 @@ const protect = async (req, res, next) => {
 
 const authOrg = async (req, res, next) => {
   const event = await Event.findById(req.params.id);
-  console.log('event org : ' + event.user);
-  console.log('req org : ' + req.org._id);
-  if (req.org._id.toString() !== event.user.toString())
+  if (req.org._id.toString() !== event.orgId.toString())
     return makeResponse({ res, status: 403, message: 'Unauthorized' });
   next();
 };

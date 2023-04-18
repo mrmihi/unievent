@@ -16,10 +16,6 @@ const protect = async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET); //verify token
 
       req.user = await User.findOne({ _id: decoded.id }).select('-password'); //get user from database
-      req.organization = await Organization.findOne({ _id: decoded.id }).select(
-        '-password'
-      ); //get organization from database
-
       next(); //go to next middleware
     } catch (error) {
       console.error(error);
