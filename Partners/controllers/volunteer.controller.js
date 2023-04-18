@@ -1,9 +1,14 @@
 const VolunteerServices = require('../services/volunteer.service');
+const makeResponse = require('../utils/response');
 
 //get all volunteers
 const getVolunteers = async (req, res) => {
-  const response = await VolunteerServices.getVolunteers();
-  res.json(response);
+  const result = await VolunteerServices.getVolunteers();
+
+  return makeResponse({
+    res,
+    ...result,
+  });
 };
 
 //get Event Specific Volunteers
@@ -23,34 +28,27 @@ const getVolunteers = async (req, res) => {
 
 //apply to an opportunity
 const applyToAnOpportunity = async (req, res) => {
-  const response = await VolunteerServices.applyToAnOpportunity(req.body);
-  res.json(response);
+  const result = await VolunteerServices.applyToAnOpportunity(req.body);
+
+  return makeResponse({ res, ...result });
 };
 
 //update submitted volunteer details
 const updateVolunteerApplication = async (req, res) => {
-  // const {
-  //   fullName,
-  //   email,
-  //   contactNo,
-  //   availableTime,
-  //   status,
-  //   userID,
-  //   opportunityID,
-  // } = req.body;
-  const response = await VolunteerServices.updateVolunteerApplication(
-    req.params.body,
-    req.id
+  const result = await VolunteerServices.updateVolunteerApplication(
+    req.params.id,
+    req.body
   );
-  res.json(response);
+
+  return makeResponse({ res, ...result });
 };
 
 //delete volunteer application
 const deleteVolunteerApplication = async (req, res) => {
-  const response = await VolunteerServices.deleteVolunteerApplication(
+  const result = await VolunteerServices.deleteVolunteerApplication(
     req.params.id
   );
-  res.json(response);
+  return makeResponse({ res, ...result });
 };
 
 module.exports = {

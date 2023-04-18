@@ -1,46 +1,52 @@
 const SpeakerService = require('../services/speaker.service.js');
+const makeResponse = require('../utils/response.js');
 //get all speakers
 const getSpeakers = async (req, res) => {
-  const response = await SpeakerService.getSpeakers();
-  res.json(response);
+  const result = await SpeakerService.getSpeakers();
+  return makeResponse({
+    res,
+    ...result,
+  });
 };
 
 //get Event Specific Speakers
 const getEventSpecificSpeakers = async (req, res) => {
   const eventID = req.params.id;
-  const response = await SpeakerService.getEventSpecificSpeakers(eventID);
-  res.json(response);
+  const result = await SpeakerService.getEventSpecificSpeakers(eventID);
+  return makeResponse({
+    res,
+    ...result,
+  });
 };
 
 //add a speaker
 const addASpeaker = async (req, res) => {
-  const response = await SpeakerService.addASpeaker(req.body);
-  res.json(response);
+  const result = await SpeakerService.addASpeaker(req.body);
+  return makeResponse({
+    res,
+    ...result,
+  });
 };
 
 //update submitted speaker details
 const updateSpeakerDetails = async (req, res) => {
-  // const {
-  //   fullName,
-  //   email,
-  //   contactNo,
-  //   availableTime,
-  //   status,
-  //   userID,
-  //   opportunityID,
-  // } = req.body;
-
-  const response = await SpeakerService.updateSpeakerDetails(
+  const result = await SpeakerService.updateSpeakerDetails(
     req.params.id,
     req.body
   );
-  res.json(response);
+  return makeResponse({
+    res,
+    ...result,
+  });
 };
 
 //delete speaker application
 const deleteSpeaker = async (req, res) => {
-  const response = await SpeakerService.deleteSpeaker(req.params.id);
-  res.json(response);
+  const result = await SpeakerService.deleteSpeaker(req.params.id);
+  return makeResponse({
+    res,
+    ...result,
+  });
 };
 
 module.exports = {

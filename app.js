@@ -1,5 +1,8 @@
 // const config = require('./Event/utils/config');
 const partnerConfig = require('./Partners/utils/config');
+const {
+  partnerErrorHandler,
+} = require('./Partners/middleware/error.middleware');
 const express = require('express');
 require('express-async-errors');
 const router = require('./Event/routes/index.routes');
@@ -24,5 +27,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/', router);
 app.use('/partners', partnerRouter);
+app.use(partnerErrorHandler);
 
 module.exports = app;

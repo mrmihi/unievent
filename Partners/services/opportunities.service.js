@@ -3,9 +3,13 @@ const OpportunityModel = require('../models/opportunity.model.js');
 const getOpportunities = async (eventID) => {
   try {
     const opportunities = await OpportunityModel.find({ eventID: eventID });
-    return opportunities;
+    return {
+      status: 200,
+      data: opportunities,
+      message: 'Retrieved all opportunities successfully',
+    };
   } catch (error) {
-    return error;
+    return { status: 400, message: error.message };
   }
 };
 
@@ -25,9 +29,13 @@ const createOpportunity = async ({
   });
   try {
     const response = await opportunity.save();
-    return response;
+    return {
+      status: 200,
+      data: response,
+      message: 'Created the opportunity successfully',
+    };
   } catch (error) {
-    return error;
+    return { status: 400, message: error.message };
   }
 };
 

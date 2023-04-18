@@ -3,19 +3,43 @@ const SponsorModel = require('../models/sponsor.model');
 const getSponsors = async () => {
   try {
     const sponsors = await SponsorModel.find({});
-    console.log(sponsors);
-    return sponsors;
+
+    if (!sponsors) {
+      return {
+        status: 400,
+
+        message: 'Failed to retrieve sponsors',
+      };
+    }
+    if (sponsors.length === 0) {
+      return { status: 400, message: 'No sponsors available' };
+    }
+
+    return {
+      status: 200,
+      data: sponsors,
+      message: 'Retrieved all sponsors successfully',
+    };
   } catch (error) {
-    return error;
+    return { status: 400, message: error.message };
   }
 };
 
 const getEventSpecificSponsors = async (eventID) => {
   try {
     const sponsors = await SponsorModel.find({ eventID: eventID });
-    return sponsors;
+
+    if (sponsors.length === 0) {
+      return { status: 400, message: 'No sponsors available' };
+    }
+
+    return {
+      status: 200,
+      data: sponsors,
+      message: 'Retrieved all event specific sponsors successfully',
+    };
   } catch (error) {
-    return error;
+    return { status: 400, message: error.message };
   }
 };
 
@@ -26,12 +50,17 @@ const addASponsor = async ({
   eventID,
   organizerID,
 }) => {
-  const availableSponsor = await SponsorModel.findOne({ fullName: fullName });
-  if (availableSponsor) {
-    if (availableSponsor.eventID == eventID) {
-      return 'Sponsor Already Exists For the Event';
+  try {
+    const availableSponsor = await SponsorModel.findOne({
+      fullName: fullName,
+      eventID: eventID,
+    });
+    if (availableSponsor) {
+      return {
+        status: 400,
+        message: 'Sponsor already exists in the event',
+      };
     }
-  } else {
     const sponsor = new SponsorModel({
       fullName: fullName,
       email: email,
@@ -40,24 +69,31 @@ const addASponsor = async ({
       organizerID: organizerID,
     });
 
-    try {
-      const response = await sponsor.save();
-      return response;
-    } catch (error) {
-      return error;
-    }
+    const response = await sponsor.save();
+    return {
+      status: 200,
+      data: response,
+      message: 'Added the sponsor to the event successfully',
+    };
+  } catch (error) {
+    return { status: 400, message: error.message };
   }
 };
 
-const updateSponsorDetails = async ({ id, body }) => {
+const updateSponsorDetails = async (id, body) => {
   try {
-    const sponsorToBeUpdated = await SponsorModel.findByIdAndUpdate(id, body);
-    if (!sponsorToBeUpdated) {
-      console.log('not found');
+    const isSponsorAvailable = await SponsorModel.findById(id);
+    if (!isSponsorAvailable) {
+      return { status: 404, message: `Sponsor with id ${id} not found` };
     }
-    return 'Updated the Form';
+    const response = await SponsorModel.findByIdAndUpdate(id, body);
+    return {
+      status: 200,
+      data: response,
+      message: `Updated the speaker successfully`,
+    };
   } catch (error) {
-    return error;
+    return { status: 400, message: error.message };
   }
 };
 
@@ -65,13 +101,20 @@ const deleteSponsor = async (id) => {
   try {
     const sponsorToBeDeleted = await SponsorModel.findById(id);
 
-    await SponsorModel.deleteOne({
-      _id: sponsorToBeDeleted._id,
-    });
+    if (!sponsorToBeDeleted) {
+      return { status: 404, message: `Sponsor with id ${id} not found` };
+    } else {
+      await SponsorModel.deleteOne({
+        _id: sponsorToBeDeleted._id,
+      });
 
-    return 'Sponsor Deleted';
+      return {
+        status: 200,
+        message: 'Deleted the Sponsor successfully',
+      };
+    }
   } catch (error) {
-    return error;
+    return { status: 400, message: error.message };
   }
 };
 
