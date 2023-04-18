@@ -3,9 +3,10 @@ GET http://localhost:3000/events
 ###
 POST http://localhost:3000/events
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1ybWloaSIsImlkIjoiNjQzOTZkYTVhYWQyNGUyYzY1MmU4NjhlIiwiaWF0IjoxNjgxNDg2NTU3fQ.joRsW7oaB2cl5KwQ6eCGKH7lhqXiP71J52FWldcNKDw
 
 {
-  "name": "Tech Conference 2023",
+  "name": "Tech Conference",
   "description": "A conference showcasing the latest technology trends",
   "headerImage": "https://example.com/images/tech-conference-2023.jpg",
   "venue": "San Francisco Convention Center",
@@ -20,7 +21,7 @@ Content-Type: application/json
   "tags": ["technology", "conference", "2023"],
   "joinLink": "https://example.com/tech-conference-2023/join",
   "host": "Example Corp",
-  "faculty": ["Computer Science", "Information Technology"]
+  "club": ["FOSS"]
 }
 
 ###
