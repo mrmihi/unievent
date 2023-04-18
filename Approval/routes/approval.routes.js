@@ -34,7 +34,7 @@ router.put("/event/:id", updateEventApproval);
 router.delete("/event/:id", deleteEventApproval);
 
 //Endpoints For Event Component @Dinal
-router.get("/event/event/:id", getEventApprovalByEventID);
+router.get("/event/events/:id", getEventApprovalByEventID);
 router.get("/event/org/:id", getEventApprovalByOrgID);
 
 //Approval Request

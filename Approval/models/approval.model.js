@@ -7,7 +7,6 @@ const { APPROVAL_REQUEST_STATUS, REQUEST_TYPE, EVENT_APPROVAL_STATUS, APPOINTMEN
 const { User } = require('../../User/models/user.model');
 
 const eventApprovalSchema = new Schema({
-    _id: { type: Schema.Types.ObjectId },
     event_id: { type: Schema.Types.ObjectId, ref : 'Event', required: true },
     lic_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request'},
     venue_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
@@ -17,7 +16,6 @@ const eventApprovalSchema = new Schema({
 });
 
 const approvalRequestSchema = new Schema({
-    _id: { type: Schema.Types.ObjectId},
     approval_id : { type: Schema.Types.ObjectId, ref: 'Event_Approval', required: true },
     type : { type: String, enum : REQUEST_TYPE, required: true },
     requested_at : { type: Date, required: true },
@@ -30,7 +28,6 @@ const approvalRequestSchema = new Schema({
 });
 
 const appointmentSchema = new Schema({
-    _id: { type: Schema.Types.ObjectId},
     approval_request_id : { type: Schema.Types.ObjectId, ref: 'Approval_Request', required: true },
     date: { type: Date, required: true },
     start_time: { type: Date, required: true },
