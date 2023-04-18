@@ -10,7 +10,7 @@ const ERROR_RESPONSE = {
   UNAUTHORIZED: 'You are not authorized to access this endpoint',
 };
 
-const makeResponse = ({ res, success = true, message, data = {}, status }) => {
+const makeResponse = ({ res,  success = true,  message,  data = {},  status }) =>  {
   if (!success) {
     logger.error(message);
     status = status || HTTP_STATUS.INTERNAL_SERVER_ERROR;

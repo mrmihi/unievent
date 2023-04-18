@@ -1,6 +1,6 @@
 /**
  * The status of event approval can be in
- * @type {{NOT_YET_SENT: string, LIC_APPROVAL: string, FM_APPROVAL: string, VM_APPROVAL: string, ADMIN_APPROVAL: string, APPROVED: string, REJECTED: string}}
+ * @type {{INITIATED: string, LIC_APPROVAL: string, FM_APPROVAL: string, VM_APPROVAL: string, ADMIN_APPROVAL: string, APPROVED: string, REJECTED: string}}
  * The type of approval request can be in
  * @type {{LIC: string, VENUE: string, FINANCE: string, ADMIN: string}}
  * The status of an appointment can be in
@@ -12,7 +12,7 @@
  */
 
 const EVENT_APPROVAL_STATUS = {
-  NOT_YET_SENT: "Not_Yet_Sent",
+  INITIATED: "Initiated",
   LIC_APPROVAL: "LIC_Awaiting",
   FM_APPROVAL: "FM_Awaiting",
   VM_APPROVAL: "VM_Awaiting",

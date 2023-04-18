@@ -11,7 +11,6 @@ const eventApprovalSchema = new Schema({
     event_id: { type: Schema.Types.ObjectId, ref : 'Event', required: true },
     lic_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request'},
     venue_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
-    resource_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
     budget_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
     admin_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
     status: { type: String, enum : EVENT_APPROVAL_STATUS, required: true},
