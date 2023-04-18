@@ -1,3 +1,5 @@
+const Event = require('../models/event.model');
+
 const initialEvents = [
   {
     name: 'New User Test',

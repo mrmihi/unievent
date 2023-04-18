@@ -26,7 +26,20 @@ const authOrg = async (req, res, next) => {
   next();
 };
 
+const authCreator = async (req, res, next) => {
+  const orgName = req.org.name;
+  const eventOrg = req.body.org;
+  if (orgName !== eventOrg)
+    return makeResponse({
+      res,
+      status: 403,
+      message:
+        'Unauthorized to create events that belongs to another organization!',
+    });
+  next();
+};
 module.exports = {
   protect,
   authOrg,
+  authCreator,
 };
