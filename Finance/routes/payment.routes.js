@@ -4,7 +4,7 @@ const {
     getAllPayments,
     getPaymentById,
     createPayment,
-    updatePayment,
+    updatePaymentById,
 } = require('../controllers/payment.controller');
 
 const paymentRouter = express.Router();
@@ -20,7 +20,7 @@ paymentRouter.get('/', getAllPayments);
 paymentRouter.get('/:id', getPaymentById);
 
 //update Payment
-paymentRouter.put('/:id',updatePayment)
+paymentRouter.put('/:id',updatePaymentById)
 
 module.exports = paymentRouter;
 

@@ -31,7 +31,7 @@ const createPayment = async (req, res) => {
 };
 
 //update payment
-const updatePayment = async (req, res) => {
+const updatePaymentById = async (req, res) => {
     try {
       const{ id } = req.params;
       const payment = await Payment.findByIdAndUpdate({_id: id}, req.body, {new: true, runValidators: true});
@@ -45,6 +45,6 @@ const updatePayment = async (req, res) => {
     getAllPayments,
     getPaymentById,
     createPayment,
-    updatePayment,
+    updatePaymentById,
     };
 
