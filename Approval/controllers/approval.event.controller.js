@@ -6,8 +6,6 @@ const { Event_Approval } = require('../models/approval.model');
 const getAllEventApprovals = async (req, res) => {}
 
 const createEventApproval = async (req, res) => {
-    console.log(req.url);
-
     try {
         console.log(req.body);
         const eventApproval = await EventApprovalService.createEventApproval(req.body);
@@ -21,12 +19,14 @@ const createEventApproval = async (req, res) => {
         return makeResponse({
             res,
             success : false,
-            message: 'Event Approval creation failed',
+            message: error.message,
             data: req.body,
         });
     }
 }
-const getEventApproval = async (req, res) => {}
+const getEventApproval = async (req, res) => {
+    
+}
 const updateEventApproval = async (req, res) => {}
 const deleteEventApproval = async (req, res) => {}
 

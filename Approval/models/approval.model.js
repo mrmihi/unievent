@@ -7,7 +7,7 @@ const { APPROVAL_REQUEST_STATUS, REQUEST_TYPE, EVENT_APPROVAL_STATUS, APPOINTMEN
 const { User } = require('../../User/models/user.model');
 
 const eventApprovalSchema = new Schema({
-    _id: { type: Schema.Types.ObjectId},
+    _id: { type: Schema.Types.ObjectId },
     event_id: { type: Schema.Types.ObjectId, ref : 'Event', required: true },
     lic_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request'},
     venue_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
