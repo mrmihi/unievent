@@ -1,8 +1,8 @@
-const SpeakerModel = require('../models/speaker.model.js');
+const SpeakerRepository = require('../repository/speaker.repository.js');
 
 const getSpeakers = async () => {
   try {
-    const speakers = await SpeakerModel.find({});
+    const speakers = await SpeakerRepository.getSpeakers();
     if (!speakers) {
       return {
         status: 400,
@@ -26,12 +26,7 @@ const getSpeakers = async () => {
 
 const getEventSpecificSpeakers = async (eventID) => {
   try {
-    const speakers = await SpeakerModel.find({ eventID: eventID });
-
-    if (speakers.length === 0) {
-      return { status: 400, message: 'No speakers available' };
-    }
-
+    const speakers = await SpeakerRepository.getEventSpecificSpeakers(eventID);
     return {
       status: 200,
       data: speakers,
@@ -51,26 +46,26 @@ const addASpeaker = async ({
   organizerID,
 }) => {
   try {
-    const availableSpeaker = await SpeakerModel.findOne({
-      fullName: fullName,
-      eventID: eventID,
+    const availableSpeaker = await SpeakerRepository.checkIfSpeakerExists({
+      fullName,
+      eventID,
     });
+
     if (availableSpeaker) {
       return {
         status: 400,
         message: 'Speaker already exists in the event',
       };
     }
-    const speaker = new SpeakerModel({
-      fullName: fullName,
-      sessionTime: sessionTime,
-      email: email,
-      contactNo: contactNo,
-      eventID: eventID,
-      organizerID: organizerID,
-    });
+    const response = await SpeakerRepository.addASpeaker(
+      fullName,
+      sessionTime,
+      email,
+      contactNo,
+      eventID,
+      organizerID
+    );
 
-    const response = await speaker.save();
     return {
       status: 200,
       data: response,
@@ -83,13 +78,15 @@ const addASpeaker = async ({
 
 const updateSpeakerDetails = async (id, body) => {
   try {
-    const isSpeakerAvailable = await SpeakerModel.findById(id);
+    const isSpeakerAvailable = await SpeakerRepository.checkIfSpeakerExistsById(
+      id
+    );
 
     if (!isSpeakerAvailable) {
       return { status: 404, message: `Speaker with id ${id} not found` };
     }
 
-    const response = await SpeakerModel.findByIdAndUpdate(id, body);
+    const response = await SpeakerRepository.updateSpeaker(id, body);
     return {
       status: 200,
       data: response,
@@ -102,13 +99,13 @@ const updateSpeakerDetails = async (id, body) => {
 
 const deleteSpeaker = async (id) => {
   try {
-    const speakerToBeDeleted = await SpeakerModel.findById(id);
+    const speakerToBeDeleted = await SpeakerRepository.checkIfSpeakerExistsById(
+      id
+    );
     if (!speakerToBeDeleted) {
       return { status: 404, message: `Speaker with id ${id} not found` };
     } else {
-      await SpeakerModel.deleteOne({
-        _id: speakerToBeDeleted._id,
-      });
+      await SpeakerRepository.deleteSpeaker(speakerToBeDeleted._id);
 
       return {
         status: 200,
