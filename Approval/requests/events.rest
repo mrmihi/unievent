@@ -1,0 +1,30 @@
+GET http://localhost:3000/events
+
+###
+POST http://localhost:3000/events
+Content-Type: application/json
+
+{
+  "name": "Tech Conference 2023",
+  "description": "A conference showcasing the latest technology trends",
+  "headerImage": "https://example.com/images/tech-conference-2023.jpg",
+  "venue": "San Francisco Convention Center",
+  "startTime": 1646461200,
+  "endTime": 1646547600,
+  "status": "upcoming",
+  "category": "Technology",
+  "speakers": [],
+  "attendeeCount": 500,
+  "attendees": [],
+  "capacity": 1000,
+  "tags": ["technology", "conference", "2023"],
+  "joinLink": "https://example.com/tech-conference-2023/join",
+  "host": "Example Corp",
+  "faculty": ["Computer Science", "Information Technology"]
+}
+
+###
+DELETE http://localhost:3003/api/events/627d13c07ca44dc69c934596
+
+###
+PUT http://localhost:3003/api/events/627d13c07ca44dc69c934596

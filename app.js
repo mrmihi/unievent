@@ -1,13 +1,15 @@
-const config = require('./Event/utils/config');
 const express = require('express');
-require('express-async-errors');
-const router = require('./Event/routes/index.routes');
-const app = express();
-const cors = require('cors');
-const logger = require('./Event/utils/logger');
 const mongoose = require('mongoose');
+const cors = require('cors');
+require('express-async-errors');
+
+const config = require('./Event/utils/config');
+const router = require('./Event/routes/index.routes');
+const logger = require('./Event/utils/logger');
 const errorHandler = require('./Event/middleware/error_handler');
 const unknownEndpoint = require('./Event/middleware/unknown_endpoint');
+
+const app = express();
 
 logger.info('connecting to MongoDB');
 
