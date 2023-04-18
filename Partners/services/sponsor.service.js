@@ -1,8 +1,8 @@
-const SponsorModel = require('../models/sponsor.model');
+const SponsorRepository = require('../repository/sponsor.repository.js');
 
 const getSponsors = async () => {
   try {
-    const sponsors = await SponsorModel.find({});
+    const sponsors = await SponsorRepository.getSponsors();
 
     if (!sponsors) {
       return {
@@ -27,7 +27,7 @@ const getSponsors = async () => {
 
 const getEventSpecificSponsors = async (eventID) => {
   try {
-    const sponsors = await SponsorModel.find({ eventID: eventID });
+    const sponsors = await SponsorRepository.getEventSpecificSponsors(eventID);
 
     if (sponsors.length === 0) {
       return { status: 400, message: 'No sponsors available' };
@@ -51,9 +51,9 @@ const addASponsor = async ({
   organizerID,
 }) => {
   try {
-    const availableSponsor = await SponsorModel.findOne({
-      fullName: fullName,
-      eventID: eventID,
+    const availableSponsor = await SponsorRepository.checkIfSponsorExists({
+      fullName,
+      eventID,
     });
     if (availableSponsor) {
       return {
@@ -61,15 +61,14 @@ const addASponsor = async ({
         message: 'Sponsor already exists in the event',
       };
     }
-    const sponsor = new SponsorModel({
-      fullName: fullName,
-      email: email,
-      packageType: packageType,
-      eventID: eventID,
-      organizerID: organizerID,
-    });
+    const response = await SponsorRepository.addASponsor(
+      fullName,
+      email,
+      packageType,
+      eventID,
+      organizerID
+    );
 
-    const response = await sponsor.save();
     return {
       status: 200,
       data: response,
@@ -82,15 +81,17 @@ const addASponsor = async ({
 
 const updateSponsorDetails = async (id, body) => {
   try {
-    const isSponsorAvailable = await SponsorModel.findById(id);
+    const isSponsorAvailable = await SponsorRepository.checkIfSponsorExistsById(
+      id
+    );
     if (!isSponsorAvailable) {
       return { status: 404, message: `Sponsor with id ${id} not found` };
     }
-    const response = await SponsorModel.findByIdAndUpdate(id, body);
+    const response = await SponsorRepository.updateSponsor(id, body);
     return {
       status: 200,
       data: response,
-      message: `Updated the speaker successfully`,
+      message: `Updated the Sponsor successfully`,
     };
   } catch (error) {
     return { status: 400, message: error.message };
@@ -99,14 +100,14 @@ const updateSponsorDetails = async (id, body) => {
 
 const deleteSponsor = async (id) => {
   try {
-    const sponsorToBeDeleted = await SponsorModel.findById(id);
+    const sponsorToBeDeleted = await SponsorRepository.checkIfSponsorExistsById(
+      id
+    );
 
     if (!sponsorToBeDeleted) {
       return { status: 404, message: `Sponsor with id ${id} not found` };
     } else {
-      await SponsorModel.deleteOne({
-        _id: sponsorToBeDeleted._id,
-      });
+      await SponsorRepository.deleteSponsor(sponsorToBeDeleted._id);
 
       return {
         status: 200,

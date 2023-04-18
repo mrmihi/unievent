@@ -1,8 +1,8 @@
-const VolunteerModel = require('../models/volunteer.model.js');
+const VolunteerRepository = require('../repository/volunteer.repository.js');
 
 const getVolunteers = async () => {
   try {
-    const volunteers = await VolunteerModel.find({});
+    const volunteers = await VolunteerRepository.getVolunteers();
     if (!volunteers) {
       return {
         status: 400,
@@ -33,10 +33,10 @@ const applyToAnOpportunity = async ({
   opportunityID,
 }) => {
   try {
-    const availableVolunteer = await VolunteerModel.findOne({
-      userID: userID,
-      opportunityID: opportunityID,
-    });
+    const availableVolunteer = await VolunteerRepository.checkIfVolunteerExists(
+      userID,
+      opportunityID
+    );
     if (availableVolunteer) {
       return {
         status: 400,
@@ -44,17 +44,15 @@ const applyToAnOpportunity = async ({
         message: 'Volunteer already has applied to the opportunity',
       };
     }
-    const volunteer = new VolunteerModel({
-      fullName: fullName,
-      email: email,
-      contactNo: contactNo,
-      availableTime: availableTime,
-      status: status,
-      userID: userID,
-      opportunityID: opportunityID,
-    });
-
-    const response = await volunteer.save();
+    const response = await VolunteerRepository.applyToAnOpportunity(
+      fullName,
+      email,
+      contactNo,
+      availableTime,
+      status,
+      userID,
+      opportunityID
+    );
 
     return {
       status: 200,
@@ -68,13 +66,14 @@ const applyToAnOpportunity = async ({
 
 const updateVolunteerApplication = async (id, body) => {
   try {
-    const isApplicationAvailable = await VolunteerModel.findById(id);
+    const isApplicationAvailable =
+      await VolunteerRepository.checkIfVolunteerExistsById(id);
 
     if (!isApplicationAvailable) {
       return { status: 404, message: `Volunteer with id ${id} not found` };
     }
 
-    const response = await VolunteerModel.findByIdAndUpdate(id, body);
+    const response = await VolunteerRepository.updateApplication(id, body);
 
     return {
       status: 200,
@@ -88,12 +87,13 @@ const updateVolunteerApplication = async (id, body) => {
 
 const deleteVolunteerApplication = async (id) => {
   try {
-    const volunteerToBeDeleted = await VolunteerModel.findById(id);
+    const volunteerToBeDeleted =
+      await VolunteerRepository.checkIfVolunteerExistsById(id);
 
     if (!volunteerToBeDeleted) {
       return { status: 404, message: `Volunteer with id ${id} not found` };
     } else {
-      await VolunteerModel.deleteOne({
+      await VolunteerRepository.deleteApplication({
         _id: volunteerToBeDeleted._id,
       });
 

@@ -1,8 +1,10 @@
-const OpportunityModel = require('../models/opportunity.model.js');
+const OpportunitiesRepository = require('../repository/opportunities.repository.js');
 
 const getOpportunities = async (eventID) => {
   try {
-    const opportunities = await OpportunityModel.find({ eventID: eventID });
+    const opportunities = await OpportunitiesRepository.getOpportunities(
+      eventID
+    );
     return {
       status: 200,
       data: opportunities,
@@ -20,15 +22,14 @@ const createOpportunity = async ({
   time,
   eventID,
 }) => {
-  const opportunity = new OpportunityModel({
-    name: name,
-    description: description,
-    date: date,
-    time: time,
-    eventID: eventID,
-  });
   try {
-    const response = await opportunity.save();
+    const response = await OpportunitiesRepository.createOpportunity({
+      name: name,
+      description: description,
+      date: date,
+      time: time,
+      eventID: eventID,
+    });
     return {
       status: 200,
       data: response,
