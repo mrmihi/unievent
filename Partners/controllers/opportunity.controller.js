@@ -21,4 +21,32 @@ const createAnOpportunity = async (req, res) => {
   });
 };
 
-module.exports = { getOpportunities, createAnOpportunity };
+//add an opportunity
+const updateAnOpportunity = async (req, res) => {
+  const result = await OpportunityServices.updateAnOpportunity(
+    req.params.id,
+    req.body
+  );
+
+  return makeResponse({
+    res,
+    ...result,
+  });
+};
+
+//add an opportunity
+const deleteAnOpportunity = async (req, res) => {
+  const result = await OpportunityServices.deleteAnOpportunity(req.params.id);
+
+  return makeResponse({
+    res,
+    ...result,
+  });
+};
+
+module.exports = {
+  getOpportunities,
+  createAnOpportunity,
+  updateAnOpportunity,
+  deleteAnOpportunity,
+};
