@@ -30,9 +30,21 @@ const createPayment = async (req, res) => {
     }
 };
 
+//update payment
+const updatePayment = async (req, res) => {
+    try {
+      const{ id } = req.params;
+      const payment = await Payment.findByIdAndUpdate({_id: id}, req.body, {new: true, runValidators: true});
+      res.status(200).json(payment);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+
   module.exports = {
     getAllPayments,
     getPaymentById,
     createPayment,
+    updatePayment,
     };
 
