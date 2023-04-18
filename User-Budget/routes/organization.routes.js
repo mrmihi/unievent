@@ -1,5 +1,4 @@
 const express = require('express');
-// const { createUser, loginUser, getAllUsers,deleteUser,updateUser } = require('../controllers/user.js');
 const {
     protect, 
     adminProtect,
