@@ -112,10 +112,45 @@ const updateOrganization = async (req, res) => {
     }//catch error
 }
 
+//reset password
+const resetPassword = async (req, res) => {
+    try{
+        const {email,password} =req.body;//get email and password from request body
+
+        //check if organization exists
+        const organization = await organization.findOne({email})//find organization by email
+        if(!organization){
+            return res.status(404).json({message: 'organization not found'})
+        }//if organization is not found
+
+        //generate reset token
+        const resetToken = uuidv4();
+
+        //hash new password
+        const salt=await bcrypt.genSalt(10)//generate salt
+        const hashedPassword=await bcrypt.hash(password, salt)//hash password
+
+        //update organization's password
+        organization.resetToken = resetToken;
+        organization.password = hashedPassword;
+        await organization.save();
+
+        res.status(200).json({message: 'Password reset successfully'})
+
+
+        
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }//catch error
+}
+
+
+
 module.exports = {
     createOrganization,
     loginOrganization,
     getAllOrganizations,
     deleteOrganization,
-    updateOrganization
+    updateOrganization,
+    resetPassword
 }//export all functions

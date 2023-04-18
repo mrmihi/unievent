@@ -15,7 +15,8 @@ const { createOrganization,
     getAllOrganizations,
     deleteOrganization,
     updateOrganization,
-    loginOrganization } = require('../controllers/organization.js');
+    loginOrganization,
+    resetPassword } = require('../controllers/organization.js');
 
 
 const organizationRouter = express.Router();//create router
@@ -24,7 +25,8 @@ organizationRouter.post('/register',protect,adminProtect,createOrganization); //
 organizationRouter.post('/login',loginOrganization);//login organization
 organizationRouter.get('/',protect,adminProtect,getAllOrganizations);//get all organizations
 organizationRouter.delete('/:id',protect,adminProtect,deleteOrganization);//delete organization
-organizationRouter.put('/:id',protect,adminProtect,updateOrganization);//update organization
+organizationRouter.put('/:id',protect,adminProtect,organizationProtect,updateOrganization);//update organization
+organizationRouter.put('/reset/:id',protect,adminProtect,organizationProtect,resetPassword);//reset password
 
 
 module.exports = organizationRouter;

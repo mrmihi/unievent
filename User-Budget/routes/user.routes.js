@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser, loginUser, getAllUsers,deleteUser,updateUser } = require('../controllers/user.js');
+const { createUser, loginUser, getAllUsers,deleteUser,updateUser,resetPassword } = require('../controllers/user.js');
 
 const { protect,
     adminProtect,
@@ -20,6 +20,7 @@ userRouter.post('/login',loginUser);//login user
 userRouter.get('/', getAllUsers);//get all users
 userRouter.delete('/:id', deleteUser);//delete user
 userRouter.put('/:id', updateUser);//update user
+userRouter.put('/reset/:id', resetPassword);//reset password
 
 
 module.exports = userRouter;
