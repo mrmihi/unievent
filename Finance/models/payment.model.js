@@ -11,10 +11,17 @@ const PaymentSchema = new Schema(
     status: {
       type: String,
       required: true,
-      enum: STATUS,
+      enum: Object.values(STATUS),
     },
     venue: { type: Schema.Types.ObjectId, ref: 'Venue', required: true },
-    price: { type: Number, required: true },
+    price: { type: Number,
+      validate: {
+        validator: function(value) {
+          return value >= 0;
+        },
+        message: 'Price must be a positive value'
+      },
+      required: true, },
     organizer: {
       type: Schema.Types.ObjectId,
       ref: 'Organizer',
