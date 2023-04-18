@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 
 const {
     getAllPayments,
@@ -7,15 +6,17 @@ const {
     createPayment,
 } = require('../controllers/payment.controller');
 
+const paymentRouter = express.Router();
+
 // --------Routes----------
 // POST /payments
-router.post('/', createPayment);
+paymentRouter.post('/', createPayment);
 
 // GET /payments
-router.get('/', getAllPayments);
+paymentRouter.get('/', getAllPayments);
 
 // GET /payments/:id
-router.get('/:id', getPaymentById);
+paymentRouter.get('/:id', getPaymentById);
 
-module.exports = router;
+module.exports = paymentRouter;
 

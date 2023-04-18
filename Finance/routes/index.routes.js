@@ -1,11 +1,8 @@
 const router = require('express').Router();
 
-const venueRouter = require('./venue.routes');
-const reviewRouter = require('./review.routes');
-const bookingRouter = require('./booking.routes');
 
-router.use('/venues', venueRouter);
-router.use('/reviews', reviewRouter);
-router.use('/bookings', bookingRouter);
+const paymentRouter = require('./payment.routes');
+
+router.use('/payments', paymentRouter);
 
 module.exports = router;
