@@ -6,6 +6,10 @@ const generateToken = require('../util/token.js');
 const createOrg = async (req, res) => {
   try {
     const { email, name, password, mobile, website } = req.body; //get email, name, password, mobile and website from request body
+    const existingOrg = await Org.findOne({ email }); //find user by email
+    if (existingOrg) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
     const salt = await bcrypt.genSalt(10); //generate salt
     const hashedPassword = await bcrypt.hash(password, salt); //hash password
     const org = await Org.create({
@@ -37,7 +41,9 @@ const loginOrg = async (req, res) => {
   try {
     const { email, password } = req.body; //get email and password from request body
     const org = await Org.findOne({ email }); //find Org by email
-
+    if (!org) {
+      res.status(401).json({ message: 'Email does not exist!' });
+    }
     if (org && (await bcrypt.compare(password, org.password))) {
       res.status(201).json({
         _id: org._id,
