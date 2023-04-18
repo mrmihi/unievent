@@ -1,3 +1,5 @@
+const router = require('express').Router();
+
 const {
     getAllEventApprovals,
     createEventApproval,

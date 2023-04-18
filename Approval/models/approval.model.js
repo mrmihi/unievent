@@ -4,7 +4,7 @@
 
 const { Schema, model, Mongoose } = require('mongoose');
 const { APPROVAL_REQUEST_STATUS, REQUEST_TYPE, EVENT_APPROVAL_STATUS, APPOINTMENT_STATUS,USER_ROLES} = require('../constants/approval.constants');
-const { User } = require('../../User-Budget/models/user.model');
+const { User } = require('../../User/models/user.model');
 
 const eventApprovalSchema = new Schema({
     _id: { type: Schema.Types.ObjectId},
