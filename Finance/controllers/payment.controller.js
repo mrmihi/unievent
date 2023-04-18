@@ -41,10 +41,23 @@ const updatePaymentById = async (req, res) => {
     }
   };
 
+//delete payment by id
+const deletePaymentById = async (req, res) => {
+    try {
+      const{ id } = req.params;
+      const payment = await Payment.findByIdAndDelete({_id: id});
+      res.status(200).json(payment);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+
+
   module.exports = {
     getAllPayments,
     getPaymentById,
     createPayment,
     updatePaymentById,
+    deletePaymentById
     };
 
