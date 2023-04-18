@@ -3,7 +3,7 @@ const User = require('../models/user.models.js');
 const Organization = require('../models/organization.models.js');
 require('dotenv').config();
 
-const protect = async (req, res, next) => {
+const bprotect = async (req, res, next) => {
     let token //get token from header
 
     //check if token is present
@@ -35,13 +35,13 @@ const protect = async (req, res, next) => {
 //check if user is financial manager or organization
 const budgetProtect = async (req, res, next) => {
     console.log(req.user)
-    if(req.user && req.user.role === 'admin' || req.user.role === 'student'){
+    if(req.user && req.user.role === 'accountant' || req.organization.role === 'organization'){
         next()
     }
     else{
-        res.status(401).json({message: 'Not authorized as a admin'})
+        res.status(401).json({message: 'Not authorized as an admin or as an accountant'})
     }
 }
 
 
-module.exports = {protect, budgetProtect};
+module.exports = {bprotect, budgetProtect};
