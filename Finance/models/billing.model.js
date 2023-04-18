@@ -20,7 +20,7 @@ const BillingSchema = new Schema(
     },
     payment_status: {
         type: String,
-        enum: PAYMENT_STATUS,
+        enum: Object.values(PAYMENT_STATUS),
         required: true,
   },
     },

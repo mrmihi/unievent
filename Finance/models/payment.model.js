@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const STATUS = require('../constants/payment.constant');
-//const PAYMENT_STATUS = require('../constants/payment.constant');
 
 const PaymentSchema = new Schema(
   {
