@@ -18,6 +18,10 @@ const OpportunitySchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    opportunityImage: {
+      type: String,
+      required: true,
+    },
     eventID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'events',

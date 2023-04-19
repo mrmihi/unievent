@@ -47,8 +47,9 @@ const addASponsor = async ({
   fullName,
   packageType,
   email,
+  sponsorImage,
   eventID,
-  organizerID,
+  organizationID,
 }) => {
   try {
     const availableSponsor = await SponsorRepository.checkIfSponsorExists({
@@ -63,10 +64,11 @@ const addASponsor = async ({
     }
     const response = await SponsorRepository.addASponsor(
       fullName,
-      email,
       packageType,
+      email,
+      sponsorImage,
       eventID,
-      organizerID
+      organizationID
     );
 
     return {
