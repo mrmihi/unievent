@@ -1,9 +1,11 @@
-GET http://localhost:3000/events
+GET http://localhost:3000/api/events
 
 ###
-POST http://localhost:3000/events
+GET http://localhost:3000/api/events/643a466b8c5b20aab9153022
+###
+POST http://localhost:3000/api/events
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1ybWloaSIsImlkIjoiNjQzOTZkYTVhYWQyNGUyYzY1MmU4NjhlIiwiaWF0IjoxNjgxNDg2NTU3fQ.joRsW7oaB2cl5KwQ6eCGKH7lhqXiP71J52FWldcNKDw
+Authorization:bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1ybWloaSIsImlkIjoiNjQzOTZkYTVhYWQyNGUyYzY1MmU4NjhlIiwiaWF0IjoxNjgxNTQwMDI3fQ.2KUUBWKyQg2KMh-xEkORZfy9XYQ_XltxoQ5QK-nzSZs
 
 {
   "name": "Tech Conference",
@@ -25,7 +27,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1yb
 }
 
 ###
-DELETE http://localhost:3003/api/events/627d13c07ca44dc69c934596
+DELETE http://localhost:3000/api/events/627d13c07ca44dc69c934596
 
 ###
-PUT http://localhost:3003/api/events/627d13c07ca44dc69c934596
+PUT http://localhost:3000/api/events/627d13c07ca44dc69c934596

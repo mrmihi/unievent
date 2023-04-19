@@ -13,6 +13,8 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@sentry/node": "^7.48.0",
+        "@sentry/tracing": "^7.48.0",
         "bcrypt": "^5.1.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
@@ -21,8 +23,10 @@
         "jsonwebtoken": "^9.0.0",
         "lodash": "^4.17.21",
         "mongoose": "^7.0.3",
+        "mongoose-paginate-v2": "^1.7.1",
         "mongoose-unique-validator": "^4.0.0",
-        "morgan": "^1.10.0"
+        "morgan": "^1.10.0",
+        "mongoose-aggregate-paginate-v2": "^1.0.6"
     },
     "devDependencies": {
         "cross-env": "^7.0.3",
@@ -38,7 +42,6 @@
     },
     "jest": {
         "testEnvironment": "node",
-        "globalTeardown": "./Event/tests/teardown.js"
+        "globalTeardown": "./Event/helpers/teardown.js"
     }
-
 }

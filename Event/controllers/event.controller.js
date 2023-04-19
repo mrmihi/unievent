@@ -1,47 +1,39 @@
 const EventService = require('../services/event.service');
 const { HTTP_STATUS } = require('../utils/http');
 const { makeResponse } = require('../utils/response');
-const { event } = require('../models/event.model');
+const Event = require('../models/event.model');
 const tokenHelper = require('../helpers/token.helper');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
 
 const createEvent = async (req, res) => {
-  const token = tokenHelper.getTokenFrom(req);
-
-  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-  if (!decodedToken.id) {
-    return makeResponse({
-      res,
-      message: 'token missing or invalid',
-      status: HTTP_STATUS.UNAUTHORIZED,
-    });
-  }
-
-  const user = await User.findById(decodedToken.id);
-
-  const event = await EventService.createEvent(req.body, user);
+  const event = await EventService.createEvent(req.body, req.org);
   console.log(req.body);
   return makeResponse({
     res,
-    message: 'Event added successfully',
+    message: 'Event added successfully!',
+    data: event,
+  });
+};
+
+const getEventById = async (req, res) => {
+  const event = await EventService.getEventById(req.params.id);
+  if (!event)
+    return makeResponse({
+      res,
+      success: false,
+      message: `Event not found with id:${req.params.id}`,
+      status: HTTP_STATUS.BAD_REQUEST,
+    });
+  return makeResponse({
+    res,
+    message: 'Data retrieval successful',
     data: event,
   });
 };
 
 const getAllEvents = async (req, res) => {
-  const blogs = await Event.find({});
-  res.json(blogs);
-};
-
-const getEventById = async (req, res) => {
-  const blog = await event.findById(req.params.id);
-
-  if (blog) {
-    res.json(event.toJSON());
-  } else {
-    res.status(404).end();
-  }
+  const events = await Event.find({});
+  res.json(events);
 };
 
 const updateEventById = async (req, res) => {
