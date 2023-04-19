@@ -1,0 +1,160 @@
+const User = require('../models/user.models.js');
+const bcrypt = require('bcrypt');
+const generateToken = require('../util/token.js');
+const {v4: uuidv4} = require('uuid');
+
+//create user
+const createUser= async (req, res) => {
+    try{
+        const {name,email,password, role} = req.body//get name, email, password and role from request body
+        
+
+        //check if user already exists
+        const existingUser=await User.findOne({email})//find user by email
+        if(existingUser){
+            return res.status(400).json({message: 'User already exists'})
+        }
+        
+        const salt=await bcrypt.genSalt(10)//generate salt
+        const hashedPassword=await bcrypt.hash(password, salt)//hash password
+        const user = await User.create(
+            {
+                name,
+                email,
+                password: hashedPassword,
+                role
+            }
+        )
+        if(user){
+            res.status(201).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                token: generateToken(user._id)
+            }) //generate token
+        }else{
+            res.status(400).json({message: 'Invalid user data'})
+        }//if user is not created
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }//catch error
+}//create user
+
+
+//login user
+const loginUser = async (req, res) => {
+    try{
+        const {email, password} = req.body//get email and password from request body
+        const user=await User.findOne({email})//find user by email
+
+        if(user && (await bcrypt.compare(password, user.password))){
+            res.status(201).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                token: generateToken(user._id)
+            })//generate token
+
+            // res.status(201).json(user)//return user
+        }else{
+            res.status(401).json({message: 'Invalid email or password'})
+        }//if user is not created
+
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }//catch error
+}//login user
+
+
+
+//get all users
+const getAllUsers = async (req, res) => {
+    try{
+        const users = await User.find({})//find all users
+        res.status(200).json(users)//return all users
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }//catch error
+}//get all users
+
+//delete user
+const deleteUser = async (req, res) => {
+    try{
+        const {id}  = req.params//get id from request params
+        const review = await User.findByIdAndDelete({_id:id})//delete user by id 
+
+        if(!review){
+            return res.status(404).json({message: 'User not found'})
+        }//if user is not deleted
+        else{
+            res.status(200).json({message: 'User deleted successfully'})
+        }
+
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }//catch error
+}
+
+//update user
+const updateUser = async (req, res) => {
+    try{
+        const {id}  = req.params//get id from request params
+        const {name,role} = req.body//get name, email, password and role from request body
+
+        const user = await User.findByIdAndUpdate({_id:id}, {name, role},{new:true});//update user by id
+
+        if(!user){
+            return res.status(404).json({message: 'User not found'})
+        }//if user is not updated
+        else{
+            res.status(200).json({message: 'User updated successfully'})
+        }
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }//catch error
+}
+
+
+//reset password
+const resetPassword = async (req, res) => {
+    try{
+        const {email,password} =req.body;//get email and password from request body
+
+        //check if user exists
+        const user = await User.findOne({email})//find user by email
+        if(!user){
+            return res.status(404).json({message: 'User not found'})
+        }//if user is not found
+
+        //generate reset token
+        const resetToken = uuidv4();
+
+        //hash new password
+        const salt=await bcrypt.genSalt(10)//generate salt
+        const hashedPassword=await bcrypt.hash(password, salt)//hash password
+
+        //update user's password
+        user.resetToken = resetToken;
+        user.password = hashedPassword;
+        await user.save();
+
+        res.status(200).json({message: 'Password reset successfully'})
+
+
+        
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }//catch error
+}
+
+
+module.exports = {
+    createUser,
+    loginUser,
+    getAllUsers,
+    deleteUser,
+    updateUser,
+    resetPassword
+}//export all functions
