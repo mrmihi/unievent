@@ -18,12 +18,16 @@ const SpeakerSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    speakerImage: {
+      type: String,
+      required: true,
+    },
     eventID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'events',
       required: true,
     },
-    organizerID: {
+    organizationID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'organizations',
       required: true,
