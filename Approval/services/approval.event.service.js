@@ -1,4 +1,6 @@
+const { json } = require("express");
 const { Event_Approval } = require("../models/approval.model");
+const eventApprovalServices = require("../repositories/approval.event.repository.js");
 
 const createEventApproval = async ({
   event_id,
@@ -19,7 +21,30 @@ const createEventApproval = async ({
   return eventApproval.save();
 };
 
-const getAllEventApprovals = async () => {};
+const getAllEventApprovals = async (req, res) => {
+  try {
+    const eventApprovals = await eventApprovalServices.getAllEventApprovals()
+    
+    if(eventApprovals.lenght == 0) {
+      return ({
+        success: false,
+        message: "No Event Approvals found",
+      })
+    }
+
+    return ({
+      message: "Event Approvals fetched successfully",
+      data: eventApprovals,
+    })
+
+  } catch (error) {
+    return ({
+      success: false,
+      message: error.message,
+  })
+  }
+};
+
 const getEventApproval = async () => {};
 const updateEventApproval = async () => {};
 const deleteEventApproval = async () => {};

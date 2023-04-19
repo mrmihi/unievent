@@ -4,31 +4,13 @@ const { makeResponse } = require("../utils/response");
 const { Event_Approval } = require("../models/approval.model");
 
 const getAllEventApprovals = async (req, res) => {
-  try {
-    const eventApprovals = await Event_Approval.find({}).populate("event_id");
-
-    if(eventApprovals.length == 0) {
-        return makeResponse({
-            res,
-            success: false,
-            message: "No Event Approvals found",
-            data: req.body,
-        });
-    }
-
+    const result = await EventApprovalService.getAllEventApprovals();
     return makeResponse({
-      res,
-      message: "Event Approvals fetched successfully",
-      data: eventApprovals,
+        res,
+        message: result.message,
+        data: result.data,
+        success: result.success,
     });
-  } catch (error) {
-    return makeResponse({
-      res,
-      success: false,
-      message: error.message,
-      data: req.body,
-    });
-  }
 };
 
 const createEventApproval = async (req, res) => {
