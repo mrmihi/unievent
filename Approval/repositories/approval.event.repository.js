@@ -39,10 +39,32 @@ const deleteEventApproval = async (id) => {
     return deletedEventApproval;
 }
 
+
+const getAllEventApprovalsByEventID = async (eventID) => {
+    const eventApprovals = await Event_Approval.find({ event_id: eventID, }).populate("event_id");
+    return eventApprovals;
+};
+
+const getAllEventApprovalsByOrgID = async (orgID) => {
+    const eventApprovals = await Event_Approval.find().populate("event_id");
+
+    const filteredEventApprovals = [];
+    eventApprovals.forEach((eventApproval) => {
+      const eventDetails = eventApproval.event_id;
+      if (eventDetails.orgId == orgID)
+        filteredEventApprovals.push(eventApproval);
+    });
+
+    return filteredEventApprovals;
+};
+
+
 module.exports = {
     getAllEventApprovals,
     getEventApproval,
     createEventApproval,
     updateEventApproval,
     deleteEventApproval,
+    getAllEventApprovalsByEventID,
+    getAllEventApprovalsByOrgID,
 };

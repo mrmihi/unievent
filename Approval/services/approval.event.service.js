@@ -1,8 +1,9 @@
-const eventApprovalServices = require("../repositories/approval.event.repository.js");
+const eventApprovalRepository = require("../repositories/approval.event.repository.js");
+const { HTTP_STATUS } = require("../utils/http_status");
 
 const createEventApproval = async (eventApprovalData) => {
   try {
-    const eventApproval = await eventApprovalServices.createEventApproval(
+    const eventApproval = await eventApprovalRepository.createEventApproval(
       eventApprovalData
     );
 
@@ -27,7 +28,7 @@ const createEventApproval = async (eventApprovalData) => {
 
 const getAllEventApprovals = async (req, res) => {
   try {
-    const eventApprovals = await eventApprovalServices.getAllEventApprovals();
+    const eventApprovals = await eventApprovalRepository.getAllEventApprovals();
 
     if (eventApprovals.length == 0) {
       return {
@@ -49,42 +50,45 @@ const getAllEventApprovals = async (req, res) => {
 };
 
 const getEventApproval = async (id) => {
-    try {
-      const eventApproval = await eventApprovalServices.getEventApproval(id);
-    
-      if(!eventApproval) {
-        return {
-          success: false,
-          message: `No Event Approval with id: ${id}`
-        }
-      }
+  try {
+    const eventApproval = await eventApprovalRepository.getEventApproval(id);
 
-      return {
-        message: "Event Approval fetched successfully",
-        data: eventApproval,
-      };
-    } catch (error) {
+    if (!eventApproval) {
       return {
         success: false,
-        message: error.message,
+        message: `No Event Approval with id: ${id}`,
       };
     }
+
+    return {
+      message: "Event Approval fetched successfully",
+      data: eventApproval,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
 };
 const updateEventApproval = async (id, eventApprovalData) => {
-  try{
-    const eventApproval = await eventApprovalServices.updateEventApproval(id, eventApprovalData);
+  try {
+    const eventApproval = await eventApprovalRepository.updateEventApproval(
+      id,
+      eventApprovalData
+    );
 
-    if(!eventApproval) {
+    if (!eventApproval) {
       return {
         success: false,
-        message: `No Event Approval with id: ${id}`
-      }
+        message: `No Event Approval with id: ${id}`,
+      };
     }
 
     return {
       message: "Event Approval updated successfully",
       data: eventApproval,
-    }
+    };
   } catch (error) {
     return {
       success: false,
@@ -94,19 +98,75 @@ const updateEventApproval = async (id, eventApprovalData) => {
 };
 const deleteEventApproval = async (id) => {
   try {
-    const eventApproval = await eventApprovalServices.deleteEventApproval(id);
+    const eventApproval = await eventApprovalRepository.deleteEventApproval(id);
 
-    if(!eventApproval) {
+    if (!eventApproval) {
       return {
         success: false,
-        message: `No Event Approval with id: ${id}`
-      }
+        message: `No Event Approval with id: ${id}`,
+      };
     }
 
     return {
       message: "Event Approval deleted successfully",
       data: eventApproval,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
+const getEventApprovalsByOrgId = async (orgID) => {
+  try {
+    const eventApprovals = await eventApprovalRepository.getAllEventApprovalsByOrgID(orgID);
+
+    if (eventApprovals.length == 0) {
+      return {
+        success: false,
+        message: `No Event Approval found`,
+        data: req.body,
+      };
     }
+
+    const filteredEventApprovals = [];
+    eventApprovals.forEach((eventApproval) => {
+      const eventDetails = eventApproval.event_id;
+      if (eventDetails.orgId == orgID)
+        filteredEventApprovals.push(eventApproval);
+    });
+
+    return {
+      message: `Approval details of organization id ${orgID} fetched successfully`,
+      data: eventApprovals,
+    };
+
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
+const getEventApprovalsByEventId = async (eventID) => {
+  try {
+    const eventApprovals = await eventApprovalRepository.getAllEventApprovalsByEventID(eventID);
+
+    if (eventApprovals.length == 0) {
+      return {
+        success: false,
+        message: `No Event Approval for the event id: ${eventID}`,
+        data: eventApprovals,
+      };
+    }
+
+    return {
+      message: `Approval details of event id ${eventID} fetched successfully`,
+      data: eventApprovals,
+    };
   } catch (error) {
     return {
       success: false,
@@ -121,4 +181,6 @@ module.exports = {
   getEventApproval,
   updateEventApproval,
   deleteEventApproval,
+  getEventApprovalsByEventId,
+  getEventApprovalsByOrgId,
 };
