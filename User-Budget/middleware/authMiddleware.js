@@ -118,7 +118,7 @@ const staffProtect = async (req, res, next) => {
 //check if user is organization
 const organizationProtect = async (req, res, next) => {
     console.log(req.organization)
-    if(req.organization && req.user.role === 'organization'){
+    if(req.organization && req.organization.role === 'organization'){
         next()
     }
     else{

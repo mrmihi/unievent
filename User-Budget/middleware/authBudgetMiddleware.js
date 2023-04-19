@@ -35,7 +35,7 @@ const bprotect = async (req, res, next) => {
 //check if user is financial manager or organization
 const budgetProtect = async (req, res, next) => {
     console.log(req.user)
-    if(req.user && req.user.role === 'accountant' || req.organization.role === 'organization'){
+    if((req.user && req.user.role === 'accountant') || (req.organization && req.organization.role === 'organization')){
         next()
     }
     else{
