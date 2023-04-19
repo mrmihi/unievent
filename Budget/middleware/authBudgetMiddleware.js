@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.models.js');
-const Organization = require('../models/organization.models.js');
+const User = require('../../User/models/user.model');
+const Organization = require('../../User/models/org.model');
 require('dotenv').config();
 
 const bprotect = async (req, res, next) => {
