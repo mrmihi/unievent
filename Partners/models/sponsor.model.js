@@ -16,12 +16,12 @@ const SponsorSchema = mongoose.Schema(
     },
     eventID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'event',
+      ref: 'events',
       required: true,
     },
     organizerID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'organizers',
+      ref: 'organizations',
       required: true,
     },
   },
