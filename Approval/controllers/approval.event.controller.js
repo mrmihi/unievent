@@ -3,36 +3,18 @@ const { HTTP_STATUS } = require("../utils/http_status");
 const { makeResponse } = require("../utils/response");
 const { Event_Approval } = require("../models/approval.model");
 
+//Retrives all the event approvals
 const getAllEventApprovals = async (req, res) => {
-    const result = await EventApprovalService.getAllEventApprovals();
-    return makeResponse({
-        res,
-        message: result.message,
-        data: result.data,
-        success: result.success,
-    });
+  const result = await EventApprovalService.getAllEventApprovals();
+  return makeResponse({
+    res,
+    message: result.message,
+    data: result.data,
+    success: result.success,
+  });
 };
 
-const createEventApproval = async (req, res) => {
-  try {
-    const eventApproval = await EventApprovalService.createEventApproval(
-      req.body
-    );
-    return makeResponse({
-      res,
-      message: "Event Approval created successfully",
-      data: eventApproval,
-    });
-  } catch (error) {
-    return makeResponse({
-      res,
-      success: false,
-      message: error.message,
-      data: req.body,
-    });
-  }
-};
-
+//Retrive an Event Approval by id
 const getEventApproval = async (req, res) => {
   try {
     const { id: eventApprovalID } = req.params;
@@ -60,6 +42,20 @@ const getEventApproval = async (req, res) => {
       data: req.body,
     });
   }
+};
+
+//Create an Event Approval Record
+const createEventApproval = async (req, res) => {
+    const eventApprovalData = req.body;
+    const result = await EventApprovalService.createEventApproval(
+        eventApprovalData
+    );
+    return makeResponse({
+        res,
+        success : result.success,
+        message: result.message,
+        data: result.data,
+    });
 };
 
 const updateEventApproval = async (req, res) => {
@@ -132,15 +128,17 @@ const deleteEventApproval = async (req, res) => {
 const getEventApprovalByEventID = async (req, res) => {
   try {
     const { id: eventID } = req.params;
-    const eventApprovals = await Event_Approval.find({ event_id : eventID }).populate("event_id");
-    
-    if(eventApprovals.length == 0){
-        return makeResponse({
-            res,
-            success: false,
-            message: `No Event Approval  for the event id: ${eventID}`,
-            data: req.body,
-        });
+    const eventApprovals = await Event_Approval.find({
+      event_id: eventID,
+    }).populate("event_id");
+
+    if (eventApprovals.length == 0) {
+      return makeResponse({
+        res,
+        success: false,
+        message: `No Event Approval  for the event id: ${eventID}`,
+        data: req.body,
+      });
     }
 
     return makeResponse({
@@ -156,42 +154,42 @@ const getEventApprovalByEventID = async (req, res) => {
       data: req.body,
     });
   }
-}
+};
 
 const getEventApprovalByOrgID = async (req, res) => {
-    try {
-        const { id: orgID } = req.params;
-        const eventApprovals = await Event_Approval.find().populate("event_id");
+  try {
+    const { id: orgID } = req.params;
+    const eventApprovals = await Event_Approval.find().populate("event_id");
 
-        const filteredEventApprovals = []
-        eventApprovals.forEach(eventApproval => {
-           const eventDetails = eventApproval.event_id; 
-           if(eventDetails.orgId == orgID)
-                filteredEventApprovals.push(eventApproval);
-        });
+    const filteredEventApprovals = [];
+    eventApprovals.forEach((eventApproval) => {
+      const eventDetails = eventApproval.event_id;
+      if (eventDetails.orgId == orgID)
+        filteredEventApprovals.push(eventApproval);
+    });
 
-        if(filteredEventApprovals.length == 0){
-            return makeResponse({
-                res,
-                success: false,
-                message: `No Event Approval  for the organization id: ${orgID}`,
-                data: req.body,
-            });
-        }
-    
-        return makeResponse({
-          res,
-          message: `Approval details of organization id ${orgID} fetched successfully`,
-          data: eventApprovals,
-        });
-      } catch (error) {
-        return makeResponse({
-          res,
-          success: false,
-          message: error.message,
-          data: req.body,
-        });
-      }
+    if (filteredEventApprovals.length == 0) {
+      return makeResponse({
+        res,
+        success: false,
+        message: `No Event Approval  for the organization id: ${orgID}`,
+        data: req.body,
+      });
+    }
+
+    return makeResponse({
+      res,
+      message: `Approval details of organization id ${orgID} fetched successfully`,
+      data: eventApprovals,
+    });
+  } catch (error) {
+    return makeResponse({
+      res,
+      success: false,
+      message: error.message,
+      data: req.body,
+    });
+  }
 };
 
 module.exports = {
