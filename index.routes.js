@@ -7,7 +7,7 @@ const venueRouter = require('./Venue/routes/index.routes');
 const userRouter = require('./User/routes/index.routes');
 const approvalRouter = require('./Approval/routes/index.routes');
 const partnerRouter = require('./Partners/routes/index.routes');
-
+    
 routes.use('/', eventsRouter);
 routes.use('/', venueRouter);
 routes.use('/', userRouter);
