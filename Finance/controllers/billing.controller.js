@@ -35,7 +35,7 @@ const updateBillingById = async (req, res) => {
     try{
         const{ id } = req.params;
         const billing =await Billing.findByIdAndUpdate({_id: id}, req.body, {new: true, runValidators: true});
-        res.status(200).json(billing);\
+        res.status(200).json(billing);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
