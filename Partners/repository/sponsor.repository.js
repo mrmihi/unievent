@@ -12,19 +12,17 @@ const getEventSpecificSponsors = async (eventID) => {
 
 const addASponsor = async (
   fullName,
-  packageType,
   email,
-  sponsorImage,
+  packageType,
   eventID,
-  organizationID
+  organizerID
 ) => {
   const sponsor = new SponsorModel({
     fullName: fullName,
     email: email,
     packageType: packageType,
-    sponsorImage: sponsorImage,
     eventID: eventID,
-    organizationID: organizationID,
+    organizerID: organizerID,
   });
   const response = await sponsor.save();
   return response;

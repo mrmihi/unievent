@@ -14,16 +14,12 @@ const SponsorSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    sponsorImage: {
-      type: String,
-      required: true,
-    },
     eventID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'events',
       required: true,
     },
-    organizationID: {
+    organizerID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'organizations',
       required: true,

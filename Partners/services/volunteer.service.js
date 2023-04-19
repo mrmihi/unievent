@@ -57,7 +57,7 @@ const applyToAnOpportunity = async ({
     return {
       status: 200,
       data: response,
-      message: 'Added the volunteer application successfully',
+      message: 'Updated the volunteer application successfully',
     };
   } catch (error) {
     return { status: 400, message: error.message };

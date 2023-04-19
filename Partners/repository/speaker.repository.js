@@ -29,18 +29,16 @@ const addASpeaker = async (
   sessionTime,
   email,
   contactNo,
-  speakerImage,
   eventID,
-  organizationID
+  organizerID
 ) => {
   const speaker = new SpeakerModel({
     fullName: fullName,
     sessionTime: sessionTime,
     email: email,
     contactNo: contactNo,
-    speakerImage: speakerImage,
     eventID: eventID,
-    organizationID: organizationID,
+    organizerID: organizerID,
   });
 
   const response = await speaker.save();

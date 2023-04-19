@@ -42,9 +42,8 @@ const addASpeaker = async ({
   sessionTime,
   email,
   contactNo,
-  speakerImage,
   eventID,
-  organizationID,
+  organizerID,
 }) => {
   try {
     const availableSpeaker = await SpeakerRepository.checkIfSpeakerExists({
@@ -63,9 +62,8 @@ const addASpeaker = async ({
       sessionTime,
       email,
       contactNo,
-      speakerImage,
       eventID,
-      organizationID
+      organizerID
     );
 
     return {
