@@ -3,10 +3,8 @@ const approvalRequestRepository = require("../repositories/approval.request.repo
 
 const createApprovalRequest = async (approvalRequestData) => {
   try {
-    const approvalRequest = await approvalRequestRepository.createApprovalRequest(
-      approvalRequestData
-    );
-
+    const approvalRequest = await approvalRequestRepository.createApprovalRequest(approvalRequestData);
+    
     if (!approvalRequest) {
       return {
         success: false,

@@ -13,6 +13,8 @@ const eventApprovalSchema = new Schema({
     budget_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
     admin_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
     status: { type: String, enum : EVENT_APPROVAL_STATUS, required: true},
+},{
+    timestamps: true,
 });
 
 const approvalRequestSchema = new Schema({
@@ -20,11 +22,13 @@ const approvalRequestSchema = new Schema({
     type : { type: String, enum : REQUEST_TYPE, required: true },
     requested_at : { type: Date, required: true },
     requested_to : { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    requested_by : { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    requested_by : { type: Schema.Types.ObjectId, ref: 'Organization', required: true },
     viewed_at : { type: Date, required: true },
     status : { type: String, enum: APPROVAL_REQUEST_STATUS, required: true },
     request_note : { type: String, required: true },
     responded_at : { type: Date, required: true },
+},{
+    timestamps: true,
 });
 
 const appointmentSchema = new Schema({
@@ -39,7 +43,9 @@ const appointmentSchema = new Schema({
     responded_on: { type: Date },
     meetinglink : { type: String },
     appointment_note : { type: String, required: true },
-})
+},{
+    timestamps: true,
+});
 
 
 // const userSchema = new Schema({

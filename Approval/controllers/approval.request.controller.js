@@ -29,6 +29,7 @@ const getApprovalRequest = async (req, res) => {
 const createApprovalRequest = async (req, res) => {
   const eventApprovalData = req.body;
   const result = await ApprovalRequestService.createApprovalRequest(eventApprovalData);
+
   return makeResponse({
     res,
     success: result.success,
@@ -37,6 +38,7 @@ const createApprovalRequest = async (req, res) => {
   });
 };
 
+//Update Approval Request
 const updateApprovalRequest = async (req, res) => {
   const { id : approvalRequestID } = req.params;
   const eventApprovalData = req.body;
@@ -49,6 +51,7 @@ const updateApprovalRequest = async (req, res) => {
   });
 };
 
+//Delete Approval Request
 const deleteApprovalRequest = async (req, res) => {
   const { id : approvalRequestID } = req.params;
   const result = await ApprovalRequestService.deleteApprovalRequest(approvalRequestID);
