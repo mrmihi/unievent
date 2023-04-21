@@ -76,10 +76,10 @@ const eventSchema = new Schema(
     host: {
       type: String,
     },
-    club: {
-      type: [String],
+    org: {
+      type: String,
     },
-    user: {
+    orgId: {
       type: Schema.Types.ObjectId,
       required: true,
     },
