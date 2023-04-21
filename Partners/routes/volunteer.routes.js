@@ -3,6 +3,7 @@ const {
   applyToAnOpportunity,
   deleteVolunteerApplication,
   // getEventSpecificVolunteers,
+  getRegisteredOpportunitiesByUserID,
   getVolunteers,
   updateVolunteerApplication,
 } = require('../controllers/volunteer.controller.js');
@@ -15,6 +16,7 @@ const volunteerRouter = express.Router();
 volunteerRouter.get('/', getVolunteers);
 // volunteerRouter.get("/:id", getEventSpecificVolunteers);
 volunteerRouter.post('/:id', applyToAnOpportunity);
+volunteerRouter.get('/:id', getRegisteredOpportunitiesByUserID);
 volunteerRouter.put('/:id', updateVolunteerApplication);
 volunteerRouter.delete('/:id', deleteVolunteerApplication);
 

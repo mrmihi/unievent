@@ -23,6 +23,30 @@ const getVolunteers = async () => {
   }
 };
 
+const getRegisteredOpportunitiesByUserID = async (userID) => {
+  try {
+    const opportunities =
+      await VolunteerRepository.getRegisteredOpportunitiesByUserID(userID);
+    if (!opportunities) {
+      return {
+        status: 400,
+
+        message: 'Failed to retrieve opportunities',
+      };
+    }
+    if (opportunities.length === 0) {
+      return { status: 400, message: 'No opportunities available' };
+    }
+    return {
+      status: 200,
+      data: opportunities,
+      message: 'Retrieved all opportunities successfully',
+    };
+  } catch (error) {
+    return { status: 400, message: error.message };
+  }
+};
+
 const applyToAnOpportunity = async (
   opportunityID,
   { fullName, email, contactNo, availableTime, status, userID }
@@ -106,5 +130,6 @@ module.exports = {
   getVolunteers,
   applyToAnOpportunity,
   updateVolunteerApplication,
+  getRegisteredOpportunitiesByUserID,
   deleteVolunteerApplication,
 };

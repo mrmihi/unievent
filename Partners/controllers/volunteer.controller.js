@@ -37,6 +37,16 @@ const applyToAnOpportunity = async (req, res) => {
   return makeResponse({ res, ...result });
 };
 
+//getRegisteredOpportunitiesByUserID
+
+const getRegisteredOpportunitiesByUserID = async (req, res) => {
+  const userID = req.params.id;
+  const result = await VolunteerServices.getRegisteredOpportunitiesByUserID(
+    userID
+  );
+  return makeResponse({ res, ...result });
+};
+
 //update submitted volunteer details
 const updateVolunteerApplication = async (req, res) => {
   const result = await VolunteerServices.updateVolunteerApplication(
@@ -59,6 +69,7 @@ module.exports = {
   applyToAnOpportunity,
   getVolunteers,
   // getEventSpecificVolunteers,
+  getRegisteredOpportunitiesByUserID,
   deleteVolunteerApplication,
   updateVolunteerApplication,
 };

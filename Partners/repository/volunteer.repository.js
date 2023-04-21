@@ -5,6 +5,11 @@ const getVolunteers = async () => {
   return volunteers;
 };
 
+const getRegisteredOpportunitiesByUserID = async (userID) => {
+  const opportunities = await VolunteerModel.find({ userID: userID });
+  return opportunities;
+};
+
 const applyToAnOpportunity = async (
   fullName,
   email,
@@ -58,6 +63,7 @@ module.exports = {
   applyToAnOpportunity,
   checkIfVolunteerExists,
   checkIfVolunteerExistsById,
+  getRegisteredOpportunitiesByUserID,
   updateApplication,
   deleteApplication,
 };
