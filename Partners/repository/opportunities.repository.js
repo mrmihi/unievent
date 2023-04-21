@@ -24,6 +24,7 @@ const createOpportunity = async ({
   description,
   date,
   time,
+  opportunityImage,
   eventID,
 }) => {
   const opportunity = new OpportunityModel({
@@ -31,6 +32,7 @@ const createOpportunity = async ({
     description: description,
     date: date,
     time: time,
+    opportunityImage: opportunityImage,
     eventID: eventID,
   });
   const response = await opportunity.save();

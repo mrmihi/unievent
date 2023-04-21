@@ -21,6 +21,15 @@ const createAnOpportunity = async (req, res) => {
   });
 };
 
+//get details about an opportunities
+const getDetails = async (req, res) => {
+  const result = await OpportunityServices.getDetails(req.params.id);
+  return makeResponse({
+    res,
+    ...result,
+  });
+};
+
 //add an opportunity
 const updateAnOpportunity = async (req, res) => {
   const result = await OpportunityServices.updateAnOpportunity(
@@ -47,6 +56,7 @@ const deleteAnOpportunity = async (req, res) => {
 module.exports = {
   getOpportunities,
   createAnOpportunity,
+  getDetails,
   updateAnOpportunity,
   deleteAnOpportunity,
 };
