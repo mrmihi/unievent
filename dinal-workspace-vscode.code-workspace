@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "Frontend"
+		},
+		{
+			"path": "Event"
+		},
+		{
+			"path": "Frontend/src"
+		}
+	],
+	"settings": {}
+}
