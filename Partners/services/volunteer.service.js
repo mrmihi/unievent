@@ -23,15 +23,10 @@ const getVolunteers = async () => {
   }
 };
 
-const applyToAnOpportunity = async ({
-  fullName,
-  email,
-  contactNo,
-  availableTime,
-  status,
-  userID,
+const applyToAnOpportunity = async (
   opportunityID,
-}) => {
+  { fullName, email, contactNo, availableTime, status, userID }
+) => {
   try {
     const availableVolunteer = await VolunteerRepository.checkIfVolunteerExists(
       userID,

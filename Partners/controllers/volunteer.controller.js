@@ -28,7 +28,11 @@ const getVolunteers = async (req, res) => {
 
 //apply to an opportunity
 const applyToAnOpportunity = async (req, res) => {
-  const result = await VolunteerServices.applyToAnOpportunity(req.body);
+  const opportunityID = req.params.id;
+  const result = await VolunteerServices.applyToAnOpportunity(
+    opportunityID,
+    req.body
+  );
 
   return makeResponse({ res, ...result });
 };

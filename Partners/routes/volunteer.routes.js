@@ -14,7 +14,7 @@ const volunteerRouter = express.Router();
 //register as an volunteer
 volunteerRouter.get('/', getVolunteers);
 // volunteerRouter.get("/:id", getEventSpecificVolunteers);
-volunteerRouter.post('/', applyToAnOpportunity);
+volunteerRouter.post('/:id', applyToAnOpportunity);
 volunteerRouter.put('/:id', updateVolunteerApplication);
 volunteerRouter.delete('/:id', deleteVolunteerApplication);
 
