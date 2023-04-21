@@ -1,5 +1,6 @@
 const OpportunityServices = require('../services/opportunities.service.js');
 const makeResponse = require('../utils/response.js');
+// const EventController = require('../../Event/controllers/event.controller.js');
 
 //get all opportunities for a specific event
 const getOpportunities = async (req, res) => {
@@ -21,7 +22,17 @@ const createAnOpportunity = async (req, res) => {
   });
 };
 
-//get details about an opportunities
+// //get the event details by the opportunity id
+// const getEventDetails = async () => {
+//   const eventID = req.params.id;
+//   const result = await EventController.getEventById(eventID);
+//   return makeResponse({
+//     res,
+//     ...result,
+//   });
+// }
+
+//get details about an opportunity
 const getDetails = async (req, res) => {
   const result = await OpportunityServices.getDetails(req.params.id);
   return makeResponse({
