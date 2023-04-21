@@ -77,7 +77,7 @@ const eventSchema = new Schema(
       type: String,
     },
     org: {
-      type: [String],
+      type: String,
     },
     orgId: {
       type: Schema.Types.ObjectId,
