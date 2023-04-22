@@ -7,8 +7,8 @@ const logger = require('./Event/utils/logger');
 const mongoose = require('mongoose');
 const errorHandler = require('./Event/middleware/error_handler');
 const unknownEndpoint = require('./Event/middleware/unknown_endpoint');
-const Sentry = require('@sentry/node');
-const Tracing = require('@sentry/tracing');
+// const Sentry = require('@sentry/node');
+// const Tracing = require('@sentry/tracing');
 
 // <-------------- Sentry Intergration Starts -------------------->
 
@@ -52,6 +52,7 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static('build'));
 app.use('/api', router);
 app.use(unknownEndpoint);
 
