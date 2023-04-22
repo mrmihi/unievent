@@ -50,7 +50,14 @@ mongoose
     logger.error('error connecting to MongoDB:', error.message);
   });
 
-app.use(cors());
+//app.use(cors());
+
+const corsOptions = {
+  credentials: true,
+  origin: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('build'));
 app.use('/api', router);

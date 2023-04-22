@@ -14,6 +14,7 @@
 const EVENT_APPROVAL_STATUS = {
   INITIATED: "Initiated",
   LIC_APPROVAL: "LIC_Awaiting",
+  FM_APPROVAL: "FM_Awaiting",
   VM_APPROVAL: "VM_Awaiting",
   ADMIN_APPROVAL: "Admin_Awaiting",
   APPROVED: "Approved",
