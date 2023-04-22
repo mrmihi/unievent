@@ -34,7 +34,7 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const theme = createTheme();
 
 export default function Album({ events }) {
-  // console.log(events);
+  console.log(events);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -67,7 +67,7 @@ export default function Album({ events }) {
                       //pt: '56.25%'
                       pt: '0%',
                     }}
-                    image={event.image}
+                    image={event.headerImage}
                     alt="random"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
