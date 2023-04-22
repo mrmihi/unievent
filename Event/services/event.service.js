@@ -1,21 +1,28 @@
 const Event = require('../models/event.model');
+const validateRequest = require('../middleware/requestValidator');
 
-const createEvent = async ({
-  name,
-  description,
-  headerImage,
-  venue,
-  startTime,
-  endTime,
-  status,
-  category,
-  speakers,
-  capacity,
-  tags,
-  joinLink,
-  host,
-  faculty,
-}) => {
+// This function is not complete
+const createEvent = async (
+  {
+    name,
+    description,
+    headerImage,
+    venue,
+    startTime,
+    endTime,
+    status,
+    category,
+    speakers,
+    capacity,
+    tags,
+    joinLink,
+    host,
+    org,
+  },
+  Org
+) => {
+  const cId = Org._id;
+  console.log('cId : ', cId);
   const event = new Event({
     name,
     description,
@@ -30,20 +37,43 @@ const createEvent = async ({
     tags,
     host,
     joinLink,
-    faculty,
+    org,
+    orgId: cId,
   });
 
   return event.save();
 };
 
-const getAllEvents = async () => {};
-const getEventById = async () => {};
-const updateEventById = async () => {};
+/**
+ *
+ * @param id
+ * @returns {Query<Document | null, Document>}
+ */
+const getEventById = (id) => Event.findById(id);
+
+/**
+ *
+ * @param id
+ * @param body
+ * @param user
+ * @returns {Query<Document | null, Document>}
+ */
+const updateEventById = async (id, body, user) => {
+  const event = await Event.findById(id);
+  validateRequest(
+    event,
+    user,
+    'You can only make changes to events published by your faculty'
+  );
+  return await Event.findByIdAndUpdate(id, body, {
+    new: true,
+    runValidators: false,
+  });
+};
 const deleteEventById = async () => {};
 
 module.exports = {
   createEvent,
-  getAllEvents,
   getEventById,
   updateEventById,
   deleteEventById,
