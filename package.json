@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js",
+        "start": "cross-env NODE_ENV=production node index.js",
         "test": "cross-env NODE_ENV=test jest --verbose",
         "dev": "cross-env NODE_ENV=development nodemon index.js",
         "lint": "eslint .",
@@ -29,10 +29,10 @@
         "mongoose-unique-validator": "^4.0.0",
         "morgan": "^1.10.0",
         "mongoose-aggregate-paginate-v2": "^1.0.6",
-        "uuid": "^9.0.0"
+        "uuid": "^9.0.0",
+        "cross-env": "^7.0.3"
     },
     "devDependencies": {
-        "cross-env": "^7.0.3",
         "eslint": "^8.38.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-config-prettier": "^8.8.0",
