@@ -16,11 +16,11 @@ import Breakdown from './Attendee/scenes/breakdown';
 import RSVPEMAIL from './Attendee/scenes/revpemail';
 import Administrator from './Attendee/scenes/administrator';
 import AttendeeStatus from './Attendee/scenes/attendeeStatus';
-import ELayout from './event/scenes/layout';
-import EDashboard from './event/scenes/dashboard';
-import LoginPage from './event/scenes/login';
-import AllEvents from './event/eventOrg';
-import AllEventView from './event/AllEventView';
+import ELayout from './Event/scenes/layout';
+import EDashboard from './Event/scenes/dashboard';
+import LoginPage from './Event/scenes/login';
+import AllEvents from './Event/eventOrg';
+import AllEventView from './Event/AllEventView';
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -32,10 +32,7 @@ function App() {
           <CssBaseline />
           {/* Event Routes */}
           <Routes>
-            <Route path="/events" element={<AllEventView />}>
-              <Route path=":id" element={<AllEventView />} />
-            </Route>
-            <Route path="*" element={<h1>Page not found!</h1>} />
+            <Route path="/events" element={<AllEventView />}></Route>
             <Route path="/org" element={<LoginPage />} />
             <Route element={<ELayout />}>
               <Route
@@ -47,10 +44,6 @@ function App() {
             </Route>
             {/* Attendee Routes */}
             <Route element={<Layout />}>
-              <Route
-                path="/"
-                element={<Navigate to="/administrator/dashboard" replace />}
-              />
               <Route path="/administrator/dashboard" element={<Dashboard />} />
               <Route path="/administrator/feedBacks" element={<FeedBacks />} />
               <Route path="/administrator/attendees" element={<Attendees />} />
@@ -72,6 +65,7 @@ function App() {
                 element={<AttendeeStatus />}
               />
             </Route>
+            <Route path="*" element={<h1>Page not found!</h1>} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

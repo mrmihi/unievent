@@ -1,6 +1,6 @@
-import AllEvents from "./AllEvents";
-import { useEffect, useState } from "react";
-import eventService from "./event.service";
+import AllEvents from './AllEvents';
+import { useEffect, useState } from 'react';
+import eventService from './event.service';
 
 function AllEventView() {
   const [events, setEvents] = useState([]);
@@ -9,6 +9,7 @@ function AllEventView() {
     eventService.getAll().then((response) => setEvents(response));
   }, []);
 
+  console.log(events);
   return (
     <>
       <AllEvents events={events} />
