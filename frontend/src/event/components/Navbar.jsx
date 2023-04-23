@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Menu as MenuIcon,
   Search,
   ArrowDropDownOutlined,
-} from "@mui/icons-material";
-import FlexBetween from "event/components/FlexBetween";
-import { useDispatch } from "react-redux";
+} from '@mui/icons-material';
+import FlexBetween from 'Event/components/FlexBetween';
+import { useDispatch } from 'react-redux';
 
 import {
   AppBar,
@@ -18,8 +18,8 @@ import {
   Menu,
   MenuItem,
   useTheme,
-} from "@mui/material";
-import Logout from "../scenes/logout";
+} from '@mui/material';
+import Logout from '../scenes/logout';
 
 const Navbar = ({ attendee, isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
@@ -31,8 +31,8 @@ const Navbar = ({ attendee, isSidebarOpen, setIsSidebarOpen }) => {
   const handleClose = () => setAnchorEl(null);
 
   return (
-    <AppBar position="static" sx={{ background: "none", boxShadow: "none" }}>
-      <Toolbar sx={{ justifyContent: "space-between" }}>
+    <AppBar position="static" sx={{ background: 'none', boxShadow: 'none' }}>
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* LEFT SIDE */}
         <FlexBetween>
           <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
@@ -40,7 +40,7 @@ const Navbar = ({ attendee, isSidebarOpen, setIsSidebarOpen }) => {
           </IconButton>
         </FlexBetween>
         <div style={{ flexGrow: 1 }} />
-        <Button color="inherit" onClick={Logout} sx={{ float: "right" }}>
+        <Button color="inherit" onClick={Logout} sx={{ float: 'right' }}>
           Logout
         </Button>
       </Toolbar>
