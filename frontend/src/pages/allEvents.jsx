@@ -13,7 +13,13 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useMatch,
+} from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function Copyright() {
@@ -29,12 +35,13 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const theme = createTheme();
 
 export default function Album({ events }) {
-  console.log(events);
+  events.map((event) => {
+    event.url = `/events/${event.id}`;
+  });
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -60,16 +67,18 @@ export default function Album({ events }) {
                     flexDirection: 'column',
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      // 16:9
-                      //pt: '56.25%'
-                      pt: '0%',
-                    }}
-                    image={event.headerImage}
-                    alt="random"
-                  />
+                  <Link to={`/events/${event._id}`}>
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        // 16:9
+                        //pt: '56.25%'
+                        pt: '0%',
+                      }}
+                      image={event.headerImage}
+                      alt={event.name}
+                    />
+                  </Link>
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {event.name}
@@ -77,8 +86,8 @@ export default function Album({ events }) {
                     <Typography>{event.description}</Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
+                    {/* <Button size="small">View</Button>
+                    <Button size="small">Edit</Button> */}
                   </CardActions>
                 </Card>
               </Grid>

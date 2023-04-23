@@ -1,19 +1,13 @@
-import AllEvents from './pages/allEvents';
-import { useEffect, useState } from 'react';
-import eventService from './services/event';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import AnimatedRoutes from './routes';
 
-function App() {
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    eventService.getAll().then((response) => setEvents(response));
-  }, []);
-
+const App = () => {
   return (
-    <>
-      <AllEvents events={events} />
-    </>
+    <div className="App">
+      <BrowserRouter></BrowserRouter>
+    </div>
   );
-}
+};
 
 export default App;

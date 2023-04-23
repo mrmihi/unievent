@@ -36,15 +36,12 @@ const eventSchema = new Schema(
     },
     venue: {
       type: String,
-      required: true,
     },
     startTime: {
       type: Number,
-      required: true,
     },
     endTime: {
       type: Number,
-      required: true,
     },
     status: {
       type: String,
