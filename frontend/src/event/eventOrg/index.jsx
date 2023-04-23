@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import MaterialReactTable from "material-react-table";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import MaterialReactTable from 'material-react-table';
 import {
   Box,
   Button,
@@ -12,24 +12,24 @@ import {
   Stack,
   TextField,
   Tooltip,
-} from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { useNavigate, useParams } from "react-router-dom";
+} from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const OrgView = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
-  const [serverErrorMessage, setServerErrorMessage] = useState("");
-  const [serverSuccessMessage, setServerSuccessMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState('');
+  const [serverSuccessMessage, setServerSuccessMessage] = useState('');
   const navigate = useNavigate();
 
   // GET method
   const getEventData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/events`);
+      const response = await axios.get(`/api/events`);
       setTableData(response.data);
     } catch (error) {
       console.log(error);
@@ -54,20 +54,17 @@ const OrgView = () => {
   const handleCreateNewRow = async (values) => {
     const newValues = {
       ...values,
-      orgId: "642e4928973a5984d960f4bc",
+      orgId: '642e4928973a5984d960f4bc',
     };
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/events`,
-        newValues
-      );
+      const response = await axios.post(`/api/events`, newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
-      if (serverSuccessMessage !== "") {
-        Swal.fire("", response.data.message, "success").then(() =>
-          navigate("/volunteerOpportunities")
+      if (serverSuccessMessage !== '') {
+        Swal.fire('', response.data.message, 'success').then(() =>
+          navigate('/volunteerOpportunities')
         );
       }
     } catch (error) {
@@ -86,15 +83,12 @@ const OrgView = () => {
       };
       tableData[row.index] = newValues;
       try {
-        const response = await axios.put(
-          `http://localhost:5000/api/events/${row.getValue("_id")}`,
-          {
-            status: values.status,
-          }
-        );
+        const response = await axios.put(`/api/events/${row.getValue('_id')}`, {
+          status: values.status,
+        });
         setServerSuccessMessage(response.data.message);
-        if (serverSuccessMessage !== "") {
-          Swal.fire("", response.data.message, "success");
+        if (serverSuccessMessage !== '') {
+          Swal.fire('', response.data.message, 'success');
         }
       } catch (error) {
         setServerErrorMessage(error.response.data.message);
@@ -114,23 +108,23 @@ const OrgView = () => {
     (row) => {
       console.log(tableData._id);
       Swal.fire({
-        title: "Are you sure?",
+        title: 'Are you sure?',
         text: "You won't be able to revert this!",
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
         if (result.isConfirmed) {
           axios
-            .delete(`http://localhost:5000/api/events/${row.getValue("_id")}`)
+            .delete(`/api/events/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire("Deleted!", `Deleted!`, "success");
+              Swal.fire('Deleted!', `Deleted!`, 'success');
               console.log(response);
             })
             .catch((error) => {
-              Swal.fire("", "Failed to Delete!", "error");
+              Swal.fire('', 'Failed to Delete!', 'error');
               console.log(error);
             });
         }
@@ -142,8 +136,8 @@ const OrgView = () => {
   );
 
   useEffect(() => {
-    if (serverSuccessMessage !== "") {
-      Swal.fire("", serverSuccessMessage, "success");
+    if (serverSuccessMessage !== '') {
+      Swal.fire('', serverSuccessMessage, 'success');
     }
   }, [serverSuccessMessage]);
   const [status, setStatus] = useState(tableData.status);
@@ -151,10 +145,10 @@ const OrgView = () => {
   const updateStatus = (id) => {
     console.log(status);
     console.log(id);
-    if (status === "pending") {
-      setStatus("Approved");
+    if (status === 'pending') {
+      setStatus('Approved');
     } else {
-      setStatus("Rejected");
+      setStatus('Rejected');
     }
 
     const updatedTableData = tableData.map((item) => {
@@ -180,9 +174,9 @@ const OrgView = () => {
         helperText: validationErrors[cell.id],
         onBlur: (event) => {
           const isValid =
-            cell.column.id === "email"
+            cell.column.id === 'email'
               ? validateEmail(event.target.value)
-              : cell.column.id === "age"
+              : cell.column.id === 'age'
               ? validateAge(+event.target.value)
               : validateRequired(event.target.value);
           if (!isValid) {
@@ -204,13 +198,13 @@ const OrgView = () => {
     [validationErrors]
   );
 
-  const statusValues = ["Approved", "Rejected", "Pending"];
+  const statusValues = ['Approved', 'Rejected', 'Pending'];
 
   const columns = useMemo(
     () => [
       {
-        accessorKey: "_id",
-        header: "ID",
+        accessorKey: '_id',
+        header: 'ID',
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
@@ -218,8 +212,8 @@ const OrgView = () => {
         columnVisibility: false,
       },
       {
-        accessorKey: "name",
-        header: "Event Name",
+        accessorKey: 'name',
+        header: 'Event Name',
         enableEditing: false,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -227,8 +221,8 @@ const OrgView = () => {
         }),
       },
       {
-        accessorKey: "category",
-        header: "Category",
+        accessorKey: 'category',
+        header: 'Category',
         enableColumnOrdering: false,
         enableEditing: true,
         enableSorting: false,
@@ -236,8 +230,8 @@ const OrgView = () => {
         columnVisibility: false,
       },
       {
-        accessorKey: "capacity",
-        header: "Capacity",
+        accessorKey: 'capacity',
+        header: 'Capacity',
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
@@ -245,16 +239,16 @@ const OrgView = () => {
         columnVisibility: false,
       },
       {
-        accessorKey: "description",
-        header: "Description",
+        accessorKey: 'description',
+        header: 'Description',
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 80,
       },
       {
-        accessorKey: "status",
-        header: "Status",
+        accessorKey: 'status',
+        header: 'Status',
 
         muiTableBodyCellEditTextFieldProps: () => ({
           children: statusValues.map((value) => (
@@ -273,9 +267,9 @@ const OrgView = () => {
     <>
       <MaterialReactTable
         displayColumnDefOptions={{
-          "mrt-row-actions": {
+          'mrt-row-actions': {
             muiTableHeadCellProps: {
-              align: "center",
+              align: 'center',
             },
             size: 50,
           },
@@ -284,7 +278,7 @@ const OrgView = () => {
         data={tableData}
         initialState={{
           columnVisibility: { _id: false, description: false },
-          density: "compact",
+          density: 'compact',
         }}
         editingMode="modal" //default
         enableColumnOrdering
@@ -292,7 +286,7 @@ const OrgView = () => {
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
-          <Box sx={{ display: "flex", gap: "1rem" }}>
+          <Box sx={{ display: 'flex', gap: '1rem' }}>
             <Tooltip arrow placement="left" title="Edit">
               <IconButton onClick={() => table.setEditingRow(row)}>
                 <Edit />
@@ -337,7 +331,7 @@ const OrgView = () => {
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
-      acc[column.accessorKey ?? ""] = "";
+      acc[column.accessorKey ?? ''] = '';
       return acc;
     }, {})
   );
@@ -386,9 +380,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
             sx={{
-              width: "100%",
-              minWidth: { xs: "300px", sm: "360px", md: "400px" },
-              gap: "1.5rem",
+              width: '100%',
+              minWidth: { xs: '300px', sm: '360px', md: '400px' },
+              gap: '1.5rem',
             }}
           >
             {columns.map((column) => {
@@ -407,7 +401,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                   />
                 );
               }
-              if (column.accessorKey !== "_id") {
+              if (column.accessorKey !== '_id') {
                 return (
                   <TextField
                     key={column.accessorKey}
@@ -437,7 +431,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           </Stack>
         </form>
       </DialogContent>
-      <DialogActions sx={{ p: "1.25rem" }}>
+      <DialogActions sx={{ p: '1.25rem' }}>
         <Button onClick={onClose}>Cancel</Button>
         <Button onClick={handleSubmit} variant="contained">
           ADD THE SPEAKER
