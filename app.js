@@ -7,6 +7,20 @@ const logger = require('./Event/utils/logger');
 const mongoose = require('mongoose');
 const errorHandler = require('./Event/middleware/error_handler');
 const unknownEndpoint = require('./Event/middleware/unknown_endpoint');
+
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const helmet = require('helmet');
+const morgan = require('morgan');
+
+dotenv.config();
+app.use(express.json());
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
+app.use(morgan('common'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors({ origin: `${process.env.CLIENT_URL}` }));
 // const Sentry = require('@sentry/node');
 // const Tracing = require('@sentry/tracing');
 

@@ -1,30 +1,30 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Button from "@mui/material/Button";
+import CameraIcon from "@mui/icons-material/PhotoCamera";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import Link from "@mui/material/Link";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://github.com/mrmihi/ITP_WD_B01_G11">
         UniEventPro
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -34,7 +34,7 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const theme = createTheme();
 
 export default function Album({ events }) {
-  console.log(events);
+  // console.log(events);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -55,9 +55,9 @@ export default function Album({ events }) {
               <Grid item key={event._id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                 >
                   <CardMedia
@@ -65,7 +65,7 @@ export default function Album({ events }) {
                     sx={{
                       // 16:9
                       //pt: '56.25%'
-                      pt: '0%',
+                      pt: "0%",
                     }}
                     image={event.headerImage}
                     alt="random"
@@ -88,7 +88,7 @@ export default function Album({ events }) {
       </main>
 
       {/* Footer */}
-      <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+      <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
         <Copyright />
       </Box>
       {/* End footer */}
