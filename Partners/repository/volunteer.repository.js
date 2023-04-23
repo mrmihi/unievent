@@ -10,6 +10,15 @@ const getRegisteredOpportunitiesByUserID = async (userID) => {
   return opportunities;
 };
 
+const updateApplicationStatus = async (id, value) => {
+  const response = await VolunteerModel.findByIdAndUpdate(
+    id,
+    { $set: { status: value } },
+    { new: true }
+  );
+  return response;
+};
+
 const applyToAnOpportunity = async (
   fullName,
   email,
@@ -64,6 +73,7 @@ module.exports = {
   checkIfVolunteerExists,
   checkIfVolunteerExistsById,
   getRegisteredOpportunitiesByUserID,
+  updateApplicationStatus,
   updateApplication,
   deleteApplication,
 };

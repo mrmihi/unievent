@@ -6,6 +6,7 @@ const {
   getRegisteredOpportunitiesByUserID,
   getVolunteers,
   updateVolunteerApplication,
+  updateApplicationStatus,
 } = require('../controllers/volunteer.controller.js');
 
 const volunteerRouter = express.Router();
@@ -18,6 +19,7 @@ volunteerRouter.get('/', getVolunteers);
 volunteerRouter.post('/:id', applyToAnOpportunity);
 volunteerRouter.get('/:id', getRegisteredOpportunitiesByUserID);
 volunteerRouter.put('/:id', updateVolunteerApplication);
+volunteerRouter.put('/status/:id', updateApplicationStatus);
 volunteerRouter.delete('/:id', deleteVolunteerApplication);
 
 module.exports = volunteerRouter;

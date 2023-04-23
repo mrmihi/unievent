@@ -47,6 +47,15 @@ const getRegisteredOpportunitiesByUserID = async (req, res) => {
   return makeResponse({ res, ...result });
 };
 
+//updateApplicationStatus
+
+const updateApplicationStatus = async (req, res) => {
+  const id = req.params.id;
+  const { status } = req.body;
+  const result = await VolunteerServices.updateApplicationStatus(id, status);
+  return makeResponse({ res, ...result });
+};
+
 //update submitted volunteer details
 const updateVolunteerApplication = async (req, res) => {
   const result = await VolunteerServices.updateVolunteerApplication(
@@ -70,6 +79,7 @@ module.exports = {
   getVolunteers,
   // getEventSpecificVolunteers,
   getRegisteredOpportunitiesByUserID,
+  updateApplicationStatus,
   deleteVolunteerApplication,
   updateVolunteerApplication,
 };

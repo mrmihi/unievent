@@ -47,6 +47,26 @@ const getRegisteredOpportunitiesByUserID = async (userID) => {
   }
 };
 
+const updateApplicationStatus = async (id, value) => {
+  try {
+    const result = await VolunteerRepository.updateApplicationStatus(id, value);
+    if (!result) {
+      return {
+        status: 400,
+
+        message: 'Failed to update status',
+      };
+    }
+    return {
+      status: 200,
+      data: result,
+      message: 'Update the Status',
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const applyToAnOpportunity = async (
   opportunityID,
   { fullName, email, contactNo, availableTime, status, userID }
@@ -130,6 +150,7 @@ module.exports = {
   getVolunteers,
   applyToAnOpportunity,
   updateVolunteerApplication,
+  updateApplicationStatus,
   getRegisteredOpportunitiesByUserID,
   deleteVolunteerApplication,
 };
