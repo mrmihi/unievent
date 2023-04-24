@@ -12,11 +12,12 @@ import {
   Stack,
   TextField,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 
 const OrgView = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -35,10 +36,6 @@ const OrgView = () => {
       console.log(error);
     }
   };
-
-  //   let { eventID } = useParams();
-  //   eventID = eventID.toString();
-  //   console.log(typeof eventID);
 
   // Running the GET method
   useEffect(() => {
@@ -64,7 +61,7 @@ const OrgView = () => {
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
         Swal.fire('', response.data.message, 'success').then(() =>
-          navigate('/volunteerOpportunities')
+          navigate('/org/dashboard')
         );
       }
     } catch (error) {
@@ -106,7 +103,6 @@ const OrgView = () => {
   //deleting row edits
   const handleDeleteRow = useCallback(
     (row) => {
-      console.log(tableData._id);
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -120,17 +116,17 @@ const OrgView = () => {
           axios
             .delete(`/api/events/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted!`, 'success');
+              Swal.fire('Deleted!', `Deleted The Event!`, 'success');
               console.log(response);
+              tableData.splice(row.index, 1);
+              setTableData([...tableData]);
             })
             .catch((error) => {
-              Swal.fire('', 'Failed to Delete!', 'error');
+              Swal.fire('', 'Failed to Delete The Event!.', 'error');
               console.log(error);
             });
         }
       });
-      tableData.splice(row.index, 1);
-      setTableData([...tableData]);
     },
     [tableData]
   );
@@ -198,7 +194,7 @@ const OrgView = () => {
     [validationErrors]
   );
 
-  const statusValues = ['Approved', 'Rejected', 'Pending'];
+  const statusValues = ['Archived', 'Active', 'Upcoming'];
 
   const columns = useMemo(
     () => [
@@ -224,7 +220,7 @@ const OrgView = () => {
         accessorKey: 'category',
         header: 'Category',
         enableColumnOrdering: false,
-        enableEditing: true,
+        enableEditing: false,
         enableSorting: false,
         size: 80,
         columnVisibility: false,
@@ -263,6 +259,8 @@ const OrgView = () => {
     [getCommonEditTextFieldProps]
   );
 
+  if (!tableData) return <h1>Loading...</h1>;
+
   return (
     <>
       <MaterialReactTable
@@ -292,13 +290,6 @@ const OrgView = () => {
                 <Edit />
               </IconButton>
             </Tooltip>
-            {/* {console.log(row)} */}
-            {/* <Button
-              variant="contained"
-              onClick={() => updateStatus(row.original._id)}
-            >
-              Status
-            </Button> */}
             <Tooltip arrow title="Delete">
               <IconButton color="error" onClick={() => handleDeleteRow(row)}>
                 <Delete />
@@ -308,13 +299,25 @@ const OrgView = () => {
         )}
         positionActionsColumn="last"
         renderTopToolbarCustomActions={() => (
-          <Button
-            color="secondary"
-            onClick={() => setCreateModalOpen(true)}
-            variant="contained"
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '1rem',
+              p: '0.5rem',
+              flexWrap: 'wrap',
+            }}
           >
-            Create a New Event
-          </Button>
+            <Button
+              color="secondary"
+              onClick={() => setCreateModalOpen(true)}
+              variant="contained"
+            >
+              Create A New Event
+            </Button>
+            <Button color="secondary" variant="contained">
+              Export All Event Details
+            </Button>
+          </Box>
         )}
       />
       <CreateNewAccountModal
@@ -327,7 +330,7 @@ const OrgView = () => {
   );
 };
 
-//All Events of creating a mui dialog modal for creating new rows
+//Event Creation Model -- Start
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
@@ -341,41 +344,40 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     onSubmit(values);
     onClose();
   };
+  const [imageSelected, setImageSelected] = useState('');
 
-  // const [imageSelected, setImageSelected] = useState("");
+  const uploadImage = () => {
+    if (imageSelected) {
+      const formData = new FormData();
+      formData.append('file', imageSelected);
+      formData.append('upload_preset', 'rytp0oyr');
 
-  // const uploadImage = () => {
-  //   if (imageSelected) {
-  //     const formData = new FormData();
-  //     formData.append("file", imageSelected);
-  //     formData.append("upload_preset", "vief6ix8");
+      axios
+        .post(
+          'https://api.cloudinary.com/v1_1/dn3wwir7s/image/upload',
+          formData
+        )
+        .then((response) => {
+          console.log(response);
+          const imageUrl = response.data.secure_url;
+          setValues({
+            ...values,
+            headerImage: imageUrl,
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
 
-  //     axios
-  //       .post(
-  //         "https://api.cloudinary.com/v1_1/dpi1yqznl/image/upload",
-  //         formData
-  //       )
-  //       .then((response) => {
-  //         console.log(response);
-  //         const imageUrl = response.data.secure_url;
-  //         setValues({
-  //           ...values,
-  //           speakerImage: imageUrl,
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   uploadImage();
-  // }, [imageSelected]);
+  useEffect(() => {
+    uploadImage();
+  }, [imageSelected]);
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Create New Account</DialogTitle>
+      <DialogTitle textAlign="center">Create New Event</DialogTitle>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
@@ -401,7 +403,10 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                   />
                 );
               }
-              if (column.accessorKey !== '_id') {
+              if (
+                column.accessorKey !== '_id' &&
+                column.accessorKey !== 'status'
+              ) {
                 return (
                   <TextField
                     key={column.accessorKey}
@@ -416,30 +421,35 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 console.log(column.accessorKey);
               }
             })}
-            {/* <TextField
-              key="speakerImage"
-              label="Speaker Image"
-              name="speakerImage"
+
+            <Typography>Upload Event Image (Max Size: 5MB)</Typography>
+            <TextField
+              key="headerImage"
+              name="headerImage"
               type="file"
               onChange={(e) => {
                 setImageSelected(e.target.files[0]);
                 console.log(imageSelected);
                 uploadImage();
                 setValues({ ...values, [e.target.name]: e.target.value });
+                console.log(values.headerImage);
               }}
-            /> */}
+            />
           </Stack>
         </form>
       </DialogContent>
       <DialogActions sx={{ p: '1.25rem' }}>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSubmit} variant="contained">
-          ADD THE SPEAKER
+        <Button color="secondary" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button color="secondary" onClick={handleSubmit} variant="contained">
+          ADD EVENT
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
+//Event Creation Model -- End
 
 const validateRequired = (value) => !!value.length;
 const validateEmail = (email) =>

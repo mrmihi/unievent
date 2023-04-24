@@ -13,8 +13,10 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
+import eventService from './event.service';
+import { useState, useEffect } from 'react';
 
 function Copyright() {
   return (
@@ -31,8 +33,7 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function Album({ events }) {
-  // console.log(events);
+export default function AllEvents({ events }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -58,16 +59,18 @@ export default function Album({ events }) {
                     flexDirection: 'column',
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      // 16:9
-                      //pt: '56.25%'
-                      pt: '0%',
-                    }}
-                    image={event.headerImage}
-                    alt="random"
-                  />
+                  <Link to={`/events/${event._id}`}>
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        // 16:9
+                        //pt: '56.25%'
+                        pt: '0%',
+                      }}
+                      image={event.headerImage}
+                      alt="random"
+                    />
+                  </Link>
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {event.name}

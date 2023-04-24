@@ -9,7 +9,6 @@ function AllEventView() {
     eventService.getAll().then((response) => setEvents(response));
   }, []);
 
-  console.log(events);
   return (
     <>
       <AllEvents events={events} />

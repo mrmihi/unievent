@@ -1,9 +1,22 @@
 import axios from 'axios';
 const baseUrl = '/api/events';
 
-const getAll = () => {
-  const request = axios.get(baseUrl);
-  return request.then((response) => response.data);
+const getAll = async () => {
+  try {
+    const response = await axios.get(baseUrl);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getOne = async (id) => {
+  try {
+    const response = await axios.get(`${baseUrl}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const create = (newObject) => {
@@ -24,5 +37,5 @@ const update = (id, newObject) => {
   return request.then((response) => response.data);
 };
 
-const eventService = { getAll, create, erase, update };
+const eventService = { getAll, getOne, create, erase, update };
 export default eventService;
