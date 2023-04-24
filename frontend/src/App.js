@@ -96,6 +96,7 @@ function App() {
                   element={<AttendeeStatus />}
                 />
               </Route>
+
               <Route path="*" element={<h1>Page not found!</h1>} />
             </Routes>
           </ThemeProvider>
