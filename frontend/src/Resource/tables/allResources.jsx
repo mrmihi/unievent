@@ -143,7 +143,7 @@ const OrgView = () => {
     }
   }, [serverSuccessMessage]);
 
-  const [availableqty, setAvailableqty] = useState(tableData.availableQty);
+  const [status, setStatus] = useState(tableData.availableQty);
 
   const updateStatus = (id) => {
     console.log(status);
@@ -159,7 +159,7 @@ const OrgView = () => {
         // replace "selectedItemId" with the actual ID of the item you want to update
         return {
           ...item,
-          availableQty: availableqty,
+          status: status,
         };
       } else {
         return item;
