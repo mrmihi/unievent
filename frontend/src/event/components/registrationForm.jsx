@@ -28,23 +28,19 @@ const OpportunityRegister = () => {
 
   const registerToAnEvent = async (data) => {
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/events/registrants`,
-        data
-      );
-      setServerSuccessMessage(response.data.message);
+      const response = await axios.post(`/api/registrants`, data);
+      setServerSuccessMessage(response.data);
+      console.log(`response: ${response}`);
     } catch (error) {
-      setServerErrorMessage(error.response.data.message);
+      setServerErrorMessage(error);
     }
   };
 
   useEffect(() => {
     if (serverSuccessMessage !== '') {
-      Swal.fire('', serverSuccessMessage, 'success').then(() =>
-        navigate(`users/event/appliedOpportunities/${userID}`)
-      );
+      Swal.fire('', 'success').then(() => navigate(`/events/${id}`));
     }
-  }, [navigate, serverSuccessMessage]);
+  }, [navigate, serverSuccessMessage, id]);
 
   useEffect(() => {
     if (serverErrorMessage !== '') {
@@ -85,6 +81,11 @@ const OpportunityRegister = () => {
           <div className="flex items-center justify-center shadow-lg border-1  mr-96 ml-96 p-6 rounded-md border-slate-900">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex items-center">
+                <TextField
+                  value={userID}
+                  style={{ display: 'none' }}
+                  {...register('userId')}
+                />
                 <TextField
                   value={id}
                   style={{ display: 'none' }}
@@ -149,19 +150,19 @@ const OpportunityRegister = () => {
                   <Typography variant="h6">Food Preference</Typography>
                   <FormControlLabel
                     {...register('foodPref', { required: true })}
-                    control={<Radio value="Morning" />}
+                    control={<Radio value="Veg" />}
                     label="Veg"
                   />
                   <FormControlLabel
                     {...register('foodPref', { required: true })}
-                    control={<Radio value="Evening" />}
+                    control={<Radio value="Non-Veg" />}
                     label="Non-Veg"
                   />
                 </div>
                 <div>
-                  {errors.availableTime && (
+                  {errors.foodPref && (
                     <Typography variant="body" color="error">
-                      {errors.availableTime.message}
+                      {errors.foodPref.message}
                     </Typography>
                   )}
                 </div>
