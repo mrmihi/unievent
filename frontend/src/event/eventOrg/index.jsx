@@ -18,6 +18,10 @@ import { Delete, Edit } from '@mui/icons-material';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import { MobileDateTimePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateField } from '@mui/x-date-pickers/DateField';
+import { Dayjs } from 'dayjs';
 
 const OrgView = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -345,6 +349,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     onClose();
   };
   const [imageSelected, setImageSelected] = useState('');
+  const [startTime, setStartTime] = React.useState(null);
 
   const uploadImage = () => {
     if (imageSelected) {
@@ -421,7 +426,21 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 console.log(column.accessorKey);
               }
             })}
-
+            <MobileDateTimePicker
+              key="startTime"
+              name="startTime"
+              value={startTime}
+              onChange={(newValue) => {
+                setStartTime(newValue);
+                setValues({ ...values, startTime: startTime.$d });
+                console.log(startTime.$d);
+              }}
+              // onChange={(e) => {
+              //
+              //   console.log(e.target.value);
+              //   console.log(values.startTime);
+              // }}
+            />
             <Typography>Upload Event Image (Max Size: 5MB)</Typography>
             <TextField
               key="headerImage"
