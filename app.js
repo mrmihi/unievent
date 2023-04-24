@@ -1,12 +1,27 @@
 const config = require('./Event/utils/config');
 const express = require('express');
 require('express-async-errors');
+const path = require('path');
 const app = express();
 const cors = require('cors');
 const logger = require('./Event/utils/logger');
 const mongoose = require('mongoose');
 const errorHandler = require('./Event/middleware/error_handler');
 const unknownEndpoint = require('./Event/middleware/unknown_endpoint');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const helmet = require('helmet');
+const morgan = require('morgan');
+
+// dotenv.config();
+// app.use(express.json());
+// app.use(helmet());
+// app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
+app.use(morgan('common'));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(cors({ origin: `${process.env.CLIENT_URL}` }));
+
 // const Sentry = require('@sentry/node');
 // const Tracing = require('@sentry/tracing');
 
@@ -52,7 +67,13 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('build'));
+app.use('/api', router);
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+// app.use(express.static('build'));
 app.use('/api', router);
 app.use(unknownEndpoint);
 
