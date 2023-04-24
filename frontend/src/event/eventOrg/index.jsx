@@ -22,6 +22,7 @@ import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { Dayjs } from 'dayjs';
+import EventPDF from '../pdf/EventPDF';
 
 const OrgView = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -321,6 +322,7 @@ const OrgView = () => {
             <Button color="secondary" variant="contained">
               Export All Event Details
             </Button>
+            <EventPDF tableData={tableData} />
           </Box>
         )}
       />
@@ -417,6 +419,10 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                     key={column.accessorKey}
                     label={column.header}
                     name={column.accessorKey}
+                    // required
+                    // // value={values.accessorKey}
+                    // error={!values.name} // Here, we're setting the error prop based on whether the name field is empty or not
+                    // helperText={!values.name ? 'Please enter a venue name' : ''}
                     onChange={(e) =>
                       setValues({ ...values, [e.target.name]: e.target.value })
                     }
@@ -430,6 +436,10 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
             <MobileDateTimePicker
               key="startTime"
               name="startTime"
+              required
+              // value={values.startTime}
+              error={!values.startTime} // Here, we're setting the error prop based on whether the name field is empty or not
+              helperText={!values.startTime ? 'Please enter a venue name' : ''} // Here, we're showing an error message if the name field is empty
               onChange={(newValue) => {
                 setValues({ ...values, startTime: newValue.$d });
               }}
