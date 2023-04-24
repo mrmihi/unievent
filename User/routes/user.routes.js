@@ -15,7 +15,7 @@ const { protect,
 
 const userRouter = express.Router();//create router
 
-userRouter.post('/register',protect,createUser); //create user
+userRouter.post('/register',protect, adminProtect, createUser); //create user
 userRouter.post('/login',loginUser);//login user
 userRouter.get('/',getAllUsers);//get all users
 userRouter.get('/profile', protect, getMe);//get all users')
