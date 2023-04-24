@@ -8,7 +8,10 @@ const Dashboard = () => {
     <Box m="1.5rem 2.5rem">
       <div>
         <FlexBetween>
-          <Header title="Venue Manger" subtitle="Welcome to your dashboard" />
+          <Header
+            title="Resource Manger"
+            subtitle="Welcome to your dashboard"
+          />
         </FlexBetween>
       </div>
     </Box>

@@ -8,7 +8,7 @@ const { Schema, model } = require('mongoose');
 const resourceSchema = new Schema({
   name: { type: String, required: true },
   quantity: { type: Number, required: true },
-  availbelQty: { type: Number, required: true },
+  availableQty: { type: Number },
   image_url: { type: String, required: true },
 });
 

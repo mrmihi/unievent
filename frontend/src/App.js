@@ -25,6 +25,11 @@ import AllEventView from './Event/AllEventView';
 import EventCreationForm from 'Event/components/registrationForm';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import RLayout from './Resource/scenes/layout';
+import RDashboard from './Resource/scenes/dashboard';
+import ResourcesTable from './Resource/tables/allResources';
+import PageNotFound from './Event/pages/PageNotFound.jsx';
+import AllResourcesView from 'Resource/pages/AllResourcesView';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -96,8 +101,23 @@ function App() {
                   element={<AttendeeStatus />}
                 />
               </Route>
-
-              <Route path="*" element={<h1>Page not found!</h1>} />
+              {/* Resource Routes */}
+              <Route path="/admin/resources" element={<AllResourcesView />} />
+              <Route element={<RLayout />}>
+                <Route
+                  path="/admin/resources/dashboard/*"
+                  element={<Navigate to="/admin/resources/dashboard" replace />}
+                />
+                <Route
+                  path="/admin/resources/dashboard"
+                  element={<RDashboard />}
+                />
+                <Route
+                  path="/admin/resources/dashboard/resources"
+                  element={<ResourcesTable />}
+                />
+              </Route>
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
           </ThemeProvider>
         </BrowserRouter>

@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import eventService from './event.service';
+import resourcesService from '../resources.service';
 import { useState, useEffect } from 'react';
 
 function Copyright() {
@@ -33,7 +33,7 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function AllEvents({ events }) {
+export default function AllResources({ resources }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -50,8 +50,8 @@ export default function AllEvents({ events }) {
       <main>
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
-            {events.map((event) => (
-              <Grid item key={event._id} xs={12} sm={6} md={4}>
+            {resources.map((resource) => (
+              <Grid item key={resource._id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
                     height: '100%',
@@ -59,28 +59,23 @@ export default function AllEvents({ events }) {
                     flexDirection: 'column',
                   }}
                 >
-                  <Link to={`/events/${event._id}`}>
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        // 16:9
-                        //pt: '56.25%'
-                        pt: '0%',
-                      }}
-                      image={event.headerImage}
-                      alt="random"
-                    />
-                  </Link>
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      // 16:9
+                      //pt: '56.25%'
+                      pt: '0%',
+                    }}
+                    image={resource.image_url}
+                    alt="random"
+                  />
+
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {event.name}
+                      {resource.name}
                     </Typography>
-                    <Typography>{event.description}</Typography>
+                    <Typography>{resource.quantity}</Typography>
                   </CardContent>
-                  <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
-                  </CardActions>
                 </Card>
               </Grid>
             ))}
