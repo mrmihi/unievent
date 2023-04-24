@@ -24,6 +24,11 @@ const orgSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    incharge:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    }
   },
   {
     versionKey: false,

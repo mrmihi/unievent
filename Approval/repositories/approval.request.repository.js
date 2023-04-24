@@ -1,5 +1,13 @@
 const { Approval_Request } = require("../models/approval.model");
 
+const getApprovalRequestsOfUser = async (userID) => {
+    const eventApprovals = await Approval_Request.find({ requested_to: userID })
+            .populate("requested_to")
+            .populate("requested_by")
+    
+    return eventApprovals;
+};
+
 const getAllApprovalRequests = async () => {
     const eventApprovals = await Approval_Request.find({})
             .populate("requested_to")
@@ -40,4 +48,5 @@ module.exports = {
     getAllApprovalRequests,
     updateApprovalRequest,
     deleteApprovalRequest,
+    getApprovalRequestsOfUser
 };

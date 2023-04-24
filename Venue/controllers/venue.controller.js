@@ -23,7 +23,7 @@ const getAllVenues = async (req, res) => {
 
 const getVenueById = async (req, res) => {
   try{
-    const venue = await Venue.findById(req.params.id)
+    const venue = await Venue.findById(req.params.id).populate('manager')
     res.status(200).json(venue)
   }catch (error){
       res.status(500).json({message: error.message})

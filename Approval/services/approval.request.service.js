@@ -1,6 +1,29 @@
 const { Approval_Request } = require("../models/approval.model");
 const approvalRequestRepository = require("../repositories/approval.request.repository.js");
 
+const getApprovalRequestsOfUser = async (userID) => {
+  try {
+    const approvalRequests = await approvalRequestRepository.getApprovalRequestsOfUser(userID);
+
+    if (approvalRequests.length == 0) {
+      return {
+        success: false,
+        message: "No Approval Requests found",
+      };
+    }
+
+    return {
+      message: "Approval Requests fetched successfully",
+      data: approvalRequests,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
 const createApprovalRequest = async (approvalRequestData) => {
   try {
     const approvalRequest = await approvalRequestRepository.createApprovalRequest(approvalRequestData);
@@ -120,4 +143,5 @@ module.exports = {
     getApprovalRequest,
     updateApprovalRequest,
     deleteApprovalRequest,
+    getApprovalRequestsOfUser
 };
