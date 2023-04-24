@@ -2,11 +2,11 @@ const Resource = require('../models/resource.model');
 const validateRequest = require('../middleware/requestValidator');
 
 // This function is not complete
-const createResource = async ({ name, quantity, availbelQty, image_url }) => {
+const createResource = async ({ name, quantity, availableQty, image_url }) => {
   const resource = new Resource({
     name,
     quantity,
-    availbelQty,
+    availableQty,
     image_url,
   });
 

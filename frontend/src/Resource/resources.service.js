@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = '/api/events';
+const baseUrl = '/api/resources';
 
 const getAll = async () => {
   try {

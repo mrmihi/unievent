@@ -32,9 +32,9 @@ const OrgView = () => {
   const navigate = useNavigate();
 
   // GET method
-  const getEventData = async () => {
+  const getResourceData = async () => {
     try {
-      const response = await axios.get(`/api/events`);
+      const response = await axios.get(`/api/resources`);
       setTableData(response.data);
     } catch (error) {
       console.log(error);
@@ -43,29 +43,28 @@ const OrgView = () => {
 
   // Running the GET method
   useEffect(() => {
-    const fetchEventData = async () => {
+    const fetchResourceData = async () => {
       // setIsLoading(true);
-      await getEventData();
+      await getResourceData();
       // setIsLoading(false);
     };
-    fetchEventData();
+    fetchResourceData();
   }, []);
 
   // CREATE method
   const handleCreateNewRow = async (values) => {
     const newValues = {
       ...values,
-      orgId: '642e4928973a5984d960f4bc',
     };
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(`/api/events`, newValues);
+      const response = await axios.post(`/api/resources`, newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
         Swal.fire('', response.data.message, 'success').then(() =>
-          navigate('/org/dashboard')
+          navigate('/admin/resources/dashboard')
         );
       }
     } catch (error) {
@@ -80,13 +79,16 @@ const OrgView = () => {
     if (!Object.keys(validationErrors).length) {
       const newValues = {
         ...values,
-        status: values.status,
+        availableQty: values.availableQty,
       };
       tableData[row.index] = newValues;
       try {
-        const response = await axios.put(`/api/events/${row.getValue('_id')}`, {
-          status: values.status,
-        });
+        const response = await axios.put(
+          `/api/resources/${row.getValue('_id')}`,
+          {
+            availableQty: values.availableQty,
+          }
+        );
         setServerSuccessMessage(response.data.message);
         if (serverSuccessMessage !== '') {
           Swal.fire('', response.data.message, 'success');
@@ -118,15 +120,15 @@ const OrgView = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           axios
-            .delete(`/api/events/${row.getValue('_id')}`)
+            .delete(`/api/resources/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Event!`, 'success');
+              Swal.fire('Deleted!', `Deleted The Resources!`, 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);
             })
             .catch((error) => {
-              Swal.fire('', 'Failed to Delete The Event!.', 'error');
+              Swal.fire('', 'Failed to Delete The Resources!.', 'error');
               console.log(error);
             });
         }
@@ -140,7 +142,8 @@ const OrgView = () => {
       Swal.fire('', serverSuccessMessage, 'success');
     }
   }, [serverSuccessMessage]);
-  const [status, setStatus] = useState(tableData.status);
+
+  const [availableqty, setAvailableqty] = useState(tableData.availableQty);
 
   const updateStatus = (id) => {
     console.log(status);
@@ -156,7 +159,7 @@ const OrgView = () => {
         // replace "selectedItemId" with the actual ID of the item you want to update
         return {
           ...item,
-          status: status,
+          availableQty: availableqty,
         };
       } else {
         return item;
@@ -172,13 +175,13 @@ const OrgView = () => {
       return {
         error: !!validationErrors[cell.id],
         helperText: validationErrors[cell.id],
-        onBlur: (event) => {
+        onBlur: (resources) => {
           const isValid =
             cell.column.id === 'email'
-              ? validateEmail(event.target.value)
+              ? validateEmail(resources.target.value)
               : cell.column.id === 'age'
-              ? validateAge(+event.target.value)
-              : validateRequired(event.target.value);
+              ? validateAge(+resources.target.value)
+              : validateRequired(resources.target.value);
           if (!isValid) {
             //set validation error for cell if invalid
             setValidationErrors({
@@ -198,7 +201,7 @@ const OrgView = () => {
     [validationErrors]
   );
 
-  const statusValues = ['Archived', 'Active', 'Upcoming'];
+  // const statusValues = ['Archived', 'Active', 'Upcoming'];
 
   const columns = useMemo(
     () => [
@@ -213,7 +216,7 @@ const OrgView = () => {
       },
       {
         accessorKey: 'name',
-        header: 'Event Name',
+        header: 'Resources Name',
         enableEditing: false,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -221,8 +224,8 @@ const OrgView = () => {
         }),
       },
       {
-        accessorKey: 'category',
-        header: 'Category',
+        accessorKey: 'quantity',
+        header: 'Quantity',
         enableColumnOrdering: false,
         enableEditing: false,
         enableSorting: false,
@@ -230,34 +233,13 @@ const OrgView = () => {
         columnVisibility: false,
       },
       {
-        accessorKey: 'capacity',
-        header: 'Capacity',
+        accessorKey: 'availableQty',
+        header: 'Available Quantity',
         enableColumnOrdering: false,
-        enableEditing: false, //disable editing on this column
+        enableEditing: true, //disable editing on this column
         enableSorting: false,
         size: 80,
         columnVisibility: false,
-      },
-      {
-        accessorKey: 'description',
-        header: 'Description',
-        enableColumnOrdering: false,
-        enableEditing: false, //disable editing on this column
-        enableSorting: false,
-        size: 80,
-      },
-      {
-        accessorKey: 'status',
-        header: 'Status',
-
-        muiTableBodyCellEditTextFieldProps: () => ({
-          children: statusValues.map((value) => (
-            <MenuItem key={value} value={value}>
-              {value}
-            </MenuItem>
-          )),
-          select: true,
-        }),
       },
     ],
     [getCommonEditTextFieldProps]
@@ -316,10 +298,10 @@ const OrgView = () => {
               onClick={() => setCreateModalOpen(true)}
               variant="contained"
             >
-              Create A New Event
+              Create A New Resources
             </Button>
             <Button color="secondary" variant="contained">
-              Export All Event Details
+              Export All Resources Details
             </Button>
           </Box>
         )}
@@ -334,7 +316,7 @@ const OrgView = () => {
   );
 };
 
-//Event Creation Model -- Start
+//Resources Creation Model -- Start
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
@@ -367,7 +349,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           const imageUrl = response.data.secure_url;
           setValues({
             ...values,
-            headerImage: imageUrl,
+            image_url: imageUrl,
           });
         })
         .catch((error) => {
@@ -382,7 +364,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Create New Event</DialogTitle>
+      <DialogTitle textAlign="center">Create New Resources</DialogTitle>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
@@ -426,33 +408,18 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 console.log(column.accessorKey);
               }
             })}
-            <Typography>Start Date & Time</Typography>
-            <MobileDateTimePicker
-              key="startTime"
-              name="startTime"
-              onChange={(newValue) => {
-                setValues({ ...values, startTime: newValue.$d });
-              }}
-            />
-            <Typography>End Date & Time</Typography>
-            <MobileDateTimePicker
-              key="endTime"
-              name="endTime"
-              onChange={(newValue) => {
-                setValues({ ...values, endTime: newValue.$d });
-              }}
-            />
-            <Typography>Upload Event Image (Max Size: 5MB)</Typography>
+
+            <Typography>Upload Resources Image (Max Size: 5MB)</Typography>
             <TextField
-              key="headerImage"
-              name="headerImage"
+              key="image_url"
+              name="image_url"
               type="file"
               onChange={(e) => {
                 setImageSelected(e.target.files[0]);
                 console.log(imageSelected);
                 uploadImage();
                 setValues({ ...values, [e.target.name]: e.target.value });
-                console.log(values.headerImage);
+                console.log(values.image_url);
               }}
             />
           </Stack>
@@ -463,13 +430,13 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           Cancel
         </Button>
         <Button color="secondary" onClick={handleSubmit} variant="contained">
-          ADD EVENT
+          ADD Resources
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
-//Event Creation Model -- End
+//Resources Creation Model -- End
 
 const validateRequired = (value) => !!value.length;
 const validateEmail = (email) =>
