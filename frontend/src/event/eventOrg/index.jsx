@@ -345,11 +345,11 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   const handleSubmit = () => {
     //put your validation logic here
+
     onSubmit(values);
     onClose();
   };
   const [imageSelected, setImageSelected] = useState('');
-  const [startTime, setStartTime] = React.useState(null);
 
   const uploadImage = () => {
     if (imageSelected) {
@@ -426,20 +426,21 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 console.log(column.accessorKey);
               }
             })}
+            <Typography>Start Date & Time</Typography>
             <MobileDateTimePicker
               key="startTime"
               name="startTime"
-              value={startTime}
               onChange={(newValue) => {
-                setStartTime(newValue);
-                setValues({ ...values, startTime: startTime.$d });
-                console.log(startTime.$d);
+                setValues({ ...values, startTime: newValue.$d });
               }}
-              // onChange={(e) => {
-              //
-              //   console.log(e.target.value);
-              //   console.log(values.startTime);
-              // }}
+            />
+            <Typography>End Date & Time</Typography>
+            <MobileDateTimePicker
+              key="endTime"
+              name="endTime"
+              onChange={(newValue) => {
+                setValues({ ...values, endTime: newValue.$d });
+              }}
             />
             <Typography>Upload Event Image (Max Size: 5MB)</Typography>
             <TextField

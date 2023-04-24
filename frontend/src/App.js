@@ -22,13 +22,16 @@ import LoginPage from './Event/scenes/login';
 import AllEvents from './Event/eventOrg';
 import SingleEvent from './Event/SingleEvent';
 import AllEventView from './Event/AllEventView';
-import EventCreationForm from 'Event/components/EventCreationForm';
+import EventCreationForm from 'Event/components/registrationForm';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 function App() {
-  const mode = useSelector((state) => state.global.mode);
-  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  // const mode = useSelector((state) => state.global.mode);
+  const theme = useMemo(
+    () => createTheme(themeSettings('light'))
+    // , [mode]
+  );
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -41,7 +44,10 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/events" element={<AllEventView />} />
               <Route path="/events/:id" element={<SingleEvent />} />
-              <Route path="/events/create" element={<EventCreationForm />} />
+              <Route
+                path="/events/:id/register"
+                element={<EventCreationForm />}
+              />
               <Route path="/org" element={<LoginPage />} />
 
               <Route element={<ELayout />}>
