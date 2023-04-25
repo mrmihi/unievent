@@ -49,26 +49,26 @@ function App() {
             <Route element={<Layout />}>
               <Route
                 path="/"
-                element={<Navigate to="/administrator/dashboard" replace />}
+                element={<Navigate to="/attendeemanager/dashboard" replace />}
               />
-              <Route path="/administrator/dashboard" element={<Dashboard />} />
-              <Route path="/administrator/feedBacks" element={<FeedBacks />} />
-              <Route path="/administrator/attendees" element={<Attendees />} />
+              <Route path="/attendeemanager/dashboard" element={<Dashboard />} />
+              <Route path="/attendeemanager/feedBacks" element={<FeedBacks />} />
+              <Route path="/attendeemanager/attendees" element={<Attendees />} />
               <Route
-                path="/administrator/dataFinalists"
+                path="/attendeemanager/dataFinalists"
                 element={<DataFinalists />}
               />
-              <Route path="/administrator/overview" element={<Overview />} />
-              <Route path="/administrator/daily" element={<Daily />} />
-              <Route path="/administrator/monthly" element={<Monthly />} />
-              <Route path="/administrator/breakdown" element={<Breakdown />} />
-              <Route path="/administrator/rsvpemail" element={<RSVPEMAIL />} />
+              <Route path="/attendeemanager/overview" element={<Overview />} />
+              <Route path="/attendeemanager/daily" element={<Daily />} />
+              <Route path="/attendeemanager/monthly" element={<Monthly />} />
+              <Route path="/attendeemanager/breakdown" element={<Breakdown />} />
+              <Route path="/attendeemanager/rsvpemail" element={<RSVPEMAIL />} />
               <Route
-                path="/administrator/administrator"
+                path="/attendeemanager/administrator"
                 element={<Administrator />}
               />
               <Route
-                path="/administrator/attendeeStatus"
+                path="/attendeemanager/attendeeStatus"
                 element={<AttendeeStatus />}
               />
             </Route>

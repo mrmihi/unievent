@@ -168,7 +168,7 @@ const Sidebar = ({
                                     <ListItem key={text} disablePadding>
                                         <ListItemButton
                                             onClick={() => {
-                                                navigate(`/administrator/${lcText}`);
+                                                navigate(`/attendeemanager/${lcText}`);
                                                 setActive(lcText);
                                             }}
                                             sx={{
