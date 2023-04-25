@@ -19,9 +19,10 @@ import AttendeeStatus from './Attendee/scenes/attendeeStatus';
 import ELayout from './Event/scenes/layout';
 import EDashboard from './Event/scenes/dashboard';
 import LoginPage from './Event/scenes/login';
-import AllEvents from './Event/eventOrg';
+import AllEventsTable from './Event/tables/AllEventsTable';
 import SingleEvent from './Event/SingleEvent';
 import AllEventView from './Event/AllEventView';
+import AllEvents from './Event/AllEvents';
 import EventCreationForm from 'Event/components/registrationForm';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -47,7 +48,7 @@ function App() {
             {/* Event Routes */}
             <Routes>
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/events" element={<AllEventView />} />
+              <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
               <Route
                 path="/events/:id/register"
@@ -61,7 +62,10 @@ function App() {
                   element={<Navigate to="/org/dashboard" replace />}
                 />
                 <Route path="/org/dashboard" element={<EDashboard />} />
-                <Route path="/org/dashboard/events" element={<AllEvents />} />
+                <Route
+                  path="/org/dashboard/events"
+                  element={<AllEventsTable />}
+                />
               </Route>
               {/* Attendee Routes */}
               <Route element={<Layout />}>

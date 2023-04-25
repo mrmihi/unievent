@@ -17,6 +17,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import eventService from './event.service';
 import { useState, useEffect } from 'react';
+//import SearchBar from './components/SearchBar';
+
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+// import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
 
 function Copyright() {
   return (
@@ -33,7 +41,59 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function AllEvents({ events }) {
+// const Search = (props) => {
+//   return <input value={props.keyword} onChange={props.handleKeywordChange} />;
+// };
+
+const CustomizedInputBase = (props) => {
+  return (
+    <Paper
+      component="form"
+      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+    >
+      <InputBase
+        sx={{ ml: 1, flex: 1 }}
+        placeholder="Search Events."
+        inputProps={{ 'aria-label': 'search events' }}
+        value={props.keyword}
+        onChange={props.handleKeywordChange}
+      />
+      <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+        <SearchIcon />
+      </IconButton>
+      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+    </Paper>
+  );
+};
+
+export default function AllEvents() {
+  const [events, setEvents] = useState([]);
+  const [keyword, setKeyword] = useState('');
+
+  useEffect(() => {
+    eventService.getAll().then((response) => setEvents(response));
+  }, []);
+
+  // Search Functionality
+  let searchResult;
+  if (keyword === '') {
+    searchResult = events.map((x) => x);
+  } else {
+    searchResult = events.filter((event) => {
+      const re = new RegExp(`${keyword}`, 'i');
+      console.log(event.name.match(re));
+      if (event.name.match(re) === null) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+  }
+
+  const handleKeywordChange = (event) => {
+    setKeyword(event.target.value);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -46,11 +106,18 @@ export default function AllEvents({ events }) {
           </Typography>
         </Toolbar>
       </AppBar>
-
+      {/* <h3>Search 🔍</h3>
+      <Search keyword={keyword} handleKeywordChange={handleKeywordChange} /> */}
+      <div className="justify-center flex mt-5">
+        <CustomizedInputBase
+          keyword={keyword}
+          handleKeywordChange={handleKeywordChange}
+        />
+      </div>
       <main>
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
-            {events.map((event) => (
+            {searchResult.map((event) => (
               <Grid item key={event._id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
