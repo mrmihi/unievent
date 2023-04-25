@@ -392,7 +392,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
               }
               if (
                 column.accessorKey !== '_id' &&
-                column.accessorKey !== 'status'
+                column.accessorKey !== 'availableQty'
               ) {
                 return (
                   <TextField
