@@ -17,9 +17,9 @@ import { Delete, Edit } from '@mui/icons-material';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
-import FlexBetween from 'components/FlexBetween';
-import Header from 'components/Header';
-import SponsorPDF from 'scenes/partners/pdf/SponsorPDF';
+import FlexBetween from '../../components/FlexBetween';
+import Header from '../../components/Header';
+import SponsorPDF from '../../pdf/SponsorPDF';
 
 const Sponsors = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);

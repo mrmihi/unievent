@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import MaterialReactTable from "material-react-table";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import MaterialReactTable from 'material-react-table';
 import {
   Box,
   Button,
@@ -12,21 +12,21 @@ import {
   Stack,
   TextField,
   Tooltip,
-} from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { useNavigate, useParams } from "react-router-dom";
-import FlexBetween from "components/FlexBetween";
-import Header from "components/Header";
-import VolunteerPDF from "../../pdf/VolunteerPDF";
+} from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useNavigate, useParams } from 'react-router-dom';
+import FlexBetween from '../../components/FlexBetween';
+import Header from '../../components/Header';
+import VolunteerPDF from '../../pdf/VolunteerPDF';
 
 const Volunteers = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
-  const [serverErrorMessage, setServerErrorMessage] = useState("");
-  const [serverSuccessMessage, setServerSuccessMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState('');
+  const [serverSuccessMessage, setServerSuccessMessage] = useState('');
   const navigate = useNavigate();
   const getRegisteredData = async () => {
     try {
@@ -57,7 +57,7 @@ const Volunteers = () => {
     const newValues = {
       ...values,
       eventID: `${eventID}`,
-      organizationID: "642e4928973a5984d960f4bc",
+      organizationID: '642e4928973a5984d960f4bc',
     };
     tableData.push(newValues);
     setTableData([...tableData]);
@@ -68,15 +68,15 @@ const Volunteers = () => {
       );
       console.log(response);
       setServerSuccessMessage(response.data.message);
-      if (serverSuccessMessage !== "") {
-        Swal.fire("", serverSuccessMessage, "success").then(() =>
-          navigate("/volunteerOpportunities")
+      if (serverSuccessMessage !== '') {
+        Swal.fire('', serverSuccessMessage, 'success').then(() =>
+          navigate('/volunteerOpportunities')
         );
       }
     } catch (error) {
       setServerErrorMessage(error.response.data.message);
-      if (serverErrorMessage !== "") {
-        Swal.fire("", serverErrorMessage, "error");
+      if (serverErrorMessage !== '') {
+        Swal.fire('', serverErrorMessage, 'error');
       }
     }
   };
@@ -97,8 +97,8 @@ const Volunteers = () => {
           { status: values.status }
         );
         setServerSuccessMessage(response.data.message);
-        if (serverSuccessMessage !== "") {
-          Swal.fire("", response.data.message, "success");
+        if (serverSuccessMessage !== '') {
+          Swal.fire('', response.data.message, 'success');
         }
       } catch (error) {
         setServerErrorMessage(error.response.data.message);
@@ -118,13 +118,13 @@ const Volunteers = () => {
     (row) => {
       console.log(tableData._id);
       Swal.fire({
-        title: "Are you sure?",
+        title: 'Are you sure?',
         text: "You won't be able to revert this!",
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
         console.log(result);
         if (result.isConfirmed) {
@@ -132,14 +132,14 @@ const Volunteers = () => {
           axios
             .delete(
               `http://localhost:5000/api/partners/volunteers/${row.getValue(
-                "_id"
+                '_id'
               )}`
             )
             .then((response) => {
               Swal.fire(
-                "Deleted!",
+                'Deleted!',
                 `Deleted The Volunteer Application`,
-                "success"
+                'success'
               );
               console.log(response);
 
@@ -148,9 +148,9 @@ const Volunteers = () => {
             })
             .catch((error) => {
               Swal.fire(
-                "",
-                "Failed to Delete The Volunteer Application.",
-                "error"
+                '',
+                'Failed to Delete The Volunteer Application.',
+                'error'
               );
               console.log(error);
             });
@@ -161,8 +161,8 @@ const Volunteers = () => {
   );
 
   useEffect(() => {
-    if (serverSuccessMessage !== "") {
-      Swal.fire("", serverSuccessMessage, "success");
+    if (serverSuccessMessage !== '') {
+      Swal.fire('', serverSuccessMessage, 'success');
     }
   }, [serverSuccessMessage]);
   const [status, setStatus] = useState(tableData.status);
@@ -170,10 +170,10 @@ const Volunteers = () => {
   const updateStatus = (id) => {
     console.log(status);
     console.log(id);
-    if (status === "pending") {
-      setStatus("Approved");
+    if (status === 'pending') {
+      setStatus('Approved');
     } else {
-      setStatus("Rejected");
+      setStatus('Rejected');
     }
 
     const updatedTableData = tableData.map((item) => {
@@ -199,9 +199,9 @@ const Volunteers = () => {
         helperText: validationErrors[cell.id],
         onBlur: (event) => {
           const isValid =
-            cell.column.id === "email"
+            cell.column.id === 'email'
               ? validateEmail(event.target.value)
-              : cell.column.id === "age"
+              : cell.column.id === 'age'
               ? validateAge(+event.target.value)
               : validateRequired(event.target.value);
           if (!isValid) {
@@ -223,13 +223,13 @@ const Volunteers = () => {
     [validationErrors]
   );
 
-  const statusValues = ["Approved", "Rejected", "Pending"];
+  const statusValues = ['Approved', 'Rejected', 'Pending'];
 
   const columns = useMemo(
     () => [
       {
-        accessorKey: "_id",
-        header: "ID",
+        accessorKey: '_id',
+        header: 'ID',
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
@@ -238,8 +238,8 @@ const Volunteers = () => {
       {
         accessorFn: (row) => `${row.fullName} `,
         //accessorFn used to join multiple data into a single cell
-        id: "fullName", //id is still required when using accessorFn instead of accessorKey
-        header: "Full Name",
+        id: 'fullName', //id is still required when using accessorFn instead of accessorKey
+        header: 'Full Name',
         size: 250,
         enableEditing: false,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -248,9 +248,9 @@ const Volunteers = () => {
         Cell: ({ renderedCellValue, row }) => (
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
             }}
           >
             {/* <img
@@ -267,8 +267,8 @@ const Volunteers = () => {
       },
 
       {
-        accessorKey: "availableTime",
-        header: "Available Time",
+        accessorKey: 'availableTime',
+        header: 'Available Time',
         enableEditing: false,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -276,26 +276,26 @@ const Volunteers = () => {
         }),
       },
       {
-        accessorKey: "email",
-        header: "Email",
+        accessorKey: 'email',
+        header: 'Email',
         enableEditing: false,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: "email",
+          type: 'email',
         }),
       },
       {
-        accessorKey: "contactNo",
-        header: "Contact Number",
+        accessorKey: 'contactNo',
+        header: 'Contact Number',
         enableEditing: false,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: "text",
+          type: 'text',
         }),
       },
       {
-        accessorKey: "status",
-        header: "Status",
+        accessorKey: 'status',
+        header: 'Status',
 
         muiTableBodyCellEditTextFieldProps: () => ({
           children: statusValues.map((value) => (
@@ -321,9 +321,9 @@ const Volunteers = () => {
       </Box>
       <MaterialReactTable
         displayColumnDefOptions={{
-          "mrt-row-actions": {
+          'mrt-row-actions': {
             muiTableHeadCellProps: {
-              align: "center",
+              align: 'center',
             },
             size: 120,
           },
@@ -337,7 +337,7 @@ const Volunteers = () => {
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
-          <Box sx={{ display: "flex", gap: "1rem" }}>
+          <Box sx={{ display: 'flex', gap: '1rem' }}>
             <Tooltip arrow placement="left" title="Edit">
               <IconButton onClick={() => table.setEditingRow(row)}>
                 <Edit />
@@ -361,7 +361,7 @@ const Volunteers = () => {
           <>
             <div className="flex items-center">
               <Button
-                sx={{ marginRight: "5px" }}
+                sx={{ marginRight: '5px' }}
                 color="primary"
                 onClick={() => setCreateModalOpen(true)}
                 variant="contained"
@@ -387,7 +387,7 @@ const Volunteers = () => {
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
-      acc[column.accessorKey ?? ""] = "";
+      acc[column.accessorKey ?? ''] = '';
       return acc;
     }, {})
   );
@@ -397,17 +397,17 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     onSubmit(values);
     onClose();
   };
-  const [imageSelected, setImageSelected] = useState("");
+  const [imageSelected, setImageSelected] = useState('');
 
   const uploadImage = () => {
     if (imageSelected) {
       const formData = new FormData();
-      formData.append("file", imageSelected);
-      formData.append("upload_preset", "vief6ix8");
+      formData.append('file', imageSelected);
+      formData.append('upload_preset', 'vief6ix8');
 
       axios
         .post(
-          "https://api.cloudinary.com/v1_1/dpi1yqznl/image/upload",
+          'https://api.cloudinary.com/v1_1/dpi1yqznl/image/upload',
           formData
         )
         .then((response) => {
@@ -435,9 +435,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
             sx={{
-              width: "100%",
-              minWidth: { xs: "300px", sm: "360px", md: "400px" },
-              gap: "1.5rem",
+              width: '100%',
+              minWidth: { xs: '300px', sm: '360px', md: '400px' },
+              gap: '1.5rem',
             }}
           >
             {columns.map((column) => {
@@ -456,7 +456,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                   />
                 );
               }
-              if (column.accessorKey !== "_id") {
+              if (column.accessorKey !== '_id') {
                 return (
                   <TextField
                     key={column.accessorKey}
@@ -486,7 +486,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           </Stack>
         </form>
       </DialogContent>
-      <DialogActions sx={{ p: "1.25rem" }}>
+      <DialogActions sx={{ p: '1.25rem' }}>
         <Button onClick={onClose}>Cancel</Button>
         <Button onClick={handleSubmit} variant="contained">
           ADD THE SPEAKER

@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import MaterialReactTable from "material-react-table";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import MaterialReactTable from 'material-react-table';
 import {
   Box,
   Button,
@@ -12,29 +12,29 @@ import {
   Stack,
   TextField,
   Tooltip,
-} from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { useNavigate, useParams } from "react-router-dom";
-import FlexBetween from "components/FlexBetween";
-import Header from "components/Header";
+} from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useNavigate, useParams } from 'react-router-dom';
+import FlexBetween from '../../components/FlexBetween';
+import Header from '../../components/Header';
 import {
   DatePicker,
   LocalizationProvider,
   TimePicker,
-} from "@mui/x-date-pickers";
-import moment from "moment";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import OpportunityPDF from "scenes/partners/pdf/OpportunityPDF";
+} from '@mui/x-date-pickers';
+import moment from 'moment';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import OpportunityPDF from '../../pdf/OpportunityPDF';
 
 const Opportunities = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
-  const [serverErrorMessage, setServerErrorMessage] = useState("");
-  const [date, setDate] = useState("");
-  const [serverSuccessMessage, setServerSuccessMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState('');
+  const [date, setDate] = useState('');
+  const [serverSuccessMessage, setServerSuccessMessage] = useState('');
   const navigate = useNavigate();
   const getRegisteredData = async () => {
     try {
@@ -74,9 +74,9 @@ const Opportunities = () => {
       );
       console.log(response);
       setServerSuccessMessage(response.data.message);
-      if (serverSuccessMessage !== "") {
-        Swal.fire("", response.data.message, "success").then(() =>
-          navigate("/volunteerOpportunities")
+      if (serverSuccessMessage !== '') {
+        Swal.fire('', response.data.message, 'success').then(() =>
+          navigate('/volunteerOpportunities')
         );
       }
     } catch (error) {
@@ -89,7 +89,7 @@ const Opportunities = () => {
     if (!Object.keys(validationErrors).length) {
       const newValues = {
         ...values,
-        eventID: "643e6ca96030148f194b771d",
+        eventID: '643e6ca96030148f194b771d',
       };
       tableData[row.index] = newValues;
       try {
@@ -98,9 +98,9 @@ const Opportunities = () => {
           newValues
         );
         setServerSuccessMessage(response.data.message);
-        if (serverSuccessMessage !== "") {
-          Swal.fire("", response.data.message, "success").then(() =>
-            navigate("/volunteerOpportunities")
+        if (serverSuccessMessage !== '') {
+          Swal.fire('', response.data.message, 'success').then(() =>
+            navigate('/volunteerOpportunities')
           );
         }
       } catch (error) {
@@ -120,29 +120,29 @@ const Opportunities = () => {
   const handleDeleteRow = useCallback(
     (row) => {
       Swal.fire({
-        title: "Are you sure?",
+        title: 'Are you sure?',
         text: "You won't be able to revert this!",
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
         if (result.isConfirmed) {
           axios
             .delete(
               `http://localhost:5000/api/partners/opportunities/${row.getValue(
-                "_id"
+                '_id'
               )}`
             )
             .then((response) => {
-              Swal.fire("Deleted!", `Deleted The Speaker`, "success");
+              Swal.fire('Deleted!', `Deleted The Speaker`, 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);
             })
             .catch((error) => {
-              Swal.fire("", "Failed to Delete The Speaker", "error");
+              Swal.fire('', 'Failed to Delete The Speaker', 'error');
               console.log(error);
             });
         }
@@ -152,8 +152,8 @@ const Opportunities = () => {
   );
 
   useEffect(() => {
-    if (serverSuccessMessage !== "") {
-      Swal.fire("", serverSuccessMessage, "success");
+    if (serverSuccessMessage !== '') {
+      Swal.fire('', serverSuccessMessage, 'success');
     }
   }, [serverSuccessMessage]);
 
@@ -164,9 +164,9 @@ const Opportunities = () => {
         helperText: validationErrors[cell.id],
         onBlur: (event) => {
           const isValid =
-            cell.column.id === "email"
+            cell.column.id === 'email'
               ? validateEmail(event.target.value)
-              : cell.column.id === "age"
+              : cell.column.id === 'age'
               ? validateAge(+event.target.value)
               : validateRequired(event.target.value);
           if (!isValid) {
@@ -191,8 +191,8 @@ const Opportunities = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "_id",
-        header: "ID",
+        accessorKey: '_id',
+        header: 'ID',
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
@@ -201,8 +201,8 @@ const Opportunities = () => {
       {
         accessorFn: (row) => `${row.name} `,
         //accessorFn used to join multiple data into a single cell
-        id: "name", //id is still required when using accessorFn instead of accessorKey
-        header: "Opportunity",
+        id: 'name', //id is still required when using accessorFn instead of accessorKey
+        header: 'Opportunity',
         size: 250,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -210,9 +210,9 @@ const Opportunities = () => {
         Cell: ({ renderedCellValue, row }) => (
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
             }}
           >
             <img
@@ -220,8 +220,8 @@ const Opportunities = () => {
               height={30}
               src={row.original.opportunityImage}
               loading="lazy"
-              style={{ borderRadius: "50%", height: "50px" }}
-            />{" "}
+              style={{ borderRadius: '50%', height: '50px' }}
+            />{' '}
             {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
             <span>{renderedCellValue}</span>
           </Box>
@@ -232,11 +232,11 @@ const Opportunities = () => {
         accessorFn: (row) => {
           console.log(row.date);
           const date = moment(`${row.date}`);
-          const formattedDate = date.format("DD-MM-YYYY");
+          const formattedDate = date.format('DD-MM-YYYY');
           return formattedDate;
         },
-        accessorKey: "date",
-        header: "Date",
+        accessorKey: 'date',
+        header: 'Date',
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -249,33 +249,33 @@ const Opportunities = () => {
           if (dateRegex.test(row.time)) {
             console.log(typeof row.time);
             const date = moment(`${row.time}`);
-            const formattedTime = date.format("hh:mm A");
+            const formattedTime = date.format('hh:mm A');
             return formattedTime;
           } else {
             return `${row.time}`;
           }
         },
-        accessorKey: "time",
-        header: "Time",
+        accessorKey: 'time',
+        header: 'Time',
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: "email",
+          type: 'email',
         }),
       },
       {
-        accessorKey: "description",
-        header: "Description",
+        accessorKey: 'description',
+        header: 'Description',
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: "text",
+          type: 'text',
         }),
       },
       {
-        accessorKey: "opportunityImage",
-        header: "opportunityImage",
+        accessorKey: 'opportunityImage',
+        header: 'opportunityImage',
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: "text",
+          type: 'text',
         }),
       },
     ],
@@ -293,9 +293,9 @@ const Opportunities = () => {
       </Box>
       <MaterialReactTable
         displayColumnDefOptions={{
-          "mrt-row-actions": {
+          'mrt-row-actions': {
             muiTableHeadCellProps: {
-              align: "center",
+              align: 'center',
             },
             size: 120,
           },
@@ -309,7 +309,7 @@ const Opportunities = () => {
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
-          <Box sx={{ display: "flex", gap: "1rem" }}>
+          <Box sx={{ display: 'flex', gap: '1rem' }}>
             <Tooltip arrow placement="left" title="Edit">
               <IconButton onClick={() => table.setEditingRow(row)}>
                 <Edit />
@@ -326,7 +326,7 @@ const Opportunities = () => {
           <>
             <div className="flex items-center">
               <Button
-                sx={{ marginRight: "5px" }}
+                sx={{ marginRight: '5px' }}
                 color="primary"
                 onClick={() => setCreateModalOpen(true)}
                 variant="contained"
@@ -352,7 +352,7 @@ const Opportunities = () => {
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
-      acc[column.accessorKey ?? ""] = "";
+      acc[column.accessorKey ?? ''] = '';
       return acc;
     }, {})
   );
@@ -362,17 +362,17 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     onSubmit(values);
     onClose();
   };
-  const [imageSelected, setImageSelected] = useState("");
+  const [imageSelected, setImageSelected] = useState('');
 
   const uploadImage = () => {
     if (imageSelected) {
       const formData = new FormData();
-      formData.append("file", imageSelected);
-      formData.append("upload_preset", "vief6ix8");
+      formData.append('file', imageSelected);
+      formData.append('upload_preset', 'vief6ix8');
 
       axios
         .post(
-          "https://api.cloudinary.com/v1_1/dpi1yqznl/image/upload",
+          'https://api.cloudinary.com/v1_1/dpi1yqznl/image/upload',
           formData
         )
         .then((response) => {
@@ -400,9 +400,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
             sx={{
-              width: "100%",
-              minWidth: { xs: "300px", sm: "360px", md: "400px" },
-              gap: "1.5rem",
+              width: '100%',
+              minWidth: { xs: '300px', sm: '360px', md: '400px' },
+              gap: '1.5rem',
             }}
           >
             {columns.map((column) => {
@@ -421,7 +421,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                   />
                 );
               }
-              if (column.accessorKey === "date") {
+              if (column.accessorKey === 'date') {
                 return (
                   <LocalizationProvider
                     key={column.id}
@@ -441,7 +441,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                   </LocalizationProvider>
                 );
               }
-              if (column.accessorKey === "time") {
+              if (column.accessorKey === 'time') {
                 return (
                   <LocalizationProvider
                     key={column.id}
@@ -449,7 +449,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                   >
                     <TimePicker
                       label="Time"
-                      defaultValue={moment("2022-04-17T15:30")}
+                      defaultValue={moment('2022-04-17T15:30')}
                       // value={value}
                       onChange={(value) =>
                         setValues({
@@ -462,9 +462,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 );
               }
               if (
-                column.accessorKey !== "_id" ||
-                column.accessorKey !== "date" ||
-                column.accessorKey !== "time"
+                column.accessorKey !== '_id' ||
+                column.accessorKey !== 'date' ||
+                column.accessorKey !== 'time'
               ) {
                 return (
                   <TextField
@@ -498,7 +498,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           </Stack>
         </form>
       </DialogContent>
-      <DialogActions sx={{ p: "1.25rem" }}>
+      <DialogActions sx={{ p: '1.25rem' }}>
         <Button onClick={onClose}>Cancel</Button>
         <Button onClick={handleSubmit} variant="contained">
           ADD THE SPEAKER
