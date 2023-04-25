@@ -19,9 +19,10 @@ import AttendeeStatus from './Attendee/scenes/attendeeStatus';
 import ELayout from './Event/scenes/layout';
 import EDashboard from './Event/scenes/dashboard';
 import LoginPage from './Event/scenes/login';
-import AllEvents from './Event/eventOrg';
+import AllEventsTable from './Event/tables/AllEventsTable';
 import SingleEvent from './Event/SingleEvent';
 import AllEventView from './Event/AllEventView';
+import AllEvents from './Event/AllEvents';
 import EventCreationForm from 'Event/components/registrationForm';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -30,6 +31,16 @@ import RDashboard from './Resource/scenes/dashboard';
 import ResourcesTable from './Resource/tables/allResources';
 import PageNotFound from './Event/pages/PageNotFound.jsx';
 import AllResourcesView from 'Resource/pages/AllResourcesView';
+import Speaker from 'Partners/organizer/speakers';
+import Sponsors from 'Partners/organizer/sponsors';
+import Volunteers from 'Partners/organizer/volunteers';
+import Opportunities from 'Partners/organizer/opportunities';
+import OpportunitiesList from 'Partners/user/volunteer/OpportunitiesList';
+import AppliedOpportunitiesList from 'Partners/user/volunteer/AppliedOpportunitiesList';
+import UpdateVolunteerApplication from 'Partners/user/volunteer/UpdateVolunteerApplication';
+import OpportunityDetails from 'Partners/user/volunteer/OpportunityDetails';
+import OpportunityRegister from 'Resource/components/registrationForm';
+// import OpportunityRegister from 'Partners/user/volunteer/OpportunityRegister';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -47,7 +58,7 @@ function App() {
             {/* Event Routes */}
             <Routes>
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/events" element={<AllEventView />} />
+              <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
               <Route
                 path="/events/:id/register"
@@ -61,7 +72,10 @@ function App() {
                   element={<Navigate to="/org/dashboard" replace />}
                 />
                 <Route path="/org/dashboard" element={<EDashboard />} />
-                <Route path="/org/dashboard/events" element={<AllEvents />} />
+                <Route
+                  path="/org/dashboard/events"
+                  element={<AllEventsTable />}
+                />
               </Route>
               {/* Attendee Routes */}
               <Route element={<Layout />}>
@@ -118,6 +132,47 @@ function App() {
                 />
               </Route>
               <Route path="*" element={<PageNotFound />} />
+              {/*Partner Routes */}
+              <Route element={<Layout />}>
+                {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
+                <Route
+                  path="/admin/event/speakers/:eventID"
+                  element={<Speaker />}
+                />
+                <Route
+                  path="/admin/event/sponsors/:eventID"
+                  element={<Sponsors />}
+                />
+                <Route
+                  path="/admin/event/volunteers/"
+                  element={<Volunteers />}
+                />
+                <Route
+                  path="/admin/event/opportunities/:eventID"
+                  element={<Opportunities />}
+                />
+              </Route>
+
+              <Route
+                path="/users/event/opportunities/"
+                element={<OpportunitiesList />}
+              />
+              <Route
+                path="/users/event/opportunity/:opportunityID"
+                element={<OpportunityDetails />}
+              />
+              <Route
+                path="/applyAsAVolunteer/:opportunityID"
+                element={<OpportunityRegister />}
+              />
+              <Route
+                path="/users/event/appliedOpportunities/:userID"
+                element={<AppliedOpportunitiesList />}
+              />
+              <Route
+                path="/users/event/updateVolunteerApplication/:volunteerID"
+                element={<UpdateVolunteerApplication />}
+              />
             </Routes>
           </ThemeProvider>
         </BrowserRouter>

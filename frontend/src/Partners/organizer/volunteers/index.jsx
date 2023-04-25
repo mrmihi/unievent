@@ -12,68 +12,76 @@ import {
   Stack,
   TextField,
   Tooltip,
-  Typography,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate, useParams, Link } from 'react-router-dom';
-import { MobileDateTimePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateField } from '@mui/x-date-pickers/DateField';
-import { Dayjs } from 'dayjs';
+import { useNavigate, useParams } from 'react-router-dom';
+import FlexBetween from '../../components/FlexBetween';
+import Header from '../../components/Header';
+import VolunteerPDF from '../../pdf/VolunteerPDF';
 
-const OrgView = () => {
+const Volunteers = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [serverSuccessMessage, setServerSuccessMessage] = useState('');
   const navigate = useNavigate();
-
-  // GET method
-  const getEventData = async () => {
+  const getRegisteredData = async () => {
     try {
-      const response = await axios.get(`/api/events`);
-      setTableData(response.data);
+      const response = await axios.get(
+        `http://localhost:5000/api/partners/volunteers/`
+      );
+      console.log(response.data.data);
+      setTableData(response.data.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Running the GET method
+  let { eventID } = useParams();
+  //   eventID = eventID.toString();
+  console.log(typeof eventID);
+
   useEffect(() => {
-    const fetchEventData = async () => {
+    const fetchRegisteredData = async () => {
       // setIsLoading(true);
-      await getEventData();
+      await getRegisteredData();
       // setIsLoading(false);
     };
-    fetchEventData();
+    fetchRegisteredData();
   }, []);
 
-  // CREATE method
   const handleCreateNewRow = async (values) => {
     const newValues = {
       ...values,
-      orgId: '642e4928973a5984d960f4bc',
+      eventID: `${eventID}`,
+      organizationID: '642e4928973a5984d960f4bc',
     };
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(`/api/events`, newValues);
+      const response = await axios.post(
+        `http://localhost:5000/api/partners/speakers`,
+        newValues
+      );
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
-        Swal.fire('', response.data.message, 'success').then(() =>
-          navigate('/org/dashboard')
+        Swal.fire('', serverSuccessMessage, 'success').then(() =>
+          navigate('/volunteerOpportunities')
         );
       }
     } catch (error) {
       setServerErrorMessage(error.response.data.message);
+      if (serverErrorMessage !== '') {
+        Swal.fire('', serverErrorMessage, 'error');
+      }
     }
   };
 
-  // PUT method
+  //save updates
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
     console.log(values._id);
     console.log(values.status);
@@ -84,9 +92,10 @@ const OrgView = () => {
       };
       tableData[row.index] = newValues;
       try {
-        const response = await axios.put(`/api/events/${row.getValue('_id')}`, {
-          status: values.status,
-        });
+        const response = await axios.put(
+          `http://localhost:5000/api/partners/volunteers/status/${values._id}`,
+          { status: values.status }
+        );
         setServerSuccessMessage(response.data.message);
         if (serverSuccessMessage !== '') {
           Swal.fire('', response.data.message, 'success');
@@ -107,6 +116,7 @@ const OrgView = () => {
   //deleting row edits
   const handleDeleteRow = useCallback(
     (row) => {
+      console.log(tableData._id);
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -116,17 +126,32 @@ const OrgView = () => {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
+        console.log(result);
         if (result.isConfirmed) {
+          console.log(result.isConfirmed);
           axios
-            .delete(`/api/events/${row.getValue('_id')}`)
+            .delete(
+              `http://localhost:5000/api/partners/volunteers/${row.getValue(
+                '_id'
+              )}`
+            )
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Event!`, 'success');
+              Swal.fire(
+                'Deleted!',
+                `Deleted The Volunteer Application`,
+                'success'
+              );
               console.log(response);
+
               tableData.splice(row.index, 1);
               setTableData([...tableData]);
             })
             .catch((error) => {
-              Swal.fire('', 'Failed to Delete The Event!.', 'error');
+              Swal.fire(
+                '',
+                'Failed to Delete The Volunteer Application.',
+                'error'
+              );
               console.log(error);
             });
         }
@@ -198,7 +223,7 @@ const OrgView = () => {
     [validationErrors]
   );
 
-  const statusValues = ['Archived', 'Active', 'Upcoming'];
+  const statusValues = ['Approved', 'Rejected', 'Pending'];
 
   const columns = useMemo(
     () => [
@@ -209,11 +234,41 @@ const OrgView = () => {
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 80,
-        columnVisibility: false,
       },
       {
-        accessorKey: 'name',
-        header: 'Event Name',
+        accessorFn: (row) => `${row.fullName} `,
+        //accessorFn used to join multiple data into a single cell
+        id: 'fullName', //id is still required when using accessorFn instead of accessorKey
+        header: 'Full Name',
+        size: 250,
+        enableEditing: false,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        Cell: ({ renderedCellValue, row }) => (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+            }}
+          >
+            {/* <img
+              alt="avatar"
+              height={30}
+              src={row.original.volunteerImage}
+              loading="lazy"
+              style={{ borderRadius: "50%", height: "50px" }}
+            />{" "} */}
+            {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
+            <span>{renderedCellValue}</span>
+          </Box>
+        ),
+      },
+
+      {
+        accessorKey: 'availableTime',
+        header: 'Available Time',
         enableEditing: false,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -221,30 +276,22 @@ const OrgView = () => {
         }),
       },
       {
-        accessorKey: 'category',
-        header: 'Category',
-        enableColumnOrdering: false,
+        accessorKey: 'email',
+        header: 'Email',
         enableEditing: false,
-        enableSorting: false,
-        size: 80,
-        columnVisibility: false,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: 'email',
+        }),
       },
       {
-        accessorKey: 'capacity',
-        header: 'Capacity',
-        enableColumnOrdering: false,
-        enableEditing: false, //disable editing on this column
-        enableSorting: false,
-        size: 80,
-        columnVisibility: false,
-      },
-      {
-        accessorKey: 'description',
-        header: 'Description',
-        enableColumnOrdering: false,
-        enableEditing: false, //disable editing on this column
-        enableSorting: false,
-        size: 80,
+        accessorKey: 'contactNo',
+        header: 'Contact Number',
+        enableEditing: false,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: 'text',
+        }),
       },
       {
         accessorKey: 'status',
@@ -263,25 +310,27 @@ const OrgView = () => {
     [getCommonEditTextFieldProps]
   );
 
-  if (!tableData) return <h1>Loading...</h1>;
-
   return (
-    <>
+    <div className="mb-20 ml-5 ">
+      <Box>
+        <div className="mb-10">
+          <FlexBetween>
+            <Header title="Volunteers" subtitle="Welcome!" />
+          </FlexBetween>
+        </div>
+      </Box>
       <MaterialReactTable
         displayColumnDefOptions={{
           'mrt-row-actions': {
             muiTableHeadCellProps: {
               align: 'center',
             },
-            size: 50,
+            size: 120,
           },
         }}
         columns={columns}
         data={tableData}
-        initialState={{
-          columnVisibility: { _id: false, description: false },
-          density: 'compact',
-        }}
+        // initialState={{ columnVisibility: { : false } }}
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing
@@ -294,6 +343,13 @@ const OrgView = () => {
                 <Edit />
               </IconButton>
             </Tooltip>
+            {/* {console.log(row)} */}
+            {/* <Button
+              variant="contained"
+              onClick={() => updateStatus(row.original._id)}
+            >
+              Status
+            </Button> */}
             <Tooltip arrow title="Delete">
               <IconButton color="error" onClick={() => handleDeleteRow(row)}>
                 <Delete />
@@ -301,27 +357,20 @@ const OrgView = () => {
             </Tooltip>
           </Box>
         )}
-        positionActionsColumn="last"
         renderTopToolbarCustomActions={() => (
-          <Box
-            sx={{
-              display: 'flex',
-              gap: '1rem',
-              p: '0.5rem',
-              flexWrap: 'wrap',
-            }}
-          >
-            <Button
-              color="secondary"
-              onClick={() => setCreateModalOpen(true)}
-              variant="contained"
-            >
-              Create A New Event
-            </Button>
-            <Button color="secondary" variant="contained">
-              Export All Event Details
-            </Button>
-          </Box>
+          <>
+            <div className="flex items-center">
+              <Button
+                sx={{ marginRight: '5px' }}
+                color="primary"
+                onClick={() => setCreateModalOpen(true)}
+                variant="contained"
+              >
+                ADD A Volunteer
+              </Button>
+              <VolunteerPDF tableData={tableData} />
+            </div>
+          </>
         )}
       />
       <CreateNewAccountModal
@@ -330,11 +379,11 @@ const OrgView = () => {
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}
       />
-    </>
+    </div>
   );
 };
 
-//Event Creation Model -- Start
+//SponsorView of creating a mui dialog modal for creating new rows
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
@@ -345,7 +394,6 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   const handleSubmit = () => {
     //put your validation logic here
-
     onSubmit(values);
     onClose();
   };
@@ -355,11 +403,11 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     if (imageSelected) {
       const formData = new FormData();
       formData.append('file', imageSelected);
-      formData.append('upload_preset', 'rytp0oyr');
+      formData.append('upload_preset', 'vief6ix8');
 
       axios
         .post(
-          'https://api.cloudinary.com/v1_1/dn3wwir7s/image/upload',
+          'https://api.cloudinary.com/v1_1/dpi1yqznl/image/upload',
           formData
         )
         .then((response) => {
@@ -367,7 +415,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           const imageUrl = response.data.secure_url;
           setValues({
             ...values,
-            headerImage: imageUrl,
+            speakerImage: imageUrl,
           });
         })
         .catch((error) => {
@@ -382,7 +430,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Create New Event</DialogTitle>
+      <DialogTitle textAlign="center">Create New Account</DialogTitle>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
@@ -408,10 +456,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                   />
                 );
               }
-              if (
-                column.accessorKey !== '_id' &&
-                column.accessorKey !== 'status'
-              ) {
+              if (column.accessorKey !== '_id') {
                 return (
                   <TextField
                     key={column.accessorKey}
@@ -426,50 +471,30 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 console.log(column.accessorKey);
               }
             })}
-            <Typography>Start Date & Time</Typography>
-            <MobileDateTimePicker
-              key="startTime"
-              name="startTime"
-              onChange={(newValue) => {
-                setValues({ ...values, startTime: newValue.$d });
-              }}
-            />
-            <Typography>End Date & Time</Typography>
-            <MobileDateTimePicker
-              key="endTime"
-              name="endTime"
-              onChange={(newValue) => {
-                setValues({ ...values, endTime: newValue.$d });
-              }}
-            />
-            <Typography>Upload Event Image (Max Size: 5MB)</Typography>
             <TextField
-              key="headerImage"
-              name="headerImage"
+              key="speakerImage"
+              label="Speaker Image"
+              name="speakerImage"
               type="file"
               onChange={(e) => {
                 setImageSelected(e.target.files[0]);
                 console.log(imageSelected);
                 uploadImage();
                 setValues({ ...values, [e.target.name]: e.target.value });
-                console.log(values.headerImage);
               }}
             />
           </Stack>
         </form>
       </DialogContent>
       <DialogActions sx={{ p: '1.25rem' }}>
-        <Button color="secondary" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button color="secondary" onClick={handleSubmit} variant="contained">
-          ADD EVENT
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleSubmit} variant="contained">
+          ADD THE SPEAKER
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
-//Event Creation Model -- End
 
 const validateRequired = (value) => !!value.length;
 const validateEmail = (email) =>
@@ -481,4 +506,4 @@ const validateEmail = (email) =>
     );
 const validateAge = (age) => age >= 18 && age <= 50;
 
-export default OrgView;
+export default Volunteers;
