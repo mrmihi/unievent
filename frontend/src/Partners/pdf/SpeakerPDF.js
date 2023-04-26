@@ -1,17 +1,18 @@
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import { Button } from "@mui/material";
-import logo from "./image.png";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { Button } from '@mui/material';
+import logo from './image.png';
 const doc = new jsPDF();
 
 const exportPDF = (tableData) => {
-  doc.addImage(logo, "PNG", 15, 10, 14, 14);
-  doc.setFontSize(18);
-  doc.text("Speaker Report", 30, 20);
+  doc.addImage(logo, 'PNG', 0, 0, 200, 50);
+  doc.setFontSize(12);
+  doc.text('Speaker Report', 15, 50);
+  doc.text('Date: ' + new Date().toLocaleString(), 15, 60);
 
   // It can parse html:
   // <table id="my-table"><!-- ... --></table>
-  autoTable(doc, { html: "#my-table" });
+  autoTable(doc, { html: '#my-table' });
   console.log(tableData);
   const data = tableData.map((speaker) => [
     speaker.fullName,
@@ -21,15 +22,15 @@ const exportPDF = (tableData) => {
   ]);
   // Or use javascript directly:
   autoTable(doc, {
-    head: [["Full Name", "Session Time", "Email", "Contact Number"]],
+    head: [['Full Name', 'Session Time', 'Email', 'Contact Number']],
     body: data,
     styles: {
-      cellWidth: "wrap",
+      cellWidth: 'wrap',
     },
     startY: 30,
   });
 
-  doc.save("Speakers.pdf");
+  doc.save('Speakers.pdf');
 };
 
 const SpeakerPDF = ({ tableData }) => {

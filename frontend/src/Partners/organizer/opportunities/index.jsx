@@ -35,6 +35,11 @@ const Opportunities = () => {
   const [date, setDate] = useState('');
   const [serverSuccessMessage, setServerSuccessMessage] = useState('');
   const navigate = useNavigate();
+
+  // let { eventID } = useParams();
+  // eventID = eventID.toString();
+  const eventID = '643e6ca96030148f194b771d';
+
   const getRegisteredData = async () => {
     try {
       const response = await axios.get(
@@ -46,9 +51,6 @@ const Opportunities = () => {
       console.log(error);
     }
   };
-
-  let { eventID } = useParams();
-  eventID = eventID.toString();
 
   useEffect(() => {
     const fetchRegisteredData = async () => {

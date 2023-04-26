@@ -44,6 +44,16 @@ function SingleEvent() {
           >
             Register
           </Button>
+          <Button
+            sx={{ width: 300, marginLeft: '5px' }}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              navigate(`/event/opportunities/`);
+            }}
+          >
+            Opportunities
+          </Button>
         </div>
       </div>
     </>

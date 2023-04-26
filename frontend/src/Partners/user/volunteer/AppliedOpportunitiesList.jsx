@@ -70,9 +70,9 @@ const AppliedOpportunitiesList = () => {
 
   return (
     <div>
-      <div className="mt-12 mb-12">
+      <div className="mt-12 mb-12 ">
         <Typography variant="h2" textAlign="center">
-          Volunteer Opportunities
+          Applied Volunteer Opportunities
         </Typography>
       </div>
       <div className="flex items-center justify-center mt-12 mb-12">
@@ -83,7 +83,7 @@ const AppliedOpportunitiesList = () => {
             </Typography>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid ml-10 mr-10 grid-cols-2 lg:grid-cols-3 gap-8">
             {registeredData &&
               registeredData?.map((data, index) => {
                 const opData = opportunityData[index] || {};
@@ -116,7 +116,8 @@ const AppliedOpportunitiesList = () => {
                         textAlign="center"
                         sx={{ marginTop: '20px' }}
                       >
-                        {opData.created_at}
+                        <span className="font-bold">Applied On: </span>
+                        {opData.date}
                       </Typography>
 
                       <Box sx={{ width: '100%', marginTop: '20px' }}>
@@ -141,7 +142,7 @@ const AppliedOpportunitiesList = () => {
                       <Button
                         onClick={() =>
                           navigate(
-                            `/users/event/updateVolunteerApplication/${data._id}`,
+                            `/event/updateVolunteerApplication/${data._id}`,
                             {
                               state: { volunteer: data },
                             }
