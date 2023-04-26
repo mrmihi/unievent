@@ -1,35 +1,36 @@
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import { Button } from "@mui/material";
-import logo from "./image.png";
-import moment from "moment";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { Button } from '@mui/material';
+import logo from './image.png';
+import moment from 'moment';
 const doc = new jsPDF();
 
 const exportPDF = (tableData) => {
-  doc.addImage(logo, "PNG", 15, 10, 14, 14);
-  doc.setFontSize(18);
-  doc.text("Opportunity Report", 30, 20);
+  doc.addImage(logo, 'PNG', 0, 0, 200, 50);
+  doc.setFontSize(12);
+  doc.text('Opportunity Report', 15, 50);
+  doc.text('Date: ' + new Date().toLocaleString(), 15, 60);
 
   // It can parse html:
   // <table id="my-table"><!-- ... --></table>
-  autoTable(doc, { html: "#my-table" });
+  autoTable(doc, { html: '#my-table' });
   const data = tableData.map((opportunity) => [
     opportunity.name,
-    moment(`${opportunity.date}`).format("DD-MM-YYYY"),
+    moment(`${opportunity.date}`).format('DD-MM-YYYY'),
     opportunity.time,
     opportunity.description,
   ]);
   // Or use javascript directly:
   autoTable(doc, {
-    head: [["Opportunity", "Date", "Time", "Description"]],
+    head: [['Opportunity', 'Date', 'Time', 'Description']],
     body: data,
     styles: {
-      cellWidth: "wrap",
+      cellWidth: 'wrap',
     },
-    startY: 30,
+    startY: 65,
   });
 
-  doc.save("Opportunities.pdf");
+  doc.save('Opportunities.pdf');
 };
 
 const OpportunityPDF = ({ tableData }) => {

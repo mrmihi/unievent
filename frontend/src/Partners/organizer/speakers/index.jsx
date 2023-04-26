@@ -28,6 +28,11 @@ const Speaker = () => {
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [serverSuccessMessage, setServerSuccessMessage] = useState('');
   const navigate = useNavigate();
+
+  // let { eventID } = useParams();
+  // eventID = eventID.toString();
+  const eventID = '643e6ca96030148f194b771d';
+
   const getRegisteredData = async () => {
     try {
       const response = await axios.get(`/api/partners/speakers/${eventID}`);
@@ -37,10 +42,6 @@ const Speaker = () => {
       console.log(error);
     }
   };
-
-  let { eventID } = useParams();
-  eventID = eventID.toString();
-  console.log(typeof eventID);
 
   useEffect(() => {
     const fetchRegisteredData = async () => {
@@ -84,9 +85,7 @@ const Speaker = () => {
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
-        Swal.fire('', response.data.message, 'success').then(() =>
-          navigate('/volunteerOpportunities')
-        );
+        Swal.fire('', response.data.message, 'success');
       }
     } catch (error) {
       setServerErrorMessage(error.response.data.message);
@@ -110,9 +109,7 @@ const Speaker = () => {
         );
         setServerSuccessMessage(response.data.message);
         if (serverSuccessMessage !== '') {
-          Swal.fire('', response.data.message, 'success').then(() =>
-            navigate('/volunteerOpportunities')
-          );
+          Swal.fire('', response.data.message, 'success');
         }
       } catch (error) {
         setServerErrorMessage(error.response.data.message);

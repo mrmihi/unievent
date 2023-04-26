@@ -1,7 +1,6 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { themeSettings } from 'theme';
 import Layout from './Attendee/scenes/layout';
@@ -39,9 +38,22 @@ import OpportunitiesList from 'Partners/user/volunteer/OpportunitiesList';
 import AppliedOpportunitiesList from 'Partners/user/volunteer/AppliedOpportunitiesList';
 import UpdateVolunteerApplication from 'Partners/user/volunteer/UpdateVolunteerApplication';
 import OpportunityDetails from 'Partners/user/volunteer/OpportunityDetails';
+// import OpportunityRegister from "Resource/components/registrationForm";
+
 import OpportunityRegister from 'Partners/user/volunteer/OpportunityRegister';
 
-// import OpportunityRegister from 'Partners/user/volunteer/OpportunityRegister';
+import VLayout from 'Venue/src/scenes/layout';
+import VDashboard from 'Venue/src/scenes/dashboard';
+import VFeedBacks from 'Venue/src/scenes/feedBacks';
+import VAttendees from 'Venue/src/scenes/attendees';
+import VDataFinalists from 'Venue/src/scenes/dataFinalists';
+import VLoginPage from 'Venue/src/scenes/login';
+import VReview from 'Venue/src/scenes/venue/review';
+import VVenue from 'Venue/src/scenes/venue/venue';
+import VVenueQuotation from 'Venue/src/scenes/venue/venue-report';
+import VAddVenue from 'Venue/src/scenes/venue/add-venue';
+import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
+import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -136,30 +148,23 @@ function App() {
               {/*Partner Routes */}
               <Route element={<ELayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
-                <Route
-                  path="/org/dashboard/speakers/:eventID"
-                  element={<Speaker />}
-                />
-                <Route
-                  path="/org/dashboard/sponsors/:eventID"
-                  element={<Sponsors />}
-                />
+                <Route path="/org/dashboard/speakers/" element={<Speaker />} />
+                <Route path="/org/dashboard/sponsors/" element={<Sponsors />} />
                 <Route
                   path="/org/dashboard/volunteers/"
                   element={<Volunteers />}
                 />
                 <Route
-                  path="/org/dashboard/opportunities/:eventID"
+                  path="/org/dashboard/opportunities/"
                   element={<Opportunities />}
                 />
               </Route>
-
               <Route
-                path="/users/event/opportunities/"
+                path="/event/opportunities/"
                 element={<OpportunitiesList />}
               />
               <Route
-                path="/users/event/opportunity/:opportunityID"
+                path="/event/opportunity/:opportunityID"
                 element={<OpportunityDetails />}
               />
               <Route
@@ -167,13 +172,107 @@ function App() {
                 element={<OpportunityRegister />}
               />
               <Route
-                path="/users/event/appliedOpportunities/:userID"
+                path="/event/appliedOpportunities/:userID"
                 element={<AppliedOpportunitiesList />}
               />
               <Route
-                path="/users/event/updateVolunteerApplication/:volunteerID"
+                path="/event/updateVolunteerApplication/:volunteerID"
                 element={<UpdateVolunteerApplication />}
               />
+              {/* venue routes */}
+              <Route>
+                <Route path="/admin/venue" element={<VLoginPage />} />
+                <Route element={<VLayout />}>
+                  <Route
+                    path="/admin/venue/dashboard/*"
+                    element={<Navigate to="/admin/venue/dashboard" replace />}
+                  />
+                  <Route
+                    path="/admin/venue/dashboard"
+                    element={<VDashboard />}
+                  />
+                  <Route
+                    path="/admin/venue/feedBacks"
+                    element={<h1>FeedBacks</h1>}
+                  />
+                  <Route
+                    path="/admin/venue/attendees"
+                    element={<h1>Attendees</h1>}
+                  />
+                  <Route
+                    path="/admin/venue/dataFinalists"
+                    element={<VDataFinalists />}
+                  />
+                  <Route path="/admin/venue/venues" element={<VVenue />} />
+
+                  <Route
+                    path="/admin/venue/venues/edit/:id"
+                    element={<VVenuePage />}
+                  />
+                  <Route
+                    path="/admin/venue/venues/:id"
+                    element={<VVenueProfile />}
+                  />
+                  <Route
+                    path="/admin/venue/report"
+                    element={<VVenueQuotation />}
+                  />
+
+                  <Route path="/admin/venue/add" element={<VAddVenue />} />
+                  <Route
+                    path="/admin/venue/breakdown"
+                    element={<Breakdown />}
+                  />
+                  <Route path="/admin/venue/reviews" element={<VReview />} />
+                </Route>
+              </Route>
+              {/* venue routes */}
+              <Route>
+                <Route path="/admin/venue" element={<VLoginPage />} />
+                <Route element={<VLayout />}>
+                  <Route
+                    path="/admin/venue/dashboard/*"
+                    element={<Navigate to="/admin/venue/dashboard" replace />}
+                  />
+                  <Route
+                    path="/admin/venue/dashboard"
+                    element={<VDashboard />}
+                  />
+                  <Route
+                    path="/admin/venue/feedBacks"
+                    element={<h1>FeedBacks</h1>}
+                  />
+                  <Route
+                    path="/admin/venue/attendees"
+                    element={<h1>Attendees</h1>}
+                  />
+                  <Route
+                    path="/admin/venue/dataFinalists"
+                    element={<VDataFinalists />}
+                  />
+                  <Route path="/admin/venue/venues" element={<VVenue />} />
+
+                  <Route
+                    path="/admin/venue/venues/edit/:id"
+                    element={<VVenuePage />}
+                  />
+                  <Route
+                    path="/admin/venue/venues/:id"
+                    element={<VVenueProfile />}
+                  />
+                  <Route
+                    path="/admin/venue/report"
+                    element={<VVenueQuotation />}
+                  />
+
+                  <Route path="/admin/venue/add" element={<VAddVenue />} />
+                  <Route
+                    path="/admin/venue/breakdown"
+                    element={<Breakdown />}
+                  />
+                  <Route path="/admin/venue/reviews" element={<VReview />} />
+                </Route>
+              </Route>
             </Routes>
           </ThemeProvider>
         </BrowserRouter>

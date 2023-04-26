@@ -53,11 +53,7 @@ const UpdateVolunteerApplication = () => {
 
   useEffect(() => {
     if (serverSuccessMessage !== '') {
-      Swal.fire('', serverSuccessMessage, 'success').then(() =>
-        navigate(`users/event/appliedOpportunities/${volunteer.userID}`, {
-          replace: true,
-        })
-      );
+      Swal.fire('', serverSuccessMessage, 'success');
     }
   }, [navigate, serverSuccessMessage]);
 
@@ -276,6 +272,19 @@ const UpdateVolunteerApplication = () => {
                   Delete
                 </Button>
               </div>
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={() => {
+                  navigate(
+                    `/event/appliedOpportunities/643f6e981a4293c8000d4bd7`
+                  );
+                }}
+                sx={{ padding: 2, marginTop: '10px' }}
+                fullWidth
+              >
+                View Applied Opportunities
+              </Button>
             </form>
           </div>
         </div>

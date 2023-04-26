@@ -16,7 +16,7 @@ const OpportunitiesList = () => {
 
   const fetchData = async () => {
     const res = await axios.get(
-      '/api/partners/opportunities/642e6937973a5984d960f4cd'
+      '/api/partners/opportunities/643e6ca96030148f194b771d'
     );
     setOpportunitiesData(res.data.data);
     console.log(res.data.data);
@@ -72,9 +72,7 @@ const OpportunitiesList = () => {
                     <div className="flex items-center justify-center pb-6 pt-4">
                       <Button
                         onClick={() =>
-                          navigate(
-                            `/users/event/opportunity/${opportunity._id}`
-                          )
+                          navigate(`/event/opportunity/${opportunity._id}`)
                         }
                         variant="contained"
                         color="primary"
