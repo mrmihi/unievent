@@ -72,9 +72,7 @@ const OpportunitiesList = () => {
                     <div className="flex items-center justify-center pb-6 pt-4">
                       <Button
                         onClick={() =>
-                          navigate(
-                            `/users/event/opportunity/${opportunity._id}`
-                          )
+                          navigate(`/event/opportunity/${opportunity._id}`)
                         }
                         variant="contained"
                         color="primary"

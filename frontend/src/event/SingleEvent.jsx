@@ -10,7 +10,7 @@ function SingleEvent() {
 
   useEffect(() => {
     eventService.getOne(id).then((res) => {
-      console.log('I the useeffect ran');
+      console.log('I the use effect ran');
       setEvent(res.data);
     });
   }, []);

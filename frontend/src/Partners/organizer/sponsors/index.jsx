@@ -30,6 +30,10 @@ const Sponsors = () => {
 
   const navigate = useNavigate();
 
+  // let { eventID } = useParams();
+  // eventID = eventID.toString();
+  const eventID = '642e6937973a5984d960f4cd';
+
   const getRegisteredData = async () => {
     try {
       const response = await axios.get(` /api/partners/sponsors/${eventID}`);
@@ -39,10 +43,6 @@ const Sponsors = () => {
       console.log(error);
     }
   };
-
-  let { eventID } = useParams();
-  eventID = eventID.toString();
-  console.log(typeof eventID);
 
   useEffect(() => {
     const fetchRegisteredData = async () => {
