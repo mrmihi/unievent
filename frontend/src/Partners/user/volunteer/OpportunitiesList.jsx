@@ -4,10 +4,10 @@ import {
   CardContent,
   CardMedia,
   Typography,
-} from "@mui/material";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+} from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const OpportunitiesList = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const OpportunitiesList = () => {
 
   const fetchData = async () => {
     const res = await axios.get(
-      "http://localhost:5000/api/partners/opportunities/643e8aa4d68e8278512c7c24"
+      'http://localhost:5000/api/partners/opportunities/643e8aa4d68e8278512c7c24'
     );
     setOpportunitiesData(res.data.data);
     console.log(res.data.data);
@@ -81,10 +81,10 @@ const OpportunitiesList = () => {
                         size="small"
                         sx={{
                           padding: 1,
-                          maxWidth: "100px",
-                          maxHeight: "40px",
-                          minWidth: "100px",
-                          minHeight: "40px",
+                          maxWidth: '100px',
+                          maxHeight: '40px',
+                          minWidth: '100px',
+                          minHeight: '40px',
                         }}
                       >
                         Details

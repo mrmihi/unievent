@@ -4,7 +4,7 @@ import {
   Search,
   ArrowDropDownOutlined,
 } from '@mui/icons-material';
-import FlexBetween from 'Event/components/FlexBetween';
+import FlexBetween from 'event/components/FlexBetween';
 import { useDispatch } from 'react-redux';
 
 import {

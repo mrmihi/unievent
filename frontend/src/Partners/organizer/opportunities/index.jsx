@@ -27,7 +27,6 @@ import {
 import moment from 'moment';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import OpportunityPDF from '../../pdf/OpportunityPDF';
-
 const Opportunities = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
@@ -136,13 +135,13 @@ const Opportunities = () => {
               )}`
             )
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Speaker`, 'success');
+              Swal.fire('Deleted!', `Deleted The Opportunity`, 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);
             })
             .catch((error) => {
-              Swal.fire('', 'Failed to Delete The Speaker', 'error');
+              Swal.fire('', 'Failed to Delete The Opportunity', 'error');
               console.log(error);
             });
         }
@@ -270,14 +269,14 @@ const Opportunities = () => {
           type: 'text',
         }),
       },
-      {
-        accessorKey: 'opportunityImage',
-        header: 'opportunityImage',
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: 'text',
-        }),
-      },
+      // {
+      //   accessorKey: 'opportunityImage',
+      //   header: 'opportunityImage',
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //     type: 'text',
+      //   }),
+      // },
     ],
     [getCommonEditTextFieldProps]
   );
@@ -331,7 +330,7 @@ const Opportunities = () => {
                 onClick={() => setCreateModalOpen(true)}
                 variant="contained"
               >
-                ADD A SPEAKER
+                ADD A Opportunity
               </Button>
               <OpportunityPDF tableData={tableData} />
             </div>
@@ -485,7 +484,6 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
             <TextField
               key="opportunityImage"
-              label="Speaker Image"
               name="opportunityImage"
               type="file"
               onChange={(e) => {
@@ -501,7 +499,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
       <DialogActions sx={{ p: '1.25rem' }}>
         <Button onClick={onClose}>Cancel</Button>
         <Button onClick={handleSubmit} variant="contained">
-          ADD THE SPEAKER
+          ADD THE Opportunity
         </Button>
       </DialogActions>
     </Dialog>

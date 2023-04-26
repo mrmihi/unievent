@@ -58,7 +58,7 @@ const Speaker = () => {
   //   tableData.push(values);
   //   try {
   //     await axios
-  //       .post(`http://localhost:5000/api/partners/speakers`, values)
+  //       .post(` api/partners/speakers`, values)
   //       .then((response) => {
   //         setServerSuccessMessage(response.data.message);
   //         if (serverSuccessMessage !== "") {
@@ -269,14 +269,14 @@ const Speaker = () => {
           type: 'text',
         }),
       },
-      {
-        accessorKey: 'speakerImage',
-        header: 'SpeakerImage',
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: 'text',
-        }),
-      },
+      // {
+      //   accessorKey: 'speakerImage',
+      //   header: 'SpeakerImage',
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //     type: 'text',
+      //   }),
+      // },
     ],
     [getCommonEditTextFieldProps]
   );
@@ -437,7 +437,6 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
             })}
             <TextField
               key="speakerImage"
-              label="Speaker Image"
               name="speakerImage"
               type="file"
               onChange={(e) => {

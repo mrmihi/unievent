@@ -4,20 +4,20 @@ import {
   FormControlLabel,
   TextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import { useForm } from "react-hook-form";
-import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 
-const userID = "643f6e981a4293c8000d4bd7";
+const userID = '643f6e981a4293c8000d4bd7';
 
 const OpportunityRegister = () => {
   const navigate = useNavigate();
-  const [serverErrorMessage, setServerErrorMessage] = useState("");
-  const [serverSuccessMessage, setServerSuccessMessage] = useState("");
+  const [serverErrorMessage, setServerErrorMessage] = useState('');
+  const [serverSuccessMessage, setServerSuccessMessage] = useState('');
 
   let { opportunityID } = useParams();
   opportunityID = opportunityID.toString();
@@ -36,16 +36,16 @@ const OpportunityRegister = () => {
   };
 
   useEffect(() => {
-    if (serverSuccessMessage !== "") {
-      Swal.fire("", serverSuccessMessage, "success").then(() =>
+    if (serverSuccessMessage !== '') {
+      Swal.fire('', serverSuccessMessage, 'success').then(() =>
         navigate(`users/event/appliedOpportunities/${userID}`)
       );
     }
   }, [navigate, serverSuccessMessage]);
 
   useEffect(() => {
-    if (serverErrorMessage !== "") {
-      Swal.fire("", serverErrorMessage, "error");
+    if (serverErrorMessage !== '') {
+      Swal.fire('', serverErrorMessage, 'error');
     }
   }, [serverErrorMessage]);
 
@@ -58,9 +58,9 @@ const OpportunityRegister = () => {
   const onSubmit = async (data) => {
     console.log(data);
     if (!data.availableTime || data.availableTime.length === 0) {
-      setError("availableTime", {
-        type: "manual",
-        message: "Please select at least one available time.",
+      setError('availableTime', {
+        type: 'manual',
+        message: 'Please select at least one available time.',
       });
       return;
     }
@@ -83,18 +83,18 @@ const OpportunityRegister = () => {
               <div className="flex items-center">
                 <TextField
                   value={userID}
-                  style={{ display: "none" }}
-                  {...register("userID")}
+                  style={{ display: 'none' }}
+                  {...register('userID')}
                 />
                 <TextField
                   value="pending"
-                  style={{ display: "none" }}
-                  {...register("status")}
+                  style={{ display: 'none' }}
+                  {...register('status')}
                 />
                 <TextField
                   fullWidth
-                  {...register("fullName", {
-                    required: "Please enter your full name.",
+                  {...register('fullName', {
+                    required: 'Please enter your full name.',
                   })}
                   label="Full Name"
                   variant="outlined"
@@ -110,11 +110,11 @@ const OpportunityRegister = () => {
                 <TextField
                   fullWidth
                   type="text"
-                  {...register("contactNo", {
-                    required: "Please enter a valid contact number.",
+                  {...register('contactNo', {
+                    required: 'Please enter a valid contact number.',
                     pattern: {
                       value: /^\d{10}$/,
-                      message: "Please enter a valid 10-digit phone number.",
+                      message: 'Please enter a valid 10-digit phone number.',
                     },
                   })}
                   label="Contact Number"
@@ -131,8 +131,8 @@ const OpportunityRegister = () => {
               <div className=" mt-8">
                 <TextField
                   fullWidth
-                  {...register("email", {
-                    required: "Please enter a valid email",
+                  {...register('email', {
+                    required: 'Please enter a valid email',
                   })}
                   label="Email"
                   variant="outlined"
@@ -148,17 +148,17 @@ const OpportunityRegister = () => {
               <div className="flex flex-col  text-slate-500  mt-8">
                 <div>
                   <FormControlLabel
-                    {...register("availableTime", { required: true })}
+                    {...register('availableTime', { required: true })}
                     control={<Checkbox value="Morning" />}
                     label="Morning"
                   />
                   <FormControlLabel
-                    {...register("availableTime", { required: true })}
+                    {...register('availableTime', { required: true })}
                     control={<Checkbox value="Evening" />}
                     label="Evening"
                   />
                   <FormControlLabel
-                    {...register("availableTime", { required: true })}
+                    {...register('availableTime', { required: true })}
                     control={<Checkbox value="Night" />}
                     label="Night"
                   />

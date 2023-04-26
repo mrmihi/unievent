@@ -33,7 +33,7 @@ const Sponsors = () => {
   const getRegisteredData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/partners/sponsors/${eventID}`
+        ` http://localhost:5000/api/partners/sponsors/${eventID}`
       );
       console.log(response.data.data);
       setTableData(response.data.data);
@@ -60,7 +60,7 @@ const Sponsors = () => {
   //   tableData.push(values);
   //   try {
   //     await axios
-  //       .post(`http://localhost:5000/api/partners/sponsors`, values)
+  //       .post(` http://localhost:5000/api/partners/sponsors`, values)
   //       .then((response) => {
   //         setServerSuccessMessage(response.data.message);
   //         if (serverSuccessMessage !== "") {
@@ -86,7 +86,7 @@ const Sponsors = () => {
       setTableData([...tableData]);
       try {
         const response = await axios.post(
-          `http://localhost:5000/api/partners/sponsors`,
+          ` http://localhost:5000/api/partners/sponsors`,
           newValues
         );
         console.log(response);
@@ -109,7 +109,7 @@ const Sponsors = () => {
       tableData[row.index] = newValues;
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/partners/sponsors/${newValues._id}`,
+          ` http://localhost:5000/api/partners/sponsors/${newValues._id}`,
           newValues
         );
         setServerSuccessMessage(response.data.message);
@@ -147,7 +147,7 @@ const Sponsors = () => {
         if (result.isConfirmed) {
           axios
             .delete(
-              `http://localhost:5000/api/partners/sponsors/${row.getValue(
+              ` http://localhost:5000/api/partners/sponsors/${row.getValue(
                 '_id'
               )}`
             )
@@ -261,14 +261,14 @@ const Sponsors = () => {
           type: 'email',
         }),
       },
-      {
-        accessorKey: 'sponsorImage',
-        header: 'Sponsor Image',
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: 'text',
-        }),
-      },
+      // {
+      //   accessorKey: 'sponsorImage',
+      //   header: 'Sponsor Image',
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //     type: 'text',
+      //   }),
+      // },
     ],
     [getCommonEditTextFieldProps]
   );
@@ -322,7 +322,7 @@ const Sponsors = () => {
                 onClick={() => setCreateModalOpen(true)}
                 variant="contained"
               >
-                ADD A SPEAKER
+                ADD A SPONSOR
               </Button>
               <SponsorPDF tableData={tableData} />
             </div>

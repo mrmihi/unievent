@@ -5,13 +5,13 @@ import {
   CardContent,
   CardMedia,
   Typography,
-} from "@mui/material";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+} from '@mui/material';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AppliedOpportunitiesList = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -68,7 +68,7 @@ const AppliedOpportunitiesList = () => {
   console.log(registeredData);
   console.log(opportunityData);
 
-  const status = ["Pending", "Approved", "Rejected"];
+  const status = ['Pending', 'Approved', 'Rejected'];
 
   return (
     <div>
@@ -90,7 +90,7 @@ const AppliedOpportunitiesList = () => {
               registeredData?.map((data, index) => {
                 const opData = opportunityData[index] || {};
                 return (
-                  <Card key={index} sx={{ marginBottom: "30px" }}>
+                  <Card key={index} sx={{ marginBottom: '30px' }}>
                     <CardMedia
                       sx={{ height: 300 }}
                       title={opData.name}
@@ -116,12 +116,12 @@ const AppliedOpportunitiesList = () => {
                         variant="body2"
                         color="text.primary"
                         textAlign="center"
-                        sx={{ marginTop: "20px" }}
+                        sx={{ marginTop: '20px' }}
                       >
                         {opData.created_at}
                       </Typography>
 
-                      <Box sx={{ width: "100%", marginTop: "20px" }}>
+                      <Box sx={{ width: '100%', marginTop: '20px' }}>
                         <Stepper
                           activeStep={status.indexOf(data.status) + 2}
                           alternativeLabel
@@ -153,10 +153,10 @@ const AppliedOpportunitiesList = () => {
                         size="small"
                         sx={{
                           padding: 1,
-                          maxWidth: "100px",
-                          maxHeight: "40px",
-                          minWidth: "100px",
-                          minHeight: "40px",
+                          maxWidth: '100px',
+                          maxHeight: '40px',
+                          minWidth: '100px',
+                          minHeight: '40px',
                         }}
                       >
                         Details
@@ -169,10 +169,10 @@ const AppliedOpportunitiesList = () => {
                         size="small"
                         sx={{
                           padding: 1,
-                          maxWidth: "100px",
-                          maxHeight: "40px",
-                          minWidth: "100px",
-                          minHeight: "40px",
+                          maxWidth: '100px',
+                          maxHeight: '40px',
+                          minWidth: '100px',
+                          minHeight: '40px',
                         }}
                       >
                         Schedule

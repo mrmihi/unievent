@@ -473,7 +473,6 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
             })}
             <TextField
               key="speakerImage"
-              label="Speaker Image"
               name="speakerImage"
               type="file"
               onChange={(e) => {
