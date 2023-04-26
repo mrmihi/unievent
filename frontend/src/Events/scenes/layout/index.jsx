@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { Box, useMediaQuery } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+<<<<<<< HEAD:frontend/src/Events/scenes/layout/index.jsx
 import Navbar from 'Events/components/Navbar';
 import Sidebar from 'Events/components/Sidebar';
+=======
+import Navbar from 'event/components/Navbar';
+import Sidebar from 'event/components/Sidebar';
+>>>>>>> 33a81a58692926137a42b790b2ab37ba9b5c0e9b:frontend/src/event/scenes/layout/index.jsx
 import { useGetAttendeeQuery } from '../../../Attendee/state/api';
 import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';

@@ -39,7 +39,8 @@ import OpportunitiesList from 'Partners/user/volunteer/OpportunitiesList';
 import AppliedOpportunitiesList from 'Partners/user/volunteer/AppliedOpportunitiesList';
 import UpdateVolunteerApplication from 'Partners/user/volunteer/UpdateVolunteerApplication';
 import OpportunityDetails from 'Partners/user/volunteer/OpportunityDetails';
-import OpportunityRegister from 'Resource/components/registrationForm';
+import OpportunityRegister from 'Partners/user/volunteer/OpportunityRegister';
+
 // import OpportunityRegister from 'Partners/user/volunteer/OpportunityRegister';
 
 function App() {
@@ -133,22 +134,22 @@ function App() {
               </Route>
               <Route path="*" element={<PageNotFound />} />
               {/*Partner Routes */}
-              <Route element={<Layout />}>
+              <Route element={<ELayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
                 <Route
-                  path="/admin/event/speakers/:eventID"
+                  path="/org/dashboard/speakers/:eventID"
                   element={<Speaker />}
                 />
                 <Route
-                  path="/admin/event/sponsors/:eventID"
+                  path="/org/dashboard/sponsors/:eventID"
                   element={<Sponsors />}
                 />
                 <Route
-                  path="/admin/event/volunteers/"
+                  path="/org/dashboard/volunteers/"
                   element={<Volunteers />}
                 />
                 <Route
-                  path="/admin/event/opportunities/:eventID"
+                  path="/org/dashboard/opportunities/:eventID"
                   element={<Opportunities />}
                 />
               </Route>

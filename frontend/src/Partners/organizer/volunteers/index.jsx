@@ -30,9 +30,7 @@ const Volunteers = () => {
   const navigate = useNavigate();
   const getRegisteredData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/partners/volunteers/`
-      );
+      const response = await axios.get(`/api/partners/volunteers/`);
       console.log(response.data.data);
       setTableData(response.data.data);
     } catch (error) {
@@ -62,10 +60,7 @@ const Volunteers = () => {
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/partners/speakers`,
-        newValues
-      );
+      const response = await axios.post(`/api/partners/speakers`, newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
@@ -93,7 +88,7 @@ const Volunteers = () => {
       tableData[row.index] = newValues;
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/partners/volunteers/status/${values._id}`,
+          `/api/partners/volunteers/status/${values._id}`,
           { status: values.status }
         );
         setServerSuccessMessage(response.data.message);
@@ -130,11 +125,7 @@ const Volunteers = () => {
         if (result.isConfirmed) {
           console.log(result.isConfirmed);
           axios
-            .delete(
-              `http://localhost:5000/api/partners/volunteers/${row.getValue(
-                '_id'
-              )}`
-            )
+            .delete(`/api/partners/volunteers/${row.getValue('_id')}`)
             .then((response) => {
               Swal.fire(
                 'Deleted!',
@@ -473,7 +464,6 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
             })}
             <TextField
               key="speakerImage"
-              label="Speaker Image"
               name="speakerImage"
               type="file"
               onChange={(e) => {

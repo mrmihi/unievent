@@ -30,9 +30,7 @@ const Speaker = () => {
   const navigate = useNavigate();
   const getRegisteredData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/partners/speakers/${eventID}`
-      );
+      const response = await axios.get(`/api/partners/speakers/${eventID}`);
       console.log(response.data.data);
       setTableData(response.data.data);
     } catch (error) {
@@ -58,7 +56,7 @@ const Speaker = () => {
   //   tableData.push(values);
   //   try {
   //     await axios
-  //       .post(`http://localhost:5000/api/partners/speakers`, values)
+  //       .post(` api/partners/speakers`, values)
   //       .then((response) => {
   //         setServerSuccessMessage(response.data.message);
   //         if (serverSuccessMessage !== "") {
@@ -82,10 +80,7 @@ const Speaker = () => {
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/partners/speakers`,
-        newValues
-      );
+      const response = await axios.post(`/api/partners/speakers`, newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
@@ -110,7 +105,7 @@ const Speaker = () => {
       tableData[row.index] = newValues;
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/partners/speakers/${newValues._id}`,
+          `/api/partners/speakers/${newValues._id}`,
           newValues
         );
         setServerSuccessMessage(response.data.message);
@@ -147,11 +142,7 @@ const Speaker = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           axios
-            .delete(
-              `http://localhost:5000/api/partners/speakers/${row.getValue(
-                '_id'
-              )}`
-            )
+            .delete(`/api/partners/speakers/${row.getValue('_id')}`)
             .then((response) => {
               Swal.fire('Deleted!', `Deleted The Speaker`, 'success');
               console.log(response);
@@ -269,14 +260,14 @@ const Speaker = () => {
           type: 'text',
         }),
       },
-      {
-        accessorKey: 'speakerImage',
-        header: 'SpeakerImage',
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: 'text',
-        }),
-      },
+      // {
+      //   accessorKey: 'speakerImage',
+      //   header: 'SpeakerImage',
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //     type: 'text',
+      //   }),
+      // },
     ],
     [getCommonEditTextFieldProps]
   );
@@ -437,7 +428,6 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
             })}
             <TextField
               key="speakerImage"
-              label="Speaker Image"
               name="speakerImage"
               type="file"
               onChange={(e) => {
