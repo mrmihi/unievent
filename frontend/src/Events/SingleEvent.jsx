@@ -31,6 +31,10 @@ function SingleEvent() {
             <Typography variant="h4">Capacity : {event.capacity}</Typography>
             <Typography variant="h4">Start Time : {event.startTime}</Typography>
             <Typography variant="h4">End Time : {event.endTime}</Typography>
+            <Typography variant="h4">
+              Attendee Count : {event.attendeeCount}
+            </Typography>
+            <Typography variant="h4">Capacity : {event.capacity}</Typography>
           </div>
         </div>
         <div className="mt-8 text-center ml-12 mr-12 mb-6">
@@ -38,11 +42,16 @@ function SingleEvent() {
             sx={{ width: 300 }}
             variant="contained"
             color="primary"
+            {...(event.attendeeCount < event.capacity
+              ? {}
+              : { disabled: true })}
             onClick={() => {
               navigate(`/events/${id}/register`);
             }}
           >
-            Register
+            {event.attendeeCount < event.capacity
+              ? 'Register'
+              : 'Registrations Exceeded'}
           </Button>
           <Button
             sx={{ width: 300, marginLeft: '5px' }}

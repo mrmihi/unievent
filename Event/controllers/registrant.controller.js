@@ -1,10 +1,20 @@
 const Registrant = require('../models/registrant.model');
-
+const Event = require('../models/event.model');
+const EventService = require('../services/event.service');
 // CREATE operation
 async function createRegistrant(req, res) {
   try {
     const registrant = new Registrant(req.body);
     const savedRegistrant = await registrant.save();
+    // const event = await EventService.getEventById(req.body.eventId);
+    Event.updateOne({ _id: req.body.eventId }, { $inc: { attendeeCount: 1 } })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     res.json(savedRegistrant.toJSON());
   } catch (err) {
     throw new Error(`Error creating registrant: ${err.message}`);
