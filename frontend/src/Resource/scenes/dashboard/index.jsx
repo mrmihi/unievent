@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import Header from 'event/components/Header';
-import FlexBetween from 'event/components/FlexBetween';
+import Header from 'Events/components/Header';
+import FlexBetween from 'Events/components/FlexBetween';
 
 const Dashboard = () => {
   return (
