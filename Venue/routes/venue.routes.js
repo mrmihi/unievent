@@ -1,6 +1,6 @@
 const express = require('express');
 const { protect, venueManagerProtect } = require('../../User/middleware/authMiddleware');
-const { createVenue, getAllVenues, getVenueById, getVenuesByManagerId, updateVenueById, deleteVenueById } = require('../controllers/venue.controller');
+const { createVenue, getAllVenues, getVenueById, getVenuesByManagerId, updateVenueById, deleteVenueById, getVenueAndReviews } = require('../controllers/venue.controller');
 
 const venueRouter = express.Router();
 
@@ -10,5 +10,6 @@ venueRouter.get('/:id', getVenueById)
 venueRouter.get('/manager/:id', getVenuesByManagerId)
 venueRouter.put('/:id', updateVenueById)
 venueRouter.delete('/:id', deleteVenueById)
+venueRouter.get('/:id/profile', getVenueAndReviews)
 
 module.exports = venueRouter;
