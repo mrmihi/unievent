@@ -5,9 +5,9 @@ import logo from './image.png';
 const doc = new jsPDF();
 
 const exportPDF = (tableData) => {
-  doc.addImage(logo, 'PNG', 15, 10, 14, 14);
+  doc.addImage(logo, 'PNG', 0, 0, 200, 50);
   doc.setFontSize(18);
-  doc.text('Event Report', 30, 20);
+  // doc.text('Event Report', 30, 20);
 
   // It can parse html:
   // <table id="my-table"><!-- ... --></table>
@@ -22,7 +22,7 @@ const exportPDF = (tableData) => {
   autoTable(doc, {
     head: [['Name', 'Description', 'Category', 'Status']],
     body: data,
-    startY: 30,
+    startY: 60,
   });
 
   doc.save('Events.pdf');

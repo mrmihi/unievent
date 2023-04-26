@@ -100,7 +100,6 @@ export default function AllEvents() {
 
       <AppBar position="relative">
         <Toolbar>
-          <CameraIcon sx={{ mr: 2 }} />
           <Typography variant="h6" color="inherit" noWrap>
             Events
           </Typography>
@@ -144,10 +143,6 @@ export default function AllEvents() {
                     </Typography>
                     <Typography>{event.description}</Typography>
                   </CardContent>
-                  <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
-                  </CardActions>
                 </Card>
               </Grid>
             ))}
