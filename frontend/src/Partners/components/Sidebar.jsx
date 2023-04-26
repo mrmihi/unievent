@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Divider,
@@ -11,7 +11,7 @@ import {
   ListItemText,
   Typography,
   useTheme,
-} from "@mui/material";
+} from '@mui/material';
 import {
   ChevronLeft,
   ChevronRightOutlined,
@@ -26,65 +26,85 @@ import {
   TrendingUpOutlined,
   PieChartOutlined,
   AssignmentIndOutlined,
-} from "@mui/icons-material";
-import FeedbackIcon from "@mui/icons-material/Feedback";
-import EmailIcon from "@mui/icons-material/Email";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import FlexBetween from "./FlexBetween";
+} from '@mui/icons-material';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import EmailIcon from '@mui/icons-material/Email';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import FlexBetween from './FlexBetween';
 
 const navItems = [
   {
-    text: "Dashboard",
+    text: 'Dashboard',
     icon: <HomeOutlined />,
   },
   {
-    text: "Approval Management",
+    text: 'Approval Management',
     icon: null,
   },
   {
-    text: "FeedBacks",
+    text: 'FeedBacks',
     icon: <FeedbackIcon />,
   },
   {
-    text: "Attendees",
+    text: 'Attendees',
     icon: <Groups2Outlined />,
   },
   {
-    text: "DataFinalists",
+    text: 'DataFinalists',
     icon: <ReceiptLongOutlined />,
   },
 
   {
-    text: "Venue Management",
+    text: 'Venue Management',
     icon: null,
   },
   {
-    text: "Overview",
+    text: 'Overview',
     icon: <PointOfSaleOutlined />,
   },
   {
-    text: "Daily",
+    text: 'Daily',
     icon: <TodayOutlined />,
   },
   {
-    text: "Monthly",
+    text: 'Monthly',
     icon: <CalendarMonthOutlined />,
   },
   {
-    text: "Breakdown",
+    text: 'Breakdown',
     icon: <PieChartOutlined />,
   },
   {
-    text: "Resource Management",
+    text: 'Resource Management',
     icon: null,
   },
   {
-    text: "Administrator",
+    text: 'Administrator',
     icon: <AdminPanelSettingsOutlined />,
   },
   {
-    text: "AttendeeStatus",
+    text: 'AttendeeStatus',
+    icon: <AssignmentIndOutlined />,
+  },
+  {
+    text: 'Partner Management',
+    icon: null,
+  },
+  {
+    text: 'Speakers',
+    icon: <AssignmentIndOutlined />,
+  },
+  {
+    text: 'Sponsors',
+    icon: <AssignmentIndOutlined />,
+  },
+  {
+    text: 'Volunteers',
+    icon: <AssignmentIndOutlined />,
+  },
+  {
+    text: 'Opportunities',
     icon: <AssignmentIndOutlined />,
   },
 ];
@@ -97,7 +117,7 @@ const Sidebar = ({
   isNonMobile,
 }) => {
   const { pathname } = useLocation();
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState('');
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -115,11 +135,11 @@ const Sidebar = ({
           anchor="left"
           sx={{
             width: drawerWidth,
-            "& .MuiDrawer-paper": {
+            '& .MuiDrawer-paper': {
               color: theme.palette.primary[200],
               backgroundColor: theme.palette.background.alt,
-              boxSixing: "border-box",
-              borderWidth: isNonMobile ? 0 : "2px",
+              boxSixing: 'border-box',
+              borderWidth: isNonMobile ? 0 : '2px',
               width: drawerWidth,
             },
           }}
@@ -143,7 +163,7 @@ const Sidebar = ({
               {navItems.map(({ text, icon }) => {
                 if (!icon) {
                   return (
-                    <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
+                    <Typography key={text} sx={{ m: '2.25rem 0 1rem 3rem' }}>
                       {text}
                     </Typography>
                   );
@@ -154,14 +174,14 @@ const Sidebar = ({
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
-                        navigate(`/admin/venue/${lcText}`);
+                        navigate(`/organizer/event/${lcText}`);
                         setActive(lcText);
                       }}
                       sx={{
                         backgroundColor:
                           active === lcText
                             ? theme.palette.primary[300]
-                            : "transparent",
+                            : 'transparent',
                         color:
                           active === lcText
                             ? theme.palette.primary[600]
@@ -170,7 +190,7 @@ const Sidebar = ({
                     >
                       <ListItemIcon
                         sx={{
-                          ml: "2rem",
+                          ml: '2rem',
                           color:
                             active === lcText
                               ? theme.palette.primary[600]
@@ -181,7 +201,7 @@ const Sidebar = ({
                       </ListItemIcon>
                       <ListItemText primary={text} />
                       {active === lcText && (
-                        <ChevronRightOutlined sx={{ ml: "auto" }} />
+                        <ChevronRightOutlined sx={{ ml: 'auto' }} />
                       )}
                     </ListItemButton>
                   </ListItem>

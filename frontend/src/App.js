@@ -15,20 +15,20 @@ import Breakdown from "./Attendee/scenes/breakdown";
 import RSVPEMAIL from "./Attendee/scenes/revpemail";
 import Administrator from "./Attendee/scenes/administrator";
 import AttendeeStatus from "./Attendee/scenes/attendeeStatus";
-import ELayout from "./Event/scenes/layout";
-import EDashboard from "./Event/scenes/dashboard";
-import LoginPage from "./Event/scenes/login";
-import AllEventsTable from "./Event/tables/AllEventsTable";
-import SingleEvent from "./Event/SingleEvent";
-import AllEventView from "./Event/AllEventView";
-import AllEvents from "./Event/AllEvents";
-import EventCreationForm from "Event/components/registrationForm";
+import ELayout from "./Events/scenes/layout";
+import EDashboard from "./Events/scenes/dashboard";
+import LoginPage from "./Events/scenes/login";
+import AllEventsTable from "./Events/tables/AllEventsTable";
+import SingleEvent from "./Events/SingleEvent";
+import AllEventView from "./Events/AllEventView";
+import AllEvents from "./Events/AllEvents";
+import EventCreationForm from "Events/components/registrationForm";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import RLayout from "./Resource/scenes/layout";
 import RDashboard from "./Resource/scenes/dashboard";
 import ResourcesTable from "./Resource/tables/allResources";
-import PageNotFound from "./Event/pages/PageNotFound.jsx";
+import PageNotFound from "./Events/pages/PageNotFound.jsx";
 import AllResourcesView from "Resource/pages/AllResourcesView";
 import Speaker from "Partners/organizer/speakers";
 import Sponsors from "Partners/organizer/sponsors";
@@ -39,6 +39,7 @@ import AppliedOpportunitiesList from "Partners/user/volunteer/AppliedOpportuniti
 import UpdateVolunteerApplication from "Partners/user/volunteer/UpdateVolunteerApplication";
 import OpportunityDetails from "Partners/user/volunteer/OpportunityDetails";
 import OpportunityRegister from "Resource/components/registrationForm";
+
 // import OpportunityRegister from 'Partners/user/volunteer/OpportunityRegister';
 
 import VLayout from "Venue/src/scenes/layout";
@@ -145,22 +146,22 @@ function App() {
               </Route>
               <Route path="*" element={<PageNotFound />} />
               {/*Partner Routes */}
-              <Route element={<Layout />}>
+              <Route element={<ELayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
                 <Route
-                  path="/admin/event/speakers/:eventID"
+                  path="/org/dashboard/speakers/:eventID"
                   element={<Speaker />}
                 />
                 <Route
-                  path="/admin/event/sponsors/:eventID"
+                  path="/org/dashboard/sponsors/:eventID"
                   element={<Sponsors />}
                 />
                 <Route
-                  path="/admin/event/volunteers/"
+                  path="/org/dashboard/volunteers/"
                   element={<Volunteers />}
                 />
                 <Route
-                  path="/admin/event/opportunities/:eventID"
+                  path="/org/dashboard/opportunities/:eventID"
                   element={<Opportunities />}
                 />
               </Route>

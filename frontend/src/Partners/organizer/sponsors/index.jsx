@@ -32,9 +32,7 @@ const Sponsors = () => {
 
   const getRegisteredData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/partners/sponsors/${eventID}`
-      );
+      const response = await axios.get(` /api/partners/sponsors/${eventID}`);
       console.log(response.data.data);
       setTableData(response.data.data);
     } catch (error) {
@@ -60,7 +58,7 @@ const Sponsors = () => {
   //   tableData.push(values);
   //   try {
   //     await axios
-  //       .post(`http://localhost:5000/api/partners/sponsors`, values)
+  //       .post(` /api/partners/sponsors`, values)
   //       .then((response) => {
   //         setServerSuccessMessage(response.data.message);
   //         if (serverSuccessMessage !== "") {
@@ -85,10 +83,7 @@ const Sponsors = () => {
       tableData.push(newValues);
       setTableData([...tableData]);
       try {
-        const response = await axios.post(
-          `http://localhost:5000/api/partners/sponsors`,
-          newValues
-        );
+        const response = await axios.post(` /api/partners/sponsors`, newValues);
         console.log(response);
         setServerSuccessMessage(response.data.message);
       } catch (error) {
@@ -109,7 +104,7 @@ const Sponsors = () => {
       tableData[row.index] = newValues;
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/partners/sponsors/${newValues._id}`,
+          ` /api/partners/sponsors/${newValues._id}`,
           newValues
         );
         setServerSuccessMessage(response.data.message);
@@ -146,11 +141,7 @@ const Sponsors = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           axios
-            .delete(
-              `http://localhost:5000/api/partners/sponsors/${row.getValue(
-                '_id'
-              )}`
-            )
+            .delete(` /api/partners/sponsors/${row.getValue('_id')}`)
             .then((response) => {
               Swal.fire('Deleted!', `Deleted The Sponsor`, 'success');
               console.log(response);
@@ -261,14 +252,14 @@ const Sponsors = () => {
           type: 'email',
         }),
       },
-      {
-        accessorKey: 'sponsorImage',
-        header: 'Sponsor Image',
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: 'text',
-        }),
-      },
+      // {
+      //   accessorKey: 'sponsorImage',
+      //   header: 'Sponsor Image',
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //     type: 'text',
+      //   }),
+      // },
     ],
     [getCommonEditTextFieldProps]
   );
@@ -322,7 +313,7 @@ const Sponsors = () => {
                 onClick={() => setCreateModalOpen(true)}
                 variant="contained"
               >
-                ADD A SPEAKER
+                ADD A SPONSOR
               </Button>
               <SponsorPDF tableData={tableData} />
             </div>

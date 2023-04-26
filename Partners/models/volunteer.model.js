@@ -15,7 +15,7 @@ const VolunteerSchema = mongoose.Schema(
       required: true,
     },
     availableTime: {
-      type: String,
+      type: [String],
       required: true,
     },
     status: {
