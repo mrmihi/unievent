@@ -1,15 +1,15 @@
 import React from "react";
 import { Box } from "@mui/material";
-import Header from "components/Header";
-import FlexBetween from "components/FlexBetween";
+import Header from "Venue/src/components/Header";
+import FlexBetween from "Venue/src/components/FlexBetween";
 
-const FeedBakcs = () => {
+const Daily = () => {
     return (
         <Box m="1.5rem 2.5rem">
             <div>
                 <FlexBetween>
                     <Header
-                        title="ATTENDEES FEEDBACKS Monitoring"
+                        title="ATTENDEES DAILY ANALYSIS CHART"
                         subtitle="Welcome to your dashboard"
                     />
                 </FlexBetween>
@@ -18,4 +18,4 @@ const FeedBakcs = () => {
     );
 };
 
-export default FeedBakcs;
+export default Daily;

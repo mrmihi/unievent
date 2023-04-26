@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Navbar from "../../components/Navbar"
-import Sidebar from "../../components/Sidebar";
+import Navbar from "Venue/src/components/Navbar";
+import Sidebar from "Venue/src/components/Sidebar";
 import { useGetAttendeeQuery } from "../../state/api";
 import { Navigate } from "react-router-dom";
 import Cookies from "js-cookie";

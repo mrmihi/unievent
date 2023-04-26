@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
-import Header from "../../../components/Header";
-import FlexBetween from "../../../components/FlexBetween";
+import Header from "Venue/src/components/Header";
+import FlexBetween from "Venue/src/components/FlexBetween";
 import { useEffect } from "react";
 import axios from "axios";
 import Cookie from "js-cookie";

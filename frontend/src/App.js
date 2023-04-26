@@ -42,19 +42,18 @@ import OpportunityRegister from 'Resource/components/registrationForm';
 // import OpportunityRegister from 'Partners/user/volunteer/OpportunityRegister';
 
 
-import VLayout from "./venue-management/src/scenes/layout";
-import VDashboard from 'venue-management/src/scenes/dashboard';
-// import VFeedBacks from "./venue-management/src/scenes/scenes/feedBacks";
-// import VAttendees from "./venue-management/src/scenes/scenes/attendees";
-import VDataFinalists from 'venue-management/src/scenes/dataFinalists';
-// import VBreakdown from "./venue-management/src/scenes/scenes/breakdown";
-import VLoginPage from 'venue-management/src/scenes/login';
-import VReview from 'venue-management/src/scenes/venue/review';
-import VVenue from './venue-management/src/scenes/venue/venue';
-import VVenueQuotation from 'venue-management/src/scenes/venue/venue-report';
-import VAddVenue from 'venue-management/src/scenes/venue/add-venue';
-import VVenuePage from 'venue-management/src/scenes/venue/edit-venue-page';
-import VVenueProfile from 'venue-management/src/scenes/venue/venue-profile';
+import VLayout from "Venue/src/scenes/layout";
+import VDashboard from 'Venue/src/scenes/dashboard';
+import VFeedBacks from 'Venue/src/scenes/feedBacks';
+import VAttendees from 'Venue/src/scenes/attendees';
+import VDataFinalists from 'Venue/src/scenes/dataFinalists';
+import VLoginPage from 'Venue/src/scenes/login';
+import VReview from 'Venue/src/scenes/venue/review';
+import VVenue from 'Venue/src/scenes/venue/venue';
+import VVenueQuotation from 'Venue/src/scenes/venue/venue-report';
+import VAddVenue from 'Venue/src/scenes/venue/add-venue';
+import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
+import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -176,17 +175,14 @@ function App() {
                         <Route element={<VLayout />}>
                             <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} />
                             <Route path="/admin/venue/dashboard" element={<VDashboard />} />
-                            <Route path="/admin/venue/feedBacks" element={<h1>FeedBacks</h1>} />
-                            <Route path="/admin/venue/attendees" element={<h1>Attendees</h1>} />
+                            <Route path="/admin/venue/feedBacks" element={<VFeedBacks/>} />
+                            <Route path="/admin/venue/attendees" element={<VAttendees/>} />
                             <Route path="/admin/venue/dataFinalists" element={<VDataFinalists />} />
                             <Route path="/admin/venue/venues" element={<VVenue />} />
-
                             <Route path="/admin/venue/venues/edit/:id" element={<VVenuePage/>} />
                             <Route path="/admin/venue/venues/:id" element={<VVenueProfile/>} />
                             <Route path="/admin/venue/report" element={<VVenueQuotation/>} />
-                            
                             <Route path="/admin/venue/add" element={<VAddVenue />} />
-                            <Route path="/admin/venue/breakdown" element={<Breakdown />} />
                             <Route path="/admin/venue/reviews" element={<VReview />} />
                         </Route>
                     </Route>

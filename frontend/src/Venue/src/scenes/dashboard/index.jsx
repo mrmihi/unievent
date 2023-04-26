@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import Header from "venue-management/src/components/Header";
-import FlexBetween from "venue-management/src/components/FlexBetween";
-import RevenueChart from "venue-management/src/components/dashboard/RevenueChart";
-import FourAnalytics from "venue-management/src/components/dashboard/FourAnalytics";
-import LatestBookings from "venue-management/src/components/dashboard/LatestBookings";
+import Header from "Venue/src/components/Header";
+import FlexBetween from "Venue/src/components/FlexBetween";
+import RevenueChart from "Venue/src/components/dashboard/RevenueChart";
+import FourAnalytics from "Venue/src/components/dashboard/FourAnalytics";
+import LatestBookings from "Venue/src/components/dashboard/LatestBookings";
 
 const getGreeting = () => {
     const now = new Date();

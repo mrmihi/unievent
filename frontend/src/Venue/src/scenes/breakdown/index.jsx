@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from "@mui/material"
-import Header from "components/Header";
-import FlexBetween from "components/FlexBetween";
+import Header from 'Venue/src/components/Header'
+import FlexBetween from 'Venue/src/components/FlexBetween'
 
 
 const BreakdownChart = () => {

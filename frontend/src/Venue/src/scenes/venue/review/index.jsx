@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Box } from "@mui/material";
-import FlexBetween from "venue-management/src/components/FlexBetween";
-import Header from "venue-management/src/components/Header";
+import FlexBetween from "Venue/src/components/FlexBetween";
+import Header from "Venue/src/components/Header";
 import axios from "axios";
 import MaterialReactTable from "material-react-table";
 import Typography from "@mui/material/Typography";
