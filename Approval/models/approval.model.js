@@ -7,7 +7,7 @@ const enums = require('../constants/approval.constants');
 const { User } = require('../../User/models/user.model');
 
 const eventApprovalSchema = new Schema({
-    event_id: { type: Schema.Types.ObjectId, ref : 'Event', required: true },
+    event_id: { type: Schema.Types.ObjectId, ref : 'Event', required: true , Unique: true},
     lic_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request'},
     venue_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
     budget_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
@@ -23,10 +23,10 @@ const approvalRequestSchema = new Schema({
     requested_at : { type: Date, required: true },
     requested_to : { type: Schema.Types.ObjectId, ref: 'User', required: true },
     requested_by : { type: Schema.Types.ObjectId, ref: 'Organization', required: true },
-    viewed_at : { type: Date, required: true },
+    viewed_at : { type: Date },
     status : { type: String, enum: enums.APPROVAL_REQUEST_STATUS, required: true },
     request_note : { type: String, required: true },
-    responded_at : { type: Date, required: true },
+    responded_at : { type: Date },
 },{
     timestamps: true,
 });
@@ -39,7 +39,6 @@ const appointmentSchema = new Schema({
     mode: { type: String, enum : enums.APPOINTMENT_MODE, required: true },
     location: { type: String },
     status: { type: String, enum: enums.APPOINTMENT_STATUS, required: true },
-    sent_on: { type: Date, required: true },
     responded_on: { type: Date },
     meetinglink : { type: String },
     appointment_note : { type: String, required: true },

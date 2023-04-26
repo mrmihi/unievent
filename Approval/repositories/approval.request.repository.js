@@ -42,11 +42,17 @@ const deleteApprovalRequest = async (id) => {
     return deletedApprovalRequest;
 }
 
+const deleteRequestsByEventApprovalID = async (eventApprovalID) => {
+    const deletedApprovalRequests = await Approval_Request.deleteMany({ approval_id: eventApprovalID })
+    return deletedApprovalRequests;
+}
+
 module.exports = {
     createApprovalRequest,
     getApprovalRequest,
     getAllApprovalRequests,
     updateApprovalRequest,
     deleteApprovalRequest,
-    getApprovalRequestsOfUser
+    getApprovalRequestsOfUser,
+    deleteRequestsByEventApprovalID,
 };

@@ -16,7 +16,8 @@ const {
     getApprovalRequest,
     updateApprovalRequest,
     deleteApprovalRequest,
-    getApprovalRequestsOfUser
+    getApprovalRequestsOfUser,
+    deleteRequestsByEventApprovalID
 } = require("../controllers/approval.request.controller");
 
 const {
@@ -46,6 +47,7 @@ router.get("/request/user/:id", getApprovalRequestsOfUser);
 router.get("/request/:id", getApprovalRequest);
 router.put("/request/:id", updateApprovalRequest);
 router.delete("/request/:id", deleteApprovalRequest);
+router.get("/request/events/:id", deleteRequestsByEventApprovalID);
 
 //Appointment
 router.get("/appointment", getAllAppointment);

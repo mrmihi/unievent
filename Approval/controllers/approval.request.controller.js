@@ -75,11 +75,23 @@ const deleteApprovalRequest = async (req, res) => {
   });
 };
 
+const deleteRequestsByEventApprovalID = async (req, res) => {
+  const { id : eventApprovalID } = req.params;
+  const result = await ApprovalRequestService.deleteRequestsByEventApprovalID(eventApprovalID);
+  return makeResponse({
+    res,
+    success: result.success,
+    message: result.message,
+    data: result.data,
+  });
+};
+
 module.exports = {
   createApprovalRequest,
   getApprovalRequest,
   getAllApprovalRequests,
   updateApprovalRequest,
   deleteApprovalRequest,
-  getApprovalRequestsOfUser
+  getApprovalRequestsOfUser,
+  deleteRequestsByEventApprovalID
 };

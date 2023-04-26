@@ -7,7 +7,7 @@ const {
   deleteOrg,
   updateOrg,
   loginOrg,
-  getOrg
+  getOrgByInchargeID
 } = require('../controllers/org.controller.js');
 
 const orgRouter = express.Router();
@@ -15,7 +15,7 @@ const orgRouter = express.Router();
 orgRouter.post('/register', createOrg);
 orgRouter.post('/login', loginOrg);
 orgRouter.get('/', getAllOrg);
-orgRouter.get('/:id', getOrg);
+orgRouter.get('/:id', getOrgByInchargeID);
 orgRouter.delete('/:id', deleteOrg);
 orgRouter.put('/:id', updateOrg);
 

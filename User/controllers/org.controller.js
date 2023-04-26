@@ -76,9 +76,9 @@ const getAllOrg = async (req, res) => {
 }; //get all Orgs
 
 
-//get all Orgs
+//get  Org by incharge id
 //for shabs
-const getOrg = async (req, res) => {
+const getOrgByInchargeID = async (req, res) => {
   try {
     const { id : incharge } = req.params; //get id from request params
     const orgs = await Org.find({incharge : incharge}).populate("incharge"); //find Org
@@ -86,7 +86,7 @@ const getOrg = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   } //catch error
-}; //get all Orgs
+}; 
 
 //delete Org
 const deleteOrg = async (req, res) => {
@@ -134,5 +134,5 @@ module.exports = {
   getAllOrg,
   deleteOrg,
   updateOrg,
-  getOrg
+  getOrgByInchargeID
 }; //export all functions
