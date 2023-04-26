@@ -38,7 +38,7 @@ const Opportunities = () => {
   const getRegisteredData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/partners/opportunities/${eventID}`
+        `/api/partners/opportunities/${eventID}`
       );
       console.log(response.data.data);
       setTableData(response.data.data);
@@ -68,7 +68,7 @@ const Opportunities = () => {
     setTableData([...tableData]);
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/partners/opportunities`,
+        `/api/partners/opportunities`,
         newValues
       );
       console.log(response);
@@ -93,7 +93,7 @@ const Opportunities = () => {
       tableData[row.index] = newValues;
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/partners/opportunities/${newValues._id}`,
+          `/api/partners/opportunities/${newValues._id}`,
           newValues
         );
         setServerSuccessMessage(response.data.message);
@@ -129,11 +129,7 @@ const Opportunities = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           axios
-            .delete(
-              `http://localhost:5000/api/partners/opportunities/${row.getValue(
-                '_id'
-              )}`
-            )
+            .delete(`/api/partners/opportunities/${row.getValue('_id')}`)
             .then((response) => {
               Swal.fire('Deleted!', `Deleted The Opportunity`, 'success');
               console.log(response);

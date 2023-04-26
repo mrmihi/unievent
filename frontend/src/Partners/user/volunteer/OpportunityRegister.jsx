@@ -26,7 +26,7 @@ const OpportunityRegister = () => {
   const registerToAnOpportunity = async (data) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/partners/volunteers/${opportunityID}`,
+        `/api/partners/volunteers/${opportunityID}`,
         data
       );
       setServerSuccessMessage(response.data.message);
@@ -38,7 +38,9 @@ const OpportunityRegister = () => {
   useEffect(() => {
     if (serverSuccessMessage !== '') {
       Swal.fire('', serverSuccessMessage, 'success').then(() =>
-        navigate(`users/event/appliedOpportunities/${userID}`)
+        navigate(`users/event/appliedOpportunities/${userID}`, {
+          replace: true,
+        })
       );
     }
   }, [navigate, serverSuccessMessage]);

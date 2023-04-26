@@ -26,9 +26,7 @@ const AppliedOpportunitiesList = () => {
 
   const getRegisteredData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/partners/volunteers/${userID}`
-      );
+      const response = await axios.get(`/api/partners/volunteers/${userID}`);
       console.log(response.data.data);
       setRegisteredData(response.data.data);
     } catch (error) {
@@ -51,7 +49,7 @@ const AppliedOpportunitiesList = () => {
         const promises = registeredData.map((data) => {
           console.log(data.opportunityID);
           return axios.get(
-            `http://localhost:5000/api/partners/opportunities/opportunity/${data.opportunityID}`
+            `/api/partners/opportunities/opportunity/${data.opportunityID}`
           );
         });
         const results = await Promise.all(promises);

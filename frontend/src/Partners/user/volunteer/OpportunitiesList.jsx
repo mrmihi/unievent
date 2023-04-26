@@ -16,7 +16,7 @@ const OpportunitiesList = () => {
 
   const fetchData = async () => {
     const res = await axios.get(
-      'http://localhost:5000/api/partners/opportunities/643e8aa4d68e8278512c7c24'
+      '/api/partners/opportunities/642e6937973a5984d960f4cd'
     );
     setOpportunitiesData(res.data.data);
     console.log(res.data.data);

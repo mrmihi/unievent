@@ -11,7 +11,7 @@ const OpportunityDetails = () => {
 
   const fetchData = async () => {
     const res = await axios.get(
-      `http://localhost:5000/api/partners/opportunities/opportunity/${opportunityID}`
+      `/api/partners/opportunities/opportunity/${opportunityID}`
     );
     setOpportunity(res.data.data);
     console.log(res.data.data);

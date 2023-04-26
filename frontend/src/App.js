@@ -134,22 +134,22 @@ function App() {
               </Route>
               <Route path="*" element={<PageNotFound />} />
               {/*Partner Routes */}
-              <Route element={<Layout />}>
+              <Route element={<ELayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
                 <Route
-                  path="/admin/event/speakers/:eventID"
+                  path="/org/dashboard/speakers/:eventID"
                   element={<Speaker />}
                 />
                 <Route
-                  path="/admin/event/sponsors/:eventID"
+                  path="/org/dashboard/sponsors/:eventID"
                   element={<Sponsors />}
                 />
                 <Route
-                  path="/admin/event/volunteers/"
+                  path="/org/dashboard/volunteers/"
                   element={<Volunteers />}
                 />
                 <Route
-                  path="/admin/event/opportunities/:eventID"
+                  path="/org/dashboard/opportunities/:eventID"
                   element={<Opportunities />}
                 />
               </Route>

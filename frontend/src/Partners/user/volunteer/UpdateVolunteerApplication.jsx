@@ -41,7 +41,7 @@ const UpdateVolunteerApplication = () => {
   const updateData = async (data) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/partners/volunteers/${volunteerID}`,
+        `/api/partners/volunteers/${volunteerID}`,
         data
       );
       setServerSuccessMessage(response.data.message);
@@ -102,9 +102,7 @@ const UpdateVolunteerApplication = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(
-            `http://localhost:5000/api/partners/volunteers/${volunteerID}`
-          )
+          .delete(`/api/partners/volunteers/${volunteerID}`)
           .then((response) => {
             Swal.fire(
               'Deleted!',
