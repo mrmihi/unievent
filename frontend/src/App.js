@@ -171,7 +171,6 @@ function App() {
 
               {/* venue routes */}
               <Route>
-                        <Route path="*" element={<h1>Page not found!</h1>} />
                         <Route path="/admin/venue" element={<VLoginPage />} />
                         <Route element={<VLayout />}>
                             <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} />
