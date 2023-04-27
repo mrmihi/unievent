@@ -71,7 +71,7 @@ export default function LoginPage() {
                 Cookies.set("accessToken", accessToken, { expires: 1 });
                 Cookies.set("role", role, { expires: 1 });
 
-                navigate("/admin/venue/dashboard/");
+                navigate("/admin/finance/dashboard/");
 
             } catch (error) {
                 if (!error?.response) {

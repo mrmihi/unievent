@@ -334,17 +334,8 @@ const OrgView = () => {
               flexWrap: 'wrap',
             }}
           >
-            <Button
-              color="secondary"
-              onClick={() => setCreateModalOpen(true)}
-              variant="contained"
-            >
-              Create A New Resources
-            </Button>
-            <Button color="secondary" variant="contained">
-              Export All Resources Details
-            </Button>
-            <PaymentPDF tableData={tableData} />
+            
+            <PaymentPDF tableData={tableData} variant="contained" color="secondary"/>
           </Box>
         )}
       />

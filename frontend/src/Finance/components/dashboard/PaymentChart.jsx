@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import Chart from "chart.js/auto";
 
+
 const PaymentChart = () => {
   const [chartData, setChartData] = useState(null);
 
@@ -41,7 +42,7 @@ const PaymentChart = () => {
 
   useEffect(() => {
     // Create the chart instance when chartData is updated
-    if (chartData) {
+    // if (chartData) {
       const chartConfig = {
         type: "bar",
         data: chartData,
@@ -64,9 +65,16 @@ const PaymentChart = () => {
         },
       };
 
-      const chartCanvas = document.getElementById("payment-chart");
+      
+    // }
+     const chartCanvas = document.getElementById("payment-chart");
       new Chart(chartCanvas, chartConfig);
+    return () => {
+      chartCanvas.destroy()
+        
     }
+
+ 
   }, [chartData]);
 
   return (

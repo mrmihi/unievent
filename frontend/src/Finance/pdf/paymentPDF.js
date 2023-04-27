@@ -1,19 +1,19 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { Button } from "@mui/material";
-import Unilogo from "./University of babylon.png";
+import Unilogo from "./unieventpro.png";
 const doc = new jsPDF();
 
 const exportPDF = (tableData) => {
   // Add logo
-  doc.addImage(Unilogo, "PNG", 15, 10, 30, 30); // Changed the image size from 14x14 to 30x30
+  doc.addImage(Unilogo, "PNG", 0, 0, 200, 50); // Changed the image size from 14x14 to 30x30
 
   // Set font size
   doc.setFontSize(20); // Changed the font size from 18 to 14
   doc.setTextColor("#2980BA");
 
   // Add header
-  doc.text("Full Transaction Report", 50, 20); // Changed the font size from 14 to 12
+  doc.text("Full Transaction Report", 15, 50); // Changed the font size from 14 to 12
 
   // Add margin for header
   //doc.setParagraphSpace(10);
@@ -37,7 +37,7 @@ const exportPDF = (tableData) => {
       cellWidth: "wrap",
       head: {cellfillColor: "black", textColor: "white"},
     },
-    startY: 60,
+    startY: 80,
     margin: {
         top: 10,
         right: 10,
@@ -49,7 +49,7 @@ const exportPDF = (tableData) => {
   doc.setFontSize(10); // Changed the font size from 18 to 14
   doc.setTextColor("black");
   // Add date
-  doc.text("Date: " + new Date().toLocaleString(), 50, 30, {
+  doc.text("Date: " + new Date().toLocaleString(), 15, 60, {
     fontSize: 12
   }); // Changed the font size from 14 to 12
 
@@ -57,7 +57,7 @@ const exportPDF = (tableData) => {
   //doc.setParagraphSpace(10);
 
   // Add department
-  doc.text("Finance Division, University of Babylon", 50, 40, {
+  doc.text("Finance Division, University of Babylon", 15, 70, {
     fontSize: 12
   }); // Changed the font size from 14 to 12
 

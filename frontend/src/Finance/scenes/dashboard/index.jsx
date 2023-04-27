@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import Header from "../../components/Header";
 import FlexBetween from "../../components/FlexBetween";
 import RevenueChart from "../../components/dashboard/RevenueChart";
-//import PaymentChart from "components/dashboard/PaymentChart";
+//import PaymentChart from "../../components/dashboard/PaymentChart";
 import FourAnalytics from "../../components/dashboard/FourAnalytics";
 import LatestBookings from "../../components/dashboard/LatestBookings";
 
