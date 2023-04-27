@@ -74,7 +74,10 @@ export default function AllResources({ resources }) {
                     <Typography gutterBottom variant="h5" component="h2">
                       {resource.name}
                     </Typography>
-                    <Typography>{resource.quantity}</Typography>
+                    <Typography>Quantity : {resource.quantity}</Typography>
+                    <Typography>
+                      Available Quantity : {resource.availableQty}
+                    </Typography>
                   </CardContent>
                 </Card>
               </Grid>
