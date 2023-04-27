@@ -2,6 +2,18 @@ const ApprovalRequestService = require("../services/approval.request.service");
 const { HTTP_STATUS } = require("../utils/http_status");
 const { makeResponse } = require("../utils/response");
 
+//Retrives all the approval requests for a particular 
+const getApprovalRequestsOfUser = async (req, res) => {
+  const { id : userID } = req.params; 
+  const result = await ApprovalRequestService.getApprovalRequestsOfUser(userID);
+  return makeResponse({
+    res,
+    message: result.message,
+    data: result.data,
+    success: result.success,
+  });
+};
+
 //Retrives all the approval requests
 const getAllApprovalRequests = async (req, res) => {
   const result = await ApprovalRequestService.getAllApprovalRequests();
@@ -63,10 +75,23 @@ const deleteApprovalRequest = async (req, res) => {
   });
 };
 
+const deleteRequestsByEventApprovalID = async (req, res) => {
+  const { id : eventApprovalID } = req.params;
+  const result = await ApprovalRequestService.deleteRequestsByEventApprovalID(eventApprovalID);
+  return makeResponse({
+    res,
+    success: result.success,
+    message: result.message,
+    data: result.data,
+  });
+};
+
 module.exports = {
   createApprovalRequest,
   getApprovalRequest,
   getAllApprovalRequests,
   updateApprovalRequest,
   deleteApprovalRequest,
+  getApprovalRequestsOfUser,
+  deleteRequestsByEventApprovalID
 };
