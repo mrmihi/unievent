@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import "react-datepicker/dist/react-datepicker.css";
-import {
-  MuiPickersUtilsProvider,
-  DatePicker,
-  TimePicker,
-} from "@material-ui/pickers";
+import { DatePicker } from '@mui/x-date-pickers';
+import { TimePicker } from '@mui/x-date-pickers';
 import {
   Button,
   Card,
   CardContent,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useParams } from "react-router-dom";
 import API from "../../components/Approval/api.approval";
 import { toast, ToastContainer } from "react-toastify";
@@ -42,6 +42,7 @@ const RequestAppointment = () => {
       withCredentials: true,
     })
       .then((res) => {
+        console.log(res.data.data.requested_to);
         setSendingTo(res.data.data.requested_to);
         setSendingFrom(res.data.data.requested_by);
       })
@@ -51,6 +52,7 @@ const RequestAppointment = () => {
   };
 
   const handleSubmitBtn = async (values) => {
+    if(values.mode != "" && values.location != "" && values.meetinglink != "" && values.appointment_note != ""){
     if (startTime > EndTime) {
       toast.error("Start Time cannot be after End Time", {
         position: toast.POSITION.TOP_CENTER,
@@ -73,7 +75,7 @@ const RequestAppointment = () => {
       location: values.location,
       status: "Sent",
       meetinglink: values.meetinglink,
-      appointment_note: note,
+      appointment_note: values.appointment_note,
     };
 
     await API.post("/appointment", data, {
@@ -92,10 +94,17 @@ const RequestAppointment = () => {
       });
 
     // refresh
-    // navigate(0);
+      navigate(0);
+    }
+    else{
+      toast.error("Please fill all the fields", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1000,
+      });
+    }
   };
 
-  const handleChange = (e) => {
+  const handleNoteChange = (e) => {
     setNote(e.target.value);
   };
 
@@ -121,7 +130,6 @@ const RequestAppointment = () => {
           location: Yup.string(),
           meetinglink: Yup.string().url("Meeting Link must be a valid URL"),
           appointment_note: Yup.string()
-            .required("Appointment Note is required")
             .matches(
               /^[a-zA-Z0-9@\s]+$/,
               "Only alphanumeric characters and @ are allowed"
@@ -130,17 +138,20 @@ const RequestAppointment = () => {
         onSubmit={(values) => {
           handleSubmitBtn(values);
         }}
+        onChange={(values) => {
+          values.appointment_note = note;
+          values.mode = document.getElementById("demo-simple-select").value;
+        }}
       >
         {({ values, touched, errors, handleSubmit, handleChange }) => (
           <Form className="w-full flex flex-col justify-center align-middle items-center ">
-            <div className="w-1/2 m-4 p-4 flex flex-col justify-center items-center border-2 rounded-lg">
+            <div className="w-1/2 m-4 p-4 flex flex-col justify-center items-center rounded-lg">
               <ToastContainer />
 
               <Typography variant="h4" className="m-4">
                 Request Appointment
               </Typography>
 
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <div className="w-full p-2 flex flex-col justify-center align-middle items-center">
                   <div className="m-4 w-3/4">
                     <div className="mb-8">
@@ -157,9 +168,9 @@ const RequestAppointment = () => {
                         Date
                       </Typography>
                       <DatePicker
-                        value={selectedDate}
                         onChange={(date) => setSelectedDate(date)}
-                        minDate={new Date()}
+                        error={touched.date && !!errors.date}
+                        helperText={touched.date && errors.date}
                       />
                     </div>
 
@@ -167,47 +178,37 @@ const RequestAppointment = () => {
                       Time
                     </Typography>
 
-                    <div className="py-2 w-full flex flex-row">
+                    <div className="py-2 w-full flex flex-row justify-between">
                       <TimePicker
                         label="Start Time"
-                        value={startTime}
                         onChange={(time) => setStartTime(time)}
-                        error={touched.startTime && !!errors.startTime}
-                        helperText={touched.startTime && errors.startTime}
+                        
                       />
 
                       <TimePicker
                         label="End Time"
-                        value={EndTime}
                         onChange={(time) => setEndTime(time)}
-                        error={touched.endTime && !!errors.endTime}
-                        helperText={touched.endTime && errors.endTime}
                       />
                     </div>
                   </div>
 
                   <div className="m-4 w-3/4">
                     <div className="mb-4 w-full">
-                      <Field
-                        as={TextField}
-                        name="mode"
-                        label="Mode"
-                        fullWidth
-                        select
-                        value={values.mode}
-                        error={touched.mode && !!errors.mode}
-                        helperText={touched.mode && errors.mode}
+                    <InputLabel id="demo-simple-select-label">Appointment Mode</InputLabel>
+                      <Select
+                      className="w-1/2"
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Appointment Mode"
+                      onChange={(value) => {values.mode = value.target.value}}
+                      value={values.mode}
+                      error={touched.mode && !!errors.mode}
+                      helperText={touched.mode && errors.mode}
                       >
                         {Object.values(APPOINTMENT_MODE).map((mode) => (
-                          <option
-                            key={mode}
-                            value={mode}
-                            className="text-center m-1 cursor-pointer border-b"
-                          >
-                            {mode}
-                          </option>
+                          <MenuItem value={values.mode}>{mode}</MenuItem>
                         ))}
-                      </Field>
+                      </Select>
                     </div>
 
                     <div className="mt-4 w-full mb-4">
@@ -226,7 +227,8 @@ const RequestAppointment = () => {
 
                       {values.mode === APPOINTMENT_MODE.VIRTUAL ||
                       values.mode === APPOINTMENT_MODE.EITHER ? (
-                        <Field
+                        <div className="mt-2 mb-2">
+                          <Field
                           as={TextField}
                           name="meetinglink"
                           label="Meeting Link"
@@ -235,6 +237,7 @@ const RequestAppointment = () => {
                           error={touched.meetinglink && !!errors.meetinglink}
                           helperText={touched.meetinglink && errors.meetinglink}
                         />
+                          </div>
                       ) : null}
                     </div>
                     <Field
@@ -265,7 +268,6 @@ const RequestAppointment = () => {
                     </div>
                   </div>
                 </div>
-              </MuiPickersUtilsProvider>
             </div>
           </Form>
         )}

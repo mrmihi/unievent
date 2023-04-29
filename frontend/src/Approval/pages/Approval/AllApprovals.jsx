@@ -22,7 +22,6 @@ import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { Dayjs } from 'dayjs';
-import EventPDF from '../pdf/EventPDF';
 
 const OrgView = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -35,7 +34,7 @@ const OrgView = () => {
   // GET method
   const getEventData = async () => {
     try {
-      const response = await axios.get(`/api/events`);
+      const response = await axios.get(`http://localhost:3000/api/approval/request/`);
       setTableData(response.data);
     } catch (error) {
       console.log(error);
@@ -204,17 +203,8 @@ const OrgView = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: '_id',
-        header: 'ID',
-        enableColumnOrdering: false,
-        enableEditing: false, //disable editing on this column
-        enableSorting: false,
-        size: 80,
-        columnVisibility: false,
-      },
-      {
-        accessorKey: 'name',
-        header: 'Event Name',
+        accessorKey: 'type',
+        header: 'Request Type',
         enableEditing: false,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -222,8 +212,8 @@ const OrgView = () => {
         }),
       },
       {
-        accessorKey: 'category',
-        header: 'Category',
+        accessorKey: 'status',
+        header: 'Status',
         enableColumnOrdering: false,
         enableEditing: false,
         enableSorting: false,
@@ -231,8 +221,8 @@ const OrgView = () => {
         columnVisibility: false,
       },
       {
-        accessorKey: 'capacity',
-        header: 'Capacity',
+        accessorKey: 'sentOn',
+        header: 'Sent On',
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
@@ -240,26 +230,15 @@ const OrgView = () => {
         columnVisibility: false,
       },
       {
-        accessorKey: 'description',
-        header: 'Description',
+        accessorKey: 'note',
+        header: 'Request Note',
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 80,
+        columnVisibility: false,
       },
-      {
-        accessorKey: 'status',
-        header: 'Status',
-
-        muiTableBodyCellEditTextFieldProps: () => ({
-          children: statusValues.map((value) => (
-            <MenuItem key={value} value={value}>
-              {value}
-            </MenuItem>
-          )),
-          select: true,
-        }),
-      },
+      
     ],
     [getCommonEditTextFieldProps]
   );
@@ -294,21 +273,7 @@ const OrgView = () => {
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: 'flex', gap: '1rem' }}>
-            <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
-                <Edit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow title="Viewe">
-              <IconButton onClick={() => handleView(row)}>
-                <Visibility />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                <Delete />
-              </IconButton>
-            </Tooltip>
+            
           </Box>
         )}
         positionActionsColumn="last"
@@ -331,7 +296,7 @@ const OrgView = () => {
             <Button color="secondary" variant="contained">
               Export All Event Details
             </Button>
-            <EventPDF tableData={tableData} />
+            
           </Box>
         )}
       />

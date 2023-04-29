@@ -13,7 +13,7 @@ export default function ApprovalMain(props) {
   const [error, setError] = useState({});
   const { id: eventId } = useParams();
   const [approvalID, setApprovalID] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     await API.get(`/event/events/${eventId}`, {
@@ -36,11 +36,11 @@ export default function ApprovalMain(props) {
   }, []);
 
   function handlePrintBtn() {
-    navigate(`/approval/print/${approvalID}`)
+    navigate(`/approval/print/${approvalID}`);
   }
 
   const handleDiscardBtn = () => {
-    console.log(approvalID)
+    console.log(approvalID);
     const deleteEventApproval = async () => {
       await API.delete(`/event/${approvalID}`, {
         headers: { "Content-Type": "application/json" },
@@ -90,9 +90,18 @@ export default function ApprovalMain(props) {
           color="primary"
           className="m-2"
           component={Link}
-          to={`/approval/edit/${eventId}`}
+          to={`/approval/create/${eventId}`}
         >
           Edit
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          className="m-2"
+          component={Link}
+          to={`/approval/edit/${eventId}`}
+        >
+          View
         </Button>
         <Button
           variant="contained"

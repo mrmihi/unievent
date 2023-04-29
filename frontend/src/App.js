@@ -62,6 +62,7 @@ import ApprovalEdit from "Approval/pages/Approval/ApprovalEdit.jsx";
 import RequestAppointment from "Approval/pages/Approval/RequestAppointment.jsx";
 import ApprovalCreate from "Approval/pages/Approval/ApprovalCreate";
 import PrintAll from "Approval/pages/Approval/PrintAll";
+import AllApprovals from "Approval/pages/Approval/AllApprovals";
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -79,8 +80,8 @@ function App() {
             <Routes>
               {/* Approval Routes */}
               <Route element={<ELayout />}>
-                <Route path="/events/" element={<AllEvents />} />
-                <Route path="event-draft/:id" element={<SingleEvent />} />
+                <Route path="approval/event/:id" element={<SingleEvent />} />
+                <Route path="approval/all" element={<AllApprovals />} />
                 <Route path="approval/:id" element={<ApprovalMain />} />
                 <Route
                   path="approval/create/:id"

@@ -97,7 +97,7 @@ const PrintAll = () => {
         setApproval({});
       })
 
-  }, []);
+  }, [approvalID]);
 
   const approvalStatus = (status) => {
     switch (status) {
@@ -176,11 +176,12 @@ const PrintAll = () => {
     // add approval request information
     doc.setFontSize(12);
     doc.setFont("bold");
-    doc.text(`Event Title: ${approval.event_id.name}`, 20, 130);
-    doc.text(`Event Description: ${approval.event_id.name}`, 20, 140);
-    doc.text(`Event Date: ${String(approval.event_id.startTime).split("T")[0]}`, 20, 150);
-    doc.text(`Approval Status: ${approvalStatus(approval.status)}`, 20, 160);
-
+    if(approval.event_id != null){
+      doc.text(`Event Title: ${approval.event_id.name != "null" ? approval.event_id.name : "Not set yet"}`, 20, 130);
+      doc.text(`Event Description: ${approval.event_id.description}`, 20, 140);
+      doc.text(`Event Date: ${String(approval.event_id.startTime).split("T")[0]}`, 20, 150);
+      doc.text(`Approval Status: ${approvalStatus(approval.status)}`, 20, 160);
+    }
 
     // add approval details table
     const detailsData = [

@@ -95,7 +95,7 @@ function ForwardRequestTo(props) {
   };
 
   return (
-    <div className="flex flex-col w-4/5 border-2 m-2 ">
+    <div className="flex flex-col w-4/5 m-2 ">
       {/* Selection DIV*/}
       <div className="flex w-full align-middle justify-between items-center p-2">
         {/* Label */}
@@ -164,7 +164,7 @@ function ForwardRequestTo(props) {
       <div id={requestTo} name={requestTo} className="w-full p-2 hidden">
         <div className="w-full flex flex-col align-middle justify-between items-center">
           <Card
-            className={`${classes.myCard} w-full rounded border-2 items-center align-middle justify-center`}
+            className={`${classes.myCard} w-full rounded items-center align-middle justify-center`}
           >
             <CardContent>
               {/* Request Note */}

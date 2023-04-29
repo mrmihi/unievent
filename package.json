@@ -15,8 +15,6 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@material-ui/core": "^4.12.4",
-        "@material-ui/lab": "^4.0.0-alpha.61",
         "@sentry/node": "^7.48.0",
         "@sentry/tracing": "^7.48.0",
         "bcrypt": "^5.1.0",

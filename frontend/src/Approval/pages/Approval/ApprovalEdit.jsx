@@ -133,7 +133,7 @@ const ApprovalEdit = () => {
   };
 
   return (
-    <div className="border-2 m-2 flex flex-col justify-start items-center align-middle h-4/5 ">
+    <div className="m-2 flex flex-col justify-start items-center align-middle h-4/5 ">
       <ToastContainer />
       <div className="h-1/6 flex items-center">
         <h1 className="text-3xl font-sans">Event Approval Requests </h1>
