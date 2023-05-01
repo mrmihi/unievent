@@ -38,10 +38,10 @@ const eventSchema = new Schema(
       type: String,
     },
     startTime: {
-      type: Number,
+      type: String,
     },
     endTime: {
-      type: Number,
+      type: String,
     },
     status: {
       type: String,
@@ -62,7 +62,6 @@ const eventSchema = new Schema(
     },
     capacity: {
       type: Number,
-      required: true,
     },
     tags: {
       type: [String],
@@ -78,7 +77,6 @@ const eventSchema = new Schema(
     },
     orgId: {
       type: Schema.Types.ObjectId,
-      required: true,
     },
   },
   { timestamps: true }

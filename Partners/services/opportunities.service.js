@@ -20,6 +20,7 @@ const createOpportunity = async ({
   description,
   date,
   time,
+  opportunityImage,
   eventID,
 }) => {
   try {
@@ -28,12 +29,33 @@ const createOpportunity = async ({
       description: description,
       date: date,
       time: time,
+      opportunityImage: opportunityImage,
       eventID: eventID,
     });
     return {
       status: 200,
       data: response,
       message: 'Created the opportunity successfully',
+    };
+  } catch (error) {
+    return { status: 400, message: error.message };
+  }
+};
+
+const getDetails = async (id) => {
+  try {
+    const details = await OpportunitiesRepository.checkIfOpportunityExistsById(
+      id
+    );
+
+    if (!details) {
+      return { status: 400, message: 'Opportunity Not Found' };
+    }
+
+    return {
+      status: 200,
+      data: details,
+      message: 'Retrieved the opportunity details successfully',
     };
   } catch (error) {
     return { status: 400, message: error.message };
@@ -84,6 +106,7 @@ const deleteAnOpportunity = async (id) => {
 module.exports = {
   getOpportunities,
   createOpportunity,
+  getDetails,
   updateAnOpportunity,
   deleteAnOpportunity,
 };
