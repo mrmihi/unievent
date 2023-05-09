@@ -34,6 +34,7 @@
         "mongoose-unique-validator": "^4.0.0",
         "morgan": "^1.10.0",
         "nodemailer": "^6.9.1",
+        "react-material-ui-carousel": "^3.4.2",
         "uuid": "^9.0.0"
     },
     "devDependencies": {
