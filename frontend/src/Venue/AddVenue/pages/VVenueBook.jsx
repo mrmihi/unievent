@@ -1,55 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Box, Container, Typography } from "@mui/material";
 import { MobileDateTimePicker } from "@mui/x-date-pickers";
 import { TextField, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const localizer = momentLocalizer(moment);
 
-const events = [
-    {
-        id: 1,
-        title: "Event 1",
-        start: new Date("2023-05-09T08:00:00"),
-        end: new Date("2023-05-09T13:00:00"),
-    },
-    {
-        id: 2,
-        title: "Event 2",
-        start: new Date("2023-05-09T10:00:00"),
-        end: new Date("2023-05-09T11:00:00"),
-    },
-    {
-        id: 3,
-        title: "Event 3",
-        start: new Date("2023-05-09T12:00:00"),
-        end: new Date("2023-05-09T13:00:00"),
-    },
-    {
-        id: 4,
-        title: "Event 4",
-        start: new Date("2023-05-10T14:00:00"),
-        end: new Date("2023-05-10T23:00:00"),
-    },
-    {
-        id: 5,
-        title: "Event 5",
-        start: new Date("2023-05-11T16:00:00"),
-        end: new Date("2023-05-11T24:00:00"),
-    },
-];
-
 const VVenueBook = () => {
+    const { id } = useParams();
     const navigate = useNavigate();
+    const [events, setEvents] = useState([]);
+    const [venue, setVenue] = useState({});
 
     const [selectedEvent, setSelectedEvent] = useState(null);
     const handleSelectEvent = (event) => {
         setSelectedEvent(event);
     };
-
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -61,10 +33,62 @@ const VVenueBook = () => {
         setEndDate(date);
     };
     const handleBookingSubmit = () => {
-        console.log(`Start Date & Time: ${startDate}`);
-        console.log(`End Date & Time: ${endDate}`);
-        navigate("/venue/payment");
+        const start = new Date(startDate).toISOString();
+        const end = new Date(endDate).toISOString();
+
+        axios.post('http://localhost:5000/api/bookings', {
+            start_time: start,
+            end_time: end,
+            duration: moment(end).diff(moment(start), 'hours'),
+            venue: id,
+            organizer: '6449ee34be1db21bb2b630f3',
+            price: venue.price * moment(end).diff(moment(start), 'hours')
+        }).then((res) => {
+            toast.success("Booking saved successfully", {
+                position: toast.POSITION.TOP_CENTER,
+            });
+            setTimeout(() => {
+                navigate('/venue/payment');
+            }, 2000);
+        }).catch((err) => {
+            console.log(err);
+            toast.error('Error saving booking!', {
+                position: toast.POSITION.TOP_CENTER,
+            })
+        });
     };
+
+    useEffect(() => {
+        // Fetch the venue booking
+        axios
+            .get(`http://localhost:5000/api/bookings/venue/${id}`)
+            .then((res) => {
+                const modifiedData = res.data.map((venue) => {
+                    return {
+                        id: venue._id,
+                        title: "Private",
+                        start: new Date(moment(venue.start_time)),
+                        end: new Date(moment(venue.end_time)),
+                        status: venue.booking_status
+                    };
+                });
+                console.log(modifiedData);
+                setEvents(modifiedData);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [id]);
+
+    useEffect(() => {
+        // Fetch venue details
+        axios.get(`http://localhost:5000/api/venues/${id}`).then((res) => {
+            console.log(res.data);
+            setVenue(res.data);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, [id]);
 
     return (
         <Container>
@@ -76,6 +100,28 @@ const VVenueBook = () => {
                 <Calendar
                     localizer={localizer}
                     events={events}
+                    eventPropGetter={(event, start, end, isSelected) => {
+                        let backgroundColor = '#3174ad';
+
+                        if (event.status === 'approved') {
+                            backgroundColor = '#4caf50';
+                        } else if (event.status === 'pending') {
+                            backgroundColor = '#ff9800';
+                        } else if (event.status === 'rejected') {
+                            backgroundColor = '#f44336';
+                        }
+
+                        return {
+                            style: {
+                                backgroundColor,
+                                borderRadius: '0px',
+                                opacity: 0.8,
+                                color: 'white',
+                                border: '0px',
+                                display: 'block'
+                            }
+                        };
+                    }}
                     selectable
                     onSelectEvent={handleSelectEvent}
                     startAccessor="start"
@@ -95,6 +141,7 @@ const VVenueBook = () => {
                         <Typography variant="body1">
                             End: {moment(selectedEvent.end).format("YYYY-MM-DD hh:mm A")}
                         </Typography>
+                        <Typography variant="body1">Status: {selectedEvent.status}</Typography>
                     </Box>
                 )}
             </Box>
@@ -128,9 +175,9 @@ const VVenueBook = () => {
                     </Box>
                 </Container>
             </Box>
+            <ToastContainer />
         </Container>
     );
-
 };
 
 export default VVenueBook;

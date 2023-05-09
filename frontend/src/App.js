@@ -211,7 +211,7 @@ function App() {
                   <Route path="/venue/add" element={<VAddVenuePage />} /> 
                   <Route path="/venue/list" element={<VVenueListPage />} />
                   <Route path="/venue/list/:id" element={<VViewVenueProfile />} />
-                  <Route path="/venue/book" element={<VVenueBook/>} />
+                  <Route path="/venue/book/:id" element={<VVenueBook/>} />
                   <Route path="/venue/payment" element={<h1>payment page</h1>} />
                 </Route>
               </Route>
