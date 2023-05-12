@@ -13,7 +13,7 @@ function SingleEvent() {
     eventService.getOne(id).then((res) => {
       setEvent(res.data);
     });
-  }, []);
+  }, [id]);
 
   const navigate = useNavigate();
 
@@ -23,14 +23,18 @@ function SingleEvent() {
       <div className="flex flex-col justify-center  items-center ">
         <img src={event.headerImage} alt={event.name} className="mx-auto" />
 
-        <div className="  mt-8">
+        <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl mt-8">
           <div>
+            {/* add a typography tag that says Details and make it bold */}
+            <Typography variant="h2">Details</Typography>
+            <Typography variant="h4" color="red">
+              {event.startTime} - {event.endTime}{' '}
+            </Typography>
             <Typography variant="h2">{event.name}</Typography>
             <Typography variant="h3">{event.description}</Typography>
             <Typography variant="h4">{event.category}</Typography>
             <Typography variant="h4">Capacity : {event.capacity}</Typography>
-            <Typography variant="h4">Start Time : {event.startTime}</Typography>
-            <Typography variant="h4">End Time : {event.endTime}</Typography>
+
             <Typography variant="h4">
               Attendee Count : {event.attendeeCount}
             </Typography>
