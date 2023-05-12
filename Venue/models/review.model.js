@@ -13,12 +13,17 @@ const ReviewSchema = new Schema(
         },
         organizer: {
             type: Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'Organization',
             required: true
         },
         venue: {
             type: Schema.Types.ObjectId,
             ref: 'Venue',
+            required: true
+        },
+        manager: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
             required: true
         }
     },

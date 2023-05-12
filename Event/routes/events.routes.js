@@ -3,6 +3,7 @@ const EventController = require('../controllers/event.controller');
 const {
   protect,
   authOrg,
+  authCreator,
 } = require('../../User/middleware/orgAuth.middleware');
 
 router.get('/info', async (request, response) => {
@@ -13,11 +14,11 @@ router.get('/', EventController.getAllEvents);
 
 router.get('/:id', EventController.getEventById);
 
-router.post('/', protect, EventController.createEvent);
+router.post('/', EventController.createEvent);
 
-router.put('/:id', protect, authOrg, EventController.updateEventById);
+router.put('/:id', EventController.updateEventById);
 
-router.delete('/:id', protect, authOrg, EventController.deleteEventById);
+router.delete('/:id', EventController.deleteEventById);
 
 // router.get(
 //   '/allevents/:club',
