@@ -44,6 +44,7 @@ const loginOrg = async (req, res) => {
     if (!org) {
       res.status(401).json({ message: 'Email does not exist!' });
     }
+
     if (org && (await bcrypt.compare(password, org.password))) {
       res.status(201).json({
         _id: org._id,
