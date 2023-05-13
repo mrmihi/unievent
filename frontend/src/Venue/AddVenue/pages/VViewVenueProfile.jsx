@@ -16,15 +16,29 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const VViewVenueProfile = () => {
     const { id } = useParams();
+    const { vid } = useParams();
+    
     const [venue, setVenue] = useState({});
     const [reviews, setReviews] = useState([]);
     const [subscribed, setSubscribed] = useState(false);
     const [activeTab, setActiveTab] = useState('description');
     const [averageRating, setAverageRating] = useState(0);
     const [randomVenues, setRandomVenues] = useState([]);
+
+    useEffect(() => {
+        // Fetch subscription status
+        axios.get(`http://localhost:5000/api/subscribe/venue/${id}`).then((res) => {
+            console.log(res.data.venueSubscriptions.active);
+            setSubscribed(res.data.venueSubscriptions.active);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, []);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -35,7 +49,25 @@ const VViewVenueProfile = () => {
     };
 
     const handleSubscribe = () => {
-        setSubscribed((prevSubscribed) => !prevSubscribed);
+        const newSubscribedStatus = !subscribed;
+        try{
+            if (newSubscribedStatus) {
+                axios.post(`http://localhost:5000/api/subscribe/venue/${id}`).then((res) => {
+                    toast.success("Subscribed successfully!")
+                }).catch((err) => {
+                    toast.error("Something went wrong!")
+                });
+            } else {
+                axios.post(`http://localhost:5000/api/subscribe/venue/${id}`).then((res) => {
+                    toast.success("Unsubscribed successfully!")
+                }).catch((err) => {
+                    toast.error("Something went wrong!")
+                });
+            }
+            setSubscribed(newSubscribedStatus);
+        }catch(err){
+            console.log(err);
+        }
     };
 
     useEffect(() => {
@@ -99,7 +131,7 @@ const VViewVenueProfile = () => {
                                 className='w-full'
                                 style={{ marginTop: '1rem' }}
                                 component={Link}
-                                to={`/venue/book/${id}`}
+                                to={`/venue/${vid}/book/${id}`}
                             >Book Venue</Button>
                         </div>
                     </div>
@@ -166,6 +198,7 @@ const VViewVenueProfile = () => {
                     </Box>
                 </Grid>
             </Grid>
+            <ToastContainer />
         </Container>
     )
 };

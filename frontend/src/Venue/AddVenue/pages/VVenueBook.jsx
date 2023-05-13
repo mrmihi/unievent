@@ -14,6 +14,8 @@ const localizer = momentLocalizer(moment);
 
 const VVenueBook = () => {
     const { id } = useParams();
+    const { vid } = useParams();
+
     const navigate = useNavigate();
     const [events, setEvents] = useState([]);
     const [venue, setVenue] = useState({});
@@ -49,6 +51,7 @@ const VVenueBook = () => {
             duration: moment(end).diff(moment(start), 'hours'),
             venue: id,
             organizer: '6448be13969607971f3761a3',
+            event: vid,
             price: venue.price * moment(end).diff(moment(start), 'hours')
         }).then((res) => {
             toast.success("Booking saved successfully", {

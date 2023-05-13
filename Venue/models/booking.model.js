@@ -40,7 +40,12 @@ const BookingSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Organization',
             required: true
-        }
+        },
+        event: {
+            type: Schema.Types.ObjectId,
+            ref: 'Event',
+            required: true
+        },
     },
     {
         versionKey: false,

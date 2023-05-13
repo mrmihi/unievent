@@ -1,6 +1,8 @@
 const Venue = require('../models/venue.model');
 const Review = require('../models/review.model');
 const Organizer = require('../../User/models/org.model');
+const VenueSubscription = require('../models/subscribe.model');
+const SendPriceDropMail = require('../services/email.service');
 
 const createVenue = async (req, res) => {
   try {
@@ -44,14 +46,25 @@ const getVenuesByManagerId = async (req, res) => {
 const updateVenueById = async (req, res) => {
   try {
     const { id } = req.params;
-    const venue = await Venue.findByIdAndUpdate({ _id: id }, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const venue = await Venue.findOne({ _id: id });
     if (!venue) {
       return res.status(404).json({ message: 'Venue not found' });
     }
-    res.status(200).json(venue);
+
+    const originalPrice = venue.price;
+    const venueImage = venue.image_url;
+    const venueName = venue.name;
+    
+    const updatedVenue = await Venue.findOneAndUpdate({ _id: id }, req.body, { new: true, runValidators: true });
+    const discountedPrice = updatedVenue.price;
+    const priceDropPercentage = ((originalPrice - discountedPrice) / originalPrice) * 100;
+    
+    if(originalPrice > discountedPrice) {
+      const venueSubscribers = await VenueSubscription.find({ venue: id, active: true }).select('email');
+      const venueSubscribersEmails = venueSubscribers.map(subscriber => subscriber.email);
+      SendPriceDropMail(venueSubscribersEmails, venueName, priceDropPercentage, venueImage, discountedPrice, originalPrice);
+    }
+    res.status(200).json({ message: 'Venue updated successfully', updatedVenue });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
