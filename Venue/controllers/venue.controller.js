@@ -3,67 +3,70 @@ const Review = require('../models/review.model');
 const Organizer = require('../../User/models/org.model');
 
 const createVenue = async (req, res) => {
-  try{
-    const venue = await Venue.create({...req.body, manager: req.user._id})
-    res.status(201).json(venue)
-  }catch (error){
-      res.status(500).json({message: error.message})
+  try {
+    const venue = await Venue.create({ ...req.body, manager: req.user._id });
+    res.status(201).json(venue);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 const getAllVenues = async (req, res) => {
-  try{
-    const venues = await Venue.find({})
-    if(venues.length === 0){
-      return res.status(404).json({message: 'Venues not found'})
+  try {
+    const venues = await Venue.find({});
+    if (venues.length === 0) {
+      return res.status(404).json({ message: 'Venues not found' });
     }
-    res.status(200).json(venues)
-  }catch (error){
-      res.status(500).json({message: error.message})
+    res.status(200).json(venues);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 const getVenueById = async (req, res) => {
-  try{
-    const venue = await Venue.findById(req.params.id).populate('manager')
-    res.status(200).json(venue)
-  }catch (error){
-      res.status(500).json({message: error.message})
+  try {
+    const venue = await Venue.findById(req.params.id);
+    res.status(200).json(venue);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 const getVenuesByManagerId = async (req, res) => {
-  try{
-    const venues = await Venue.find({manager: req.params.id})
-    res.status(200).json(venues)
-  }catch (error){
-      res.status(500).json({message: error.message})
+  try {
+    const venues = await Venue.find({ manager: req.params.id });
+    res.status(200).json(venues);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 const updateVenueById = async (req, res) => {
-  try{
-    const {id} = req.params
-    const venue = await Venue.findByIdAndUpdate({_id: id}, req.body, {new: true, runValidators: true})
-    if(!venue){
-      return res.status(404).json({message: 'Venue not found'})
+  try {
+    const { id } = req.params;
+    const venue = await Venue.findByIdAndUpdate({ _id: id }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!venue) {
+      return res.status(404).json({ message: 'Venue not found' });
     }
-    res.status(200).json(venue)
-  }catch (error){
-      res.status(500).json({message: error.message})
+    res.status(200).json(venue);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
 const deleteVenueById = async (req, res) => {
-  try{
-    const {id} = req.params
-    const venue = await Venue.findOneAndDelete({_id: id})
-    if(!venue){
-      return res.status(404).json({message: 'Venue not found'})
+  try {
+    const { id } = req.params;
+    const venue = await Venue.findOneAndDelete({ _id: id });
+    if (!venue) {
+      return res.status(404).json({ message: 'Venue not found' });
     }
-    res.status(200).json(venue)
-  }catch (error){
-      res.status(500).json({message: error.message})
+    res.status(200).json(venue);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -72,7 +75,7 @@ const getVenueAndReviews = async (req, res) => {
     const { id } = req.params;
     const venue = await Venue.findById(id);
     if (!venue) {
-      return res.status(404).json({ message: "Venue not found" });
+      return res.status(404).json({ message: 'Venue not found' });
     }
     const reviews = await Review.find({ venue: id });
     console.log(reviews);
@@ -80,10 +83,12 @@ const getVenueAndReviews = async (req, res) => {
 
     if (reviews.length !== 0) {
       for (const review of reviews) {
-        const organizer = await Organizer.findById(review.organizer).select('name');
+        const organizer = await Organizer.findById(review.organizer).select(
+          'name'
+        );
         reviewsWithOrganizers.push({
           ...review.toObject(),
-          organizer
+          organizer,
         });
       }
     }
@@ -94,8 +99,6 @@ const getVenueAndReviews = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   createVenue,
   getAllVenues,
@@ -103,5 +106,5 @@ module.exports = {
   getVenuesByManagerId,
   updateVenueById,
   deleteVenueById,
-  getVenueAndReviews
+  getVenueAndReviews,
 };
