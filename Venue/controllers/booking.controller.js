@@ -74,7 +74,8 @@ const getBookingByVenueManagerId = async (req, res) => {
       const venues = await Venue.find({ manager: req.user._id });
       const booking = await Booking.find({ venue: { $in: venues.map(v => v._id)} })
         .populate('venue')
-        .populate('organizer');
+        .populate('organizer')
+        .populate('event');
         res.status(200).json(booking);
     } catch (error) {
         res.status(500).json(error);
@@ -86,7 +87,8 @@ const getBookingByVenueManagerIdPending = async (req, res) => {
       const venues = await Venue.find({ manager: req.user._id });
       const booking = await Booking.find({ venue: { $in: venues.map(v => v._id)}, booking_status: 'pending' })
         .populate('venue')
-        .populate('organizer');
+        .populate('organizer')
+        .populate('event');
         res.status(200).json(booking);
     } catch (error) {
         res.status(500).json(error);
