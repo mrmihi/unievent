@@ -25,14 +25,12 @@
     "chartjs": "^0.3.24",
     "dayjs": "^1.11.7",
     "export-to-csv": "^0.2.1",
-
     "faker": "^6.6.6",
     "formik": "^2.2.9",
     "framer-motion": "^10.12.4",
     "js-cookie": "^3.0.4",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.28",
-
     "material-react-table": "^1.9.3",
     "moment": "^2.29.4",
     "react": "^18.2.0",
@@ -45,7 +43,6 @@
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.2",
     "styled-components": "^5.3.10",
-
     "sweetalert2": "^11.7.3",
     "web-vitals": "^2.1.4",
     "yup": "^1.1.1"

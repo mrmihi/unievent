@@ -17,7 +17,17 @@ const protect = async (req, res, next) => {
     });
   }
   req.org = await Org.findById({ _id: decodedToken.id }).select('-password');
+  console.log(req.org);
   next();
+};
+
+// ugh, this is so bad
+const organizationProtect = async (req, res, next) => {
+  if (req.org) {
+    next();
+  } else {
+    res.status(401).json({ message: 'Not authorized as a student' });
+  }
 };
 
 const authOrg = async (req, res, next) => {
@@ -44,4 +54,5 @@ module.exports = {
   protect,
   authOrg,
   authCreator,
+  organizationProtect
 };
