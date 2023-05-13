@@ -23,6 +23,8 @@ function App() {
             <BrowserRouter>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
+
+                    {/* Finance Routes */}
                     <Routes>
                         <Route path="/finance/paypal" element={<PayPal />} />
                         <Route path="*" element={<h1>Page not found!</h1>} />

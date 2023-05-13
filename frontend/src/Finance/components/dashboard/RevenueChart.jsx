@@ -64,7 +64,7 @@ const RevenueChart = () => {
 
     return (
         <Box display="flex" flexDirection="column" alignItems="left" maxHeight={400}>
-            <Typography variant="h5" gutterBottom>Revenue Generated</Typography>
+            <Typography variant="h5" gutterBottom>Payments Generated</Typography>
             <Typography variant="h3" color="error">$59,342.32</Typography>
             <canvas id="revenue-chart"></canvas>
         </Box>

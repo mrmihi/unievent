@@ -35,10 +35,10 @@ const Dashboard = () => {
 
             <Box display="flex" mt={5}>
                 <Box style={{ width: "60%", marginRight: "1rem" }}>
-                    <RevenueChart />
+                    {/* <RevenueChart /> */}
                 </Box>
                 <Box style={{ width: "40%" }}>
-                    <LatestBookings />
+                    {/* <LatestBookings /> */}
                 </Box>
             </Box>
 

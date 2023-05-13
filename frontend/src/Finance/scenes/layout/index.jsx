@@ -14,9 +14,9 @@ const Layout = () => {
     const attendeeId = useSelector((state) => state.global.attendeeId);
     const { data } = useGetAttendeeQuery(attendeeId);
 
-    if (!Cookies.get("token") && Cookies.get("role") !== "accountant") {
-        return <Navigate to="/admin/finance" />;
-    }
+    // if (!Cookies.get("token") && Cookies.get("role") !== "accountant") {
+    //     return <Navigate to="/admin/finance" />;
+    // }
 
     return (
         <Box

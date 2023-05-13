@@ -40,32 +40,32 @@ const Report = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <Box mb="2rem">
-        <Typography variant="h2">Income and Expenses Report</Typography>
+        <Typography variant="h2">Payments and Refunds Report</Typography>
       </Box>
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <Box mb="1rem">
             <Typography variant="h4" mb="1rem">
-              Income
+              Payment
             </Typography>
             <MaterialReactTable columns={columns} data={income} />
             <Box mt="1rem">
-              <Typography variant="h5">Total Income: {totalIncome}</Typography>
+              <Typography variant="h5">Total Payments: {totalIncome}</Typography>
             </Box>
           </Box>
         </Grid>
         <Grid item xs={6}>
           <Box mb="1rem">
             <Typography variant="h4" mb="1rem">
-              Expenses
+              Refund
             </Typography>
             <MaterialReactTable columns={columns} data={expenses} />
             <Box mt="1rem">
-              <Typography variant="h5">Total Expenses: {totalExpenses}</Typography>
+              <Typography variant="h5">Total Refunds: {totalExpenses}</Typography>
             </Box>
           </Box>
           <Typography variant="h4" style={{ color: profitLossColor }}>
-            {profitLossText}: {totalIncome - totalExpenses}
+            Balance: {totalIncome - totalExpenses}
           </Typography>
         </Grid>
       </Grid>

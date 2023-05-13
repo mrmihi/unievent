@@ -62,7 +62,7 @@ const FourAnalytics = () => {
                     },
                 }}
             >
-                <Typography variant="h5">Total Paymentss</Typography>
+                <Typography variant="h5">Total Payments</Typography>
                 <Typography variant="h4" mt={2}>
                     ${totalPayments}
                 </Typography>
