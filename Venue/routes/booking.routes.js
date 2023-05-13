@@ -9,7 +9,8 @@ const {
   updateBookingById,
   deleteBookingById,
   getBookingByVenueManagerId,
-  getBookingByVenueManagerIdPending
+  getBookingByVenueManagerIdPending,
+  getBookingByEventId
 } = require('../controllers/booking.controller');
 const { protect, venueManagerProtect } = require('../../User/middleware/authMiddleware');
 
@@ -24,5 +25,6 @@ bookingRouter.put('/:id', updateBookingById)
 bookingRouter.delete('/:id', deleteBookingById)
 bookingRouter.get('/manager/:id', protect, venueManagerProtect, getBookingByVenueManagerId)
 bookingRouter.get('/manager/:id/pending', protect, venueManagerProtect, getBookingByVenueManagerIdPending)
+bookingRouter.get('/event/:id', getBookingByEventId)
 
 module.exports = bookingRouter;
