@@ -15,8 +15,10 @@ const createEvent = async (req, res) => {
   });
 };
 
+//for shabs
 const getEventById = async (req, res) => {
-  const event = await EventService.getEventById(req.params.id);
+  const event = await EventService.getEventById(req.params.id).populate("venue").populate("orgId");
+  
   if (!event)
     return makeResponse({
       res,
@@ -32,7 +34,7 @@ const getEventById = async (req, res) => {
 };
 
 const getAllEvents = async (req, res) => {
-  const events = await Event.find({});
+  const events = await Event.find({}).populate("venue").populate("orgId");
   res.json(events);
 };
 
