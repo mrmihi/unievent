@@ -67,6 +67,12 @@ import ApprovalEdit from "Approval/pages/ApprovalEdit.jsx";
 import RequestAppointment from "Approval/pages/RequestAppointment.jsx";
 import ApprovalCreate from "Approval/pages/ApprovalCreate";
 import PrintAll from "Approval/pages/PrintAll";
+import VAppointments from 'Venue/src/scenes/venue/appointments';
+import VAllBookings from 'Venue/src/scenes/venue/all-bookings';
+import VBookings from 'Venue/src/scenes/venue/booking';
+import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
+import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
+import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -85,7 +91,8 @@ function App() {
             <Routes>
               {/* Approval Routes */}
               <Route element={<ELayout />}>
-                <Route path="event-draft/:id" element={<SingleEvent />} />
+                <Route path="event/:id" element={<EventManagerView />} />
+                <Route path="events-draft" element={<EventDraft />} />
                 <Route path="approval/:id" element={<ApprovalMain />} />
                 <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/edit/:id" element={<ApprovalEdit />} />
@@ -95,7 +102,7 @@ function App() {
               </Route>
 
               {/* Event Routes */}
-              <Route path="/login" element={<LoginPage />} />
+              <Route path="/login" element={<OLoginPage />} />
               <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
               <Route
@@ -226,7 +233,7 @@ function App() {
 
                   <Route path="/admin/venue/appointments" element={<VAppointments/>} />
                   <Route path="/admin/venue/bookings" element={<VAllBookings/>} />
-                  <Route path="/admin/venue/requests" element={<VBooking/>} />
+                  <Route path="/admin/venue/requests" element={<VBookings/>} />
                 </Route>
               </Route>
               
@@ -235,7 +242,7 @@ function App() {
                 <Route path="/venue" element={<h1>Browse Venue Page</h1>} />
                 <Route>
                   {/* <Route path="/venue/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
-                  <Route path="/venue/add" element={<VAddVenuePage />} /> 
+                  <Route path="/venue/add" element={<VAddVenue />} /> 
                   <Route path="/venue/list" element={<VVenueListPage />} />
                   <Route path="/venue/list/:id" element={<VViewVenueProfile />} />
                   <Route path="/venue/book/:id" element={<VVenueBook/>} />

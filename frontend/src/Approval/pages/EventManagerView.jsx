@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, Typography, Button } from '@mui/material';
 import API from "../components/api.approval"
 import { toast, ToastContainer } from "react-toastify";
@@ -17,6 +17,8 @@ function EventManagerView() {
 
   const [approvalStatus, setApprovalStatus] = useState()
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const getEventDetails = async () => {
         await API
@@ -25,8 +27,8 @@ function EventManagerView() {
             withCredentials: true,
         })
         .then((res) => {
-            console.log(res.data)
-            setEventData(res.data);
+            // console.log(res.data.data)
+            setEventData(res.data.data);
           })
         .catch((err) => {
             setEventData({})
@@ -36,13 +38,13 @@ function EventManagerView() {
 
     const getApprovalDetails = async() => {
         await API
-        .get(`approval/events/event/${eventID}`, { 
+        .get(`approval/event/events/${eventID}`, { 
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
         })
         .then((res) => {
             console.log(res.data.data[0])
-            setApprovalData(res.data.data[0]);
+            setApprovalData(res.data);
           })
         .catch((err) => {
             setApprovalData({})
@@ -52,34 +54,55 @@ function EventManagerView() {
         });
     }
 
-    const getResourceData = async () =>{
+    const getResourceDetails = async () =>{
 
     }
 
-    const getBudgetData = async () => {
+    const getBudgetDetails = async () => {
 
     }
 
-    const getVenueData = async () => {
+    const getVenueDetails = async () => {
 
     }
 
+    getEventDetails()
+    getApprovalDetails()
 
-
-
-  }, [])
+  }, [eventID])
 
   const handleAddVenueBtn = () => {
-    
+    navigate(`/venue/add`)
   }
+  const handleAddResourceBtn = () => {
+    navigate(`/admin/resources`)
+  }
+  const handleCreateBudgetBtn = () => {
+    navigate(`/budget/create/${eventID}`)
+  }
+  const handleFullApprovalRequestBtn = () => {
+    navigate(`/approval/create/${eventID}`)
+  }
+  
 
   return (
     <div className="w-full">
       <Box className="px-8 w-full">
-        <Typography id="eventName" variant="h4">Event Name</Typography>
-        <Typography id="eventDescription" variant="h6">Description : {"Event Description"}</Typography>
-        <Typography id="eventStartTime" variant="h6">Start : {Date().toString()}</Typography>
-        <Typography id="eventEndTime" variant="h6">End : {Date().toString()}</Typography>
+        <Typography id="eventName" variant="h2">
+            {eventData != null ? eventData.name : "Event Name"}
+            </Typography>
+        <Typography id="eventDescription" variant="h4">
+            {eventData != null ? eventData.description : "Description"}
+            </Typography>
+        <Typography id="eventDate" variant="h5">
+            {eventData != null ? String(eventData.startTime).split("T")[0] : "Date"}
+            </Typography>
+        <Typography id="eventStartTime" variant="h5">
+            {eventData != null ? String(eventData.startTime).split("T")[1] : "Start Time"}
+            </Typography>
+        <Typography id="eventEndTime" variant="h5">
+            {eventData != null ?String(eventData.endTime).split("T")[1] : "End Time"}
+            </Typography>
 
         <Box className="flex flex-row flex-wrap my-4">
           <Box id="venueBox" width="48%" bgcolor={boxColor} mb="1%" mr="1%"  height={200}
@@ -89,7 +112,8 @@ function EventManagerView() {
               <Typography variant="h6" id="eventVenueStatus" color="secondary">Not Added Yet</Typography>
               <Typography variant="h6" id="eventVenue" color="secondary"></Typography>
               <Box className="flex w-full justify-around flex-row my-2">
-                <Button variant="contained" color="secondary" size="large">Add Venue</Button>
+                <Button variant="contained" color="secondary" size="large"
+                onClick={handleAddVenueBtn}>Add Venue</Button>
                 <Button variant="outlined" color="secondary" size="large" disabled>Request Approval</Button>
               </Box>
             </div>
@@ -103,7 +127,8 @@ function EventManagerView() {
               <Typography variant="h6" id="eventResource" color="secondary"></Typography>
 
               <Box className="flex w-full justify-around flex-row my-2">
-                <Button variant="contained" color="secondary" size="large">Add Resources</Button>
+                <Button variant="contained" color="secondary" size="large"
+                onClick={handleAddResourceBtn}>Add Resources</Button>
                 <Button variant="outlined" color="secondary" size="large" disabled>Request Approval</Button>
               </Box>
             </div>
@@ -117,7 +142,8 @@ function EventManagerView() {
               <Typography variant="h6" id="eventBudget" color="secondary"></Typography>
 
               <Box className="flex w-full justify-around flex-row my-2">
-                <Button variant="contained" color="secondary" size="large">Create Budget</Button>
+                <Button variant="contained" color="secondary" size="large"
+                onClick={handleCreateBudgetBtn}>Create Budget</Button>
                 <Button variant="outlined" color="secondary" size="large" disabled>Request Approval</Button>
               </Box>
             </div>
@@ -131,7 +157,8 @@ function EventManagerView() {
               <Typography variant="h6" id="eventApproval" color="secondary"></Typography>
 
               <Box className="flex w-full justify-around flex-row my-2">
-                <Button variant="contained" color="secondary" size="large">Fill Request Form</Button>
+                <Button variant="contained" color="secondary" size="large"
+                onClick={handleFullApprovalRequestBtn}>Fill Request Form</Button>
                 <Button variant="outlined" color="secondary" size="large" disabled>Request Approval</Button>
               </Box>
             </div>
