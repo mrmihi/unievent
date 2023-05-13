@@ -1,43 +1,47 @@
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material/styles";
-import { useMemo } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { themeSettings } from "theme";
-import Layout from "./Attendee/scenes/layout";
-import Dashboard from "./Attendee/scenes/dashboard";
-import FeedBacks from "./Attendee/scenes/feedBacks";
-import Attendees from "./Attendee/scenes/attendees";
-import DataFinalists from "./Attendee/scenes/dataFinalists";
-import Overview from "./Attendee/scenes/overview";
-import Daily from "./Attendee/scenes/daily";
-import Monthly from "./Attendee/scenes/monthly";
-import Breakdown from "./Attendee/scenes/breakdown";
-import RSVPEMAIL from "./Attendee/scenes/revpemail";
-import Administrator from "./Attendee/scenes/administrator";
-import AttendeeStatus from "./Attendee/scenes/attendeeStatus";
-import ELayout from "./Events/scenes/layout";
-import EDashboard from "./Events/scenes/dashboard";
-import LoginPage from "./Events/scenes/login";
-import AllEventsTable from "./Events/tables/AllEventsTable";
-import SingleEvent from "./Events/SingleEvent";
-import AllEventView from "./Events/AllEventView";
-import AllEvents from "./Events/AllEvents";
-import EventCreationForm from "Events/components/registrationForm";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import RLayout from "./Resource/scenes/layout";
-import RDashboard from "./Resource/scenes/dashboard";
-import ResourcesTable from "./Resource/tables/allResources";
-import PageNotFound from "./Events/pages/PageNotFound.jsx";
-import AllResourcesView from "Resource/pages/AllResourcesView";
-import Speaker from "Partners/organizer/speakers";
-import Sponsors from "Partners/organizer/sponsors";
-import Volunteers from "Partners/organizer/volunteers";
-import Opportunities from "Partners/organizer/opportunities";
-import OpportunitiesList from "Partners/user/volunteer/OpportunitiesList";
-import AppliedOpportunitiesList from "Partners/user/volunteer/AppliedOpportunitiesList";
-import UpdateVolunteerApplication from "Partners/user/volunteer/UpdateVolunteerApplication";
-import OpportunityDetails from "Partners/user/volunteer/OpportunityDetails";
+import { Box, CssBaseline, ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
+import { useMemo } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { themeSettings } from 'theme';
+import Layout from './Attendee/scenes/layout';
+import Dashboard from './Attendee/scenes/dashboard';
+import FeedBacks from './Attendee/scenes/feedBacks';
+import Attendees from './Attendee/scenes/attendees';
+import DataFinalists from './Attendee/scenes/dataFinalists';
+import Overview from './Attendee/scenes/overview';
+import Daily from './Attendee/scenes/daily';
+import Monthly from './Attendee/scenes/monthly';
+import Breakdown from './Attendee/scenes/breakdown';
+import RSVPEMAIL from './Attendee/scenes/revpemail';
+import Administrator from './Attendee/scenes/administrator';
+import AttendeeStatus from './Attendee/scenes/attendeeStatus';
+
+import ELayout from './Events/scenes/layout';
+import EDashboard from './Events/scenes/dashboard';
+import OLoginPage from './Org/OrgLogin';
+import AllEventsTable from './Events/tables/AllEventsTable';
+import SingleEvent from './Events/SingleEvent';
+import AllEventView from './Events/AllEventView';
+import AllEvents from './Events/AllEvents';
+import EventCreationForm from 'Events/components/registrationForm';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+import RLayout from './Resource/scenes/layout';
+import RDashboard from './Resource/scenes/dashboard';
+import ResourcesTable from './Resource/tables/allResources';
+import PageNotFound from './Events/pages/PageNotFound.jsx';
+import AllResourcesView from 'Resource/pages/AllResourcesView';
+
+import Speaker from 'Partners/organizer/speakers';
+import Sponsors from 'Partners/organizer/sponsors';
+import Volunteers from 'Partners/organizer/volunteers';
+import Opportunities from 'Partners/organizer/opportunities';
+import OpportunitiesList from 'Partners/user/volunteer/OpportunitiesList';
+import AppliedOpportunitiesList from 'Partners/user/volunteer/AppliedOpportunitiesList';
+import UpdateVolunteerApplication from 'Partners/user/volunteer/UpdateVolunteerApplication';
+import OpportunityDetails from 'Partners/user/volunteer/OpportunityDetails';
+
 // import OpportunityRegister from "Resource/components/registrationForm";
 
 import OpportunityRegister from "Partners/user/volunteer/OpportunityRegister";
@@ -77,11 +81,10 @@ function App() {
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <CssBaseline />
+
             <Routes>
               {/* Approval Routes */}
               <Route element={<ELayout />}>
-                <Route path="/events/" element={<AllEvents />} />
-                <Route path="/event/:id" element={<EventManagerView />} />
                 <Route path="event-draft/:id" element={<SingleEvent />} />
                 <Route path="approval/:id" element={<ApprovalMain />} />
                 <Route path="approval/create/:id" element={<ApprovalCreate />} />
@@ -95,14 +98,23 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
-              <Route path="/events/:id/register" element={<EventCreationForm />} />
-              <Route path="/org" element={<LoginPage />} />
+              <Route
+                path="/events/:id/register"
+                element={<EventCreationForm />}
+              />
+
+              <Route path="/org/login" element={<OLoginPage />} />
 
               <Route element={<ELayout />}>
-                <Route path="/org/dashboard/*" element={<Navigate to="/org/dashboard" replace />} />
+                <Route
+                  path="/org/dashboard/*"
+                  element={<Navigate to="/org/dashboard" replace />}
+                />
+
                 <Route path="/org/dashboard" element={<EDashboard />} />
                 <Route path="/org/dashboard/events" element={<EventDraft />} />
               </Route>
+
               {/* Attendee Routes */}
               <Route element={<Layout />}>
                 <Route
@@ -141,6 +153,7 @@ function App() {
                   element={<AttendeeStatus />}
                 />
               </Route>
+
               {/* Resource Routes */}
               <Route path="/admin/resources" element={<AllResourcesView />} />
               <Route element={<RLayout />}>
@@ -158,6 +171,7 @@ function App() {
                 />
               </Route>
               <Route path="*" element={<PageNotFound />} />
+
               {/*Partner Routes */}
               <Route element={<ELayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
@@ -192,100 +206,43 @@ function App() {
                 path="/event/updateVolunteerApplication/:volunteerID"
                 element={<UpdateVolunteerApplication />}
               />
+          
               {/* venue routes */}
               <Route>
                 <Route path="/admin/venue" element={<VLoginPage />} />
                 <Route element={<VLayout />}>
-                  <Route
-                    path="/admin/venue/dashboard/*"
-                    element={<Navigate to="/admin/venue/dashboard" replace />}
-                  />
-                  <Route
-                    path="/admin/venue/dashboard"
-                    element={<VDashboard />}
-                  />
-                  <Route
-                    path="/admin/venue/feedBacks"
-                    element={<h1>FeedBacks</h1>}
-                  />
-                  <Route
-                    path="/admin/venue/attendees"
-                    element={<h1>Attendees</h1>}
-                  />
-                  <Route
-                    path="/admin/venue/dataFinalists"
-                    element={<VDataFinalists />}
-                  />
+                  <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} />
+                  <Route path="/admin/venue/dashboard" element={<VDashboard />} />
+                  <Route path="/admin/venue/feedBacks" element={<h1>FeedBacks</h1>} />
+                  <Route path="/admin/venue/attendees" element={<h1>Attendees</h1>} />
+                  <Route path="/admin/venue/dataFinalists" element={<VDataFinalists />} />
                   <Route path="/admin/venue/venues" element={<VVenue />} />
-
-                  <Route
-                    path="/admin/venue/venues/edit/:id"
-                    element={<VVenuePage />}
-                  />
-                  <Route
-                    path="/admin/venue/venues/:id"
-                    element={<VVenueProfile />}
-                  />
-                  <Route
-                    path="/admin/venue/report"
-                    element={<VVenueQuotation />}
-                  />
-
+                  <Route path="/admin/venue/venues/edit/:id" element={<VVenuePage />} />
+                  <Route path="/admin/venue/venues/:id" element={<VVenueProfile />} />
+                  <Route path="/admin/venue/report" element={<VVenueQuotation />} />
                   <Route path="/admin/venue/add" element={<VAddVenue />} />
-                  <Route
-                    path="/admin/venue/breakdown"
-                    element={<Breakdown />}
-                  />
+                  <Route path="/admin/venue/breakdown" element={<Breakdown />} />
                   <Route path="/admin/venue/reviews" element={<VReview />} />
+
+                  <Route path="/admin/venue/appointments" element={<VAppointments/>} />
+                  <Route path="/admin/venue/bookings" element={<VAllBookings/>} />
+                  <Route path="/admin/venue/requests" element={<VBooking/>} />
                 </Route>
               </Route>
-              {/* venue routes */}
+              
+              {/* venue add to an event */}
               <Route>
-                <Route path="/admin/venue" element={<VLoginPage />} />
-                <Route element={<VLayout />}>
-                  <Route
-                    path="/admin/venue/dashboard/*"
-                    element={<Navigate to="/admin/venue/dashboard" replace />}
-                  />
-                  <Route
-                    path="/admin/venue/dashboard"
-                    element={<VDashboard />}
-                  />
-                  <Route
-                    path="/admin/venue/feedBacks"
-                    element={<h1>FeedBacks</h1>}
-                  />
-                  <Route
-                    path="/admin/venue/attendees"
-                    element={<h1>Attendees</h1>}
-                  />
-                  <Route
-                    path="/admin/venue/dataFinalists"
-                    element={<VDataFinalists />}
-                  />
-                  <Route path="/admin/venue/venues" element={<VVenue />} />
-
-                  <Route
-                    path="/admin/venue/venues/edit/:id"
-                    element={<VVenuePage />}
-                  />
-                  <Route
-                    path="/admin/venue/venues/:id"
-                    element={<VVenueProfile />}
-                  />
-                  <Route
-                    path="/admin/venue/report"
-                    element={<VVenueQuotation />}
-                  />
-
-                  <Route path="/admin/venue/add" element={<VAddVenue />} />
-                  <Route
-                    path="/admin/venue/breakdown"
-                    element={<Breakdown />}
-                  />
-                  <Route path="/admin/venue/reviews" element={<VReview />} />
+                <Route path="/venue" element={<h1>Browse Venue Page</h1>} />
+                <Route>
+                  {/* <Route path="/venue/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
+                  <Route path="/venue/add" element={<VAddVenuePage />} /> 
+                  <Route path="/venue/list" element={<VVenueListPage />} />
+                  <Route path="/venue/list/:id" element={<VViewVenueProfile />} />
+                  <Route path="/venue/book/:id" element={<VVenueBook/>} />
+                  <Route path="/venue/payment" element={<h1>payment page</h1>} />
                 </Route>
               </Route>
+        
             </Routes>
           </ThemeProvider>
         </BrowserRouter>

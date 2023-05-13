@@ -30,15 +30,15 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required('Please enter your password'),
 });
 
-export default function LoginPage() {
+export default function OLoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const accessToken = Cookies.get('accessToken');
-    const role = Cookies.get('role');
+    const name = Cookies.get('name');
 
-    if (accessToken && role === 'venue') {
-      navigate('/admin/venue/dashboard');
+    if (accessToken) {
+      navigate('/org/dashboard');
     }
   }, [navigate]);
 
@@ -52,7 +52,7 @@ export default function LoginPage() {
       try {
         const { email, password } = values;
         const response = await axios.post(
-          ' api/users/login',
+          'http://localhost:5000/api/org/login',
           JSON.stringify({ email, password }),
           {
             headers: { 'Content-Type': 'application/json' },
@@ -60,7 +60,7 @@ export default function LoginPage() {
           }
         );
         const accessToken = response?.data?.token;
-        const role = response?.data?.role;
+        const name = response?.data?.name;
         const _id = response?.data?._id;
 
         console.log(response.data);
@@ -68,9 +68,9 @@ export default function LoginPage() {
 
         Cookies.set('id', _id, { expires: 1 });
         Cookies.set('accessToken', accessToken, { expires: 1 });
-        Cookies.set('role', role, { expires: 1 });
+        Cookies.set('name', name, { expires: 1 });
 
-        navigate('/admin/venue/dashboard/');
+        navigate('/org/dashboard/');
       } catch (error) {
         if (!error?.response) {
           toast.error('No Server Response', {
@@ -110,7 +110,7 @@ export default function LoginPage() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h4">
-              Venue Manager - Sign In
+              Organization Sign In
             </Typography>
             <Grid
               container
