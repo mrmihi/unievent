@@ -99,7 +99,7 @@ const ApprovalCreate = (props) => {
     //If it does not exist, create a new one
     const createApprovalRequest = async () => {
       await API.post(
-        `event/`,
+        `approval/event/`,
         {
           event_id: event_id.toString(),
           status: "Initiated",
@@ -127,7 +127,7 @@ const ApprovalCreate = (props) => {
         });
     };
 
-    await API.get(`event/events/${event_id}`, {
+    await API.get(`approval/event/events/${event_id}`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -148,7 +148,7 @@ const ApprovalCreate = (props) => {
   const handleComplete = async () => {
     const updateRequstsToSend = async (id) => {
       await API.put(
-        `request/${id}`,
+        `approval/request/${id}`,
         {
           status: "Sent",
         },
@@ -174,7 +174,7 @@ const ApprovalCreate = (props) => {
     } else {
       if (eventApprovalID != "") {
         await API.put(
-          `event/${eventApprovalID}`,
+          `approval/event/${eventApprovalID}`,
           {
             lic_approval: lic,
             venue_approval: venue,
@@ -214,7 +214,7 @@ const ApprovalCreate = (props) => {
   const handleSaveDraft = async () => {
     if (eventApprovalID != "") {
       await API.put(
-        `event/${eventApprovalID}`,
+        `approval/event/${eventApprovalID}`,
         {
           status: "Draft",
           lic_approval: lic,
@@ -248,7 +248,7 @@ const ApprovalCreate = (props) => {
 
   const handleReset = async () => {
     if (eventApprovalID != "") {
-      await API.delete(`event/${eventApprovalID}`, {
+      await API.delete(`approval/event/${eventApprovalID}`, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })

@@ -56,6 +56,7 @@ import VVenuePage from "Venue/src/scenes/venue/edit-venue-page";
 import VVenueProfile from "Venue/src/scenes/venue/venue-profile";
 
 import EventDraft from "Approval/pages/EventDraft";
+import EventManagerView from "Approval/pages/EventManagerView"
 import ApprovalMain from "Approval/pages/ApprovalMain";
 import ApprovalRequestMain from "Approval/pages/ApprovalRequestMain.jsx";
 import ApprovalEdit from "Approval/pages/ApprovalEdit.jsx";
@@ -80,6 +81,7 @@ function App() {
               {/* Approval Routes */}
               <Route element={<ELayout />}>
                 <Route path="/events/" element={<AllEvents />} />
+                <Route path="/event/:id" element={<EventManagerView />} />
                 <Route path="event-draft/:id" element={<SingleEvent />} />
                 <Route path="approval/:id" element={<ApprovalMain />} />
                 <Route path="approval/create/:id" element={<ApprovalCreate />} />
@@ -93,22 +95,13 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
-              <Route
-                path="/events/:id/register"
-                element={<EventCreationForm />}
-              />
+              <Route path="/events/:id/register" element={<EventCreationForm />} />
               <Route path="/org" element={<LoginPage />} />
 
               <Route element={<ELayout />}>
-                <Route
-                  path="/org/dashboard/*"
-                  element={<Navigate to="/org/dashboard" replace />}
-                />
+                <Route path="/org/dashboard/*" element={<Navigate to="/org/dashboard" replace />} />
                 <Route path="/org/dashboard" element={<EDashboard />} />
-                <Route
-                  path="/org/dashboard/events"
-                  element={<AllEventsTable />}
-                />
+                <Route path="/org/dashboard/events" element={<EventDraft />} />
               </Route>
               {/* Attendee Routes */}
               <Route element={<Layout />}>
