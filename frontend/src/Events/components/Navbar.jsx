@@ -19,7 +19,7 @@ import {
   MenuItem,
   useTheme,
 } from '@mui/material';
-
+// import Logout from '../scenes/logout';
 
 const Navbar = ({ attendee, isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
@@ -40,9 +40,9 @@ const Navbar = ({ attendee, isSidebarOpen, setIsSidebarOpen }) => {
           </IconButton>
         </FlexBetween>
         <div style={{ flexGrow: 1 }} />
-        <Button color="inherit" onClick={() => alert("log out")} sx={{ float: 'right' }}>
+        {/* <Button color="inherit" onClick={Logout} sx={{ float: 'right' }}>
           Logout
-        </Button>
+        </Button> */}
       </Toolbar>
     </AppBar>
   );

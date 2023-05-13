@@ -31,7 +31,7 @@ const ApprovalEdit = () => {
 
   const fetchData = async () => {
     const fetchRequest = async (requestId, role) => {
-      await API.get(`/request/${requestId}`, {
+      await API.get(`approval/request/${requestId}`, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })
@@ -64,7 +64,7 @@ const ApprovalEdit = () => {
         });
     };
 
-    await API.get(`/event/events/${eventId}`, {
+    await API.get(`approval/event/events/${eventId}`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

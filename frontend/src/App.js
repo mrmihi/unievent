@@ -46,25 +46,33 @@ import OpportunityDetails from 'Partners/user/volunteer/OpportunityDetails';
 
 import OpportunityRegister from "Partners/user/volunteer/OpportunityRegister";
 
-import VLayout from 'Venue/src/scenes/layout';
-import VDashboard from 'Venue/src/scenes/dashboard';
-import VFeedBacks from 'Venue/src/scenes/feedBacks';
-import VAttendees from 'Venue/src/scenes/attendees';
-import VDataFinalists from 'Venue/src/scenes/dataFinalists';
-import VLoginPage from 'Venue/src/scenes/login';
-import VReview from 'Venue/src/scenes/venue/review';
-import VVenue from 'Venue/src/scenes/venue/venue';
-import VVenueQuotation from 'Venue/src/scenes/venue/venue-report';
-import VAddVenue from 'Venue/src/scenes/venue/add-venue';
-import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
-import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
-import VAddVenuePage from 'Venue/AddVenue/pages/VAddVenuePage';
-import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
-import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
-import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
-import VAllBookings from 'Venue/src/scenes/venue/all-bookings';
+import VLayout from "Venue/src/scenes/layout";
+import VDashboard from "Venue/src/scenes/dashboard";
+import VFeedBacks from "Venue/src/scenes/feedBacks";
+import VAttendees from "Venue/src/scenes/attendees";
+import VDataFinalists from "Venue/src/scenes/dataFinalists";
+import VLoginPage from "Venue/src/scenes/login";
+import VReview from "Venue/src/scenes/venue/review";
+import VVenue from "Venue/src/scenes/venue/venue";
+import VVenueQuotation from "Venue/src/scenes/venue/venue-report";
+import VAddVenue from "Venue/src/scenes/venue/add-venue";
+import VVenuePage from "Venue/src/scenes/venue/edit-venue-page";
+import VVenueProfile from "Venue/src/scenes/venue/venue-profile";
+
+import EventDraft from "Approval/pages/EventDraft";
+import EventManagerView from "Approval/pages/EventManagerView"
+import ApprovalMain from "Approval/pages/ApprovalMain";
+import ApprovalRequestMain from "Approval/pages/ApprovalRequestMain.jsx";
+import ApprovalEdit from "Approval/pages/ApprovalEdit.jsx";
+import RequestAppointment from "Approval/pages/RequestAppointment.jsx";
+import ApprovalCreate from "Approval/pages/ApprovalCreate";
+import PrintAll from "Approval/pages/PrintAll";
 import VAppointments from 'Venue/src/scenes/venue/appointments';
-import VBooking from 'Venue/src/scenes/venue/booking';
+import VAllBookings from 'Venue/src/scenes/venue/all-bookings';
+import VBookings from 'Venue/src/scenes/venue/booking';
+import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
+import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
+import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -83,17 +91,18 @@ function App() {
             <Routes>
               {/* Approval Routes */}
               <Route element={<ELayout />}>
-                <Route path="event-draft/:id" element={<SingleEvent />} />
-                {/* <Route path="approval/:id" element={<ApprovalMain />} /> */}
-                {/* <Route path="approval/create/:id" element={<ApprovalCreate />} /> */}
-                {/* <Route path="approval/edit/:id" element={<ApprovalEdit />} /> */}
-                {/* <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> */}
-                {/* <Route path="approval/print/:id" element={<PrintAll />} /> */}
-                {/* <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
+                <Route path="event/:id" element={<EventManagerView />} />
+                <Route path="events-draft" element={<EventDraft />} />
+                <Route path="approval/:id" element={<ApprovalMain />} />
+                <Route path="approval/create/:id" element={<ApprovalCreate />} />
+                <Route path="approval/edit/:id" element={<ApprovalEdit />} />
+                <Route path="approval/request/:id" element={<ApprovalRequestMain />} />
+                <Route path="approval/print/:id" element={<PrintAll />} />
+                <Route path="approval/r/appointment/:id" element={<RequestAppointment />} />
               </Route>
 
               {/* Event Routes */}
-              {/* <Route path="/login" element={<LoginPage />} /> */}
+              <Route path="/login" element={<OLoginPage />} />
               <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
               <Route
@@ -110,10 +119,7 @@ function App() {
                 />
 
                 <Route path="/org/dashboard" element={<EDashboard />} />
-                <Route
-                  path="/org/dashboard/events"
-                  element={<AllEventsTable />}
-                />
+                <Route path="/org/dashboard/events" element={<EventDraft />} />
               </Route>
 
               {/* Attendee Routes */}
@@ -227,7 +233,7 @@ function App() {
 
                   <Route path="/admin/venue/appointments" element={<VAppointments/>} />
                   <Route path="/admin/venue/bookings" element={<VAllBookings/>} />
-                  <Route path="/admin/venue/requests" element={<VBooking/>} />
+                  <Route path="/admin/venue/requests" element={<VBookings/>} />
                 </Route>
               </Route>
               
@@ -235,7 +241,8 @@ function App() {
               <Route>
                 <Route path="/venue" element={<h1>Browse Venue Page</h1>} />
                 <Route>
-                  <Route path="/venue/add" element={<VAddVenuePage />} /> 
+                  {/* <Route path="/venue/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
+                  <Route path="/venue/add" element={<VAddVenue />} /> 
                   <Route path="/venue/list" element={<VVenueListPage />} />
                   <Route path="/venue/list/:id" element={<VViewVenueProfile />} />
                   <Route path="/venue/book/:id" element={<VVenueBook/>} />
