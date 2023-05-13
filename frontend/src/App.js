@@ -62,11 +62,14 @@ import VVenueProfile from "Venue/src/scenes/venue/venue-profile";
 import EventDraft from "Approval/pages/EventDraft";
 import EventManagerView from "Approval/pages/EventManagerView"
 import ApprovalMain from "Approval/pages/ApprovalMain";
+import Staffs from "Approval/pages/Staffs"
+import Admins from "Approval/pages/Admins"
 import ApprovalRequestMain from "Approval/pages/ApprovalRequestMain.jsx";
 import ApprovalEdit from "Approval/pages/ApprovalEdit.jsx";
 import RequestAppointment from "Approval/pages/RequestAppointment.jsx";
 import ApprovalCreate from "Approval/pages/ApprovalCreate";
 import PrintAll from "Approval/pages/PrintAll";
+
 import VAppointments from 'Venue/src/scenes/venue/appointments';
 import VAllBookings from 'Venue/src/scenes/venue/all-bookings';
 import VBookings from 'Venue/src/scenes/venue/booking';
@@ -94,6 +97,8 @@ function App() {
                 <Route path="event/:id" element={<EventManagerView />} />
                 <Route path="events-draft" element={<EventDraft />} />
                 <Route path="approval/:id" element={<ApprovalMain />} />
+                <Route path="staff/list/:id" element={<Staffs />} />
+                <Route path="admin/list/:id" element={<Admins />} />
                 <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/edit/:id" element={<ApprovalEdit />} />
                 <Route path="approval/request/:id" element={<ApprovalRequestMain />} />
