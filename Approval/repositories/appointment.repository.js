@@ -7,8 +7,8 @@ const getAppointmentsOfUser = async (userID) => {
         const appointment = await Appointment.find({ approval_request_id: approvalRequest._id })
                                 .populate("approval_request_id")
         return appointment;
-
-};
+    })
+}
 
 const getAllAppointments = async () => {
     const appointments = await Appointment.find({})
