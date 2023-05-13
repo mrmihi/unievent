@@ -8,12 +8,13 @@ import { WidthNormal } from '@mui/icons-material';
 function SingleEvent() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
+  const { id : eventID } = useParams()
 
   useEffect(() => {
-    eventService.getOne(id).then((res) => {
+    eventService.getOneShab(id).then((res) => {
       setEvent(res.data);
     });
-  }, []);
+  }, [id]);
 
   const navigate = useNavigate();
 
@@ -23,14 +24,18 @@ function SingleEvent() {
       <div className="flex flex-col justify-center  items-center ">
         <img src={event.headerImage} alt={event.name} className="mx-auto" />
 
-        <div className="  mt-8">
+        <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl mt-8">
           <div>
+            {/* add a typography tag that says Details and make it bold */}
+            <Typography variant="h2">Details</Typography>
+            <Typography variant="h4" color="red">
+              {event.startTime} - {event.endTime}{' '}
+            </Typography>
             <Typography variant="h2">{event.name}</Typography>
             <Typography variant="h3">{event.description}</Typography>
             <Typography variant="h4">{event.category}</Typography>
             <Typography variant="h4">Capacity : {event.capacity}</Typography>
-            <Typography variant="h4">Start Time : {event.startTime}</Typography>
-            <Typography variant="h4">End Time : {event.endTime}</Typography>
+
             <Typography variant="h4">
               Attendee Count : {event.attendeeCount}
             </Typography>
@@ -62,6 +67,16 @@ function SingleEvent() {
             }}
           >
             Opportunities
+          </Button>
+          <Button
+            sx={{ width: 300, marginLeft: '5px' }}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              navigate(`/approval/${eventID}`);
+            }}
+          >
+            Approval Request
           </Button>
         </div>
       </div>

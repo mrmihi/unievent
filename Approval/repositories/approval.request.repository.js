@@ -1,5 +1,13 @@
 const { Approval_Request } = require("../models/approval.model");
 
+const getApprovalRequestsOfUser = async (userID) => {
+    const eventApprovals = await Approval_Request.find({ requested_to: userID })
+            .populate("requested_to")
+            .populate("requested_by")
+    
+    return eventApprovals;
+};
+
 const getAllApprovalRequests = async () => {
     const eventApprovals = await Approval_Request.find({})
             .populate("requested_to")
@@ -34,10 +42,17 @@ const deleteApprovalRequest = async (id) => {
     return deletedApprovalRequest;
 }
 
+const deleteRequestsByEventApprovalID = async (eventApprovalID) => {
+    const deletedApprovalRequests = await Approval_Request.deleteMany({ approval_id: eventApprovalID })
+    return deletedApprovalRequests;
+}
+
 module.exports = {
     createApprovalRequest,
     getApprovalRequest,
     getAllApprovalRequests,
     updateApprovalRequest,
     deleteApprovalRequest,
+    getApprovalRequestsOfUser,
+    deleteRequestsByEventApprovalID,
 };

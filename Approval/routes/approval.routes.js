@@ -7,7 +7,7 @@ const {
     updateEventApproval,
     deleteEventApproval,
     getEventApprovalByEventID,
-    getEventApprovalByOrgID
+    getEventApprovalByOrgID,
 } = require("../controllers/approval.event.controller");
 
 const {
@@ -15,7 +15,9 @@ const {
     createApprovalRequest,
     getApprovalRequest,
     updateApprovalRequest,
-    deleteApprovalRequest
+    deleteApprovalRequest,
+    getApprovalRequestsOfUser,
+    deleteRequestsByEventApprovalID
 } = require("../controllers/approval.request.controller");
 
 const {
@@ -23,7 +25,8 @@ const {
     createAppointment,
     getAppointment,
     updateAppointment,
-    deleteAppointment
+    deleteAppointment,
+    getAppoinmentsOfUser,
 } = require("../controllers/appointment.controller");
 
 //Event Approval
@@ -40,9 +43,11 @@ router.get("/event/org/:id", getEventApprovalByOrgID);
 //Approval Request
 router.get("/request/", getAllApprovalRequests);
 router.post("/request/", createApprovalRequest);
+router.get("/request/user/:id", getApprovalRequestsOfUser);
 router.get("/request/:id", getApprovalRequest);
 router.put("/request/:id", updateApprovalRequest);
 router.delete("/request/:id", deleteApprovalRequest);
+router.get("/request/events/:id", deleteRequestsByEventApprovalID);
 
 //Appointment
 router.get("/appointment", getAllAppointment);
@@ -50,5 +55,6 @@ router.post("/appointment", createAppointment);
 router.get("/appointment/:id", getAppointment);
 router.put("/appointment/:id", updateAppointment);
 router.delete("/appointment/:id", deleteAppointment);
+router.get("/appointment/user/:id", getAppoinmentsOfUser);
 
 module.exports = router;

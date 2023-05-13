@@ -35,6 +35,7 @@
         "morgan": "^1.10.0",
         "nodemailer": "^6.9.1",
         "react-material-ui-carousel": "^3.4.2",
+        "react-confirm-alert": "^3.0.6",
         "uuid": "^9.0.0"
     },
     "devDependencies": {
