@@ -15,9 +15,10 @@ import Breakdown from './Attendee/scenes/breakdown';
 import RSVPEMAIL from './Attendee/scenes/revpemail';
 import Administrator from './Attendee/scenes/administrator';
 import AttendeeStatus from './Attendee/scenes/attendeeStatus';
+
 import ELayout from './Events/scenes/layout';
 import EDashboard from './Events/scenes/dashboard';
-import LoginPage from './Events/scenes/login';
+import OLoginPage from './Org/OrgLogin';
 import AllEventsTable from './Events/tables/AllEventsTable';
 import SingleEvent from './Events/SingleEvent';
 import AllEventView from './Events/AllEventView';
@@ -25,11 +26,13 @@ import AllEvents from './Events/AllEvents';
 import EventCreationForm from 'Events/components/registrationForm';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 import RLayout from './Resource/scenes/layout';
 import RDashboard from './Resource/scenes/dashboard';
 import ResourcesTable from './Resource/tables/allResources';
 import PageNotFound from './Events/pages/PageNotFound.jsx';
 import AllResourcesView from 'Resource/pages/AllResourcesView';
+
 import Speaker from 'Partners/organizer/speakers';
 import Sponsors from 'Partners/organizer/sponsors';
 import Volunteers from 'Partners/organizer/volunteers';
@@ -68,28 +71,31 @@ function App() {
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {/* Event Routes */}
+
+            {/* Event & Organization Routes */}
             <Routes>
-              <Route path="/login" element={<LoginPage />} />
               <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
               <Route
                 path="/events/:id/register"
                 element={<EventCreationForm />}
               />
-              <Route path="/org" element={<LoginPage />} />
+
+              <Route path="/org/login" element={<OLoginPage />} />
 
               <Route element={<ELayout />}>
                 <Route
                   path="/org/dashboard/*"
                   element={<Navigate to="/org/dashboard" replace />}
                 />
+
                 <Route path="/org/dashboard" element={<EDashboard />} />
                 <Route
                   path="/org/dashboard/events"
                   element={<AllEventsTable />}
                 />
               </Route>
+
               {/* Attendee Routes */}
               <Route element={<Layout />}>
                 <Route
@@ -128,6 +134,7 @@ function App() {
                   element={<AttendeeStatus />}
                 />
               </Route>
+
               {/* Resource Routes */}
               <Route path="/admin/resources" element={<AllResourcesView />} />
               <Route element={<RLayout />}>
@@ -145,6 +152,7 @@ function App() {
                 />
               </Route>
               <Route path="*" element={<PageNotFound />} />
+
               {/*Partner Routes */}
               <Route element={<ELayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
