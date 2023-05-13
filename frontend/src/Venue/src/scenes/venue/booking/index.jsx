@@ -89,11 +89,12 @@ const VBookings = () => {
                             _id: booking._id,
                             start: new Date(booking.start_time),
                             end: new Date(booking.end_time),
-                            title: `Booking ${booking.booking_status}`,
+                            title: `Booking ${booking.event.name}`,
                             status: booking.booking_status,
                             price: booking.price,
                             venue: booking.venue,
                             organizer: booking.organizer,
+                            event: booking.event,
                         }))}
                         eventPropGetter={(event, start, end, isSelected) => {
                             return {
@@ -121,7 +122,7 @@ const VBookings = () => {
                 </Box>
                 {selectedEvent && (
                     <Box mt={10} style={{ marginBottom: "2rem" }}>
-                        <h2>{selectedEvent.title}</h2>
+                        <h2>{selectedEvent.event.name}</h2>
                         <p>Start Time: {moment(selectedEvent.start).format("YYYY-MM-DD hh:mm A")}</p>
                         <p>End Time: {moment(selectedEvent.end).format("YYYY-MM-DD hh:mm A")}</p>
                         <p>Status: {selectedEvent.status}</p>
