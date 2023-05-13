@@ -17,7 +17,7 @@ const BookingSchema = new Schema(
         },
         booking_status: {
             type: String,
-            enum: ['pending', 'rejected', 'completed'],
+            enum: ['pending', 'rejected', 'approved'],
             default: 'pending',
             required: true
         },
@@ -38,7 +38,7 @@ const BookingSchema = new Schema(
         },
         organizer: {
             type: Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'Organization',
             required: true
         }
     },

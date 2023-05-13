@@ -58,6 +58,9 @@ import VAddVenuePage from 'Venue/AddVenue/pages/VAddVenuePage';
 import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
 import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
 import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
+import VAllBookings from 'Venue/src/scenes/venue/all-bookings';
+import VAppointments from 'Venue/src/scenes/venue/appointments';
+import VBooking from 'Venue/src/scenes/venue/booking';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -200,6 +203,10 @@ function App() {
                   <Route path="/admin/venue/add" element={<VAddVenue />} />
                   <Route path="/admin/venue/breakdown" element={<Breakdown />} />
                   <Route path="/admin/venue/reviews" element={<VReview />} />
+
+                  <Route path="/admin/venue/appointments" element={<VAppointments/>} />
+                  <Route path="/admin/venue/bookings" element={<VAllBookings/>} />
+                  <Route path="/admin/venue/requests" element={<VBooking/>} />
                 </Route>
               </Route>
               

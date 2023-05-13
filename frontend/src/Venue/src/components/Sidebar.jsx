@@ -40,19 +40,19 @@ const navItems = [
         location: "/admin/venue/booking",
     },
     {
-        text: "FeedBacks",
+        text: "Bookings",
         icon: <FeedbackIcon />,
-        location: "/admin/venue/feedbacks",
+        location: "/admin/venue/bookings",
     },
     {
-        text: "Attendees",
+        text: "Booking Requests",
         icon: <Groups2Outlined />,
-        location: "/admin/venue/attendees",
+        location: "/admin/venue/requests",
     },
     {
-        text: "DataFinalists",
+        text: "Appointments",
         icon: <ReceiptLongOutlined />,
-        location: "/admin/venue/datafinalists",
+        location: "/admin/venue/appointments",
     },
 
     {

@@ -36,12 +36,19 @@ const VVenueBook = () => {
         const start = new Date(startDate).toISOString();
         const end = new Date(endDate).toISOString();
 
+        if (moment(end).diff(moment(start), 'hours') < 1) {
+            toast.error('Booking duration should be atleast 1 hour!', {
+                position: toast.POSITION.TOP_CENTER,
+            });
+            return;
+        }
+        
         axios.post('http://localhost:5000/api/bookings', {
             start_time: start,
             end_time: end,
             duration: moment(end).diff(moment(start), 'hours'),
             venue: id,
-            organizer: '6449ee34be1db21bb2b630f3',
+            organizer: '6448be13969607971f3761a3',
             price: venue.price * moment(end).diff(moment(start), 'hours')
         }).then((res) => {
             toast.success("Booking saved successfully", {
@@ -72,7 +79,6 @@ const VVenueBook = () => {
                         status: venue.booking_status
                     };
                 });
-                console.log(modifiedData);
                 setEvents(modifiedData);
             })
             .catch((err) => {
@@ -159,6 +165,7 @@ const VVenueBook = () => {
                             renderInput={(props) => <TextField {...props} />}
                             ampm
                             style={{ marginRight: "10px" }}
+                            disablePast
                         />
                         <MobileDateTimePicker
                             label="End Date & Time"
@@ -166,6 +173,7 @@ const VVenueBook = () => {
                             inputFormat="dd/MM/yyyy hh:mm a"
                             renderInput={(props) => <TextField {...props} />}
                             ampm
+                            disablePast
                         />
                     </Box>
                     <Box display="flex" justifyContent="center" mt={2}>
