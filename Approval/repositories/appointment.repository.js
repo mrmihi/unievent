@@ -1,13 +1,13 @@
 const { Appointment, Approval_Request } = require("../models/approval.model");
 
 const getAppointmentsOfUser = async (userID) => {
-    // const approvalRequests = await Approval_Request.find({ requested_to: userID })
+    const approvalRequests = await Approval_Request.find({ requested_to: userID })
     
-    // return approvalRequests.forEach(async (approvalRequest) => {
-    //     const appointment = await Appointment.find({ approval_request_id: approvalRequest._id })
-    //                             .populate("approval_request_id")
-    //     return appointment;
-    // })
+    approvalRequests.forEach(async (approvalRequest) => {
+        const appointment = await Appointment.find({ approval_request_id: approvalRequest._id })
+                                .populate("approval_request_id")
+        return appointment;
+
 };
 
 const getAllAppointments = async () => {

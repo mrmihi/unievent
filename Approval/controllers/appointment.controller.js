@@ -60,6 +60,7 @@ const deleteAppointment = async (req, res) => {
 };
 
 const getAppoinmentsOfUser = async (req, res) => {
+
     // const { id: userID } = req.params;
     // const result = await AppointmentService.getAppoinmentsOfUser(userID);
     // return makeResponse({
@@ -79,10 +80,12 @@ module.exports = {
   getAppoinmentsOfUser,
 };
 
+
 module.exports = {
-    getAllAppointment,
-    createAppointment,
-    getAppointment,
-    updateAppointment,
-    deleteAppointment
+  getAllAppointment,
+  createAppointment,
+  getAppointment,
+  updateAppointment,
+  deleteAppointment,
+  getAppoinmentsOfUser,
 };

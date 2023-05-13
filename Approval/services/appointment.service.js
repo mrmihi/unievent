@@ -25,26 +25,26 @@ const createAppointment = async (appointmentData) => {
 };
 
 const getAppoinmentsOfUser = async (userID) => {
-  // try {
-  //   const appointments = await appointmentRepository.getAppointmentsOfUser(userID);
+  try {
+    const appointments = await appointmentRepository.getAppointmentsOfUser(userID);
 
-  //   if (appointments.length == 0) {
-  //     return {
-  //       success: false,
-  //       message: "No Appointments found",
-  //     };
-  //   }
+    if (appointments.length == 0) {
+      return {
+        success: false,
+        message: "No Appointments found",
+      };
+    }
 
-  //   return {
-  //     message: "Appointments fetched successfully",
-  //     data: appointments,
-  //   };
-  // } catch (error) {
-  //   return {
-  //     success: false,
-  //     message: error.message,
-  //   };
-  // }
+    return {
+      message: "Appointments fetched successfully",
+      data: appointments,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
 };
 
 const getAllAppointments = async (req, res) => {

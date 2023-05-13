@@ -68,7 +68,6 @@ mongoose
   const corsOptions = {
     origin: true,
     credentials: true,
-  };
 
 app.use(cors(corsOptions));
 app.use(express.json());
