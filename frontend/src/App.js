@@ -84,16 +84,16 @@ function App() {
               {/* Approval Routes */}
               <Route element={<ELayout />}>
                 <Route path="event-draft/:id" element={<SingleEvent />} />
-                <Route path="approval/:id" element={<ApprovalMain />} />
-                <Route path="approval/create/:id" element={<ApprovalCreate />} />
-                <Route path="approval/edit/:id" element={<ApprovalEdit />} />
-                <Route path="approval/request/:id" element={<ApprovalRequestMain />} />
-                <Route path="approval/print/:id" element={<PrintAll />} />
-                <Route path="approval/r/appointment/:id" element={<RequestAppointment />} />
+                {/* <Route path="approval/:id" element={<ApprovalMain />} /> */}
+                {/* <Route path="approval/create/:id" element={<ApprovalCreate />} /> */}
+                {/* <Route path="approval/edit/:id" element={<ApprovalEdit />} /> */}
+                {/* <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> */}
+                {/* <Route path="approval/print/:id" element={<PrintAll />} /> */}
+                {/* <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
               </Route>
 
               {/* Event Routes */}
-              <Route path="/login" element={<LoginPage />} />
+              {/* <Route path="/login" element={<LoginPage />} /> */}
               <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
               <Route
@@ -235,7 +235,6 @@ function App() {
               <Route>
                 <Route path="/venue" element={<h1>Browse Venue Page</h1>} />
                 <Route>
-                  {/* <Route path="/venue/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
                   <Route path="/venue/add" element={<VAddVenuePage />} /> 
                   <Route path="/venue/list" element={<VVenueListPage />} />
                   <Route path="/venue/list/:id" element={<VViewVenueProfile />} />
