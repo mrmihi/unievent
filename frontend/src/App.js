@@ -44,33 +44,33 @@ import OpportunityDetails from 'Partners/user/volunteer/OpportunityDetails';
 
 // import OpportunityRegister from "Resource/components/registrationForm";
 
-import OpportunityRegister from "Partners/user/volunteer/OpportunityRegister";
+import OpportunityRegister from 'Partners/user/volunteer/OpportunityRegister';
 
-import VLayout from "Venue/src/scenes/layout";
-import VDashboard from "Venue/src/scenes/dashboard";
-import VFeedBacks from "Venue/src/scenes/feedBacks";
-import VAttendees from "Venue/src/scenes/attendees";
-import VDataFinalists from "Venue/src/scenes/dataFinalists";
-import VLoginPage from "Venue/src/scenes/login";
-import VReview from "Venue/src/scenes/venue/review";
-import VVenue from "Venue/src/scenes/venue/venue";
-import VVenueQuotation from "Venue/src/scenes/venue/venue-report";
-import VAddVenue from "Venue/src/scenes/venue/add-venue";
-import VVenuePage from "Venue/src/scenes/venue/edit-venue-page";
-import VVenueProfile from "Venue/src/scenes/venue/venue-profile";
+import VLayout from 'Venue/src/scenes/layout';
+import VDashboard from 'Venue/src/scenes/dashboard';
+import VFeedBacks from 'Venue/src/scenes/feedBacks';
+import VAttendees from 'Venue/src/scenes/attendees';
+import VDataFinalists from 'Venue/src/scenes/dataFinalists';
+import VLoginPage from 'Venue/src/scenes/login';
+import VReview from 'Venue/src/scenes/venue/review';
+import VVenue from 'Venue/src/scenes/venue/venue';
+import VVenueQuotation from 'Venue/src/scenes/venue/venue-report';
+import VAddVenue from 'Venue/src/scenes/venue/add-venue';
+import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
+import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 
-import EventDraft from "Approval/pages/EventDraft";
-import ApprovalMain from "Approval/pages/ApprovalMain";
-import ApprovalRequestMain from "Approval/pages/ApprovalRequestMain.jsx";
-import ApprovalEdit from "Approval/pages/ApprovalEdit.jsx";
-import RequestAppointment from "Approval/pages/RequestAppointment.jsx";
-import ApprovalCreate from "Approval/pages/ApprovalCreate";
-import PrintAll from "Approval/pages/PrintAll";
+import EventDraft from 'Approval/pages/EventDraft';
+import ApprovalMain from 'Approval/pages/ApprovalMain';
+import ApprovalRequestMain from 'Approval/pages/ApprovalRequestMain.jsx';
+import ApprovalEdit from 'Approval/pages/ApprovalEdit.jsx';
+import RequestAppointment from 'Approval/pages/RequestAppointment.jsx';
+import ApprovalCreate from 'Approval/pages/ApprovalCreate';
+import PrintAll from 'Approval/pages/PrintAll';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(
-    () => createTheme(themeSettings("light"))
+    () => createTheme(themeSettings('light'))
     // , [mode]
   );
 
@@ -86,15 +86,23 @@ function App() {
               <Route element={<ELayout />}>
                 <Route path="event-draft/:id" element={<SingleEvent />} />
                 <Route path="approval/:id" element={<ApprovalMain />} />
-                <Route path="approval/create/:id" element={<ApprovalCreate />} />
+                <Route
+                  path="approval/create/:id"
+                  element={<ApprovalCreate />}
+                />
                 <Route path="approval/edit/:id" element={<ApprovalEdit />} />
-                <Route path="approval/request/:id" element={<ApprovalRequestMain />} />
+                <Route
+                  path="approval/request/:id"
+                  element={<ApprovalRequestMain />}
+                />
                 <Route path="approval/print/:id" element={<PrintAll />} />
-                <Route path="approval/r/appointment/:id" element={<RequestAppointment />} />
+                <Route
+                  path="approval/r/appointment/:id"
+                  element={<RequestAppointment />}
+                />
               </Route>
 
               {/* Event Routes */}
-              <Route path="/login" element={<LoginPage />} />
               <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
               <Route
