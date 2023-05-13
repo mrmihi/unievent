@@ -241,8 +241,6 @@ function App() {
               <Route>
                 <Route path="/venue" element={<h1>Browse Venue Page</h1>} />
                 <Route>
-                  {/* <Route path="/venue/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
-                  <Route path="/venue/add" element={<VAddVenue />} /> 
                   <Route path="/venue/list" element={<VVenueListPage />} />
                   <Route path="/venue/list/:id" element={<VViewVenueProfile />} />
                   <Route path="/venue/book/:id" element={<VVenueBook/>} />

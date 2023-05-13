@@ -72,7 +72,7 @@ function EventManagerView() {
   }, [eventID])
 
   const handleAddVenueBtn = () => {
-    navigate(`/venue/add`)
+    navigate(`/venue/list`)
   }
   const handleAddResourceBtn = () => {
     navigate(`/admin/resources`)
