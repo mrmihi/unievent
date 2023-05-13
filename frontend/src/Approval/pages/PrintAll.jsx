@@ -13,8 +13,8 @@ import "jspdf-autotable";
 import { useEffect } from "react";
 import axios from "axios";
 import Cookie from "js-cookie";
-import Header from "../../components/Header";
-import FlexBetween from "../../components/FlexBetween";
+import Header from "../components/Header";
+import FlexBetween from "../components/FlexBetween";
 import { useParams } from "react-router-dom";
 
 const PrintAll = () => {

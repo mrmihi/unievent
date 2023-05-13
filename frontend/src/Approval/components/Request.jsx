@@ -5,79 +5,32 @@ import {
   CardContent,
   Typography,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 import "tailwindcss/base.css";
 import "tailwindcss/components.css";
 import "tailwindcss/utilities.css";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { makeStyles } from "@material-ui/core/styles";
 import { Link, useParams } from "react-router-dom";
-import { Autocomplete } from "@material-ui/lab";
-import API from "../../components/Approval/api.approval";
+import { Autocomplete } from "@mui/material";
+import API from "./api.approval";
 import Cookies from "js-cookie";
+import { css } from '@emotion/react';
 
-// Define custom styles
-const useStyles = makeStyles((theme) => ({
-  myCard: {
-    "& .MuiCardContent-root:last-child": {
-      paddingBottom: 0,
-    },
-    "& .MuiCardContent-root ": {
-      padding: 0,
-    },
-  },
-  notYetSentBtn: {
-    color: "#808080",
-    borderColor: "#808080",
-    border: 0,
-    fontWeight: "bold",
-  },
-  SentBtn: {
-    color: "#007bff",
-    borderColor: "#007bff",
-    border: 0,
-    fontWeight: "bold",
-  },
-  ViewedBtn: {
-    color: "#17a2b8",
-    borderColor: "#17a2b8",
-    border: 0,
-    fontWeight: "bold",
-  },
-  ApprovedBtn: {
-    color: "#28a745",
-    borderColor: "#28a745",
-    border: 0,
-    fontWeight: "bold",
-  },
-  RejectedBtn: {
-    color: "#dc3545",
-    borderColor: "#dc3545",
-    border: 0,
-    fontWeight: "bold",
-  },
-  normalBtn: {
-    color: "#007bff",
-    borderColor: "#007bff",
-    border: 0,
-    fontWeight: "bold",
-  },
-  root: {
-    display: "flex",
-    alignItems: "center",
-    gap: "1rem",
-  },
-  input: {
-    minWidth: "200px",
-  },
-  button: {
-    flex: 1,
-  },
-}));
+const myCardStyles = css`
+  & .MuiCardContent-root:last-child {
+    padding-bottom: 0;
+  }
+
+  & .MuiCardContent-root {
+    padding: 0;
+  }
+`;
+const input = css`
+    minWidth: "200px";
+`;
 
 function Request(props) {
-  const classes = useStyles();
   const [inputValue, setInputValue] = useState("");
   const [requestTo, setRequestTo] = useState(props.to);
   const [options, setOptions] = useState(props.options);
@@ -237,7 +190,7 @@ function Request(props) {
         <div className={"w-2/5"} id="chooseApproverDiv">
           <Autocomplete
             id={"chooseApprover"+requestTo}
-            className={classes.input}
+            css={input}
             options={options}
             getOptionLabel={(option) => option.name}
             inputValue={inputValue}
@@ -272,7 +225,8 @@ function Request(props) {
       <div id={requestTo} name={requestTo} className="w-full p-2 hidden">
         <div className="w-full flex flex-col align-middle justify-between items-center">
           <div
-            className={`${classes.myCard} w-full rounded border-2 items-center align-middle justify-center`}
+          css={myCardStyles}
+            className={` w-full rounded border-2 items-center align-middle justify-center`}
           >
             <CardContent>
               <div className="flex flex-row items-center justify-between">

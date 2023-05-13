@@ -6,7 +6,7 @@ import ApprovalMain from '../pages/Approval/ApprovalMain'
 import ApprovalRequestMain from '../pages/Approval/ApprovalRequestMain.jsx'
 import ApprovalEdit from '../pages/Approval/ApprovalEdit.jsx';
 import RequestAppointment from '../pages/Approval/RequestAppointment.jsx';
-import ApprovalCreate from '../pages/Approval/ApprovalCreate'
+import ApprovalCreate from '../pages/ApprovalCreate'
 import PrintAll from '../pages/Approval/PrintAll'
 
 const AnimatedRoutes = () => {

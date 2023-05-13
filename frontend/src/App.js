@@ -55,13 +55,13 @@ import VAddVenue from "Venue/src/scenes/venue/add-venue";
 import VVenuePage from "Venue/src/scenes/venue/edit-venue-page";
 import VVenueProfile from "Venue/src/scenes/venue/venue-profile";
 
-import EventDraft from "Approval/pages/Approval/EventDraft";
-import ApprovalMain from "Approval/pages/Approval/ApprovalMain";
-import ApprovalRequestMain from "Approval/pages/Approval/ApprovalRequestMain.jsx";
-import ApprovalEdit from "Approval/pages/Approval/ApprovalEdit.jsx";
-import RequestAppointment from "Approval/pages/Approval/RequestAppointment.jsx";
-import ApprovalCreate from "Approval/pages/Approval/ApprovalCreate";
-import PrintAll from "Approval/pages/Approval/PrintAll";
+import EventDraft from "Approval/pages/EventDraft";
+import ApprovalMain from "Approval/pages/ApprovalMain";
+import ApprovalRequestMain from "Approval/pages/ApprovalRequestMain.jsx";
+import ApprovalEdit from "Approval/pages/ApprovalEdit.jsx";
+import RequestAppointment from "Approval/pages/RequestAppointment.jsx";
+import ApprovalCreate from "Approval/pages/ApprovalCreate";
+import PrintAll from "Approval/pages/PrintAll";
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -82,20 +82,11 @@ function App() {
                 <Route path="/events/" element={<AllEvents />} />
                 <Route path="event-draft/:id" element={<SingleEvent />} />
                 <Route path="approval/:id" element={<ApprovalMain />} />
-                <Route
-                  path="approval/create/:id"
-                  element={<ApprovalCreate />}
-                />
+                <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/edit/:id" element={<ApprovalEdit />} />
-                <Route
-                  path="approval/request/:id"
-                  element={<ApprovalRequestMain />}
-                />
+                <Route path="approval/request/:id" element={<ApprovalRequestMain />} />
                 <Route path="approval/print/:id" element={<PrintAll />} />
-                <Route
-                  path="approval/r/appointment/:id"
-                  element={<RequestAppointment />}
-                />
+                <Route path="approval/r/appointment/:id" element={<RequestAppointment />} />
               </Route>
 
               {/* Event Routes */}

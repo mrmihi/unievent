@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Typography } from "@material-ui/core"
+import { Button, Card, CardContent, Typography } from "@mui/material"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import { useEffect } from "react";

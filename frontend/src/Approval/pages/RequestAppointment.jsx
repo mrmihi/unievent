@@ -3,21 +3,11 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import "react-datepicker/dist/react-datepicker.css";
 import {
-  MuiPickersUtilsProvider,
-  DatePicker,
-  TimePicker,
-} from "@material-ui/pickers";
-import {
-  Button,
-  Card,
-  CardContent,
-  TextField,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useParams } from "react-router-dom";
-import API from "../../components/Approval/api.approval";
+import API from "../components/api.approval";
 import { toast, ToastContainer } from "react-toastify";
-import DateFnsUtils from "@date-io/date-fns";
 import { useNavigate } from "react-router";
 
 const APPOINTMENT_MODE = {
@@ -140,6 +130,7 @@ const RequestAppointment = () => {
                 Request Appointment
               </Typography>
 
+              {/* 
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <div className="w-full p-2 flex flex-col justify-center align-middle items-center">
                   <div className="m-4 w-3/4">
@@ -266,6 +257,7 @@ const RequestAppointment = () => {
                   </div>
                 </div>
               </MuiPickersUtilsProvider>
+               */}
             </div>
           </Form>
         )}

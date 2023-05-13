@@ -1,12 +1,12 @@
 import { useCallback, useState, useEffect } from "react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import API from "../../components/Approval/api.approval";
+import API from "../components/api.approval";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 import { toast, ToastContainer } from "react-toastify";
-import ApprovalCard from "../../components/Approval/ApprovalCard";
-import { Button, Typography } from "@material-ui/core";
+import ApprovalCard from "../components/ApprovalCard";
+import { Button, Typography } from "@mui/material";
 
 export default function ApprovalMain(props) {
   const [data, setData] = useState({});

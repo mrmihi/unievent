@@ -5,65 +5,64 @@ import {
   CardContent,
   Typography,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 import "tailwindcss/base.css";
 import "tailwindcss/components.css";
 import "tailwindcss/utilities.css";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { makeStyles } from "@material-ui/core/styles";
+import { css } from '@emotion/react';
 import { Link } from "react-router-dom";
 
-// Define custom styles
-const useStyles = makeStyles((theme) => ({
-  myCard: {
-    "& .MuiCardContent-root:last-child": {
-      paddingBottom: 0,
-    },
-    "& .MuiCardContent-root ": {
-      padding: 0,
-    },
-  },
-  notYetSentBtn: {
-    color: "#808080",
-    borderColor: "#808080",
-    border: 0,
-    fontWeight: "bold",
-  },
-  SentBtn: {
-    color: "#007bff",
-    borderColor: "#007bff",
-    border: 0,
-    fontWeight: "bold",
-  },
-  ViewedBtn: {
-    color: "#17a2b8",
-    borderColor: "#17a2b8",
-    border: 0,
-    fontWeight: "bold",
-  },
-  ApprovedBtn: {
-    color: "#28a745",
-    borderColor: "#28a745",
-    border: 0,
-    fontWeight: "bold",
-  },
-  RejectedBtn: {
-    color: "#dc3545",
-    borderColor: "#dc3545",
-    border: 0,
-    fontWeight: "bold",
-  },
-  normalBtn: {
-    color: "#007bff",
-    borderColor: "#007bff",
-    border: 0,
-    fontWeight: "bold",
-  },
-}));
+const myCardStyles = css`
+  & .MuiCardContent-root:last-child {
+    padding-bottom: 0;
+  }
+
+  & .MuiCardContent-root {
+    padding: 0;
+  }
+`;
+
+const NotYetSentBtn = css`
+  color: #808080;
+  border-color: #808080;
+  border: 0;
+  font-weight: bold;
+`;
+
+const SentBtn = css`
+  color: #007bff;
+  border-color: #007bff;
+  border: 0;
+  font-weight: bold;
+`;
+const ViewedBtn = css`
+  color: "#17a2b8";
+  borderColor: "#17a2b8";
+  border: 0;
+  fontWeight: "bold";
+`
+const ApprovedBtn = css`
+  color: "#28a745";
+  borderColor: "#28a745";
+  border: 0;
+  fontWeight: "bold";
+`;
+const RejectedBtn = css`
+  color: "#dc3545";
+  borderColor: "#dc3545";
+  border: 0;
+  fontWeight: "bold";
+`;
+const normalBtn = css`
+  color: "#007bff";
+  borderColor: "#007bff";
+  border: 0;
+  fontWeight: "bold";
+`;
 
 function ForwardRequestTo(props) {
-  const classes = useStyles();
 
   const [requestTo, setRequestTo] = useState(props.to);
   const [approver, setApprover] = useState(props.approver);
@@ -126,22 +125,21 @@ function ForwardRequestTo(props) {
           </Button>
 
           
-
           {request.status != null ? (
             <Button
               variant="outlined"
-              className={
+              css={
                 request.status === "Not_Yet_Sent"
-                  ? classes.notYetSentBtn
+                  ? NotYetSentBtn
                   : request.status === "Sent"
-                  ? classes.SentBtn
+                  ? SentBtn
                   : request.status === "Viewed"
-                  ? classes.ViewedBtn
+                  ? ViewedBtn
                   : request.status === "Approved"
-                  ? classes.ApprovedBtn
+                  ? ApprovedBtn
                   : request.status === "Rejected"
-                  ? classes.RejectedBtn
-                  : classes.normalBtn
+                  ? RejectedBtn
+                  : normalBtn
               }
             >
               {request.status === "Not_Yet_Sent"
@@ -164,7 +162,8 @@ function ForwardRequestTo(props) {
       <div id={requestTo} name={requestTo} className="w-full p-2 hidden">
         <div className="w-full flex flex-col align-middle justify-between items-center">
           <Card
-            className={`${classes.myCard} w-full rounded border-2 items-center align-middle justify-center`}
+            css={myCardStyles}
+            className={`w-full rounded border-2 items-center align-middle justify-center`}
           >
             <CardContent>
               {/* Request Note */}
