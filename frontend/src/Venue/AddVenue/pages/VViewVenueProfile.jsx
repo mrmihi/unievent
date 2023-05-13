@@ -21,6 +21,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const VViewVenueProfile = () => {
     const { id } = useParams();
+    const { vid } = useParams();
+    
     const [venue, setVenue] = useState({});
     const [reviews, setReviews] = useState([]);
     const [subscribed, setSubscribed] = useState(false);
@@ -129,7 +131,7 @@ const VViewVenueProfile = () => {
                                 className='w-full'
                                 style={{ marginTop: '1rem' }}
                                 component={Link}
-                                to={`/venue/book/${id}`}
+                                to={`/venue/${vid}/book/${id}`}
                             >Book Venue</Button>
                         </div>
                     </div>

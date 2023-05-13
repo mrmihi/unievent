@@ -3,10 +3,12 @@ import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, TextFiel
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const VVenueListPage = () => {
     const [searchText, setSearchText] = useState('');
     const [venues, setVenues] = useState([]);
+    const { vid } = useParams();
 
     const handleSearchChange = (event) => {
         setSearchText(event.target.value);
@@ -63,7 +65,7 @@ const VVenueListPage = () => {
                     {filteredVenues.map((venue) => (
                         <Grid item xs={12} sm={6} md={4} key={venue._id}>
                             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                                <CardActionArea component={Link} to={`/venue/list/${venue._id}`}>
+                                <CardActionArea component={Link} to={`/venue/${vid}/list/${venue._id}`}>
                                 <CardMedia component="img" image={venue.image_url} alt={venue.name} style={{ height: '200px', width: '300px' }} />
                                     <CardContent sx={{ flexGrow: 1 }}>
                                         <Typography gutterBottom variant="h5" component="h2">
