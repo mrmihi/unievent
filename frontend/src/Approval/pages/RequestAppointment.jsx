@@ -27,7 +27,7 @@ const RequestAppointment = () => {
   const navigate = useNavigate();
 
   const getApprovalRequest = async () => {
-    await API.get(`request/${approvalRequestID}`, {
+    await API.get(`approvalrequest/${approvalRequestID}`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -66,7 +66,7 @@ const RequestAppointment = () => {
       appointment_note: note,
     };
 
-    await API.post("/appointment", data, {
+    await API.post("approval/appointment", data, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

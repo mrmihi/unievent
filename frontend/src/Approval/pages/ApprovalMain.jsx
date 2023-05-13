@@ -16,7 +16,7 @@ export default function ApprovalMain(props) {
   const navigate = useNavigate()
 
   const fetchData = async () => {
-    await API.get(`/event/events/${eventId}`, {
+    await API.get(`approval/event/events/${eventId}`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
@@ -42,7 +42,7 @@ export default function ApprovalMain(props) {
   const handleDiscardBtn = () => {
     console.log(approvalID)
     const deleteEventApproval = async () => {
-      await API.delete(`/event/${approvalID}`, {
+      await API.delete(`approval/event/${approvalID}`, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })

@@ -19,7 +19,7 @@ function ApprovalCard(props){
     const [error, setError] = useState({})
     
     const getApprovalRequest = async (requestId, requestOf) => {
-        await API.get(`/request/${requestId}`,
+        await API.get(`approval/request/${requestId}`,
                 {
                     headers: { "Content-Type": "application/json" },
                     withCredentials: true,}

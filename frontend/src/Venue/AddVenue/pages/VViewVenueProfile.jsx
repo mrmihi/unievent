@@ -79,7 +79,7 @@ const VViewVenueProfile = () => {
         <Container className='mt-20'>
             <Grid container spacing={2}>
                 <Grid item xs={8}>
-                    <img className='w-full object-cover object-center rounded-lg shadow-lg' src={venue.image_url} alt={name} />
+                    <img className='w-full object-cover object-center rounded-lg shadow-lg' src={venue.image_url}/>
                 </Grid>
                 <Grid item xs={4}>
                     <div className='flex flex-col justify-between h-full'>

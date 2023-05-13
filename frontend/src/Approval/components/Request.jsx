@@ -53,7 +53,7 @@ function Request(props) {
 
     if (eventApprovalID != "") {
       await API.post(
-        `request/`,
+        `approval/request/`,
         {
           approval_id: approvalID,
           type: requestType(requestTo),
@@ -89,7 +89,7 @@ function Request(props) {
   };
 
   const clearRequest = async () => {
-    await API.delete(`request/${requestID}`, {
+    await API.delete(`approval/request/${requestID}`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
