@@ -42,10 +42,10 @@ const updateEventById = async (req, res) => {
   const event = req.body;
   const id = req.params.id;
 
-  const updatedBlog = await Event.findByIdAndUpdate(id, event, { new: true });
+  const updatedEvent = await Event.findByIdAndUpdate(id, event, { new: true });
 
-  updatedBlog
-    ? res.status(200).json(updatedBlog.toJSON())
+  updatedEvent
+    ? res.status(200).json(updatedEvent.toJSON())
     : res.status(404).end();
 };
 

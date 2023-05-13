@@ -27,7 +27,6 @@ const orgSchema = new mongoose.Schema(
     incharge:{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
     }
   },
   {

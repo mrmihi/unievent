@@ -1,4 +1,6 @@
 const Venue = require('../models/venue.model');
+const Review = require('../models/review.model');
+const Organizer = require('../../User/models/org.model');
 
 const createVenue = async (req, res) => {
   try{
@@ -65,11 +67,41 @@ const deleteVenueById = async (req, res) => {
   }
 };
 
+const getVenueAndReviews = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const venue = await Venue.findById(id);
+    if (!venue) {
+      return res.status(404).json({ message: "Venue not found" });
+    }
+    const reviews = await Review.find({ venue: id });
+    console.log(reviews);
+    const reviewsWithOrganizers = [];
+
+    if (reviews.length !== 0) {
+      for (const review of reviews) {
+        const organizer = await Organizer.findById(review.organizer).select('name');
+        reviewsWithOrganizers.push({
+          ...review.toObject(),
+          organizer
+        });
+      }
+    }
+
+    res.status(200).json({ venue, reviews: reviewsWithOrganizers });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+
 module.exports = {
   createVenue,
   getAllVenues,
   getVenueById,
   getVenuesByManagerId,
   updateVenueById,
-  deleteVenueById
+  deleteVenueById,
+  getVenueAndReviews
 };

@@ -60,15 +60,26 @@ const deleteAppointment = async (req, res) => {
 };
 
 const getAppoinmentsOfUser = async (req, res) => {
-    const { id: userID } = req.params;
-    const result = await AppointmentService.getAppoinmentsOfUser(userID);
-    return makeResponse({
-        res,
-        message: result.message,
-        data: result.data,
-        success: result.success,
-    });
+
+    // const { id: userID } = req.params;
+    // const result = await AppointmentService.getAppoinmentsOfUser(userID);
+    // return makeResponse({
+    //     res,
+    //     message: result.message,
+    //     data: result.data,
+    //     success: result.success,
+    // });
 }
+
+module.exports = {
+  getAllAppointment,
+  createAppointment,
+  getAppointment,
+  updateAppointment,
+  deleteAppointment,
+  getAppoinmentsOfUser,
+};
+
 
 module.exports = {
   getAllAppointment,

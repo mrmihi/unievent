@@ -66,7 +66,6 @@ const eventSchema = new Schema(
     },
     capacity: {
       type: Number,
-      required: true,
     },
     tags: {
       type: [String],

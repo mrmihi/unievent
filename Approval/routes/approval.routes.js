@@ -55,6 +55,6 @@ router.post("/appointment", createAppointment);
 router.get("/appointment/:id", getAppointment);
 router.put("/appointment/:id", updateAppointment);
 router.delete("/appointment/:id", deleteAppointment);
-router.delete("/appointment/user/:id", getAppoinmentsOfUser);
+router.get("/appointment/user/:id", getAppoinmentsOfUser);
 
 module.exports = router;
