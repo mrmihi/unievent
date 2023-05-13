@@ -69,7 +69,7 @@ const loginOrg = async (req, res) => {
 //get all Orgs
 const getAllOrg = async (req, res) => {
   try {
-    const orgs = await Org.find({}); //find all Orgs
+    const orgs = await Org.find({}).populate("incharge"); //find all Orgs
     res.status(200).json(orgs); //return all Orgs
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -88,6 +88,17 @@ const getOrgByInchargeID = async (req, res) => {
     res.status(500).json({ message: error.message });
   } //catch error
 }; 
+
+const getOrgByID = async (req, res) => {
+  try {
+    const { id : orgID } = req.params; //get id from request params
+    const orgs = await Org.findById({_id : orgID})
+            .populate("incharge"); //find Org
+    res.status(200).json(orgs); //return all Orgs
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } //catch error
+}
 
 //delete Org
 const deleteOrg = async (req, res) => {
@@ -135,5 +146,6 @@ module.exports = {
   getAllOrg,
   deleteOrg,
   updateOrg,
-  getOrgByInchargeID
+  getOrgByInchargeID,
+  getOrgByID
 }; //export all functions
