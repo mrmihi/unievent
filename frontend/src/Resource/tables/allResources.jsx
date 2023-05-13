@@ -22,6 +22,7 @@ import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { Dayjs } from 'dayjs';
+import ResourcesPDF from '../pdf/ResourcesPDF';
 
 const OrgView = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -300,9 +301,7 @@ const OrgView = () => {
             >
               Create A New Resources
             </Button>
-            <Button color="secondary" variant="contained">
-              Export All Resources Details
-            </Button>
+            <ResourcesPDF tableData={tableData} />
           </Box>
         )}
       />

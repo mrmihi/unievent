@@ -14,7 +14,7 @@ function SingleEvent() {
     eventService.getOneShab(id).then((res) => {
       setEvent(res.data);
     });
-  }, []);
+  }, [id]);
 
   const navigate = useNavigate();
 
@@ -24,14 +24,22 @@ function SingleEvent() {
       <div className="flex flex-col justify-center  items-center ">
         <img src={event.headerImage} alt={event.name} className="mx-auto" />
 
-        <div className="  mt-8">
+        <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl mt-8">
           <div>
+            {/* add a typography tag that says Details and make it bold */}
+            <Typography variant="h2">Details</Typography>
+            <Typography variant="h4" color="red">
+              {event.startTime} - {event.endTime}{' '}
+            </Typography>
             <Typography variant="h2">{event.name}</Typography>
             <Typography variant="h3">{event.description}</Typography>
             <Typography variant="h4">{event.category}</Typography>
             <Typography variant="h4">Capacity : {event.capacity}</Typography>
-            <Typography variant="h4">Start Time : {event.startTime}</Typography>
-            <Typography variant="h4">End Time : {event.endTime}</Typography>
+
+            <Typography variant="h4">
+              Attendee Count : {event.attendeeCount}
+            </Typography>
+            <Typography variant="h4">Capacity : {event.capacity}</Typography>
           </div>
         </div>
         <div className="mt-8 text-center ml-12 mr-12 mb-6">
@@ -39,11 +47,16 @@ function SingleEvent() {
             sx={{ width: 300 }}
             variant="contained"
             color="primary"
+            {...(event.attendeeCount < event.capacity
+              ? {}
+              : { disabled: true })}
             onClick={() => {
               navigate(`/events/${id}/register`);
             }}
           >
-            Register
+            {event.attendeeCount < event.capacity
+              ? 'Register'
+              : 'Registrations Exceeded'}
           </Button>
           <Button
             sx={{ width: 300, marginLeft: '5px' }}
