@@ -10,7 +10,8 @@ const {
     getVenuesByManagerId,
     updateVenueById,
     deleteVenueById,
-    getVenueAndReviews
+    getVenueAndReviews,
+    publicVenueTimeTableToQR
 } = require('../controllers/venue.controller');
 
 const venueRouter = express.Router();
@@ -22,5 +23,6 @@ venueRouter.get('/manager/:id', getVenuesByManagerId);
 venueRouter.put('/:id', updateVenueById);
 venueRouter.delete('/:id', deleteVenueById);
 venueRouter.get('/:id/profile', getVenueAndReviews);
+venueRouter.get('/:id/qrcode', publicVenueTimeTableToQR);
 
 module.exports = venueRouter;

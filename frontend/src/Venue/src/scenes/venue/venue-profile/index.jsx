@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Card, CardContent, CardMedia, Typography, Rating } from "@mui/material";
+import FileSaver from 'file-saver';
+
 
 
 const VVenueProfile = () => {
@@ -42,6 +44,25 @@ const VVenueProfile = () => {
     const handleSortByLowest = () => {
         const sortedReviews = [...reviews].sort((a, b) => a.rating - b.rating);
         setReviews(sortedReviews);
+    };
+
+    const downloadQRCode = async (id) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/venues/${id}/qrcode`, {
+                responseType: 'arraybuffer', // Set the response type to array buffer
+            });
+
+            // Get the content type from the response headers
+            const contentType = response.headers['content-type'];
+
+            // Create a new blob from the response data and content type
+            const blob = new Blob([response.data], { type: contentType });
+
+            // Use the FileSaver.js library to save the blob as a file
+            FileSaver.saveAs(blob, `${venue.name}-${venue.location}.png`);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -85,6 +106,7 @@ const VVenueProfile = () => {
                             <Typography variant="body2" sx={{ marginBottom: "0.5rem" }}>
                                 Description: {venue.description}
                             </Typography>
+                            <Button onClick={downloadQRCode}>Download the Venue QR Code</Button>
                         </CardContent>
                     </Box>
                 </Card>
