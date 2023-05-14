@@ -6,7 +6,8 @@ const createReview = async (req, res) => {
         const venue_id = req.body.venue;
         const venue = await Venue.findById(venue_id);
         const venueManager = venue.manager;
-        const review = await Review.create({ ...req.body, organizer: req.org._id, manager: venueManager });
+        const count = await Review.countDocuments({ manager: venueManager });
+        const review = await Review.create({ ...req.body, organizer: req.org._id, manager: venueManager, row: count + 1 });
         res.status(201).json(review);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -15,7 +16,7 @@ const createReview = async (req, res) => {
 
 const getAllReviews = async (req, res) => {
     try {
-        const reviews = await Review.find({});
+        const reviews = await Review.find({}).populate('organizer', 'name').populate('venue', 'name');
         res.status(200).json(reviews);
     } catch (error) {
         res.status(500).json({ message: error.message });

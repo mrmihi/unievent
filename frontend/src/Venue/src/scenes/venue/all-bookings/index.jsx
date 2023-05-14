@@ -2,38 +2,29 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import {
-    Box,
-    Button,
-    InputLabel,
-    MenuItem,
-    Select,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import Header from "Venue/src/components/Header";
 import FlexBetween from "Venue/src/components/FlexBetween";
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Swal from 'sweetalert2';
 
-const VBookings = () => {
+const VAllBookings = () => {
     const [bookings, setBookings] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
-    const [selectedStatus, setSelectedStatus] = useState("");
-
     const localizer = momentLocalizer(moment);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/api/bookings/manager/${Cookies.get("id")}/pending`, {
+            .get(`http://localhost:5000/api/bookings/manager/${Cookies.get("id")}`, {
                 headers: {
                     Authorization: `Bearer ${Cookies.get("accessToken")}`,
                 },
-            }).then((res) => {
-                if (res.data) { setBookings(res.data) }
-            }).catch((err) => {
-                toast.error("Something went wrong with server!");
+            })
+            .then((res) => {
+                if (res.data) {
+                    setBookings(res.data);
+                }
+            })
+            .catch((err) => {
                 console.log(err);
             });
     }, []);
@@ -42,40 +33,6 @@ const VBookings = () => {
         setSelectedEvent(event);
     };
 
-    const handleUpdateStatus = () => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You want to update the status of this booking!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ff9800',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, update it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.put(`http://localhost:5000/api/bookings/${selectedEvent._id}`, { booking_status: selectedStatus })
-                .then((res) => {
-                    if (res.data) {
-                        if (selectedStatus === "approved") {
-                            toast.success("Booking approved!");
-                        } else {
-                            toast.success("Booking rejected!");
-                        }
-                        setSelectedEvent(null);
-                        setSelectedStatus("");
-    
-                        setTimeout(() => {
-                            window.location.reload();
-                        }  , 2000);
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-            }
-        })
-    };
-    
     return (
         <Box m="1.5rem 2.5rem">
             <Box>
@@ -86,7 +43,6 @@ const VBookings = () => {
                     <Calendar
                         localizer={localizer}
                         events={bookings.map((booking) => ({
-                            _id: booking._id,
                             start: new Date(booking.start_time),
                             end: new Date(booking.end_time),
                             title: `Booking ${booking.event.name}`,
@@ -97,9 +53,19 @@ const VBookings = () => {
                             event: booking.event,
                         }))}
                         eventPropGetter={(event, start, end, isSelected) => {
+                            let backgroundColor = "#3174ad";
+
+                            if (event.status === "approved") {
+                                backgroundColor = "#4caf50";
+                            } else if (event.status === "pending") {
+                                backgroundColor = "#ff9800";
+                            } else if (event.status === "rejected") {
+                                backgroundColor = "#f44336";
+                            }
+
                             return {
                                 style: {
-                                    backgroundColor: "#ff9800",
+                                    backgroundColor,
                                     borderRadius: "0px",
                                     opacity: 0.8,
                                     color: "white",
@@ -129,27 +95,12 @@ const VBookings = () => {
                         <p>Price: {selectedEvent.price}</p>
                         <p>Venue: {selectedEvent.venue.name}</p>
                         <p>Organizer: {selectedEvent.organizer.name}</p>
-                        <Box mt={3}>
-                            <InputLabel id="status-label">Booking Status</InputLabel>
-                            <Select
-                                labelId="status-label"
-                                id="status-select"
-                                value={selectedStatus}
-                                onChange={(e) => setSelectedStatus(e.target.value)}
-                                style={{ marginRight: "10px" }}
-                            >
-                                <MenuItem value="approved">Approved</MenuItem>
-                                <MenuItem value="rejected">Rejected</MenuItem>
-                            </Select>
-                            <Button variant="contained" onClick={handleUpdateStatus}>Update Status</Button>
-                        </Box>
                     </Box>
                 )}
             </Box>
             <Box><FlexBetween></FlexBetween></Box>
-            <ToastContainer />
         </Box>
     );
 };
 
-export default VBookings;
+export default VAllBookings;

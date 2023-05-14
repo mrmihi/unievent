@@ -268,9 +268,10 @@ const OrgView = () => {
 
   
   const handleView = (row) => {
-    console.log(eventId);
-    navigate(`/events/${eventId}`);
+    console.log(row.getValue('_id'));
+    navigate(`/event/${row.getValue('_id')}`);
   }
+
   return (
     <>
       <MaterialReactTable
