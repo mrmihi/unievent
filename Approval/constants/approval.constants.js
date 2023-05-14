@@ -12,6 +12,7 @@
  */
 
 const EVENT_APPROVAL_STATUS = {
+  Draft: "Draft",
   INITIATED: "Initiated",
   LIC_APPROVAL: "LIC_Awaiting",
   FM_APPROVAL: "FM_Awaiting",
@@ -33,7 +34,7 @@ const REQUEST_TYPE = {
   LIC: "LIC_Request",
   VENUE: "Venue_Request",
   FINANCE: "Budget_Request",
-  ADMIN: "Budget_Request",
+  ADMIN: "Admin_Request",
 };
 
 const APPOINTMENT_STATUS = {
