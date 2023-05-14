@@ -1,3 +1,4 @@
+
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { useMemo } from 'react';
@@ -54,6 +55,17 @@ import VVenueQuotation from 'Venue/src/scenes/venue/venue-report';
 import VAddVenue from 'Venue/src/scenes/venue/add-venue';
 import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
 import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
+
+import FLayout from "./Finance/scenes/layout";
+import FDashboard from "Finance/scenes/dashboard";
+import FOverview from "Finance/scenes/finance/overview";
+import FLoginPage from "Finance/scenes/login";
+import FRefunds from "Finance/scenes/finance/refunds";
+import FTable from "./Finance/scenes/finance/table";
+import FBills from "./Finance/scenes/finance/bills";
+import FPayments from "./Finance/scenes/finance/payments";
+import FReport from "./Finance/scenes/finance/report";
+import FPayPal from "Finance/scenes/finance/paymentform";
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -226,6 +238,21 @@ function App() {
                   <Route path="/admin/venue/reviews" element={<VReview />} />
                 </Route>
               </Route>
+
+                {/* Finance Routes */}
+                        <Route path="/finance/paypal" element={<FPayPal />} />
+                        <Route path="*" element={<h1>Page not found!</h1>} />
+                        <Route path="/admin/finance" element={<FLoginPage />} />
+                        <Route element={<FLayout />}>
+                            <Route path="/admin/finance/dashboard/*" element={<Navigate to="/admin/finance/dashboard" replace />} />
+                            <Route path="/admin/finance/dashboard" element={<FDashboard />} />
+                            <Route path="/admin/finance/overview" element={<FOverview />} />
+                            <Route path="/admin/finance/refunds" element={<FRefunds />} />
+                            <Route path="/admin/finance/table" element={<FTable />} />
+                            <Route path="/admin/finance/bills" element={<FBills />} />
+                            <Route path="/admin/finance/payments" element={<FPayments />} />
+                            <Route path="/admin/finance/report" element={<FReport />} />
+                        </Route>
               {/* venue routes */}
               <Route>
                 <Route path="/admin/venue" element={<VLoginPage />} />

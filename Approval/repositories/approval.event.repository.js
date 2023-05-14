@@ -41,12 +41,22 @@ const deleteEventApproval = async (id) => {
 
 
 const getAllEventApprovalsByEventID = async (eventID) => {
-    const eventApprovals = await Event_Approval.find({ event_id: eventID, }).populate("event_id");
+    const eventApprovals = await Event_Approval.find({ event_id: eventID, })
+        .populate("event_id")
+        .populate("lic_approval")
+        .populate("venue_approval")
+        .populate("budget_approval")
+        .populate("admin_approval")
     return eventApprovals;
 };
 
 const getAllEventApprovalsByOrgID = async (orgID) => {
-    const eventApprovals = await Event_Approval.find().populate("event_id");
+    const eventApprovals = await Event_Approval.find()
+        .populate("event_id")
+        .populate("lic_approval")
+        .populate("venue_approval")
+        .populate("budget_approval")
+        .populate("admin_approval")
 
     const filteredEventApprovals = [];
     eventApprovals.forEach((eventApproval) => {
