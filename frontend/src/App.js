@@ -240,7 +240,6 @@ function App() {
               </Route>
 
                 {/* Finance Routes */}
-                    <Routes>
                         <Route path="/finance/paypal" element={<FPayPal />} />
                         <Route path="*" element={<h1>Page not found!</h1>} />
                         <Route path="/admin/finance" element={<FLoginPage />} />
@@ -254,7 +253,6 @@ function App() {
                             <Route path="/admin/finance/payments" element={<FPayments />} />
                             <Route path="/admin/finance/report" element={<FReport />} />
                         </Route>
-                    </Routes>
               {/* venue routes */}
               <Route>
                 <Route path="/admin/venue" element={<VLoginPage />} />
