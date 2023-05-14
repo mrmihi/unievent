@@ -1,8 +1,6 @@
 const express = require('express');
 const {
   protect,
-  authOrg,
-  organizationProtect
 } = require('../../User/middleware/orgAuth.middleware');
 const {
   createReview,
@@ -23,7 +21,7 @@ reviewRouter.get('/:id', getReviewById);
 reviewRouter.put('/:id', updateReviewById);
 reviewRouter.delete('/:id', deleteReviewById);
 reviewRouter.get('/venue/:id', getReviewsByVenueId)
-reviewRouter.get('/organizer/:id', protect, organizationProtect, getReviewsByOrganizerId)
+reviewRouter.get('/organizer/:id', protect, getReviewsByOrganizerId)
 reviewRouter.get('/venue-manager/:id', getReviewsByVenueManager)
 
 module.exports = reviewRouter;

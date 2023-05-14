@@ -72,7 +72,8 @@ const getReviewsByVenueId = async (req, res) => {
 
 const getReviewsByOrganizerId = async (req, res) => {
     try {
-        const reviews = await Review.find({ organizer: req.params.id });
+        const id = "";
+        const reviews = await Review.find({ organizer: id });
         res.status(200).json(reviews);
     } catch (error) {
         res.status(500).json({ message: error.message });
