@@ -23,6 +23,26 @@ const getDashboardStats = async (req, res) => {
     }
 }
 
+const GetLatestFiveBookingByVenueManager = async (req, res) => {
+    try{
+        const id = req.user._id
+        const bookings = await Booking
+            .find()
+            .populate('venue')
+            .populate('organizer')
+            .populate('event')
+            .sort({createdAt: -1})
+
+        const data = bookings.filter(booking => booking.venue.manager.toString() === id.toString())
+        const latestFive = data.slice(0, 5)
+
+        res.status(200).json(latestFive)
+    }catch (error){
+        res.status(500).json({message: error.message})
+    }
+}
+
 module.exports = {
-    getDashboardStats
+    getDashboardStats,
+    GetLatestFiveBookingByVenueManager
 }
