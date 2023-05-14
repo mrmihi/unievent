@@ -1,49 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import Chart from "chart.js/auto";
-import axios from "axios";
-import Cookies from "js-cookie";
 
 const RevenueChart = () => {
     const [chartData, setChartData] = useState(null);
-    const [revenue, setRevenue] = useState(0);
 
     useEffect(() => {
         // Fetch revenue data from an API or backend server
-        axios.get("http://localhost:5000/api/dashboard/revenue", {
-            headers: {
-                Authorization: `Bearer ${Cookies.get("accessToken")}`,
-            },
-        }).then((res) => {
-            setRevenue(res.data);
-        }).catch((err) => {
-            console.log(err);
+        const revenueData = [
+            { year: 2017, revenue: 50000 },
+            { year: 2018, revenue: 70000 },
+            { year: 2019, revenue: 90000 },
+            { year: 2020, revenue: 120000 },
+            { year: 2021, revenue: 150000 },
+        ];
+
+        // Format the revenue data into Chart.js format
+        const chartLabels = revenueData.map((data) => data.year);
+        const chartDataPoints = revenueData.map((data) => data.revenue);
+
+        setChartData({
+            labels: chartLabels,
+            datasets: [
+                {
+                    label: "Revenue",
+                    data: chartDataPoints,
+                    fill: false,
+                    borderColor: "#2E8B57",
+                },
+            ],
         });
     }, []);
-
-    useEffect(() => {
-        // Fetch revenue data from an API or backend server
-        const revenueData = revenue;
-    
-        // Format the revenue data into Chart.js format
-        if (revenueData && revenueData.length > 0) {
-            const chartLabels = revenueData.map((data) => `${data.year} ${data.month}`);
-            const chartDataPoints = revenueData.map((data) => data.revenue);
-    
-            setChartData({
-                labels: chartLabels,
-                datasets: [
-                    {
-                        label: "Revenue",
-                        data: chartDataPoints,
-                        fill: false,
-                        borderColor: "#1DA1F2",
-                    },
-                ],
-            });
-        }
-    }, [revenue]);
-    
 
     useEffect(() => {
         // Create the chart instance when chartData is updated
@@ -77,7 +64,8 @@ const RevenueChart = () => {
 
     return (
         <Box display="flex" flexDirection="column" alignItems="left" maxHeight={400}>
-            <Typography variant="h5" gutterBottom>Revenue Generated</Typography>
+            <Typography variant="h5" gutterBottom>Payments Generated</Typography>
+            <Typography variant="h3" color="error">$59,342.32</Typography>
             <canvas id="revenue-chart"></canvas>
         </Box>
     );
