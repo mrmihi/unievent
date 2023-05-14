@@ -9,10 +9,11 @@ function EventManagerView() {
   const boxColor = "#f2f2f2";
   const [error, setError] = useState({});
   const [eventData, setEventData] = useState({});
-  const [venueData, setVenueData] = useState({});
+  const [venueData, setVenueData] = useState(null);
   const [resourceData, setResourceData] = useState({});
   const [budgetData, setBudgetData] = useState({});
   const [approvalData, setApprovalData] = useState({});
+  const [disabled, setDisabled] = useState(true);
 
   const navigate = useNavigate();
 
@@ -190,15 +191,27 @@ function EventManagerView() {
           </div>
 
           <div className="flex flex-row justify-center align-middle items-center w-1/3 ">
-            <Button
-              className="w-1/2 h-1/2"
-              variant="contained"
-              color="secondary"
-              size="large"
-              onClick={handlePublishBtn}
-            >
-              Publish
-            </Button>
+            {disabled ? (
+              <Button
+                className="w-1/2 h-1/2"
+                variant="contained"
+                color="secondary"
+                size="large"
+                disabled
+              >
+                Publish
+              </Button>
+            ) : (
+              <Button
+                className="w-1/2 h-1/2"
+                variant="contained"
+                color="secondary"
+                size="large"
+                onClick={handlePublishBtn}
+              >
+                Publish
+              </Button>
+            )}
           </div>
         </div>
         <Box className="flex flex-row flex-wrap my-4">
@@ -215,18 +228,22 @@ function EventManagerView() {
               <Typography variant="h4" id="eventVenue">
                 Event Venue
               </Typography>
-              <Typography variant="h5" id="eventVenue">
-                {venueData.venue != null
-                  ? "Location : " + venueData.venue.name
-                  : "Not added yet"}
-              </Typography>
+              {venueData != null ? (
+                <Typography variant="h5" id="eventVenue">
+                  Location : venueData.venue.name
+                </Typography>
+              ) : (
+                <Typography variant="h5" id="eventVenue">
+                  Not added yet
+                </Typography>
+              )}
               <Typography variant="h5" id="eventVenueStatus">
-                {venueData.booking_status != null
+                {venueData != null
                   ? "Booking Status : " + venueData.booking_status
                   : ""}
               </Typography>
               <Typography variant="h5" id="eventVenuePaymentStatus">
-                {venueData.payment_status != null
+                {venueData != null
                   ? "Payment Status : " + venueData.payment_status
                   : ""}
               </Typography>
