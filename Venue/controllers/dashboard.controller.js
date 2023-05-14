@@ -9,9 +9,10 @@ const getDashboardStats = async (req, res) => {
         const reviewCount = await Review.countDocuments({})
         const bookings = await Booking.find({})
         let revenue = 0
+
         bookings.forEach(booking => {
-            if (booking.status === 'approved') {
-                revenue += booking.total
+            if (booking.booking_status === 'approved' && booking.payment_status === 'completed') {
+                revenue += booking.price
             }
         })
         res.status(200).json({
