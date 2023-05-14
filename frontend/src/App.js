@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material/styles';
 import { useMemo } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { themeSettings } from 'theme';
+
 import Layout from './Attendee/scenes/layout';
 import Dashboard from './Attendee/scenes/dashboard';
 import FeedBacks from './Attendee/scenes/feedBacks';
@@ -16,12 +17,11 @@ import RSVPEMAIL from './Attendee/scenes/revpemail';
 import Administrator from './Attendee/scenes/administrator';
 import AttendeeStatus from './Attendee/scenes/attendeeStatus';
 
-import ELayout from './Events/scenes/layout';
-import EDashboard from './Events/scenes/dashboard';
+import OLayout from './Org/OrgDashboardLayout';
+import ODashboard from './Org/OrgDashboard';
 import OLoginPage from './Org/OrgLogin';
 import AllEventsTable from './Events/tables/AllEventsTable';
 import SingleEvent from './Events/SingleEvent';
-import AllEventView from './Events/AllEventView';
 import AllEvents from './Events/AllEvents';
 import EventCreationForm from 'Events/components/registrationForm';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -59,7 +59,6 @@ import VAddVenue from 'Venue/src/scenes/venue/add-venue';
 import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
 import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 
-import EventDraft from 'Approval/pages/EventDraft';
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
 import Staffs from 'Approval/pages/Staffs';
@@ -76,6 +75,7 @@ import VBookings from 'Venue/src/scenes/venue/booking';
 import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
 import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
 import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
+import { EventForm } from 'Events/scenes/EventForm';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -93,9 +93,11 @@ function App() {
 
             <Routes>
               {/* Approval Routes */}
-              <Route element={<ELayout />}>
-                <Route path="event/:id" element={<EventManagerView />} />
-                <Route path="events-draft" element={<EventDraft />} />
+              <Route element={<OLayout />}>
+                <Route
+                  path="org/dashboard/events/:id"
+                  element={<EventManagerView />}
+                />
                 <Route path="approval/:id" element={<ApprovalMain />} />
                 <Route path="staff/list/:id" element={<Staffs />} />
                 <Route path="admin/list/:id" element={<Admins />} />
@@ -116,7 +118,6 @@ function App() {
               </Route>
 
               {/* Event Routes */}
-              <Route path="/login" element={<OLoginPage />} />
               <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
               <Route
@@ -126,14 +127,21 @@ function App() {
 
               <Route path="/org/login" element={<OLoginPage />} />
 
-              <Route element={<ELayout />}>
+              <Route element={<OLayout />}>
                 <Route
                   path="/org/dashboard/*"
                   element={<Navigate to="/org/dashboard" replace />}
                 />
 
-                <Route path="/org/dashboard" element={<EDashboard />} />
-                <Route path="/org/dashboard/events" element={<EventDraft />} />
+                <Route path="/org/dashboard" element={<ODashboard />} />
+                <Route
+                  path="/org/dashboard/events"
+                  element={<AllEventsTable />}
+                />
+                <Route
+                  path="/org/dashboard/event form"
+                  element={<EventForm />}
+                />
               </Route>
 
               {/* Attendee Routes */}
@@ -194,7 +202,7 @@ function App() {
               <Route path="*" element={<PageNotFound />} />
 
               {/*Partner Routes */}
-              <Route element={<ELayout />}>
+              <Route element={<OLayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
                 <Route path="/org/dashboard/speakers/" element={<Speaker />} />
                 <Route path="/org/dashboard/sponsors/" element={<Sponsors />} />
