@@ -6,12 +6,11 @@ dotenv.config();
 const userEmail = ""
 const userPassword = ""
 
-const SendPriceDropMail = async (email, venueName, priceDropPercentage, venueImage, discountedPrice, originalPrice) => {
+const SendPriceDropMail = async (emails, venueName, priceDropPercentage, venueImage, discountedPrice, originalPrice) => {
 
     priceDropPercentage = priceDropPercentage.toFixed(2);
     discountedPrice = '$' + discountedPrice.toFixed(2);
     originalPrice = '$' + originalPrice.toFixed(2);
-    email = ""
 
     const venuePriceDropTemplate = `
     <html>
@@ -113,20 +112,22 @@ const SendPriceDropMail = async (email, venueName, priceDropPercentage, venueIma
         },
     });
 
-    let details = {
-        from: userEmail,
-        to: email,
-        subject: `Last chance to book at a discounted rate - Price Drop Alert at ${venueName}`,
-        html: venuePriceDropTemplate
-    };
-
-    mailTransporter.sendMail(details, function (err, data) {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log('Email sent successfully');
-        }
-    });
+    for ( const email of emails){
+        let details = {
+            from: userEmail,
+            to: email,
+            subject: `Last chance to book at a discounted rate - Price Drop Alert at ${venueName}`,
+            html: venuePriceDropTemplate
+        };
+    
+        mailTransporter.sendMail(details, function (err, data) {
+            if (err) {
+                console.error(err);
+            } else {
+                console.log('Email sent successfully');
+            }
+        });
+    }
 }
 
 module.exports = SendPriceDropMail;
