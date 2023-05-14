@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material/styles';
 import { useMemo } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { themeSettings } from 'theme';
+import { Formik } from 'formik';
 
 import Layout from './Attendee/scenes/layout';
 import Dashboard from './Attendee/scenes/dashboard';
@@ -156,7 +157,11 @@ function App() {
                 />
                 <Route
                   path="/org/dashboard/event form"
-                  element={<EventForm />}
+                  element={
+                    <Formik>
+                      <EventForm />
+                    </Formik>
+                  }
                 />
               </Route>
 
