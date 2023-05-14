@@ -87,15 +87,23 @@ const VAllBookings = () => {
                     />
                 </Box>
                 {selectedEvent && (
-                    <Box mt={10} style={{ marginBottom: "2rem" }}>
-                        <h2>{selectedEvent.event.name}</h2>
-                        <p>Start Time: {moment(selectedEvent.start).format("YYYY-MM-DD hh:mm A")}</p>
-                        <p>End Time: {moment(selectedEvent.end).format("YYYY-MM-DD hh:mm A")}</p>
-                        <p>Status: {selectedEvent.status}</p>
-                        <p>Price: {selectedEvent.price}</p>
-                        <p>Venue: {selectedEvent.venue.name}</p>
-                        <p>Organizer: {selectedEvent.organizer.name}</p>
-                    </Box>
+                    <div className="p-4 bg-gray-100">
+                        <div className="bg-white p-4 rounded-lg shadow-md">
+                            <h2 className="text-lg font-semibold mb-4">{selectedEvent.event.name}</h2>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p className="text-gray-600">Start Time: {moment(selectedEvent.start).format("YYYY-MM-DD hh:mm A")}</p>
+                                    <p className="text-gray-600">End Time: {moment(selectedEvent.end).format("YYYY-MM-DD hh:mm A")}</p>
+                                    <p className="text-gray-600">Status: {selectedEvent.status}</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-600">Price: {selectedEvent.price}</p>
+                                    <p className="text-gray-600">Venue: {selectedEvent.venue.name}</p>
+                                    <p className="text-gray-600">Organizer: {selectedEvent.organizer.name}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </Box>
             <Box><FlexBetween></FlexBetween></Box>

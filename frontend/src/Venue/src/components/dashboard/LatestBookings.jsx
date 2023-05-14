@@ -3,6 +3,7 @@ import { Box, Typography, Table, TableBody, TableRow, TableCell } from "@mui/mat
 import { useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import moment from "moment";
 
 const LatestBookings = () => {
     const [latestBookings, setLatestBookings] = useState([]);
@@ -33,12 +34,12 @@ const LatestBookings = () => {
                                     Event - {booking.event.name}
                                 </Typography>
                                 <Typography variant="body1" color="textSecondary">
-                                    Price: ${booking.price} | Hall: {booking.venue.name}
+                                    Price: ${booking.price.toFixed(2)} | Hall: {booking.venue.name}
                                 </Typography>
                             </TableCell>
                             <TableCell align="right">
                                 <Typography variant="body2" color="textSecondary">
-                                    {booking.created_at}
+                                    {moment(booking.date).format("DD MMM YYYY")}
                                 </Typography>
                             </TableCell>
                         </TableRow>
