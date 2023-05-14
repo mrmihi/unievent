@@ -25,7 +25,12 @@ const ReviewSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User',
             required: true
-        }
+        },
+        row: {
+            type: Number,
+            required: true,
+            default: 0
+        },
     },
     {
         versionKey: false,

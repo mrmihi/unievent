@@ -65,10 +65,10 @@ mongoose
     logger.error('error connecting to MongoDB:', error.message);
   });
 
-  const corsOptions = {
-    origin: true,
-    credentials: true,
-  };
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
 
 app.use(cors(corsOptions));
 app.use(express.json());

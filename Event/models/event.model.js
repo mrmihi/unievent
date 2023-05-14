@@ -35,13 +35,16 @@ const eventSchema = new Schema(
       type: String,
     },
     venue: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'Venue',
     },
     startTime: {
-      type: String,
+      type: Date,
+      required: true,
     },
     endTime: {
-      type: String,
+      type: Date,
+      required: true,
     },
     status: {
       type: String,
@@ -77,6 +80,7 @@ const eventSchema = new Schema(
     },
     orgId: {
       type: Schema.Types.ObjectId,
+      ref: 'Organization',
     },
   },
   { timestamps: true }

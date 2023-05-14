@@ -19,7 +19,7 @@ const VReview = () => {
 
     const columns = useMemo(
         () => [
-            { accessorKey: "_id", header: "ID" },
+            { accessorKey: "row", header: "Number" },
             { accessorKey: "rating", header: "Rating" },
             { accessorKey: "review", header: "Review" },
             { accessorKey: "organizer.name", header: "Organizer" },
