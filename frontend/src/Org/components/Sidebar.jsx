@@ -43,6 +43,10 @@ const navItems = [
     icon: null,
   },
   {
+    text: 'Event Form',
+    icon: <FeedbackIcon />,
+  },
+  {
     text: 'Events',
     icon: <FeedbackIcon />,
   },

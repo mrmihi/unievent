@@ -2,17 +2,14 @@ import React, { useState } from 'react';
 import { Box, useMediaQuery } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Navbar from 'Events/components/Navbar';
-import Sidebar from 'Events/components/Sidebar';
-import { useGetAttendeeQuery } from '../../../Attendee/state/api';
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
 import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 const Layout = () => {
   const isNonMobile = useMediaQuery('(min-width: 600px)');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const attendeeId = useSelector((state) => state.global.attendeeId);
-  const { data } = useGetAttendeeQuery(attendeeId);
 
   // if (!Cookies.get("token") && Cookies.get("role") !== "venue") {
   //     return <Navigate to="/admin/venue" />;
@@ -21,7 +18,6 @@ const Layout = () => {
   return (
     <Box display={isNonMobile ? 'flex' : 'block'} width="100%" height="100%">
       <Sidebar
-        attendee={data || {}}
         isNonMobile={isNonMobile}
         drawerWidth="250px"
         isSidebarOpen={isSidebarOpen}
@@ -29,7 +25,6 @@ const Layout = () => {
       />
       <Box flexGrow={1}>
         <Navbar
-          attendee={data || {}}
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
