@@ -5,7 +5,6 @@ import  { useEffect, useState } from 'react';
 import { Box, Grid, Typography, Button } from '@mui/material';
 import axios from 'axios';
 import MaterialReactTable from 'material-react-table';
-import { ReactToPrint } from 'react-to-print';
 
 const Report = () => {
     const [payments, setPayments] = useState([]);
