@@ -94,17 +94,17 @@ function App() {
             <Routes>
               {/* Approval Routes */}
               <Route element={<ELayout />}>
-                <Route path="event/:id" element={<EventManagerView />} />
-                <Route path="events-draft" element={<EventDraft />} />
-                <Route path="approval/:id" element={<ApprovalMain />} />
-                <Route path="staff/list/:id" element={<Staffs />} />
-                <Route path="admin/list/:id" element={<Admins />} />
-                <Route path="approval/create/:id" element={<ApprovalCreate />} />
+                <Route path="/org/dashboard/events/:id" element={<EventManagerView />} />
+                {/* <Route path="events-draft" element={<EventDraft />} /> */}
+                <Route path="/org/dashboard/events/approval/:id" element={<ApprovalMain />} />
+                <Route path="/org/staff/list/:id" element={<Staffs />} />
+                <Route path="/org/admin/list/:id" element={<Admins />} />
+                {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/edit/:id" element={<ApprovalEdit />} />
-                <Route path="approval/request/:id" element={<ApprovalRequestMain />} />
-                <Route path="approval/print/:id" element={<PrintAll />} />
+                <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> */}
+                <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
                 <Route path="approval/r/appointment/:id" element={<RequestAppointment />} />
-                <Route path="appointment/:id" element={<RequestAppointment />} />
+                <Route path="/org/dashboard/appointment/:id" element={<RequestAppointment />} />
               </Route>
 
               {/* Event Routes */}

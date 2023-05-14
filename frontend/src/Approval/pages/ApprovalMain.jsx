@@ -18,7 +18,7 @@ function ApprovalMain() {
   const [admin, setAdmin] = useState({});
   const [adminReq, setAdminReq] = useState(null);
   const [org, setOrg] = useState({});
-  const loggedOrgId = "644557c3276961373d2c608c";
+  const loggedOrgId = "6448be13969607971f3761a3";
   const [requestNoteLIC, setRequestNoteLIC] = useState("");
   const [requestNoteBudget, setRequestNoteBudget] = useState("");
   const [requestNoteAdmin, setRequestNoteAdmin] = useState("");
@@ -262,6 +262,7 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
+        console.log(res.data.data[0])
         setData(res.data.data[0]);
         fetchOrgDetails(res.data.data[0].event_id.orgId);
 
@@ -393,7 +394,7 @@ function ApprovalMain() {
             bgcolor={boxColor}
             mb="1%"
             mr="1%"
-            height={200}
+            height={300}
             className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
           >
             <div className="p-4 flex flex-col justify-between h-full">
@@ -456,7 +457,7 @@ function ApprovalMain() {
             bgcolor={boxColor}
             mb="1%"
             mr="1%"
-            height={200}
+            height={300}
             className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
           >
             <div className="p-4 flex flex-col justify-between h-full">
@@ -478,16 +479,13 @@ function ApprovalMain() {
                 </Typography>
               ) : null}
 
-              <Box className="flex w-full justify-between flex-row my-2">
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="large"
-                  disabled
-                >
-                  Make Payment
-                </Button>
+              {venueBooking != null ? (
+                <Typography variant="h5" color={statusText}>
+                  Payment Status : {venueBooking.payment_status}
+                </Typography>
+              ) : null}
 
+              <Box className="flex w-full justify-between flex-row my-2">
                 {venueReq != null ? (
                   <Button variant="outlined" color="secondary" size="large">
                     Request Appointment
@@ -506,8 +504,15 @@ function ApprovalMain() {
             </div>
           </Box>
 
-          <Box id="budgetBox" width="48%" bgcolor={boxColor} mb="1%" mr="1%" height={200}
-            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400">
+          <Box
+            id="budgetBox"
+            width="48%"
+            bgcolor={boxColor}
+            mb="1%"
+            mr="1%"
+            height={300}
+            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
+          >
             <div className="p-4 flex flex-col justify-between h-full">
               {budget.name != null ? (
                 <Typography variant="h3" fontWeight="bold">
@@ -591,8 +596,15 @@ function ApprovalMain() {
             </div>
           </Box>
 
-          <Box id="adminBox" width="48%" bgcolor={boxColor} mb="1%" mr="1%" height={200}
-            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400">
+          <Box
+            id="adminBox"
+            width="48%"
+            bgcolor={boxColor}
+            mb="1%"
+            mr="1%"
+            height={300}
+            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
+          >
             <div className="p-4 flex flex-col justify-between h-full">
               {admin.name != null ? (
                 <Typography variant="h3" fontWeight="bold">
@@ -635,10 +647,10 @@ function ApprovalMain() {
               )}
 
               <Box className="flex w-full justify-between flex-row my-2">
-              {adminReq == null ? (
+                {adminReq == null ? (
                   budget.name != null ? (
                     <Button
-                    id="admin"
+                      id="admin"
                       variant="contained"
                       color="secondary"
                       size="large"

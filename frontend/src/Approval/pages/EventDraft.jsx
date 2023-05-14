@@ -269,7 +269,7 @@ const OrgView = () => {
   
   const handleView = (row) => {
     console.log(row.getValue('_id'));
-    navigate(`/event/${row.getValue('_id')}`);
+    navigate(`/org/dashboard/events/${row.getValue('_id')}`);
   }
 
   return (
