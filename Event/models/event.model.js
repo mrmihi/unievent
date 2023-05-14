@@ -37,7 +37,6 @@ const eventSchema = new Schema(
     venue: {
       type: Schema.Types.ObjectId,
       ref: 'Venue',
-      required: true,
     },
     startTime: {
       type: Date,
@@ -82,7 +81,6 @@ const eventSchema = new Schema(
     orgId: {
       type: Schema.Types.ObjectId,
       ref: 'Organization',
-      required: true,
     },
   },
   { timestamps: true }
