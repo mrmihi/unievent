@@ -27,6 +27,7 @@ const createEventApproval = async (eventApproval) => {
 };
 
 const updateEventApproval = async (id, eventApproval) => {
+    console.log(eventApproval)
     const updatedEventApproval = await Event_Approval.findByIdAndUpdate(id, eventApproval, {
         new: true,
         runValidators: true,

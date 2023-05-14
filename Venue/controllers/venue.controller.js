@@ -58,10 +58,11 @@ const updateVenueById = async (req, res) => {
     const updatedVenue = await Venue.findOneAndUpdate({ _id: id }, req.body, { new: true, runValidators: true });
     const discountedPrice = updatedVenue.price;
     const priceDropPercentage = ((originalPrice - discountedPrice) / originalPrice) * 100;
+    let venueSubscribersEmails = [];
     
     if(originalPrice > discountedPrice) {
       const venueSubscribers = await VenueSubscription.find({ venue: id, active: true }).select('email');
-      const venueSubscribersEmails = venueSubscribers.map(subscriber => subscriber.email);
+      venueSubscribersEmails = venueSubscribers.map(subscriber => subscriber.email);
       SendPriceDropMail(venueSubscribersEmails, venueName, priceDropPercentage, venueImage, discountedPrice, originalPrice);
     }
     res.status(200).json({ message: 'Venue updated successfully', updatedVenue });

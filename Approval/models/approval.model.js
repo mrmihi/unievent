@@ -4,7 +4,6 @@
 
 const { Schema, model, Mongoose } = require('mongoose');
 const enums = require('../constants/approval.constants');
-const { User } = require('../../User/models/user.model');
 
 const eventApprovalSchema = new Schema({
     event_id: { type: Schema.Types.ObjectId, ref : 'Event', required: true , Unique: true},
@@ -20,12 +19,12 @@ const eventApprovalSchema = new Schema({
 const approvalRequestSchema = new Schema({
     approval_id : { type: Schema.Types.ObjectId, ref: 'Event_Approval', required: true },
     type : { type: String, enum : enums.REQUEST_TYPE, required: true },
-    requested_at : { type: Date, required: true },
+    requested_at : { type: Date },
     requested_to : { type: Schema.Types.ObjectId, ref: 'User', required: true },
     requested_by : { type: Schema.Types.ObjectId, ref: 'Organization', required: true },
     viewed_at : { type: Date },
     status : { type: String, enum: enums.APPROVAL_REQUEST_STATUS, required: true },
-    request_note : { type: String, required: true },
+    request_note : { type: String},
     responded_at : { type: Date },
 },{
     timestamps: true,
