@@ -59,6 +59,10 @@ import VAddVenue from 'Venue/src/scenes/venue/add-venue';
 import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
 import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 92e0b36e9dcc977d59ba3a7781492089f4038424
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
 import Staffs from 'Approval/pages/Staffs';
@@ -297,6 +301,36 @@ function App() {
                   />
                   <Route path="/admin/venue/reviews" element={<VReview />} />
 
+                </Route>
+              </Route>
+
+              {/* venue routes */}
+              <Route>
+                <Route path="/admin/venue" element={<VLoginPage />} />
+                <Route element={<VLayout />}>
+                  <Route
+                    path="/admin/venue/dashboard/*"
+                    element={<Navigate to="/admin/venue/dashboard" replace />}
+                  />
+                  <Route
+                    path="/admin/venue/dashboard"
+                    element={<VDashboard />}
+                  />
+                  <Route
+                    path="/admin/venue/feedBacks"
+                    element={<h1>FeedBacks</h1>}
+                  />
+                  <Route
+                    path="/admin/venue/attendees"
+                    element={<h1>Attendees</h1>}
+                  />
+                  <Route
+                    path="/admin/venue/dataFinalists"
+                    element={<VDataFinalists />}
+                  />
+                  <Route path="/admin/venue/venues" element={<VVenue />} />
+
+
                   <Route
                     path="/admin/venue/appointments"
                     element={<VAppointments />}
@@ -308,7 +342,6 @@ function App() {
                   <Route path="/admin/venue/requests" element={<VBookings />} />
                 </Route>
               </Route>
-
 
               {/* venue add to an event */}
               <Route>
