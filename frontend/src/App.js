@@ -106,7 +106,7 @@ function App() {
               {/* Approval Routes */}
               <Route element={<ELayout />}>
                 <Route path="/org/dashboard/events/:id" element={<EventManagerView />} />
-                {/* <Route path="events-draft" element={<EventDraft />} /> */}
+                <Route path="events-draft" element={<EventDraft />} />
                 <Route path="/org/dashboard/events/approval/:id" element={<ApprovalMain />} />
                 <Route path="/org/staff/list/:id" element={<Staffs />} />
                 <Route path="/org/admin/list/:id" element={<Admins />} />
