@@ -104,6 +104,7 @@ function App() {
                 <Route path="approval/request/:id" element={<ApprovalRequestMain />} />
                 <Route path="approval/print/:id" element={<PrintAll />} />
                 <Route path="approval/r/appointment/:id" element={<RequestAppointment />} />
+                <Route path="appointment/:id" element={<RequestAppointment />} />
               </Route>
 
               {/* Event Routes */}
