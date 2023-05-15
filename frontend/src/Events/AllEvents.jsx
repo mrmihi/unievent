@@ -25,6 +25,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import Loading from './components/Loading';
 
 function Copyright() {
   return (
@@ -93,7 +94,12 @@ export default function AllEvents() {
   const handleKeywordChange = (event) => {
     setKeyword(event.target.value);
   };
-
+  if (!events.length)
+    return (
+      <>
+        <Loading />
+      </>
+    );
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

@@ -5,10 +5,19 @@ import { Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { WidthNormal } from '@mui/icons-material';
 import CalendarEvent from './scenes/CalendarEvent';
+import Landing from './components/Landing';
+import Header from './components/Header';
+import moment from 'moment';
+import { IoLocationSharp } from 'react-icons/io5';
+
+import React from 'react';
+import './styles/singleEvent.css';
+import Loading from './components/Loading';
 
 function SingleEvent() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
+  const [eventDay, setEventDay] = useState(null);
 
   useEffect(() => {
     eventService.getOne(id).then((res) => {
@@ -18,16 +27,27 @@ function SingleEvent() {
 
   const navigate = useNavigate();
 
-  if (!event) return <h1>Loading...</h1>;
+  if (!event)
+    return (
+      <>
+        <Loading />
+      </>
+    );
   return (
     <>
-      <div className="flex flex-col justify-center  items-center ">
+      <Header id={id} />
+      <Landing
+        image={event.headerImage}
+        name={event.name}
+        eventDay={moment(event.startTime).format('DD')}
+      />
+      {/* <div className="flex flex-col justify-center  items-center ">
         <img src={event.headerImage} alt={event.name} className="mx-auto" />
 
         <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl mt-8">
           <div>
-            {/* add a typography tag that says Details and make it bold */}
-            <Typography variant="h2">Details</Typography>
+          add a typography tag that says Details and make it bold
+          <Typography variant="h2">Details</Typography>
             <Typography variant="h4" color="red">
               {event.startTime} - {event.endTime}{' '}
             </Typography>
@@ -78,7 +98,40 @@ function SingleEvent() {
           >
             Create a Badge
           </Button>
-          <CalendarEvent id={id} />
+          <CalendarEvent {...event} />
+        </div>
+      </div> */}
+
+      <div className="mx-5">
+        <p className=" text-3xl font-extrabold">When and Where</p>
+        <div className="flex justify-left mt-8">
+          <span className="relative flex items-center">
+            <img
+              src="/assets/Calendar.svg"
+              className="w-28 h-28"
+              alt="Calendar"
+            />
+            <span className="absolute inset-0 flex items-center justify-center text-black  text-3xl font-extrabold z-40">
+              {moment(event.startTime).format('DD')}
+            </span>
+          </span>
+          <span className="text-1xl font-extrabold text-red-600 items-center justify-center mx-8 mt-8">
+            Date & Time
+            <br></br>
+            <br></br>
+            {moment(event.startTime).format('DD MMM [AT] HH:mm')}{' '}
+            &nbsp;-&nbsp;&nbsp;
+            {moment(event.endTime).format('DD MMM [AT] HH:mm')}
+          </span>
+          |<br></br>|
+          <span className="text-1xl font-extrabold text-blue-600 items-center justify-center mx-8">
+            <IoLocationSharp style={{ fontSize: '6rem' }} />
+          </span>
+          <span className="text-1xl font-extrabold text-blue-600 items-center justify-center  mt-8">
+            Venue
+            <br></br>
+            {event.venue}
+          </span>
         </div>
       </div>
     </>

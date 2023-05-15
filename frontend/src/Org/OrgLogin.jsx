@@ -68,7 +68,7 @@ export default function OLoginPage() {
 
         Cookies.set('id', _id, { expires: 1 });
         Cookies.set('accessToken', accessToken, { expires: 1 });
-        Cookies.set('name', name, { expires: 1 });
+        Cookies.set('clubName', name, { expires: 1 });
 
         navigate('/org/dashboard/');
       } catch (error) {
