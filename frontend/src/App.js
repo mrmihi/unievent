@@ -75,6 +75,7 @@ import VBookings from 'Venue/src/scenes/venue/booking';
 import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
 import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
 import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
+import PublicVenueTable from 'Venue/PublicVenueTable';
 import { EventForm } from 'Events/scenes/EventForm';
 
 import FLayout from "./Finance/scenes/layout";
