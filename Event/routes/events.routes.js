@@ -14,11 +14,11 @@ router.get('/', EventController.getAllEvents);
 
 router.get('/:id', EventController.getEventById);
 
-router.post('/', protect, authCreator, EventController.createEvent);
+router.post('/', EventController.createEvent);
 
-router.put('/:id', protect, authOrg, EventController.updateEventById);
+router.put('/:id', EventController.updateEventById);
 
-router.delete('/:id', protect, authOrg, EventController.deleteEventById);
+router.delete('/:id', EventController.deleteEventById);
 
 // router.get(
 //   '/allevents/:club',

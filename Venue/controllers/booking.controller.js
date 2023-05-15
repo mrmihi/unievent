@@ -97,7 +97,7 @@ const getBookingByVenueManagerIdPending = async (req, res) => {
 
 const getBookingByEventId = async (req, res) => {
     try {
-        const bookings = await Booking.find({ event: req.params.id });
+        const bookings = await Booking.find({ event: req.params.id }).populate("venue");
         res.status(200).json(bookings);
     } catch (error) {
         res.status(500).json(error);
