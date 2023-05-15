@@ -30,6 +30,10 @@ import {
 } from '@mui/icons-material';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import EmailIcon from '@mui/icons-material/Email';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
@@ -70,19 +74,19 @@ const navItems = [
   },
   {
     text: 'Speakers',
-    icon: <PeopleIcon />,
+    icon: <CampaignIcon />,
   },
   {
     text: 'Sponsors',
-    icon: <PeopleIcon />,
+    icon: <CardGiftcardIcon />,
   },
   {
     text: 'Volunteers',
-    icon: <PeopleIcon />,
+    icon: <VolunteerActivismIcon />,
   },
   {
     text: 'Opportunities',
-    icon: <PeopleIcon />,
+    icon: <Diversity3Icon />,
   },
   //   {
   //     text: "Attendees",
