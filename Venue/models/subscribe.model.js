@@ -30,7 +30,7 @@ const VenueSubscriptionSchema = new Schema(
 
 VenueSubscriptionSchema.plugin(mongoosePaginate);
 
-VenueSubscriptionSchema.index({ user: 1, venue: 1 }, { unique: true });
+VenueSubscriptionSchema.index({ organizer: 1, venue: 1 }, { unique: true });
 
 const VenueSubscription = model('VenueSubscription', VenueSubscriptionSchema);
 

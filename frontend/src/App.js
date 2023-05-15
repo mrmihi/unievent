@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material/styles';
 import { useMemo } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { themeSettings } from 'theme';
+import { Formik } from 'formik';
 
 import Layout from './Attendee/scenes/layout';
 import Dashboard from './Attendee/scenes/dashboard';
@@ -26,6 +27,9 @@ import AllEvents from './Events/AllEvents';
 import EventCreationForm from 'Events/components/registrationForm';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import EventCalendar from 'Events/scenes/EventCalendar';
+import { EventForm } from 'Events/scenes/EventForm';
+import AllEventsAdmin from 'Events/scenes/AllEventsAdmin';
 
 import RLayout from './Resource/scenes/layout';
 import RDashboard from './Resource/scenes/dashboard';
@@ -75,7 +79,6 @@ import VBookings from 'Venue/src/scenes/venue/booking';
 import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
 import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
 import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
-import { EventForm } from 'Events/scenes/EventForm';
 
 import FLayout from './Finance/scenes/layout';
 import FDashboard from 'Finance/scenes/dashboard';
@@ -122,8 +125,13 @@ function App() {
                   element={<ApprovalRequestMain />}
                 />
                 <Route path="approval/print/:id" element={<PrintAll />} />
+
                 <Route
                   path="approval/r/appointment/:id"
+                  element={<RequestAppointment />}
+                />
+                <Route
+                  path="appointment/:id"
                   element={<RequestAppointment />}
                 />
               </Route>
@@ -150,8 +158,20 @@ function App() {
                   element={<AllEventsTable />}
                 />
                 <Route
+                  path="/org/dashboard/public events"
+                  element={<AllEventsAdmin />}
+                />
+                <Route
                   path="/org/dashboard/event form"
-                  element={<EventForm />}
+                  element={
+                    <Formik>
+                      <EventForm />
+                    </Formik>
+                  }
+                />
+                <Route
+                  path="/org/dashboard/event calendar"
+                  element={<EventCalendar />}
                 />
               </Route>
 
@@ -246,6 +266,7 @@ function App() {
                 path="/event/updateVolunteerApplication/:volunteerID"
                 element={<UpdateVolunteerApplication />}
               />
+
               {/* Finance Routes */}
               <Route path="/finance/paypal" element={<FPayPal />} />
               <Route path="*" element={<h1>Page not found!</h1>} />
@@ -266,6 +287,7 @@ function App() {
                 <Route path="/admin/finance/payments" element={<FPayments />} />
                 <Route path="/admin/finance/report" element={<FReport />} />
               </Route>
+
               {/* venue routes */}
               <Route>
                 <Route path="/admin/venue" element={<VLoginPage />} />

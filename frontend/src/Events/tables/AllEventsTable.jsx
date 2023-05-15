@@ -212,6 +212,7 @@ const OrgView = () => {
         enableSorting: false,
         size: 80,
         columnVisibility: false,
+        isVisible: false,
       },
       {
         accessorKey: 'name',
@@ -251,7 +252,6 @@ const OrgView = () => {
       {
         accessorKey: 'status',
         header: 'Status',
-
         muiTableBodyCellEditTextFieldProps: () => ({
           children: statusValues.map((value) => (
             <MenuItem key={value} value={value}>
@@ -269,7 +269,7 @@ const OrgView = () => {
 
   const handleView = (row) => {
     console.log(row.getValue('_id'));
-    navigate(`org/dashboard/events/${row.getValue('_id')}`);
+    navigate(`/org/dashboard/events/${row.getValue('_id')}`);
   };
 
   return (
@@ -329,9 +329,6 @@ const OrgView = () => {
               variant="contained"
             >
               Create A New Event
-            </Button>
-            <Button color="secondary" variant="contained">
-              Export All Event Details
             </Button>
             <EventPDF tableData={tableData} />
           </Box>
