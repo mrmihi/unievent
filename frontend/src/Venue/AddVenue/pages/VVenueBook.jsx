@@ -58,7 +58,7 @@ const VVenueBook = () => {
                 position: toast.POSITION.TOP_CENTER,
             });
             setTimeout(() => {
-                navigate('/venue/payment');
+                navigate(`/org/dashboard/events/${vid}`);
             }, 2000);
         }).catch((err) => {
             console.log(err);

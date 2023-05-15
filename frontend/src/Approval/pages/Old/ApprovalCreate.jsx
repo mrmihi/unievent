@@ -1,14 +1,14 @@
-import Header from "../components/layout/Header";
+import Header from "../../components/layout/Header";
 import React from "react";
 import "tailwindcss/base.css";
 import "tailwindcss/components.css";
 import "tailwindcss/utilities.css";
 import { Button, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import API from "../components/api.approval";
+import API from "../../components/api.approval";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import Request from "../components/Request";
+import Request from "../../components/Request";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   useBeforeUnload,

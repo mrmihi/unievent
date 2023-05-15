@@ -9,10 +9,11 @@ function EventManagerView() {
   const boxColor = "#f2f2f2";
   const [error, setError] = useState({});
   const [eventData, setEventData] = useState({});
-  const [venueData, setVenueData] = useState({});
+  const [venueData, setVenueData] = useState(null);
   const [resourceData, setResourceData] = useState({});
   const [budgetData, setBudgetData] = useState({});
   const [approvalData, setApprovalData] = useState({});
+  const [disabled, setDisabled] = useState(true);
 
   const navigate = useNavigate();
 
@@ -99,11 +100,12 @@ function EventManagerView() {
         withCredentials: true,
       })
         .then((res) => {
-          //   console.log(res.data[0]);
-          setVenueData(res.data[0]);
+          console.log(res.data[0]);
+          if(res.data[0].venue != null)
+            setVenueData(res.data[0]);
         })
         .catch((err) => {
-          setVenueData({});
+          setVenueData(null);
           console.log(err.response);
         });
     };
@@ -124,11 +126,18 @@ function EventManagerView() {
     navigate(`/budget/create/${eventID}`);
   };
   const handleFillApprovalRequestBtn = () => {
-    navigate(`/approval/${eventID}`);
+    navigate(`/org/dashboard/events/approval/${eventID}`);
   };
   const handleRequestAppointment = () => {
-    navigate(`/appointment/${eventID}`)
-  }
+    navigate(`/org/dashboard/appointment/${eventID}`);
+  };
+  const handleMakePaymentBtn = () => {
+    navigate(`/venue/payment`);
+  };
+
+  const handlePublishBtn = () => {
+    //Dinal
+  };
 
   function approvalStatus(status) {
     switch (status) {
@@ -153,33 +162,59 @@ function EventManagerView() {
     }
   }
 
-
   return (
     <div className="w-full">
       <ToastContainer />
       <Box className="px-8 w-full">
-        <Typography id="eventName" variant="h2">
-          {eventData != null ? eventData.name : "Event Name"}
-        </Typography>
-        <Typography id="eventDescription" variant="h4">
-          {eventData != null ? eventData.description : "Description"}
-        </Typography>
-        <Typography id="eventDate" variant="h5">
-          {eventData != null
-            ? String(eventData.startTime).split("T")[0]
-            : "Date"}
-        </Typography>
-        <Typography id="eventStartTime" variant="h5">
-          {eventData != null
-            ? String(eventData.startTime).split("T")[1]
-            : "Start Time"}
-        </Typography>
-        <Typography id="eventEndTime" variant="h5">
-          {eventData != null
-            ? String(eventData.endTime).split("T")[1]
-            : "End Time"}
-        </Typography>
+        <div className="flex flex-row">
+          <div className="flex flex-col w-2/3">
+            <Typography id="eventName" variant="h2">
+              {eventData != null ? eventData.name : "Event Name"}
+            </Typography>
+            <Typography id="eventDescription" variant="h4">
+              {eventData != null ? eventData.description : "Description"}
+            </Typography>
+            <Typography id="eventDate" variant="h5">
+              {eventData != null
+                ? String(eventData.startTime).split("T")[0]
+                : "Date"}
+            </Typography>
+            <Typography id="eventStartTime" variant="h5">
+              {eventData != null
+                ? String(eventData.startTime).split("T")[1]
+                : "Start Time"}
+            </Typography>
+            <Typography id="eventEndTime" variant="h5">
+              {eventData != null
+                ? String(eventData.endTime).split("T")[1]
+                : "End Time"}
+            </Typography>
+          </div>
 
+          <div className="flex flex-row justify-center align-middle items-center w-1/3 ">
+            {disabled ? (
+              <Button
+                className="w-1/2 h-1/2"
+                variant="contained"
+                color="secondary"
+                size="large"
+                disabled
+              >
+                Publish
+              </Button>
+            ) : (
+              <Button
+                className="w-1/2 h-1/2"
+                variant="contained"
+                color="secondary"
+                size="large"
+                onClick={handlePublishBtn}
+              >
+                Publish
+              </Button>
+            )}
+          </div>
+        </div>
         <Box className="flex flex-row flex-wrap my-4">
           <Box
             id="venueBox"
@@ -188,48 +223,69 @@ function EventManagerView() {
             mb="1%"
             mr="1%"
             height={200}
-            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400">
+            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
+          >
             <div className="p-4 flex flex-col justify-between h-full">
-              <Typography variant="h4" id="eventVenue" color="secondary">
+              <Typography variant="h4" id="eventVenue">
                 Event Venue
               </Typography>
-              <Typography variant="h5" id="eventVenue" color="secondary">
-                {venueData.venue != null
-                  ? "Location : " + venueData.venue.name
-                  : "Not added yet"}
-              </Typography>
-              <Typography variant="h5" id="eventVenueStatus" color="secondary">
-                {venueData.booking_status != null
-                  ? "Status : " + venueData.booking_status
+              {venueData != null ? (
+                <Typography variant="h5" id="eventVenue">
+                  Location : {venueData.venue.name}
+                </Typography>
+              ) : (
+                <Typography variant="h5" id="eventVenue">
+                  Not added yet
+                </Typography>
+              )}
+              <Typography variant="h5" id="eventVenueStatus">
+                {venueData != null
+                  ? "Booking Status : " + venueData.booking_status
                   : ""}
               </Typography>
-              <Typography
-                variant="h6"
-                id="eventVenue"
-                color="secondary"></Typography>
+              <Typography variant="h5" id="eventVenuePaymentStatus">
+                {venueData != null
+                  ? "Payment Status : " + venueData.payment_status
+                  : ""}
+              </Typography>
+
+              <Typography variant="h6" id="eventVenue"></Typography>
               <Box className="flex w-full justify-around flex-row my-2">
                 {venueData == null ? (
                   <Button
                     variant="contained"
                     color="secondary"
                     size="large"
-                    onClick={handleAddVenueBtn}>
+                    onClick={handleAddVenueBtn}
+                  >
                     Add Venue
                   </Button>
-                ) : null}
-                {venueData == null ? (
+                ) : venueData.booking_status == "approved" &&
+                  venueData.payment_status != "completed" ? (
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     color="secondary"
                     size="large"
-                    disabled>
-                    Request Approval
+                    onClick={handleMakePaymentBtn}
+                  >
+                    Make Payment
+                  </Button>
+                ) : venueData.booking_status == "approved" &&
+                  venueData.payment_status == "completed" ? (
+                  <Typography variant="h4" id="eventResource" color="#28a745">
+                    Completed
+                  </Typography>
+                ) : 
+                venueData.booking_status == "pending" &&
+                  venueData.payment_status == "pending" ? (
+                    <Button
+                    variant="outlined"
+                    color="secondary"
+                    size="large" >
+                    Venue Added
                   </Button>
                 ) : (
-                  <Button variant="contained" color="secondary" size="large" 
-                            onClick={handleRequestAppointment}>
-                    Request Approval
-                  </Button>
+                  null
                 )}
               </Box>
             </div>
@@ -270,14 +326,14 @@ function EventManagerView() {
                 >
                   Add Resources
                 </Button>
-                <Button
+                {/* <Button
                   variant="outlined"
                   color="secondary"
                   size="large"
                   disabled
                 >
                   Request Approval
-                </Button>
+                </Button> */}
               </Box>
             </div>
           </Box>
@@ -313,14 +369,14 @@ function EventManagerView() {
                 >
                   Create Budget
                 </Button>
-                <Button
+                {/* <Button
                   variant="outlined"
                   color="secondary"
                   size="large"
                   disabled
                 >
                   Request Approval
-                </Button>
+                </Button> */}
               </Box>
             </div>
           </Box>
@@ -363,14 +419,14 @@ function EventManagerView() {
                 >
                   Fill Request Form
                 </Button>
-                <Button
+                {/* <Button
                   variant="outlined"
                   color="secondary"
                   size="large"
                   disabled
                 >
                   Request Approval
-                </Button>
+                </Button> */}
               </Box>
             </div>
           </Box>

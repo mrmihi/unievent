@@ -59,19 +59,15 @@ import VAddVenue from 'Venue/src/scenes/venue/add-venue';
 import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
 import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 92e0b36e9dcc977d59ba3a7781492089f4038424
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
 import Staffs from 'Approval/pages/Staffs';
 import Admins from 'Approval/pages/Admins';
-import ApprovalRequestMain from 'Approval/pages/ApprovalRequestMain.jsx';
-import ApprovalEdit from 'Approval/pages/ApprovalEdit.jsx';
 import RequestAppointment from 'Approval/pages/RequestAppointment.jsx';
-import ApprovalCreate from 'Approval/pages/ApprovalCreate';
 import PrintAll from 'Approval/pages/PrintAll';
+import ApprovalRequestMain from 'Approval/pages/Old/ApprovalRequestMain.jsx';
+import ApprovalCreate from 'Approval/pages/Old/ApprovalCreate';
+import ApprovalEdit from 'Approval/pages/Old/ApprovalEdit.jsx';
 
 import VAppointments from 'Venue/src/scenes/venue/appointments';
 import VAllBookings from 'Venue/src/scenes/venue/all-bookings';
@@ -79,6 +75,7 @@ import VBookings from 'Venue/src/scenes/venue/booking';
 import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
 import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
 import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
+import PublicVenueTable from 'Venue/PublicVenueTable';
 import { EventForm } from 'Events/scenes/EventForm';
 
 import FLayout from "./Finance/scenes/layout";
@@ -109,27 +106,17 @@ function App() {
             <Routes>
               {/* Approval Routes */}
               <Route element={<OLayout />}>
-                <Route
-                  path="org/dashboard/events/:id"
-                  element={<EventManagerView />}
-                />
-                <Route path="approval/:id" element={<ApprovalMain />} />
-                <Route path="staff/list/:id" element={<Staffs />} />
-                <Route path="admin/list/:id" element={<Admins />} />
-                <Route
-                  path="approval/create/:id"
-                  element={<ApprovalCreate />}
-                />
+                <Route path="/org/dashboard/events/:id" element={<EventManagerView />} />
+                <Route path="/org/dashboard/events/approval/:id" element={<ApprovalMain />} />
+                <Route path="/org/dashboard/staff/list/:id" element={<Staffs />} />
+                <Route path="/org/dashboard/admin/list/:id" element={<Admins />} />
+                <Route path="/org/dashboard/approval/appointment/:id" element={<RequestAppointment />} />
+                <Route path="events-draft" element={<AllEventsTable />} />
+                {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
+                <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
                 <Route path="approval/edit/:id" element={<ApprovalEdit />} />
-                <Route
-                  path="approval/request/:id"
-                  element={<ApprovalRequestMain />}
-                />
-                <Route path="approval/print/:id" element={<PrintAll />} />
-
-                <Route path="approval/r/appointment/:id" element={<RequestAppointment />} />
-                <Route path="appointment/:id" element={<RequestAppointment />} />
-
+                <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
+                <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
               </Route>
 
               {/* Event Routes */}
