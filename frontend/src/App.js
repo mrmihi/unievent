@@ -355,6 +355,10 @@ function App() {
                   />
                 </Route>
               </Route>
+
+                {/* public venue time table page */}
+                <Route path="/venue/timetable/:id" element={<PublicVenueTable/>} />
+
             </Routes>
           </ThemeProvider>
         </BrowserRouter>
