@@ -30,6 +30,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import EventCalendar from 'Events/scenes/EventCalendar';
 import { EventForm } from 'Events/scenes/EventForm';
 import AllEventsAdmin from 'Events/scenes/AllEventsAdmin';
+import ProfileFrame from 'Events/scenes/ProfileFrame';
 
 import RLayout from './Resource/scenes/layout';
 import RDashboard from './Resource/scenes/dashboard';
@@ -143,6 +144,7 @@ function App() {
                 path="/events/:id/register"
                 element={<EventCreationForm />}
               />
+              <Route path="/events/:id/frame" element={<ProfileFrame />} />
 
               <Route path="/org/login" element={<OLoginPage />} />
 
