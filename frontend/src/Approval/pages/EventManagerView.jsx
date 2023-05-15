@@ -230,7 +230,7 @@ function EventManagerView() {
               </Typography>
               {venueData != null ? (
                 <Typography variant="h5" id="eventVenue">
-                  Location : venueData.venue.name
+                  Location : {venueData.venue.name}
                 </Typography>
               ) : (
                 <Typography variant="h5" id="eventVenue">
@@ -269,10 +269,22 @@ function EventManagerView() {
                   >
                     Make Payment
                   </Button>
-                ) : (
+                ) : venueData.booking_status == "approved" &&
+                  venueData.payment_status == "completed" ? (
                   <Typography variant="h4" id="eventResource" color="#28a745">
                     Completed
                   </Typography>
+                ) : 
+                venueData.booking_status == "pending" &&
+                  venueData.payment_status == "pending" ? (
+                    <Button
+                    variant="outlined"
+                    color="secondary"
+                    size="large" >
+                    Venue Added
+                  </Button>
+                ) : (
+                  null
                 )}
               </Box>
             </div>

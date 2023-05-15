@@ -2,12 +2,12 @@ import React from "react";
 import "tailwindcss/base.css";
 import "tailwindcss/components.css";
 import "tailwindcss/utilities.css";
-import ForwardRequestTo from "../components/ForwardRequestTo";
+import ForwardRequestTo from "../../components/ForwardRequestTo";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
-import API from "../components/api.approval";
+import API from "../../components/api.approval";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 

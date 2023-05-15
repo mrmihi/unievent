@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import API from "../components/api.approval";
+import API from "../../components/api.approval";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router";
 

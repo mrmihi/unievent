@@ -51,6 +51,29 @@ function ApprovalMain() {
       });
     }
   };
+  const handleAddAdminBtn = () => {
+    navigate(`/org/admin/list/${eventID}`);
+  };
+  const handleAddStaffBtn = () => {
+    navigate(`/org/staff/list/${eventID}`);
+  };
+  const handleNoteChange = (event) => {
+    console.log(event.target.id);
+    const role = event.target.id;
+    if (event.target.value.length < 500) {
+      if ((role = "lic")) {
+        setRequestNoteLIC(event.target.value);
+      } else if (role == "budget") {
+        setRequestNoteBudget(event.target.value);
+      } else if (role == "admin") {
+        setRequestNoteAdmin(event.target.value);
+      }
+    } else {
+      toast.error("Note must be less than 500 characters", {
+        position: "top-right",
+      });
+    }
+  };
 
   const updateEventApproval = async (role, status) => {
     var data = null;
@@ -109,7 +132,7 @@ function ApprovalMain() {
           requested_at: venueBooking.created_at,
           requested_to: venue._id,
           requested_by: loggedOrgId,
-          status: "Not_Yet_Sent",
+          status: "Sent",
         };
         break;
 
@@ -145,35 +168,35 @@ function ApprovalMain() {
     }
 
     await API.post(`approval/request/`, data, {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((res) => {
-        switch (role) {
-          case "venue":
-            setVenueReq(res.data.data);
-            updateEventApproval("venue", "Draft");
-            break;
-
-          case "lic":
-            setLicReq(res.data.data);
-            updateEventApproval("lic", "Draft");
-            break;
-
-          case "budget":
-            setBudgetReq(res.data.data);
-            updateEventApproval("budget", "Draft");
-            break;
-
-          case "admin":
-            setAdminReq(res.data.data);
-            updateEventApproval("admin", "Draft");
-            break;
-        }
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       })
-      .catch((err) => {
-        console.log(err.response);
-      });
+        .then((res) => {
+          switch (role) {
+            case "venue":
+              setVenueReq(res.data.data);
+              updateEventApproval("venue", "Draft");
+              break;
+
+            case "lic":
+              setLicReq(res.data.data);
+              updateEventApproval("lic", "Draft");
+              break;
+
+            case "budget":
+              setBudgetReq(res.data.data);
+              updateEventApproval("budget", "Draft");
+              break;
+
+            case "admin":
+              setAdminReq(res.data.data);
+              updateEventApproval("admin", "Draft");
+              break;
+          }
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
   };
 
   const fetchRequests = async (requestId, role) => {
@@ -182,6 +205,8 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
+        // console.log("fetchRequests " + role);
+        // console.log(res.data.data.requested_to);
         switch (role) {
           case "lic":
             setLicReq(res.data.data);
@@ -190,9 +215,11 @@ function ApprovalMain() {
             setVenueReq(res.data.data);
             break;
           case "budget":
+            setBudget(res.data.data.requested_to);
             setBudgetReq(res.data.data);
             break;
           case "admin":
+            setAdmin(res.data.data.requested_to);
             setAdminReq(res.data.data);
             break;
         }
@@ -200,70 +227,40 @@ function ApprovalMain() {
       })
       .catch((err) => {
         console.log(err.response);
-        setLic({});
-        setBudget({});
-        setAdmin({});
+        setLicReq({});
+        setBudgetReq({});
+        setAdminReq({});
+        setVenueReq({});
         setError(err.response);
       });
   };
 
-  const fetchVenueBookingDetails = async () => {
-    const fetchVenueManagerDetails = async (venueManagerID) => {
-      await API.get(`users/${venueManagerID}`, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
-        .then((res) => {
-          setVenue(res.data);
-        })
-        .catch((err) => {
-          setVenue({});
-          console.log(err.response);
-        });
-    };
-
-    await API.get(`bookings/event/${eventID}`, {
+  const fetchOrgDetails = async (orgId) => {
+    await API.get(`org/${orgId}`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
       .then((res) => {
-        setVenueBooking(res.data[0]);
-        fetchVenueManagerDetails(res.data[0].venue.manager);
-        if (eventApprovalData.venue_approval == null) {
-          createApprovalRequest("venue");
-        }
+        // console.log("fetchOrgDetails");
+        // console.log(res.data);
+        setOrg(res.data);
+        setLic(res.data.incharge);
       })
       .catch((err) => {
-        setVenueBooking({});
+        setLic({});
+        setOrg({});
         console.log(err.response);
       });
   };
 
   const fetchApproval = async () => {
-    const fetchOrgDetails = async (orgId) => {
-      await API.get(`org/${orgId}`, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
-        .then((res) => {
-          //   console.log(res.data);
-          setOrg(res.data);
-          setLic(res.data.incharge);
-        })
-        .catch((err) => {
-          setLic({});
-          setOrg({});
-          console.log(err.response);
-        });
-    };
-
     await API.get(`approval/event/events/${eventID}`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
       .then((res) => {
-        console.log(res.data.data[0])
-        setData(res.data.data[0]);
+        // console.log("fetchApproval");
+        // console.log(res.data.data[0]);
         fetchOrgDetails(res.data.data[0].event_id.orgId);
 
         if (res.data.data[0].lic_approval != null) {
@@ -282,6 +279,7 @@ function ApprovalMain() {
           fetchRequests(res.data.data[0].admin_approval._id, "admin");
         }
 
+        setData(res.data.data[0]);
         setError({});
       })
       .catch((err) => {
@@ -293,28 +291,36 @@ function ApprovalMain() {
       });
   };
 
-  const handleAddAdminBtn = () => {
-    navigate(`/admin/list/${eventID}`);
-  };
-  const handleAddStaffBtn = () => {
-    navigate(`/staff/list/${eventID}`);
-  };
-  const handleNoteChange = (event) => {
-    console.log(event.target.id);
-    const role = event.target.id;
-    if (event.target.value.length < 500) {
-      if ((role = "lic")) {
-        setRequestNoteLIC(event.target.value);
-      } else if (role == "budget") {
-        setRequestNoteBudget(event.target.value);
-      } else if (role == "admin") {
-        setRequestNoteAdmin(event.target.value);
-      }
-    } else {
-      toast.error("Note must be less than 500 characters", {
-        position: "top-right",
+  const fetchVenueBookingDetails = async () => {
+    const fetchVenueManagerDetails = async (venueManagerID) => {
+      await API.get(`users/${venueManagerID}`, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      })
+        .then((res) => {
+          // console.log("fetchVenueManagerDetails");
+          // console.log(res.data);
+          setVenue(res.data);
+        })
+        .catch((err) => {
+          setVenue({});
+          console.log(err);
+        });
+    };
+
+    await API.get(`bookings/event/${eventID}`, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((res) => {
+        // console.log(res.data[0].venue.manager);
+        setVenueBooking(res.data[0]);
+        fetchVenueManagerDetails(res.data[0].venue.manager);
+      })
+      .catch((err) => {
+        setVenueBooking({});
+        console.log(err.response);
       });
-    }
   };
 
   useEffect(() => {
@@ -339,6 +345,14 @@ function ApprovalMain() {
       fetchRequests(eventApprovalData.admin_approval._id, "admin");
     }
     // fetchVenueBookingDetails()
+
+    if (eventApprovalData.venue_approval == undefined) {
+      console.log(eventApprovalData)
+      if (venue != null) {
+        console.log("eventApprovalData.venue_approval == null");
+        createApprovalRequest("venue");
+      }
+    }
   }, [eventApprovalData]);
 
   const boxColor = "#f2f2f2";
@@ -399,7 +413,13 @@ function ApprovalMain() {
           >
             <div className="p-4 flex flex-col justify-between h-full">
               <Typography variant="h3" id="licApproval" fontWeight="bold">
-                {lic._id != null ? lic.name : "Not Added Yet"}
+                {lic._id != null
+                  ? lic.firstname + " " + lic.lastname
+                  : "Not Added Yet"}
+              </Typography>
+
+              <Typography variant="h5">
+                {org._id != null ? org.name : "Not Added Yet"}
               </Typography>
 
               <Typography variant="h5">Lecturer-In-Charge</Typography>
