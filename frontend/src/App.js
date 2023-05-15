@@ -92,6 +92,8 @@ import FReport from './Finance/scenes/finance/report';
 import FPayPal from 'Finance/scenes/finance/paymentform';
 import AddSpeaker from 'Partners/organizer/speakers/AddSpeaker';
 import UpdateSpeaker from 'Partners/organizer/speakers/UpdateSpeaker';
+import UpdateOpportunity from 'Partners/organizer/opportunities/UpdateOpportunity';
+import AddOpportunity from 'Partners/organizer/opportunities/AddOpportunity';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -254,6 +256,14 @@ function App() {
                 <Route
                   path="/org/dashboard/opportunities/"
                   element={<Opportunities />}
+                />
+                <Route
+                  path="/org/dashboard/addOpportunity/"
+                  element={<AddOpportunity />}
+                />
+                <Route
+                  path="/org/dashboard/updateOpportunity/"
+                  element={<UpdateOpportunity />}
                 />
               </Route>
               <Route
