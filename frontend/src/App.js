@@ -88,15 +88,6 @@ import FBills from "./Finance/scenes/finance/bills";
 import FPayments from "./Finance/scenes/finance/payments";
 import FReport from "./Finance/scenes/finance/report";
 import FPayPal from "Finance/scenes/finance/paymentform";
-import PublicVenueTable from 'Venue/PublicVenueTable';
-
-
-
-
-
-
-
-
 
 import ULayout from "./User/scenes/layout/Layout";
 import UDashboard from "./User/scenes/dashboard";
