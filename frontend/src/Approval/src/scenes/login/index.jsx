@@ -11,8 +11,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useFormik } from "formik";
 import Grid from "@mui/material/Grid";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -35,11 +35,11 @@ export default function VLoginPage() {
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
-        const accessToken = Cookies.get("accessToken");
-        const role = Cookies.get("role");
+        const accessToken = Cookies.get("staff_accessToken");
+        const role = Cookies.get("staff_role");
 
-        if (accessToken && role === "venue") {
-            navigate("/admin/venue/dashboard");
+        if (accessToken && role === "admin" || role === "staff") {
+            navigate("/admin/dashboard");
         }
         
     }, [navigate]);
@@ -68,11 +68,11 @@ export default function VLoginPage() {
                 console.log(response.data);
                 console.log(_id);
 
-                Cookies.set("id", _id, { expires: 1 });
-                Cookies.set("accessToken", accessToken, { expires: 1 });
-                Cookies.set("role", role, { expires: 1 });
+                Cookies.set("staff_id", _id, { expires: 1 });
+                Cookies.set("staff_accessToken", accessToken, { expires: 1 });
+                Cookies.set("staff_role", role, { expires: 1 });
 
-                navigate("/admin/venue/dashboard/");
+                navigate("/admin/dashboard");
 
             } catch (error) {
                 if (!error?.response) {
@@ -117,7 +117,7 @@ export default function VLoginPage() {
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h4">
-                            Venue Manager - Sign In
+                            Staff - Sign In
                         </Typography>
                         <Grid
                             container

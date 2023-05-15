@@ -59,6 +59,14 @@ import VAddVenue from 'Venue/src/scenes/venue/add-venue';
 import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
 import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 
+import ALayout from 'Approval/src/scenes/layout';
+import ADashboard from 'Approval/src/scenes/dashboard';
+import ALoginPage from 'Approval/src/scenes/login';
+import AApproval from 'Approval/src/scenes/login'
+import AApprovalRequests from 'Approval/src/scenes/login'
+import AAppointmentRequests from 'Approval/src/scenes/login'
+import AAppointments from 'Approval/src/scenes/login'
+
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
 import Staffs from 'Approval/pages/Staffs';
@@ -105,6 +113,7 @@ function App() {
 
             <Routes>
               {/* Approval Routes */}
+              {/* Org Dashbaord  */}
               <Route element={<OLayout />}>
                 <Route path="/org/dashboard/events/:id" element={<EventManagerView />} />
                 <Route path="/org/dashboard/events/approval/:id" element={<ApprovalMain />} />
@@ -112,38 +121,36 @@ function App() {
                 <Route path="/org/dashboard/admin/list/:id" element={<Admins />} />
                 <Route path="/org/dashboard/approval/appointment/:id" element={<RequestAppointment />} />
                 <Route path="events-draft" element={<AllEventsTable />} />
+                <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
                 {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
-                <Route path="approval/edit/:id" element={<ApprovalEdit />} />
                 <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
                 <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
               </Route>
+              {/* Staff Dashbaord */}
+              <Route path="/admin" element={<ALoginPage />} />
+              <Route element={<ALayout />}>
+                {/* <Route path="/admin/dashboard/*" element={<Navigate to="/admin/dashboard" replace />} /> */}
+                <Route path="/admin/dashboard" element={<ADashboard />} />
+                <Route path="/admin/appointment/requests" element={<AAppointmentRequests />} />
+                <Route path="/admin/appointments" element={<AAppointments />} />
+                <Route path="/admin/approval/requests" element={<AApprovalRequests />} />
+                <Route path="/admin/approvals" element={<AApproval />} />
+              </Route>
+
 
               {/* Event Routes */}
               <Route path="/events" element={<AllEvents />} />
               <Route path="/events/:id" element={<SingleEvent />} />
-              <Route
-                path="/events/:id/register"
-                element={<EventCreationForm />}
-              />
+              <Route path="/events/:id/register" element={<EventCreationForm />} />
 
               <Route path="/org/login" element={<OLoginPage />} />
 
               <Route element={<OLayout />}>
-                <Route
-                  path="/org/dashboard/*"
-                  element={<Navigate to="/org/dashboard" replace />}
-                />
-
+                <Route path="/org/dashboard/*" element={<Navigate to="/org/dashboard" replace />}/>
                 <Route path="/org/dashboard" element={<ODashboard />} />
-                <Route
-                  path="/org/dashboard/events"
-                  element={<AllEventsTable />}
-                />
-                <Route
-                  path="/org/dashboard/event form"
-                  element={<EventForm />}
-                />
+                <Route path="/org/dashboard/events" element={<AllEventsTable />} />
+                <Route path="/org/dashboard/event form" element={<EventForm />} />
               </Route>
 
               {/* Attendee Routes */}
@@ -258,46 +265,18 @@ function App() {
               <Route>
                 <Route path="/admin/venue" element={<VLoginPage />} />
                 <Route element={<VLayout />}>
-                  <Route
-                    path="/admin/venue/dashboard/*"
-                    element={<Navigate to="/admin/venue/dashboard" replace />}
-                  />
-                  <Route
-                    path="/admin/venue/dashboard"
-                    element={<VDashboard />}
-                  />
-                  <Route
-                    path="/admin/venue/feedBacks"
-                    element={<h1>FeedBacks</h1>}
-                  />
-                  <Route
-                    path="/admin/venue/attendees"
-                    element={<h1>Attendees</h1>}
-                  />
-                  <Route
-                    path="/admin/venue/dataFinalists"
-                    element={<VDataFinalists />}
-                  />
+                  <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} />
+                  <Route path="/admin/venue/dashboard"  element={<VDashboard />}/>
+                  <Route path="/admin/venue/feedBacks"element={<h1>FeedBacks</h1>}/>
+                  <Route path="/admin/venue/attendees" element={<h1>Attendees</h1>} />
+                  <Route path="/admin/venue/dataFinalists" element={<VDataFinalists />} />
                   <Route path="/admin/venue/venues" element={<VVenue />} />
-                  <Route
-                    path="/admin/venue/venues/edit/:id"
-                    element={<VVenuePage />}
-                  />
-                  <Route
-                    path="/admin/venue/venues/:id"
-                    element={<VVenueProfile />}
-                  />
-                  <Route
-                    path="/admin/venue/report"
-                    element={<VVenueQuotation />}
-                  />
+                  <Route path="/admin/venue/venues/edit/:id" element={<VVenuePage />} />
+                  <Route path="/admin/venue/venues/:id" element={<VVenueProfile />} />
+                  <Route path="/admin/venue/report" element={<VVenueQuotation />}  />
                   <Route path="/admin/venue/add" element={<VAddVenue />} />
-                  <Route
-                    path="/admin/venue/breakdown"
-                    element={<Breakdown />}
-                  />
+                  <Route path="/admin/venue/breakdown" element={<Breakdown />} />
                   <Route path="/admin/venue/reviews" element={<VReview />} />
-
                 </Route>
               </Route>
 
@@ -305,37 +284,14 @@ function App() {
               <Route>
                 <Route path="/admin/venue" element={<VLoginPage />} />
                 <Route element={<VLayout />}>
-                  <Route
-                    path="/admin/venue/dashboard/*"
-                    element={<Navigate to="/admin/venue/dashboard" replace />}
-                  />
-                  <Route
-                    path="/admin/venue/dashboard"
-                    element={<VDashboard />}
-                  />
-                  <Route
-                    path="/admin/venue/feedBacks"
-                    element={<h1>FeedBacks</h1>}
-                  />
-                  <Route
-                    path="/admin/venue/attendees"
-                    element={<h1>Attendees</h1>}
-                  />
-                  <Route
-                    path="/admin/venue/dataFinalists"
-                    element={<VDataFinalists />}
-                  />
+                  <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} />
+                  <Route path="/admin/venue/dashboard" element={<VDashboard />} />
+                  <Route path="/admin/venue/feedBacks" element={<h1>FeedBacks</h1>} />
+                  <Route path="/admin/venue/attendees" element={<h1>Attendees</h1>} />
+                  <Route path="/admin/venue/dataFinalists" element={<VDataFinalists />} />
                   <Route path="/admin/venue/venues" element={<VVenue />} />
-
-
-                  <Route
-                    path="/admin/venue/appointments"
-                    element={<VAppointments />}
-                  />
-                  <Route
-                    path="/admin/venue/bookings"
-                    element={<VAllBookings />}
-                  />
+                  <Route path="/admin/venue/appointments" element={<VAppointments />} />
+                  <Route path="/admin/venue/bookings" element={<VAllBookings />} />
                   <Route path="/admin/venue/requests" element={<VBookings />} />
                 </Route>
               </Route>
@@ -345,15 +301,9 @@ function App() {
                 <Route path="/venue" element={<h1>Browse Venue Page</h1>} />
                 <Route>
                   <Route path="/venue/:vid/list" element={<VVenueListPage />} />
-                  <Route
-                    path="/venue/:vid/list/:id"
-                    element={<VViewVenueProfile />}
-                  />
+                  <Route path="/venue/:vid/list/:id" element={<VViewVenueProfile />} />
                   <Route path="/venue/:vid/book/:id" element={<VVenueBook />} />
-                  <Route
-                    path="/venue/payment"
-                    element={<h1>payment page</h1>}
-                  />
+                  <Route path="/venue/payment" element={<h1>payment page</h1>} />
                 </Route>
               </Route>
 

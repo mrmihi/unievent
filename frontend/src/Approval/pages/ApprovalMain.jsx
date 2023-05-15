@@ -80,6 +80,9 @@ function ApprovalMain() {
   const handleAddStaffBtn = () => {
     navigate(`/org/dashboard/staff/list/${eventApprovalData._id}`);
   };
+  const handlePrintBtn = () => {
+    navigate(`/org/dashboard/events/approval/print/${eventApprovalData._id}`);
+  }
 
   const handleNoteChange = (event) => {
     const role = event.target.id;
@@ -454,8 +457,8 @@ function ApprovalMain() {
             </Typography>
           </div>
           <div>
-            <Button variant="contained" color="secondary" size="large">
-              Cancel
+            <Button variant="outlined" color="secondary" size="large" onClick={handlePrintBtn} >
+              Print
             </Button>
           </div>
         </div>
