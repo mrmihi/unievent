@@ -89,6 +89,27 @@ import FPayments from "./Finance/scenes/finance/payments";
 import FReport from "./Finance/scenes/finance/report";
 import FPayPal from "Finance/scenes/finance/paymentform";
 
+
+
+
+
+
+
+
+
+import ULayout from "./User/scenes/layout/Layout";
+import UDashboard from "./User/scenes/dashboard";
+import UAllEventView from "./User/pages/AllEventView";
+import UProfilePage from "./User/pages/profilePage";
+import ULogin from "./User/pages/login";
+import UAllusers from "./User/pages/allUsers";
+import USignUp from "./User/pages/signUp";
+import UBudgetForm from "./User/pages/budgetForm";
+import UBudgetView from "./User/pages/budgetView";
+import UserProfileEdit from "./User/pages/UserProfileEdit";
+
+
+
 function App() {
   // const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(
@@ -237,20 +258,20 @@ function App() {
                 path="/event/updateVolunteerApplication/:volunteerID"
                 element={<UpdateVolunteerApplication />}
               />
-                  
-                    {/* Finance Routes */}
+
+              {/* Finance Routes */}
               <Route path="/finance/paypal" element={<FPayPal />} />
               <Route path="*" element={<h1>Page not found!</h1>} />
               <Route path="/admin/finance" element={<FLoginPage />} />
               <Route element={<FLayout />}>
-                  <Route path="/admin/finance/dashboard/*" element={<Navigate to="/admin/finance/dashboard" replace />} />
-                  <Route path="/admin/finance/dashboard" element={<FDashboard />} />
-                  <Route path="/admin/finance/overview" element={<FOverview />} />
-                  <Route path="/admin/finance/refunds" element={<FRefunds />} />
-                  <Route path="/admin/finance/table" element={<FTable />} />
-                  <Route path="/admin/finance/bills" element={<FBills />} />
-                  <Route path="/admin/finance/payments" element={<FPayments />} />
-                  <Route path="/admin/finance/report" element={<FReport />} />
+                <Route path="/admin/finance/dashboard/*" element={<Navigate to="/admin/finance/dashboard" replace />} />
+                <Route path="/admin/finance/dashboard" element={<FDashboard />} />
+                <Route path="/admin/finance/overview" element={<FOverview />} />
+                <Route path="/admin/finance/refunds" element={<FRefunds />} />
+                <Route path="/admin/finance/table" element={<FTable />} />
+                <Route path="/admin/finance/bills" element={<FBills />} />
+                <Route path="/admin/finance/payments" element={<FPayments />} />
+                <Route path="/admin/finance/report" element={<FReport />} />
               </Route>
 
 
@@ -357,10 +378,50 @@ function App() {
                 </Route>
               </Route>
 
-                {/* public venue time table page */}
-                <Route path="/venue/timetable/:id" element={<PublicVenueTable/>} />
+              {/* public venue time table page */}
+              <Route path="/venue/timetable/:id" element={<PublicVenueTable />} />
 
+
+              {/*User Routes */}
+            
+              <Route path="/" element={<ULogin />}/>
+
+              <Route element={<ULayout />}>
+              <Route
+                path="/admin/dashboard"
+                element={<UDashboard />}
+              />
+              <Route
+                path="/admin/event"
+                element={<UAllEventView />}
+              />
+              <Route
+                path="/admin/allUsers"
+                element={<UAllusers />}
+              />
+              <Route
+                path="/admin/register"
+                element={<USignUp />}
+              />
+              <Route
+                path="/admin/event/budget"
+                element={<UBudgetForm />}
+              />
+              <Route
+                path="/admin/profile"
+                element={<UProfilePage />}
+              />
+              <Route
+                path="/admin/event/budget/view"
+                element={<UBudgetView />}
+              />
+              <Route
+                path="/admin/profile/edit"
+                element={<UserProfileEdit />}
+              />
+            </Route>
             </Routes>
+            
           </ThemeProvider>
         </BrowserRouter>
       </div>
