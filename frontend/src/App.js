@@ -90,6 +90,8 @@ import FBills from './Finance/scenes/finance/bills';
 import FPayments from './Finance/scenes/finance/payments';
 import FReport from './Finance/scenes/finance/report';
 import FPayPal from 'Finance/scenes/finance/paymentform';
+import AddSpeaker from 'Partners/organizer/speakers/AddSpeaker';
+import UpdateSpeaker from 'Partners/organizer/speakers/UpdateSpeaker';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -236,6 +238,14 @@ function App() {
               <Route element={<OLayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
                 <Route path="/org/dashboard/speakers/" element={<Speaker />} />
+                <Route
+                  path="/org/dashboard/addSpeaker/"
+                  element={<AddSpeaker />}
+                />
+                <Route
+                  path="/org/dashboard/updateSpeaker/"
+                  element={<UpdateSpeaker />}
+                />
                 <Route path="/org/dashboard/sponsors/" element={<Sponsors />} />
                 <Route
                   path="/org/dashboard/volunteers/"
