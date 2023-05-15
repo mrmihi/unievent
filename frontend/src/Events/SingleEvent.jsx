@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { WidthNormal } from '@mui/icons-material';
+import CalendarEvent from './scenes/CalendarEvent';
 
 function SingleEvent() {
   const { id } = useParams();
@@ -67,6 +68,17 @@ function SingleEvent() {
           >
             Opportunities
           </Button>
+          <Button
+            sx={{ width: 300, marginLeft: '5px' }}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              navigate(`/events/${id}/frame`);
+            }}
+          >
+            Create a Badge
+          </Button>
+          <CalendarEvent id={id} />
         </div>
       </div>
     </>
