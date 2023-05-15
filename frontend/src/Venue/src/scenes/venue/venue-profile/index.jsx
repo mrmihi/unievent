@@ -46,9 +46,9 @@ const VVenueProfile = () => {
         setReviews(sortedReviews);
     };
 
-    const downloadQRCode = async (id) => {
+    const downloadQRCode = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/venues/${id}/qrcode`, {
+            const response = await axios.get(`http://localhost:5000/api/venues/qr/${id}`, {
                 responseType: 'arraybuffer', // Set the response type to array buffer
             });
 
