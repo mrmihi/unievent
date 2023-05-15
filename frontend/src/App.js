@@ -73,6 +73,7 @@ import VBookings from 'Venue/src/scenes/venue/booking';
 import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
 import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
 import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
+import PublicVenueTable from 'Venue/PublicVenueTable';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -247,7 +248,10 @@ function App() {
                   <Route path="/venue/payment" element={<h1>payment page</h1>} />
                 </Route>
               </Route>
-        
+
+                {/* public venue time table page */}
+                <Route path="/venue/timetable/:id" element={<PublicVenueTable/>} />
+
             </Routes>
           </ThemeProvider>
         </BrowserRouter>
