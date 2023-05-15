@@ -63,9 +63,9 @@ import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
 import Staffs from 'Approval/pages/Staffs';
 import Admins from 'Approval/pages/Admins';
+import RequestAppointment from 'Approval/pages/RequestAppointment.jsx';
 import PrintAll from 'Approval/pages/PrintAll';
 import ApprovalRequestMain from 'Approval/pages/Old/ApprovalRequestMain.jsx';
-import RequestAppointment from 'Approval/pages/Old/RequestAppointment.jsx';
 import ApprovalCreate from 'Approval/pages/Old/ApprovalCreate';
 import ApprovalEdit from 'Approval/pages/Old/ApprovalEdit.jsx';
 
@@ -107,9 +107,9 @@ function App() {
               <Route element={<OLayout />}>
                 <Route path="/org/dashboard/events/:id" element={<EventManagerView />} />
                 <Route path="/org/dashboard/events/approval/:id" element={<ApprovalMain />} />
-                <Route path="/org/staff/list/:id" element={<Staffs />} />
-                <Route path="/org/admin/list/:id" element={<Admins />} />
-                <Route path="/org/dashboard/appointment/:id" element={<RequestAppointment />} />
+                <Route path="/org/dashboard/staff/list/:id" element={<Staffs />} />
+                <Route path="/org/dashboard/admin/list/:id" element={<Admins />} />
+                <Route path="/org/dashboard/approval/appointment/:id" element={<RequestAppointment />} />
                 <Route path="events-draft" element={<AllEventsTable />} />
                 {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 

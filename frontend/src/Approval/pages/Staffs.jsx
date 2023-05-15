@@ -1,37 +1,114 @@
-import React, { useState } from 'react';
-import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import API from "../components/api.approval";
+import { toast, ToastContainer } from "react-toastify";
 
 const Staffs = () => {
-    const [searchText, setSearchText] = useState('');
-    const [venues, setVenues] = useState([]);
-    const { vid } = useParams();
+  const [searchText, setSearchText] = useState("");
+  const [staffs, setStaffs] = useState([]);
+  const { id: approvalID } = useParams();
+  const navigate = useNavigate();
+  const loggedOrgId = "6448be13969607971f3761a3";
 
-    const handleSearchChange = (event) => {
-        setSearchText(event.target.value);
+  const handleSearchChange = (event) => {
+    setSearchText(event.target.value);
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/users/staff")
+      .then((response) => {
+        console.log(response.data);
+        setStaffs(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const filteredStaffs = staffs.filter((staff) =>
+    staff.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const createRequest = async (selectedStaffID) => {
+    var data = {
+      approval_id: approvalID,
+      type: "Budget_Request",
+      requested_to: selectedStaffID,
+      requested_by: loggedOrgId,
+      status: "Not_Yet_Sent",
     };
 
-    useEffect(() => {
-        axios.get('http://localhost:5000/api/users').then((response) => {
-            console.log(response.data);
-            setVenues(response.data);
-        }).catch((error) => {
-            console.log(error);
+    // console.log(data);
+    await API.post(`approval/request/`, data, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((res) => {
+        // console.log(res.data.data);
+        // console.log(res.data.data._id);
+        updateEventApproval(res.data.data._id);
+      })
+      .catch((err) => {
+            console.log(err)
+            toast.error("Failed to add to staff", {
+            position : "top-right"
+            })
+        })
+  };
+
+  const updateEventApproval = async (id) => {
+    var data = {
+      status: "Draft",
+      budget_approval: id,
+    };
+    await API.put(`approval/event/${approvalID}`, data, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log(res.data)
+        toast.success("Added to form", {
+          position: "top-right",
         });
-    }, []);
+        setTimeout(() => {
+            navigate(`/org/dashboard/events/approval/${res.data.data.event_id}`);
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to add to approval form", {
+          position: "top-right",
+        });
+      });
+  };
 
-    const filteredVenues = venues.filter((venue) =>
-        venue.name.toLowerCase().includes(searchText.toLowerCase())
-    );
+  const handleAddToFormBtn = (event) => {
+    // console.log(event.target.id)
+    createRequest(event.target.id)
+  };
 
-    return (
+  return (
+  
         <Container maxWidth="md" sx={{ mt: 10 }}>
+          <ToastContainer />
             <Container sx={{ mb: 4 }}>
                 <TextField
-                    label="Search venues"
+                    label="Search staffs"
                     fullWidth
                     value={searchText}
                     onChange={handleSearchChange}
@@ -40,28 +117,26 @@ const Staffs = () => {
 
             <Container maxWidth="md">
                 <Grid container spacing={4}>
-                    {filteredVenues.map((venue) => (
-                        <Grid item xs={12} sm={6} md={4} key={venue._id}>
+                    {filteredStaffs.map((staff) => (
+                        <Grid item xs={12} sm={6} md={4} key={staff._id}>
                             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                                <CardActionArea component={Link} to={`/venue/${vid}/list/${venue._id}`}>
-                                <CardMedia component="img" image={venue.image_url} alt={venue.name} style={{ height: '200px', width: '300px' }} />
+        
+                                <CardMedia component="img" image={staff.img_url} alt={staff.name} style={{ height: '200px', width: '300px' }} />
                                     <CardContent sx={{ flexGrow: 1 }}>
                                         <Typography gutterBottom variant="h5" component="h2">
-                                            {venue.name}- {venue.location}
+                                            {staff.name}
                                         </Typography>
-                                        <Typography>Price: {venue.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</Typography>
-                                        <Typography>Capacity: {venue.capacity}</Typography>
-                                        <Typography >Description: {venue.description}</Typography>
+                                        <Button id={staff._id} variant="contained" color="secondary" size="medium" onClick={handleAddToFormBtn} >
+                                            Add To Form
+                                        </Button>
                                     </CardContent>
-                                </CardActionArea>
                             </Card>
                         </Grid>
                     ))}
                 </Grid>
             </Container>
         </Container>
-    );
+    )
 };
 
-
-export default Staffs
+export default Staffs;

@@ -71,6 +71,26 @@ const getAllUsers = async (req, res) => {
   } //catch error
 }; //get all users
 
+//get all admins
+const getAllAdmin = async (req, res) => {
+  try {
+    const users = await User.find({role : "admin"}); //find all admins
+    res.status(200).json(users); //return all users
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } //catch error
+}; 
+
+const getAllStaff = async (req, res) => {
+  try {
+    const users = await User.find({role : "staff"}); //find all users
+    res.status(200).json(users); //return all users
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } //catch error
+}; 
+
+
 //delete user
 const deleteUser = async (req, res) => {
   try {
@@ -138,5 +158,7 @@ module.exports = {
   deleteUser,
   updateUser,
   getMe,
-  getUserByID
+  getUserByID,
+  getAllStaff,
+  getAllAdmin
 }; //export all functions

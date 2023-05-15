@@ -100,11 +100,12 @@ function EventManagerView() {
         withCredentials: true,
       })
         .then((res) => {
-          //   console.log(res.data[0]);
-          setVenueData(res.data[0]);
+          console.log(res.data[0]);
+          if(res.data[0].venue != null)
+            setVenueData(res.data[0]);
         })
         .catch((err) => {
-          setVenueData({});
+          setVenueData(null);
           console.log(err.response);
         });
     };

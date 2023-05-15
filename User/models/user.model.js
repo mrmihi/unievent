@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema(
       ],
       required: true,
     },
+    img_url: {
+      type : String,
+    }
     // active: {
     //     type: Boolean,
     //     default: true
