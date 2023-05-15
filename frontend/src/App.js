@@ -59,10 +59,6 @@ import VAddVenue from 'Venue/src/scenes/venue/add-venue';
 import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
 import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 92e0b36e9dcc977d59ba3a7781492089f4038424
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
 import Staffs from 'Approval/pages/Staffs';
@@ -91,6 +87,7 @@ import FBills from "./Finance/scenes/finance/bills";
 import FPayments from "./Finance/scenes/finance/payments";
 import FReport from "./Finance/scenes/finance/report";
 import FPayPal from "Finance/scenes/finance/paymentform";
+import PublicVenueTable from 'Venue/PublicVenueTable';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
