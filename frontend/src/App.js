@@ -92,6 +92,8 @@ import FReport from './Finance/scenes/finance/report';
 import FPayPal from 'Finance/scenes/finance/paymentform';
 import AddSpeaker from 'Partners/organizer/speakers/AddSpeaker';
 import UpdateSpeaker from 'Partners/organizer/speakers/UpdateSpeaker';
+import AddSponsor from 'Partners/organizer/sponsors/AddSponsor';
+import UpdateSponsor from 'Partners/organizer/sponsors/UpdateSponsor';
 import UpdateOpportunity from 'Partners/organizer/opportunities/UpdateOpportunity';
 import AddOpportunity from 'Partners/organizer/opportunities/AddOpportunity';
 
@@ -249,6 +251,14 @@ function App() {
                   element={<UpdateSpeaker />}
                 />
                 <Route path="/org/dashboard/sponsors/" element={<Sponsors />} />
+                <Route
+                  path="/org/dashboard/addSponsor/"
+                  element={<AddSponsor />}
+                />
+                <Route
+                  path="/org/dashboard/updateSponsor/"
+                  element={<UpdateSponsor />}
+                />
                 <Route
                   path="/org/dashboard/volunteers/"
                   element={<Volunteers />}
