@@ -9,14 +9,15 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import Cookie from 'js-cookie';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import BudgetPDF from '../pdf/BudgetPDF';
 import Grid from '@mui/material/Grid';
+import Swal from 'sweetalert2';
+import { useCallback} from 'react';
+
 
 const DeleteButton = styled(Button)(({ theme }) => ({
   color: theme.palette.error.main,
@@ -62,23 +63,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-// function createData(description, amount, createdat) {
-//   return { description, amount, createdat };
-// }
-
-// const rows = [
-//   createData('donations' ,1000, '2023-04-27'),
-//   createData('ticket sales' ,2000,'2023-04-27'),
-//   createData('Hall rent',1000,'2023-04-27'),
-// ];
-
 
 export default function CustomizedTables() {
 
-  // const [income, setIncome] = useState([]);
-  // const [expenses, setExpenses] = useState([]);
-  // const [totalIncomeAmount, setTotalIncomeAmount] = useState('');
-  // const [totalExpenseAmount, setTotalExpenseAmount] = useState('');
 
 
   const { event_id } = useParams();
@@ -93,7 +80,8 @@ export default function CustomizedTables() {
   const [organizationName, setOrganizationName] = useState('');
   const [eventName, setEventName] = useState('');
   const [createdDate, setCreatedDate] = useState('');
-  
+  const [budgetId, setBudgetId] = useState('');
+
   useEffect(() => {
     axios.get(`http://localhost:5000/api/budgets/${event_id}`)
     .then((response) => {
@@ -106,6 +94,8 @@ export default function CustomizedTables() {
         setEventName(response.data[0].eventName || null);
         setTableData(response.data || null);
         setCreatedDate(response.data[0].createdDate || null);
+        setBudgetId(response.data[0]._id || null);
+        console.log(response.data[0]._id);
         console.log(response.data);
       } else {
         console.log('Error: data not found');
@@ -123,20 +113,33 @@ export default function CustomizedTables() {
     const day = date.getDate();
     return `${year}/${month < 10 ? '0' + month : month}/${day < 10 ? '0' + day : day}`;
   }
-  
 
-
-  // const budget_id=budgetId;
-
-  // if (budget_id) { // Add a conditional check to wait until budget_id is not empty
-  //   console.log(budget_id);
-  // }
-
-  const handleDelete = () => {
-
-    
-
-  };
+  const handleDelete = useCallback(
+    (row) => {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios
+          .delete(`http://localhost:5000/api/budgets/${budgetId}`)
+          .then((response) => {
+            Swal.fire('Deleted!', `Deleted The budget`, 'success');
+            console.log(response.data);
+            window.location.href='/admin/event';
+          });
+         
+          
+        }
+      });
+    },
+    [history,tableData]
+  );
 
   return (
     <Grid>
@@ -224,9 +227,6 @@ export default function CustomizedTables() {
             
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', gap: '20px' }} padding={6}>
-          {/* <PdfButton variant="contained">
-            Generate PDF
-          </PdfButton> */}
 
           <BudgetPDF tableData={tableData} />
 

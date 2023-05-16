@@ -47,6 +47,7 @@ const exportPDF = (tableData) => {
       body: incomeData,
       styles: {
         cellWidth: "auto",
+        fontSize:14
       },
       startY: 80,
     });
@@ -61,6 +62,7 @@ const exportPDF = (tableData) => {
       body: expenseData,
       styles: {
         cellWidth: "auto",
+        fontSize:14
       },
       startY: 40,
     });

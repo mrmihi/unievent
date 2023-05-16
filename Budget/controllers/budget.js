@@ -106,6 +106,8 @@ const deleteBudget = async (req, res) => {
 
         const review = await Budget.findByIdAndDelete({_id:id})//delete user by id
 
+        
+
         if(!review){
             return res.status(404).json({message: 'Budget not found'})
         }//if user is not deleted

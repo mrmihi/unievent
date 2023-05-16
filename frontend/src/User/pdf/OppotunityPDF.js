@@ -33,6 +33,7 @@ doc.addImage(logo, 'PNG', 0, 0, 200, 50);
     body: data,
     styles: {
       cellWidth: "auto",
+      fontSize:12
     },
     startY: 65,
   });
