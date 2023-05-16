@@ -146,7 +146,7 @@ function App() {
                 <Route path="/admin/dashboard/*" element={<Navigate to="/admin/dashboard" replace />} />
                 <Route path="/admin/dashboard" element={<ADashboard />} />
                 <Route path="/admin/appointment/requests" element={<AAppointmentRequests />} />
-                <Route path="/admin/appointments" element={<AAppointments />} />
+                <Route path="/admin/appointments" element={<AAppointments CookieName="staff_id" />} />
                 <Route path="/admin/approvals" element={<AApprovalRequests />} />
                 <Route path="/admin/approval/requests" element={<AApproval />} />
               </Route>
