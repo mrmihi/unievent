@@ -155,9 +155,15 @@ export default function AllEvents() {
                   <CardActions>
                     <Button size="small">View</Button>
                     <Button size="small">Edit</Button>
+                    
                     <Button size="small" onClick={() => {
-                    navigate("/admin/event/budget")
+                    navigate(`/admin/event/budget/${event._id}`)
                 }} >Create a Budget</Button>
+
+                   <Button size="small" onClick={() => {
+                    navigate(`/admin/event/viewBudget/${event._id}`)
+                   }}>View Budget</Button>
+
                   </CardActions>
                 </Card>
               </Grid>

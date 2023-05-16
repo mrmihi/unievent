@@ -62,7 +62,7 @@ export default function ProfilePage() {
   // const [updateSuccess, setUpdateSuccess] = useState(false);// update success state
   // const [updateError, setUpdateError] = useState(false);// update error state
 
-  const id = Cookie.get('id');
+  const id = Cookie.get('id');// get id from cookie
   console.log(id)
 
   useEffect(() => {

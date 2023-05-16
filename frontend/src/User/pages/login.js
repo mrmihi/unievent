@@ -61,10 +61,11 @@ export default function LoginPage() {
                 );
                 const accessToken = response?.data?.token;
                 const role = response?.data?.role;
-                const _id = response?.data?._id;
+                const _id = response?.data?._id; 
 
+                
                 console.log(response.data);
-                console.log(_id);
+                console.log(_id); 
 
                 Cookies.set("id", _id, { expires: 1 });
                 Cookies.set("accessToken", accessToken, { expires: 1 });

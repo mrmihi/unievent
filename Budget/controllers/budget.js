@@ -4,7 +4,7 @@ const Budget = require('../models/budget.models');
 //create budget
 const createBudget = async (req, res) => {
     try {
-        const { organizationName,eventName,income, expenses} = req.body // get income, expenses, categories from request body
+        const { organizationName,eventName,income, expenses,eventId} = req.body // get income, expenses, categories from request body
         // const createdBy = req.user._id//get user id from request
 
         const budget = await Budget.create(
@@ -13,7 +13,8 @@ const createBudget = async (req, res) => {
                 expenses,
                 // createdBy,
                 organizationName,
-                eventName
+                eventName,
+                eventId
 
             }
         )
@@ -27,7 +28,10 @@ const createBudget = async (req, res) => {
                 eventName: budget.eventName,
                 createdDate: budget.createdDate,
                 totalIncome: budget.totalIncome,
-                totalExpenses: budget.totalExpenses
+                totalExpenses: budget.totalExpenses,
+                eventId: budget.eventId
+
+
             })
         } else {
             res.status(400).json({ message: 'Invalid budget data' })
@@ -56,7 +60,7 @@ const getAllBudgets = async (req, res) => {
 const getBudgetById = async (req, res) => {
     try {
         const { id } = req.params
-        const budget = await Budget.findById(id)
+        const budget = await Budget.find({eventId:id})
         if (budget) {
             res.status(200).json(budget)
         } else {

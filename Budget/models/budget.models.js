@@ -41,6 +41,11 @@ const budgetSchema = new mongoose.Schema({
           return this.expenses.reduce((acc, exp) => acc + exp.amount, 0);
         }
       },
+      eventId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event',
+        required: true
+      },
 
       // createdBy: {
       //   type: mongoose.Schema.Types.ObjectId,

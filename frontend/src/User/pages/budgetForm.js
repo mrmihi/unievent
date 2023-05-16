@@ -22,6 +22,10 @@ import axios from 'axios';
 // import Alert from '@mui/material/Alert';
 // import BudgetPDF from './bugetPDF';
 import { useNavigate } from 'react-router-dom';
+import { Cookie } from '@mui/icons-material';
+import Cookies from 'js-cookie';
+import {useHistory} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
 function Copyright(props) {
@@ -64,6 +68,8 @@ const theme = createTheme();
 
 
 export default function BudgetForm() {
+
+  const { eventid } = useParams();
 
   // const handleSubmit = (event) => {
   //   event.preventDefault();
@@ -131,6 +137,7 @@ export default function BudgetForm() {
   const [expenses, setExpenses] = useState([{ description: '', amount: 0 }]);
   const [totalIncomeAmount, setTotalIncomeAmount] = useState(0);
   const [totalExpenseAmount, setTotalExpenseAmount] = useState(0);
+  const [budgetId, setBudgetId] = useState(null);
 
   
 
@@ -153,14 +160,30 @@ export default function BudgetForm() {
 
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault();// prevent default form submission
+
+    const Budget = {
+      income:income,
+      expenses:expenses,
+      eventId:eventid
+    }
+
 
 
     try {
+      console.log(Budget);
 
-      await axios.post('http://localhost:3000/api/budgets/create', { income, expenses });// send post request to register route
+
+
+      await axios.post('/api/budgets/create',Budget);// send post request to register route
       alert('Successful');// alert user
       // setIncome(true);
+
+      
+      
+
+      
+
 
     } catch (error) {
       // console.log(error);
@@ -437,16 +460,16 @@ export default function BudgetForm() {
           >
             Back
           </Button>
-          <Button
+          {/* <Button
             type="submit"
             variant="contained"
             sx={{ mt: 3, mb: 2, fontSize: 20, mr: 2 }}
             onClick={()=>{
-                navigate("/admin/event/budget/view")
-            }}
+              navigate("/admin/event/budget/view")
+          }}
           >
             View Report
-          </Button>
+          </Button> */}
           <Button
             type="submit"
             variant="contained"

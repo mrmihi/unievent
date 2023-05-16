@@ -404,7 +404,7 @@ function App() {
                 element={<USignUp />}
               />
               <Route
-                path="/admin/event/budget"
+                path="/admin/event/budget/:eventid"
                 element={<UBudgetForm />}
               />
               <Route
@@ -412,7 +412,7 @@ function App() {
                 element={<UProfilePage />}
               />
               <Route
-                path="/admin/event/budget/view"
+                path="/admin/event/viewBudget/:event_id"
                 element={<UBudgetView />}
               />
               <Route
