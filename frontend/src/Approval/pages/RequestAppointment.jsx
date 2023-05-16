@@ -1,19 +1,70 @@
 import React, { useState, useEffect } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { TimePicker } from "@mui/x-date-pickers";
-import { TextField, Button, Select, MenuItem } from "@mui/material";
+import { TextField, Button, MenuItem } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import Cookies from "js-cookie"
 
 const RequestAppointment = () => {
+  const orgId = Cookies.get("org_id")
+  const {id : requestID } = useParams()
+  const navigate = useNavigate() 
+  const [approvalRequest, setApprovalRequest] = useState({})
+  const [requestTo, setRequestTo] = useState("")
+
+  const fetchRequest = async () => {
+    axios.
+      get(`http://localhost:5000/api/approval/request/${requestID}`, 
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data.data)
+        setApprovalRequest(res.data.data)
+        // setRequestTo(res.data.data.requested_to.firstname + res.data.data.requested_to.lastname)
+        setRequestTo(res.data.data.requested_to.name)
+      })
+      .catch((error) => {
+        console.log(error.response.data)
+        toast.error(error.response.data.message, { position: "top-right" })
+
+      })
+  }
+
+  useEffect( () => {
+    fetchRequest()
+  }, [requestID])
+
+  const sendAppointmentRequest = async (data) => {
+    axios.
+      post(`http://localhost:5000/api/approval/appointment/`, 
+      data,
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res)
+        toast.success("Successfully Requested an Appointment", { position: "top-right" })
+
+        setTimeout(() => {
+          navigate(`/org/dashboard/events/approval/${approvalRequest.approval_id.event_id}`)
+        }, 2000);
+      })
+      .catch((error) => {
+        console.log(error.response.data)
+        toast.error(error.response.data.message, { position: "top-right" })
+
+      })
+  }
+
   const [date, setDate] = useState(null);
   const [dateError, setDateError] = useState(null);
 
@@ -87,11 +138,11 @@ const RequestAppointment = () => {
     if (meetinglink == "" || meetinglink == null)
       setMeetingLinkError("Required");
     else
-    try {
-      new URL(value);
-    } catch (error) {
-      setMeetingLinkError("Invalid URL");
-    }
+      try {
+        new URL(value);
+      } catch (error) {
+        setMeetingLinkError("Invalid URL");
+      }
   };
 
   const handleSubmitBtn = () => {
@@ -121,21 +172,41 @@ const RequestAppointment = () => {
 
     if (appointmentNote == null) setAppointmentNoteError("Required");
 
-    toast.info("Submit clicked", { position: "top-center" });
+    if (dateError == null && date != null)
+      if (startTimeError == null && startTime != null)
+        if (endTimeError == null && endTime != null)
+          if (modeError == null && mode != null)
+            if (locationError == null && meetinglinkError == null)
+              if (appointmentNoteError == null && appointmentNote != null) {
+                const appointment = {
+                  approval_request_id : requestID,
+                  date: date.toString(),
+                  start_time: startTime.toLocaleString(),
+                  end_time: endTime.toString(),
+                  mode: mode,
+                  location: location,
+                  status: "Sent",
+                  meetinglink: meetinglink,
+                  appointment_note: appointmentNote,
+                };
+                console.log(appointment)
+                console.log("--")
+                sendAppointmentRequest(appointment)
+              }
   };
 
   return (
     <Box className="flex flex-col items-center h-full">
       <ToastContainer />
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h2" gutterBottom>
         Request an Appointment
       </Typography>
 
-      <Typography variant="h6" gutterBottom>
-        Appointment with: [Person's Name]
+      <Typography variant="h4" gutterBottom>
+        Appointment with: {requestTo}
       </Typography>
 
-      <Box width="50%" mt={3} className="h-3/4">
+      <Box width="50%" className="h-3/4">
         <div className="flex flex-col align-middle h-full justify-between">
           <DatePicker
             id="date"
@@ -253,6 +324,7 @@ const RequestAppointment = () => {
             onChange={(event) => {
               setLocation(event.target.value);
               setLocationError(null);
+              if (event.target.value == "") setLocationError("Required");
             }}
             onError={(err) => setLocationError(err)}
             helperText={locationError}
@@ -276,9 +348,10 @@ const RequestAppointment = () => {
             label="Appointment Note"
             multiline
             rows={4}
-            onChange={(value) => {
-              setAppointmentNote(value);
+            onChange={(event) => {
+              setAppointmentNote(event.target.value);
               setAppointmentNoteError(null);
+              if (event.target.value == "") setAppointmentNoteError("Required");
             }}
             onError={(err) => setAppointmentNoteError(err)}
             helperText={appointmentNoteError}
