@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import API from "../components/api.approval";
+import Cookies from "js-cookie"
 
 function ApprovalMain() {
   const { id: eventID } = useParams();
@@ -18,7 +19,7 @@ function ApprovalMain() {
   const [admin, setAdmin] = useState({});
   const [adminReq, setAdminReq] = useState(null);
   const [org, setOrg] = useState({});
-  const loggedOrgId = "6448be13969607971f3761a3";
+  const loggedOrgId = Cookies.get("org_id");
   const [requestNoteLIC, setRequestNoteLIC] = useState("");
   const [requestNoteBudget, setRequestNoteBudget] = useState("");
   const [requestNoteAdmin, setRequestNoteAdmin] = useState("");
@@ -141,7 +142,7 @@ function ApprovalMain() {
         setData(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         toast.error("Approval Request sending failed", {
           position: "top-right",
         });
@@ -156,7 +157,7 @@ function ApprovalMain() {
           approval_id: eventApprovalData._id,
           type: "Venue_Request",
           requested_at: venueBooking.created_at,
-          requested_to: venue._id,
+          requested_to: venueBooking.venue.manager,
           requested_by: loggedOrgId,
           status: "Sent",
         };
@@ -171,14 +172,6 @@ function ApprovalMain() {
           status: "Not_Yet_Sent",
         };
         break;
-        data = {
-          approval_id: eventApprovalData._id,
-          type: "Admin_Request",
-          requested_to: admin._id,
-          requested_by: loggedOrgId,
-          status: "Not_Yet_Sent",
-        };
-        break;
     }
 
     await API.post(`approval/request/`, data, {
@@ -186,7 +179,7 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        console.log(res.data.data);
+        //console.log(res.data.data);
         switch (role) {
           case "venue":
             setVenueReq(res.data.data);
@@ -200,7 +193,7 @@ function ApprovalMain() {
         }
       })
       .catch((err) => {
-        console.log(err.response.data);
+        //console.log(err.response.data);
       });
   };
 
@@ -237,14 +230,14 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        console.log(res.data.data);
+        //console.log(res.data.data);
         fetchApproval();
         toast.success("Request sent successfully", {
           position: "top-center",
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
       });
   };
 
@@ -254,8 +247,8 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log("fetchRequests " + role);
-        // console.log(res.data.data.requested_to);
+        // //console.log("fetchRequests " + role);
+        // //console.log(res.data.data.requested_to);
         switch (role) {
           case "lic":
             setLicReq(res.data.data);
@@ -275,7 +268,7 @@ function ApprovalMain() {
         setError({});
       })
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
         setLicReq(null);
         setBudgetReq(null);
         setAdminReq(null);
@@ -290,15 +283,15 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log("fetchOrgDetails");
-        // console.log(res.data);
+        // //console.log("fetchOrgDetails");
+        // //console.log(res.data);
         setOrg(res.data);
         setLic(res.data.incharge);
       })
       .catch((err) => {
         setLic({});
         setOrg({});
-        console.log(err.response);
+        //console.log(err.response);
       });
   };
 
@@ -308,7 +301,7 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        console.log(res.data.data[0].event_id.orgId);
+        //console.log(res.data.data[0].event_id.orgId);
         fetchOrgDetails(res.data.data[0].event_id.orgId);
 
         if (res.data.data[0].lic_approval != null) {
@@ -346,13 +339,13 @@ function ApprovalMain() {
         withCredentials: true,
       })
         .then((res) => {
-          // console.log("fetchVenueManagerDetails");
-          console.log(res.data);
+          // //console.log("fetchVenueManagerDetails");
+          //console.log(res.data);
           setVenue(res.data);
         })
         .catch((err) => {
           setVenue({});
-          console.log(err);
+          //console.log(err);
         });
     };
 
@@ -361,13 +354,13 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log(res.data[0]);
+        // //console.log(res.data[0]);
         setVenueBooking(res.data[0]);
         fetchVenueManagerDetails(res.data[0].venue.manager);
       })
       .catch((err) => {
         setVenueBooking({});
-        console.log(err.response);
+        //console.log(err.response);
       });
   };
 
@@ -396,6 +389,7 @@ function ApprovalMain() {
 
   useEffect(() => {
     if (eventApprovalData.venue_approval == null && venueBooking != null) {
+      console.log(venueBooking)
       createApprovalRequest("venue");
     }
   }, [venueBooking]);
@@ -577,7 +571,7 @@ function ApprovalMain() {
               ) : null}
 
               <Box className="flex w-full justify-between flex-row my-2">
-                {venueBooking != null ? (
+                {venueReq != null ? (
                   <Button
                     id="venue"
                     variant="outlined"
