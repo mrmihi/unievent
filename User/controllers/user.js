@@ -13,7 +13,6 @@ const createUser = async (req, res) => {
         return res.status(400).json({message: 'User already exists'})
         }
 
-
     const salt = await bcrypt.genSalt(10); //generate salt
     const hashedPassword = await bcrypt.hash(password, salt); //hash password
     const user = await User.create({
@@ -122,6 +121,16 @@ const getMe = async (req, res) => {
   } //catch error
 };
 
+const getUserByID = async (req, res) => {
+  try {
+    const { id : userID } = req.params;
+    const me = await User.findById(userID).select('-password');
+    res.status(200).json(me);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } //catch error
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -129,4 +138,5 @@ module.exports = {
   deleteUser,
   updateUser,
   getMe,
+  getUserByID
 }; //export all functions

@@ -15,8 +15,10 @@ const createEvent = async (req, res) => {
   });
 };
 
+//for shabs
 const getEventById = async (req, res) => {
-  const event = await EventService.getEventById(req.params.id);
+  const event = await EventService.getEventById(req.params.id).populate("venue").populate("orgId");
+  
   if (!event)
     return makeResponse({
       res,
@@ -32,7 +34,7 @@ const getEventById = async (req, res) => {
 };
 
 const getAllEvents = async (req, res) => {
-  const events = await Event.find({});
+  const events = await Event.find({}).populate("venue").populate("orgId");
   res.json(events);
 };
 
@@ -40,10 +42,10 @@ const updateEventById = async (req, res) => {
   const event = req.body;
   const id = req.params.id;
 
-  const updatedBlog = await Event.findByIdAndUpdate(id, event, { new: true });
+  const updatedEvent = await Event.findByIdAndUpdate(id, event, { new: true });
 
-  updatedBlog
-    ? res.status(200).json(updatedBlog.toJSON())
+  updatedEvent
+    ? res.status(200).json(updatedEvent.toJSON())
     : res.status(404).end();
 };
 

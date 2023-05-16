@@ -13,27 +13,38 @@ const ReviewSchema = new Schema(
         },
         organizer: {
             type: Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'Organization',
             required: true
         },
         venue: {
             type: Schema.Types.ObjectId,
             ref: 'Venue',
             required: true
-        }
+        },
+        manager: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        row: {
+            type: Number,
+            required: true,
+            default: 0
+        },
     },
     {
         versionKey: false,
         timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
     }
-)
+);
 
-ReviewSchema.plugin(mongoosePaginate)
+ReviewSchema.plugin(mongoosePaginate);
 
-ReviewSchema.index({ createdAt: 1 })
+// Add a unique compound index on organizer and venue fields
+ReviewSchema.index({ organizer: 1, venue: 1 }, { unique: true });
 
-const Review = model('Review', ReviewSchema)
+const Review = model('Review', ReviewSchema);
 
-Review.syncIndexes()
+Review.syncIndexes();
 
 module.exports = Review;
