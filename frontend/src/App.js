@@ -104,6 +104,8 @@ import FBills from './Finance/scenes/finance/bills';
 import FPayments from './Finance/scenes/finance/payments';
 import FReport from './Finance/scenes/finance/report';
 import FPayPal from 'Finance/scenes/finance/paymentform';
+import FPaymentOptions from 'Finance/scenes/finance/paymentpage';
+import FPrintBill from 'Finance/scenes/finance/printbill';
 
 import ULayout from './User/scenes/layout/Layout';
 import UDashboard from './User/scenes/dashboard';
@@ -361,6 +363,8 @@ function App() {
 
               {/* Finance Routes */}
               <Route path="/finance/paypal" element={<FPayPal />} />
+              <Route path="/finance/paymentpage" element={<FPaymentOptions />}/>
+              <Route path="/finance/printbill" element={<FPrintBill />} />
               <Route path="*" element={<h1>Page not found!</h1>} />
               <Route path="/admin/finance" element={<FLoginPage />} />
               <Route element={<FLayout />}>
