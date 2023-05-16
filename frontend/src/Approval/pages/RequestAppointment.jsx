@@ -14,7 +14,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const RequestAppointment = () => {
-
   const APPOINTMENT_MODE = {
     VIRTUAL: "Virtual",
     PHYSICAL: "Physical",
@@ -35,8 +34,8 @@ const RequestAppointment = () => {
     },
   });
 
-  const [date, setDate] = useState(null)
-  const [dateError, setDateError] = useState("Required")
+  const [date, setDate] = useState(null);
+  const [dateError, setDateError] = useState(null);
   const [startTime, setStarTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
 
@@ -45,33 +44,55 @@ const RequestAppointment = () => {
   const [meetinglink, setMeetingLink] = useState("");
   const [appointmentNote, setAppointmentNote] = useState("");
 
-  useEffect ( () => {
-    if (date == null) {
-      setDateError("Required");
-    } else {
-      setDateError("");  
-    }
-    
-    console.log(`${dateError}`) 
-    toast.error(`Error :  ${Boolean(dateError)}`, {position: "top-right"})
-  }, [date])
+  // useEffect ( () => {
+  //   if (date == null) {
+  //     setDateError("Required");
+  //   } else {
+  //     setDateError("");
+  //   }
 
-  const handleDateBlur = (value) => {
-    toast.error("handleDateBlur", {position: "top-right"})
-    if (value == null) {
-      setDateError("Required");
+  //   console.log(`${dateError}`)
+  //   toast.error(`Error :  ${Boolean(dateError)}`, {position: "top-right"})
+  // }, [date])
+
+  const handleDateBlur = () => {
+    toast.info(`OnBlur `, {position:"top-center"})
+    if (!validateDate(date)) {
+      setDateError("Invalid date");
     } else {
-      setDateError("");
+      setDateError(null);
     }
   };
 
+  const handleDateChange = (value) => {
+    toast.error(`value :  ${value}`, { position: "top-right" });
+    setDate(value);
+    if (!validateDate(value)) {
+      setDateError("Invalid date");
+    } else {
+      setDateError(null);
+    }
+  };
+
+  const validateDate = (value) => {
+    return value !== null;
+  };
+
   const handleSubmitBtn = () => {
-   
+    if (!validateDate(date)) {
+      toast.error(`validation failed :  ${date}`, { position: "top-right" });
+      setDateError("Invalid date");
+    } else {
+      setDateError(null);
+    }
+  };
+  const handleFocus = () => {
+    toast.info(`OnBlur `, {position:"top-center"})
   }
 
-  return(
+  return (
     <Box className="flex flex-col items-center h-full">
-      <ToastContainer/>
+      <ToastContainer />
       <Typography variant="h4" gutterBottom>
         Request an Appointment
       </Typography>
@@ -81,109 +102,78 @@ const RequestAppointment = () => {
       </Typography>
 
       <Box width="50%" mt={3} className="h-3/4">
-      <div className="flex flex-col align-middle h-full justify-between">
-      <DatePicker
-        id="date"
-        name="date"
-        label="Date"
-        value={date}
-        onBlur={() => handleDateBlur(date)}
-        onChange={(value) => setDate(value)}
-        renderInput={(props) => (
+        <div className="flex flex-col align-middle h-full justify-between">
+          <DatePicker
+            id="date"
+            name="date"
+            label="Date"
+            disablePast="true"
+            value={date}
+            onError={(newError) => setDateError(newError)}
+            slotProps={{
+              textField: {
+                helperText: dateError,
+                error: Boolean(dateError),
+              },
+            }}
+            onBlur={handleDateBlur}
+            onChange={handleDateChange}
+            onFocus={handleFocus}
+          ></DatePicker>
+
+          <TimePicker
+            id="start_time"
+            name="start_time"
+            label="Start Time"
+            value={startTime}
+          ></TimePicker>
+
+          <TimePicker
+            id="end_time"
+            name="end_time"
+            label="End Time"
+            value={endTime}
+          ></TimePicker>
+          <TextField id="mode" name="mode" label="Mode" select value={mode}>
+            {Object.keys(APPOINTMENT_MODE).map((mode) => (
+              <MenuItem key={mode} value={APPOINTMENT_MODE[mode]}>
+                {APPOINTMENT_MODE[mode]}
+              </MenuItem>
+            ))}
+          </TextField>
+
           <TextField
-            {...props}
-            error={Boolean(dateError)}
-            helperText={dateError}
+            id="location"
+            name="location"
+            label="Location"
+            value={location}
           />
-        )}
-      />
-        <TimePicker
-          id="start_time"
-          name="start_time"
-          label="Start Time"
-          value={startTime}
-          // onChange={(value) => formik.setFieldValue("start_time", value)}
-          // renderInput={(props) => <TextField {...props} />}
-          // error={formik.touched.start_time && Boolean(formik.errors.start_time)}
-          // helperText={formik.touched.start_time && formik.errors.start_time}
-        />
 
-        <TimePicker
-          id="end_time"
-          name="end_time"
-          label="End Time"
-          value={endTime}
-          // onChange={(value) => formik.setFieldValue("end_time", value)}
-          // renderInput={(props) => <TextField {...props} />}
-          // error={formik.touched.end_time && Boolean(formik.errors.end_time)}
-          // helperText={formik.touched.end_time && formik.errors.end_time}
-        />
-        <TextField
-          id="mode"
-          name="mode"
-          label="Mode"
-          select
-          value={mode}
-          // onChange={formik.handleChange}
-          // onBlur={formik.handleBlur}
-          // error={formik.touched.mode && Boolean(formik.errors.mode)}
-          // helperText={formik.touched.mode && formik.errors.mode}
-        >
-          {Object.keys(APPOINTMENT_MODE).map((mode) => (
-            <MenuItem key={mode} value={APPOINTMENT_MODE[mode]}>
-              {APPOINTMENT_MODE[mode]}
-            </MenuItem>
-          ))}
-        </TextField>
+          <TextField
+            id="meetinglink"
+            name="meetinglink"
+            label="Meeting Link"
+            value={meetinglink}
+            onBlur={handleDateBlur}
+            onChange={handleDateChange}
+            onFocus={handleFocus}
+          />
 
-        <TextField
-          id="location"
-          name="location"
-          label="Location"
-          value={location}
-          // onChange={formik.handleChange}
-          // onBlur={formik.handleBlur}
-          // error={formik.touched.location && Boolean(formik.errors.location)}
-          // helperText={formik.touched.location && formik.errors.location}
-        />
-
-        <TextField
-          id="meetinglink"
-          name="meetinglink"
-          label="Meeting Link"
-          value={meetinglink}
-          // onChange={formik.handleChange}
-          // onBlur={formik.handleBlur}
-          // error={
-          //   formik.touched.meetinglink && Boolean(formik.errors.meetinglink)
-          // }
-          // helperText={formik.touched.meetinglink && formik.errors.meetinglink}
-        />
-
-        <TextField
-          id="appointment_note"
-          name="appointment_note"
-          label="Appointment Note"
-          multiline
-          rows={4}
-          value={appointmentNote}
-          // onChange={formik.handleChange}
-          // onBlur={formik.handleBlur}
-          // error={
-          //   formik.touched.appointment_note &&
-          //   Boolean(formik.errors.appointment_note)
-          // }
-          // helperText={
-          //   formik.touched.appointment_note && formik.errors.appointment_note
-          // }
-        />
-        <Button variant="contained" size="large" onClick={handleSubmitBtn}>
-          Submit
-        </Button>
-      </div>
+          <TextField
+            id="appointment_note"
+            name="appointment_note"
+            label="Appointment Note"
+            multiline
+            rows={4}
+            value={appointmentNote}
+          />
+          <Button variant="contained" size="large" onClick={handleSubmitBtn}>
+            Submit
+          </Button>
+        </div>
       </Box>
     </Box>
-  )
+  );
 };
 
 export default RequestAppointment;
