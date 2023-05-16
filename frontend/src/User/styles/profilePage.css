@@ -1,0 +1,26 @@
+.image-box {
+    /* fallback for old browsers */
+    background: #cbb5d2;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, #5C27FE, #604ba1);
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, #5C27FE,#c565e3)
+  }
+
+.confirmation-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .avatar-dialog .p-dialog-content {
+    height: unset !important;
+  }
+  
+  .avatar-dialog .p-dialog-content .p-dialog-content-wrapper {
+    height: 100%;
+  }
