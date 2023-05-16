@@ -21,7 +21,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import theme from 'theme';
 import PaymentPDF from '../../../pdf/paymentPDF';
 
@@ -222,9 +222,12 @@ const OrgView = () => {
         header: 'Start_time',
         enableEditing: false,
         size: 80,
+        
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
+        Cell: ({ cell }) => dayjs(cell.row.original.start_time).format('DD/MM/YYYY hh.mmA'),
+        //Cell: ({ value }) => dayjs.utc(value).format('DD/MM/YYYY, hh:mm A'),
       },
       {
         accessorKey: 'end_time',
@@ -234,6 +237,8 @@ const OrgView = () => {
         enableSorting: false,
         size: 80,
         columnVisibility: false,
+        Cell: ({ cell }) => dayjs(cell.row.original.end_time).format('DD/MM/YYYY hh.mmA'),
+        //Cell: ({ value }) => dayjs(value).format('YYYY/MM/DD hh:mmA'),
       },
       {
         accessorKey: 'status',
@@ -254,12 +259,13 @@ const OrgView = () => {
       },
       {
         accessorKey: 'price',
-        header: 'Price $',
+        header: 'Price (USD)',
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 80,
         columnVisibility: false,
+        Cell: ({ cell }) => `USD ${cell.row.original.price.toFixed(2)}`,
       },
       {
         accessorKey: 'venue',
