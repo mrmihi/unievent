@@ -87,9 +87,9 @@ const PaymentPage = () => {
       if (image) {
         const formData = new FormData();
         formData.append('file', image);
-        formData.append('upload_preset', 'your_cloudinary_upload_preset_name');
+        formData.append('upload_preset', 'iussagsw');
         const response = await axios.post(
-          'https://api.cloudinary.com/v1_1/dpi1yqznl/image/upload',
+          'https://api.cloudinary.com/v1_1/dtf9sr7jl/image/upload',
           formData
         );
         imageUrl = response.data.secure_url;
@@ -103,7 +103,7 @@ const PaymentPage = () => {
         end_time,
         duration,
         status,
-        image_url: imageUrl,
+        paymentImage: imageUrl,
       });
       console.log(response.data);
       Swal.fire('Success!', 'Payment Successful!', 'success');
@@ -126,7 +126,7 @@ const PaymentPage = () => {
           </Typography>
           <CloudinaryContext
             cloudName="your_cloudinary_cloud_name"
-            uploadPreset="your_cloudinary_upload_preset_name"
+            uploadPreset="iussagsw"
           >
             <form onSubmit={handleSubmit}>
               <FormControl fullWidth margin="normal">

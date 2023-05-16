@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import MaterialReactTable from 'material-react-table';
+import { Image } from 'cloudinary-react';
+import ClearIcon from '@mui/icons-material/Clear';
 import {
   Box,
   Button,
@@ -205,6 +207,21 @@ const OrgView = () => {
 
   const statusValues = ['Approved', 'Pending', 'Rejected'];
 
+  //view image in full screen
+  const [showModal, setShowModal] = useState(false);
+  const [imagePublicId, setImagePublicId] = useState(null);
+
+  const handleImageClick = (publicId) => {
+    setImagePublicId(publicId);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setImagePublicId(null);
+  };
+
+
   const columns = useMemo(
     () => [
       { accessorKey: null, header: "ID", Cell: ({ row }) => row.index + 1, size: 5, },
@@ -285,6 +302,24 @@ const OrgView = () => {
         size: 80,
         columnVisibility: false,
       },
+      {
+        accessorKey: 'paymentImage',
+        header: 'Image of the reciept',
+        enableColumnOrdering: false,
+        enableEditing: false,
+        enableSorting: false,
+        size: 80,
+        columnVisibility: false,
+        Cell: ({ cell }) => (
+          <Image 
+          cloudName="dtf9sr7jl"
+            publicId={cell.row.original.paymentImage}
+            width="50"
+            height="50"
+            onClick={() => handleImageClick(cell.row.original.paymentImage)}
+          />
+        ),
+      },
     ],
     [getCommonEditTextFieldProps]
   );
@@ -341,10 +376,63 @@ const OrgView = () => {
             }}
           >
             
+            
             <PaymentPDF tableData={tableData} variant="contained" color="secondary"/>
           </Box>
         )}
       />
+
+      {/* Render the modal or lightbox */}
+      {showModal && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9999,
+          }}
+          onClick={handleCloseModal}
+        >
+          <div
+            style={{
+              position: 'relative',
+              width: '80%',
+              height: '80%',
+              backgroundColor: '#fff',
+              overflow: 'auto',
+            }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Image
+                cloudName="dtf9sr7jl"
+                publicId={imagePublicId}
+                style={{ maxWidth: '100%', maxHeight: '100%' }}
+              />
+            </div>
+            <button
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+              onClick={handleCloseModal}
+            >
+              <ClearIcon sx={{ fontSize: 40 }}/>
+            </button>
+          </div>
+        </div>
+      )}
+
       <CreateNewAccountModal
         columns={columns}
         open={createModalOpen}
@@ -352,6 +440,7 @@ const OrgView = () => {
         onSubmit={handleCreateNewRow}
       />
     </Box>
+    
     
   );
 };

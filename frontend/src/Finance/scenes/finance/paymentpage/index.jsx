@@ -4,9 +4,19 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import Swal from 'sweetalert2';
 
 const paymentOptions = () => {
   return (
+    <>
+      <Box  width="100%" position="relative" justifyContent="center" style={{backgroundColor: "#bbdefb"}}>
+        <center>
+        <Typography variant='h2'>
+          Payment Options
+          </Typography>
+          </center>
+      </Box>
     <Box
       mx="5rem"
       mt="2rem"
@@ -129,39 +139,61 @@ const paymentOptions = () => {
                 >
                   Instructions
                 </Typography>
+                To make a payment using PayPal, please follow these
+                instructions:
                 <ol>
-                  <li>1. Make the payment in cash.</li>
+                  <li>1. Click the "Pay with PayPal" button below.</li>
                   <li>
-                    2. Choose one of the bank accounts above to make the
-                    payment.
+                    2. You will be redirected to the PayPal website to log in to
+                    your PayPal account.
                   </li>
                   <li>
-                    3. After making the payment, take a picture or scan the
-                    receipt.
+                    3. Once logged in, review the payment details and confirm
+                    the payment.
                   </li>
                   <li>
-                    4. Click the "Pay" button below to submit the receipt.
+                    4. After completing the payment, you will be redirected back
+                    to our website.
                   </li>
                 </ol>
               </Box>
             </CardContent>
           </CardActionArea>
-          <CardActions m="1rem">
-            <Button
-              variant="contained"
-              type="submit"
-              color="secondary"
-              style={{
-                marginInline: '5px',
-                width: '70px',
+          <Box m="1rem">
+            <PayPalScriptProvider
+              options={{
+                'client-id':
+                  'AbmmRlKwrnRbbNcyWQ58YMabSt6AfdfAoK7RN7rMAU111AWXn39w7_mc3A8Yo-ZQ53lX6mQARxuQ_dSQ',
               }}
             >
-              pay
-            </Button>
-          </CardActions>
+              <PayPalButtons
+                createOrder={(data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: '13.99',
+                        },
+                      },
+                    ],
+                  });
+                }}
+                onApprove={async (data, actions) => {
+                  const details = await actions.order.capture();
+                  const name = details.payer.name.given_name;
+                  Swal.fire(
+                    'Payment Successful!',
+                    ' Transaction completed by ' + name,
+                    'success'
+                  );
+                }}
+              />
+            </PayPalScriptProvider>
+          </Box>
         </Card>
       </Box>
-    </Box>
+      </Box>
+      </>
   );
 };
 
