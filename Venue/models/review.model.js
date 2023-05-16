@@ -36,14 +36,15 @@ const ReviewSchema = new Schema(
         versionKey: false,
         timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
     }
-)
+);
 
-ReviewSchema.plugin(mongoosePaginate)
+ReviewSchema.plugin(mongoosePaginate);
 
-ReviewSchema.index({ createdAt: 1 })
+// Add a unique compound index on organizer and venue fields
+ReviewSchema.index({ organizer: 1, venue: 1 }, { unique: true });
 
-const Review = model('Review', ReviewSchema)
+const Review = model('Review', ReviewSchema);
 
-Review.syncIndexes()
+Review.syncIndexes();
 
 module.exports = Review;

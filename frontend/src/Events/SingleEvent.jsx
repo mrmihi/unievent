@@ -8,10 +8,9 @@ import { WidthNormal } from '@mui/icons-material';
 function SingleEvent() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
-  const { id : eventID } = useParams()
 
   useEffect(() => {
-    eventService.getOneShab(id).then((res) => {
+    eventService.getOne(id).then((res) => {
       setEvent(res.data);
     });
   }, [id]);
@@ -67,16 +66,6 @@ function SingleEvent() {
             }}
           >
             Opportunities
-          </Button>
-          <Button
-            sx={{ width: 300, marginLeft: '5px' }}
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              navigate(`/approval/${eventID}`);
-            }}
-          >
-            Approval Request
           </Button>
         </div>
       </div>

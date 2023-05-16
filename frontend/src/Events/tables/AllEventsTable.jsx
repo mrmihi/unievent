@@ -14,10 +14,10 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { Delete, Edit } from '@mui/icons-material';
+import { Delete, Edit, Visibility } from '@mui/icons-material';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link, Navigate } from 'react-router-dom';
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
@@ -31,6 +31,7 @@ const OrgView = () => {
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [serverSuccessMessage, setServerSuccessMessage] = useState('');
   const navigate = useNavigate();
+  const { id: eventId } = useParams();
 
   // GET method
   const getEventData = async () => {
@@ -266,6 +267,11 @@ const OrgView = () => {
 
   if (!tableData) return <h1>Loading...</h1>;
 
+  const handleView = (row) => {
+    console.log(row.getValue('_id'));
+    navigate(`/org/dashboard/events/${row.getValue('_id')}`);
+  };
+
   return (
     <>
       <MaterialReactTable
@@ -293,6 +299,11 @@ const OrgView = () => {
             <Tooltip arrow placement="left" title="Edit">
               <IconButton onClick={() => table.setEditingRow(row)}>
                 <Edit />
+              </IconButton>
+            </Tooltip>
+            <Tooltip arrow placement="left" title="View">
+              <IconButton onClick={() => handleView(row)}>
+                <Visibility />
               </IconButton>
             </Tooltip>
             <Tooltip arrow title="Delete">
