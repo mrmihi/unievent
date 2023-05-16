@@ -120,7 +120,7 @@ function EventManagerView() {
   };
 
   const handleAddResourceBtn = () => {
-    navigate(`/admin/resources`);
+    navigate(`/resources/${eventID}/reservation`);
   };
   const handleCreateBudgetBtn = () => {
     navigate(`/budget/create/${eventID}`);
