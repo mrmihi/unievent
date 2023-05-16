@@ -40,6 +40,7 @@ import RDashboard from './Resource/scenes/dashboard';
 import ResourcesTable from './Resource/tables/allResources';
 import PageNotFound from './Events/pages/PageNotFound.jsx';
 import AllResourcesView from 'Resource/pages/AllResourcesView';
+import AddReservation from 'Resource/views/AddReservation';
 
 import Speaker from 'Partners/organizer/speakers';
 import Sponsors from 'Partners/organizer/sponsors';
@@ -300,7 +301,14 @@ function App() {
               </Route>
 
               {/* Resource Routes */}
-              <Route path="/admin/resources" element={<AllResourcesView />} />
+              <Route
+                path="/resources/:eid/reservation"
+                element={<AllResourcesView />}
+              />
+              <Route
+                path="/resource/:rid/reservation/:eid"
+                element={<AddReservation />}
+              />
               <Route element={<RLayout />}>
                 <Route
                   path="/admin/resources/dashboard/*"
@@ -315,7 +323,6 @@ function App() {
                   element={<ResourcesTable />}
                 />
               </Route>
-              <Route path="*" element={<PageNotFound />} />
 
               {/*Partner Routes */}
               <Route element={<OLayout />}>
