@@ -25,7 +25,7 @@ const getAppointment = async (id) => {
 }
 
 const createAppointment = async (appointment) => {
-    const newAppointment = await Appointment.create(appointment).populate("approval_request_id")
+    const newAppointment = await Appointment.create(appointment)
     return newAppointment;
 };
 
