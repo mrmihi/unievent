@@ -5,7 +5,7 @@ const generateToken = require('../util/token.js');
 //create Org
 const createOrg = async (req, res) => {
   try {
-    const { email, name, password, mobile, website } = req.body; //get email, name, password, mobile and website from request body
+    const { email, name, password, mobile, website, incharge } = req.body; //get email, name, password, mobile and website from request body
     const existingOrg = await Org.findOne({ email }); //find user by email
     if (existingOrg) {
       return res.status(400).json({ message: 'User already exists' });
@@ -18,6 +18,7 @@ const createOrg = async (req, res) => {
       password: hashedPassword,
       mobile,
       website,
+      incharge
     });
     if (org) {
       res.status(201).json({
@@ -26,6 +27,7 @@ const createOrg = async (req, res) => {
         email: org.email,
         mobile: org.mobile,
         website: org.website,
+        incharge: org.incharge,
         token: generateToken(org._id),
       }); //generate token
     } else {
@@ -44,6 +46,7 @@ const loginOrg = async (req, res) => {
     if (!org) {
       res.status(401).json({ message: 'Email does not exist!' });
     }
+
     if (org && (await bcrypt.compare(password, org.password))) {
       res.status(201).json({
         _id: org._id,
@@ -66,12 +69,36 @@ const loginOrg = async (req, res) => {
 //get all Orgs
 const getAllOrg = async (req, res) => {
   try {
-    const orgs = await Org.find({}); //find all Orgs
+    const orgs = await Org.find({}).populate("incharge"); //find all Orgs
     res.status(200).json(orgs); //return all Orgs
   } catch (error) {
     res.status(500).json({ message: error.message });
   } //catch error
 }; //get all Orgs
+
+
+//get  Org by incharge id
+//for shabs
+const getOrgByInchargeID = async (req, res) => {
+  try {
+    const { id : incharge } = req.params; //get id from request params
+    const orgs = await Org.find({incharge : incharge}).populate("incharge"); //find Org
+    res.status(200).json(orgs); //return all Orgs
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } //catch error
+}; 
+
+const getOrgByID = async (req, res) => {
+  try {
+    const { id : orgID } = req.params; //get id from request params
+    const orgs = await Org.findById({_id : orgID})
+            .populate("incharge"); //find Org
+    res.status(200).json(orgs); //return all Orgs
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } //catch error
+}
 
 //delete Org
 const deleteOrg = async (req, res) => {
@@ -94,11 +121,11 @@ const deleteOrg = async (req, res) => {
 const updateOrg = async (req, res) => {
   try {
     const { id } = req.params; //get id from request params
-    const { email, name, mobile, website } = req.body; //get name, email, password and mobile from request body
+    const { email, name, mobile, website, incharge } = req.body; //get name, email, password and mobile from request body
 
     const org = await Org.findByIdAndUpdate(
       { _id: id },
-      { email, name, mobile, website },
+      { email, name, mobile, website, incharge },
       { new: true }
     ); //update Org by id
 
@@ -119,4 +146,6 @@ module.exports = {
   getAllOrg,
   deleteOrg,
   updateOrg,
+  getOrgByInchargeID,
+  getOrgByID
 }; //export all functions

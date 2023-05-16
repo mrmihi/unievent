@@ -2,47 +2,46 @@ const Event = require('../models/event.model');
 const validateRequest = require('../middleware/requestValidator');
 
 // This function is not complete
-const createEvent = async (
+const createEvent = async ({
+  name,
+  description,
+  headerImage,
+  venue,
+  startTime,
+  endTime,
+  status,
+  category,
+  speakers,
+  capacity,
+  tags,
+  joinLink,
+  host,
+  org,
+}) =>
+  // Org
   {
-    name,
-    description,
-    headerImage,
-    venue,
-    startTime,
-    endTime,
-    status,
-    category,
-    speakers,
-    capacity,
-    tags,
-    joinLink,
-    host,
-    org,
-  },
-  Org
-) => {
-  const cId = Org._id;
-  console.log('cId : ', cId);
-  const event = new Event({
-    name,
-    description,
-    headerImage,
-    venue,
-    startTime,
-    endTime,
-    status,
-    category,
-    speakers,
-    capacity,
-    tags,
-    host,
-    joinLink,
-    org,
-    orgId: cId,
-  });
+    // const cId = Org._id;
+    // console.log('cId : ', cId);
+    const event = new Event({
+      name,
+      description,
+      headerImage,
+      venue,
+      startTime,
+      endTime,
+      status,
+      category,
+      speakers,
+      capacity,
+      tags,
+      host,
+      joinLink,
+      org,
+      // orgId: cId,
+    });
 
-  return event.save();
-};
+    return event.save();
+  };
 
 /**
  *
