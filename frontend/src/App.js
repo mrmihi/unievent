@@ -97,6 +97,7 @@ import AddSponsor from 'Partners/organizer/sponsors/AddSponsor';
 import UpdateSponsor from 'Partners/organizer/sponsors/UpdateSponsor';
 import UpdateOpportunity from 'Partners/organizer/opportunities/UpdateOpportunity';
 import AddOpportunity from 'Partners/organizer/opportunities/AddOpportunity';
+import VolunteerSchedule from 'Partners/user/volunteer/VolunteerSchedule';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -293,6 +294,10 @@ function App() {
               <Route
                 path="/event/appliedOpportunities/:userID"
                 element={<AppliedOpportunitiesList />}
+              />
+              <Route
+                path="/event/appliedOpportunities/schedule/:oppID"
+                element={<VolunteerSchedule />}
               />
               <Route
                 path="/event/updateVolunteerApplication/:volunteerID"
