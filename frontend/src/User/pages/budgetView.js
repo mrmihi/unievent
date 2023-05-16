@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import BudgetPDF from '../pdf/BudgetPDF';
+import Grid from '@mui/material/Grid';
 
 const DeleteButton = styled(Button)(({ theme }) => ({
   color: theme.palette.error.main,
@@ -89,6 +90,9 @@ export default function CustomizedTables() {
   const [totalIncomeAmount, setTotalIncomeAmount] = useState();
   const [totalExpenseAmount, setTotalExpenseAmount] = useState();
   const [tableData, setTableData] = useState(null);
+  const [organizationName, setOrganizationName] = useState('');
+  const [eventName, setEventName] = useState('');
+  const [createdDate, setCreatedDate] = useState('');
   
   useEffect(() => {
     axios.get(`http://localhost:5000/api/budgets/${event_id}`)
@@ -98,7 +102,10 @@ export default function CustomizedTables() {
         setExpenses(response.data[0].expenses || null);
         setTotalIncomeAmount(response.data[0].totalIncome || null);
         setTotalExpenseAmount(response.data[0].totalExpenses||null);
+        setOrganizationName(response.data[0].organizationName || null);
+        setEventName(response.data[0].eventName || null);
         setTableData(response.data || null);
+        setCreatedDate(response.data[0].createdDate || null);
         console.log(response.data);
       } else {
         console.log('Error: data not found');
@@ -108,6 +115,15 @@ export default function CustomizedTables() {
       console.log(error);
     });
   }, [event_id]);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}/${month < 10 ? '0' + month : month}/${day < 10 ? '0' + day : day}`;
+  }
+  
 
 
   // const budget_id=budgetId;
@@ -123,8 +139,41 @@ export default function CustomizedTables() {
   };
 
   return (
+    <Grid>
 
+<Box sx={{
+  display: 'grid',
+  placeItems: 'center',
+  textAlign: 'center',
+  backgroundColor: '#DAF1F4',
+  borderRadius: '10px',
+  padding: '40px',
+  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+}}>
+  <Typography variant="h1" sx={{
+    fontSize: '4rem',
+    marginBottom: '20px',
+    fontWeight: 'bold',
+    color: '#333',
+    textShadow: '1px 1px 4px rgba(0, 0, 0, 0.2)',
+  }}>Budget Report</Typography>
+  <Typography variant="h2" sx={{
+    fontSize: '2rem',
+    marginBottom: '10px',
+    fontWeight: 'bold',
+    color: '#333',
+  }}>Organization: {organizationName}</Typography>
+  <Typography variant="h2" sx={{
+    fontSize: '2rem',
+    marginBottom: '10px',
+    fontWeight: 'bold',
+    color: '#333',
+  }}>Event: {eventName}</Typography>
+  <Typography variant="h4" sx={{ marginTop: '20px', fontWeight: 'bold' }}>Created Date: {createdDate ? formatDate(createdDate) : null}</Typography>
+</Box>
+    
     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', fontSize: '20px' }}>
+      
       <Box sx={{ display: 'flex', width: '50%', marginRight: '10px', marginLeft: '10px', flexDirection: 'column' }}>
         <Typography variant="h2" sx={{ marginBottom: '20px', fontWeight: 'bold' }}>Income</Typography>
         <TableContainer component={Paper}>
@@ -192,6 +241,7 @@ export default function CustomizedTables() {
 
       </Box>
     </Box>
+    </Grid>
 
   );
 }

@@ -18,6 +18,11 @@ const exportPDF = (tableData) => {
       console.log("No data");
       return;
     }
+
+    const headData = tableData.map((budget) => [
+        budget.organizationName,
+        budget.eventName
+    ]);
   
     const incomeData = tableData.map((budget) => [
       budget.income.map((item) => item.description).join('\n'),
@@ -30,9 +35,13 @@ const exportPDF = (tableData) => {
     ]);
   
     const tableHeaders = ["Description", "Amount"];
+
+    doc.text(`Organization: ${headData[0][0]}`, 14, 70);
+    doc.text(`Event: ${headData[0][1]}`, 14, 75);
+    
     
     // Generate the income table
-    doc.text("Income", doc.internal.pageSize.width / 2, 70, { align: "center" });
+    doc.text("Income", doc.internal.pageSize.width / 2, 79, { align: "center" });
     autoTable(doc, {
       head: [tableHeaders],
       body: incomeData,

@@ -139,6 +139,7 @@ export default function BudgetForm() {
   const [totalExpenseAmount, setTotalExpenseAmount] = useState(0);
   const [budgetId, setBudgetId] = useState(null);
   const [eventName, setEventName] = useState(null);
+  const [organizationName, setOrganizationName] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // prevent default form submission
@@ -147,21 +148,13 @@ export default function BudgetForm() {
       income: income,
       expenses: expenses,
       eventId: eventid,
+      organizationName: organizationName,
+      eventName: eventName,
+
     };
   
     try {
       console.log("budget",Budget);
-  
-      // Send GET request to retrieve event information based on eventid
-      const eventResponse = await axios.get(`http://localhost:5000/api/events/${eventid}`);
-      console.log("data",eventResponse.data);
-      console.log(eventResponse.data.name);
-      // Extract the event name from the response data
-      const eventName = eventResponse.data.name;
-      console.log(eventName);
-  
-      // Update the state with the event name
-      setEventName(eventName);
   
       // Send POST request to create budget
       await axios.post('http://localhost:5000/api/budgets/create', Budget);
@@ -181,21 +174,42 @@ export default function BudgetForm() {
   return (
     <ThemeProvider theme={theme}>
 
+      <Box component="form" noValidate onSubmit={handleSubmit}>
+
       <Grid>
         <Typography component="h1" variant="h2" align='center' fontAmount='bold'>
           Budget Report
         </Typography>
         <Typography align='center' component="h1" variant="h6">
           <br></br>
-          Organization: Foss
+          Organization:
+          <TextField
+                  required
+                  id="organizationName"
+                  label="organizationName"
+                  name="organizationName"
+                  value={organizationName}
+                  onChange={(e) => setOrganizationName(e.target.value)}
+                />
           <br></br>
-          Event Name: {eventName} {eventid}
+          Event Name:
+          <TextField
+                  required
+                  id="eventName"
+                  label="eventName"
+                  name="eventName"
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
+                />
           <br></br>
           Date: {currentDate}
         </Typography>
       </Grid>
 
-      <Box component="form" noValidate onSubmit={handleSubmit}>
+
+
+
+
         <Grid container component="main" sx={{ height: '90vh' }}>
 
           {/* expenses */}

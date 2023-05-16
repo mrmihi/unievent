@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const budgetSchema = new mongoose.Schema({
     eventName: {
         type: String,
-        // required: true
+        required: true
       },
       organizationName: {
         type: String,
-        // required: true
+        required: true
       },
       createdDate: {
         type: Date,
@@ -45,7 +45,7 @@ const budgetSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event',
         required: true
-      },
+      }
 
       // createdBy: {
       //   type: mongoose.Schema.Types.ObjectId,
