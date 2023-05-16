@@ -308,8 +308,7 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log("fetchApproval");
-        console.log(res.data.data[0]);
+        // console.log(res.data.data[0]);
         fetchOrgDetails(res.data.data[0].event_id.orgId);
 
         if (res.data.data[0].lic_approval != null) {
@@ -348,7 +347,7 @@ function ApprovalMain() {
       })
         .then((res) => {
           // console.log("fetchVenueManagerDetails");
-          // console.log(res.data);
+          console.log(res.data);
           setVenue(res.data);
         })
         .catch((err) => {
@@ -362,7 +361,7 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log(res.data[0].venue.manager);
+        // console.log(res.data[0]);
         setVenueBooking(res.data[0]);
         fetchVenueManagerDetails(res.data[0].venue.manager);
       })

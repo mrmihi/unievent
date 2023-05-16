@@ -65,7 +65,7 @@ import ALoginPage from 'Approval/src/scenes/login';
 import AApproval from 'Approval/src/scenes/approvalRequests'
 import AApprovalRequests from 'Approval/src/scenes/allApprovalRequests'
 import AAppointmentRequests from 'Approval/src/scenes/appointmentRequests'
-import AAppointments from 'Approval/src/scenes/allAppointments'
+import AAppointments from 'Approval/src/scenes/upcomingAppointments'
 
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
