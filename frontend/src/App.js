@@ -210,6 +210,7 @@ function App() {
                   element={<Navigate to="/admin/dashboard" replace />}
                 />
                 <Route path="/admin/dashboard" element={<ADashboard />} />
+
                 <Route
                   path="/admin/appointment/requests"
                   element={<AAppointmentRequests />}
@@ -223,6 +224,7 @@ function App() {
                   path="/admin/approval/requests"
                   element={<AApproval />}
                 />
+
               </Route>
 
               {/* Event Routes */}

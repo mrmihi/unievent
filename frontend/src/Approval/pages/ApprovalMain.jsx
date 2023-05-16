@@ -308,7 +308,7 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log(res.data.data[0]);
+        console.log(res.data.data[0].event_id.orgId);
         fetchOrgDetails(res.data.data[0].event_id.orgId);
 
         if (res.data.data[0].lic_approval != null) {
@@ -474,7 +474,7 @@ function ApprovalMain() {
           >
             <div className="p-4 flex flex-col justify-between h-full">
               <Typography variant="h3" id="licApproval" fontWeight="bold">
-                {lic._id != null
+                {lic != null
                   ? lic.firstname + " " + lic.lastname
                   : "Not Added Yet"}
               </Typography>
@@ -577,7 +577,7 @@ function ApprovalMain() {
               ) : null}
 
               <Box className="flex w-full justify-between flex-row my-2">
-                {venueReq != null ? (
+                {venueBooking != null ? (
                   <Button
                     id="venue"
                     variant="outlined"
