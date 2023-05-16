@@ -74,7 +74,7 @@ export default function LoginPage() {
                     navigate("/accountant/dashboard");
                 }
                 else if (accessToken && role === "resource") {
-                    navigate("/resource/dashboard");
+                    navigate("/admin/resources/dashboard");
                 }
                 else if (accessToken && role === "admin") {
                     navigate("/admin/dashboard");

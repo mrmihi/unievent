@@ -25,7 +25,9 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-
+import Loading from './components/Loading';
+import AllEventsLanding from './components/AllEventsLanding';
+import AllEventsHeader from './components/AllEventsHeader';
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -93,21 +95,27 @@ export default function AllEvents() {
   const handleKeywordChange = (event) => {
     setKeyword(event.target.value);
   };
-
+  if (!events.length)
+    return (
+      <>
+        <Loading />
+      </>
+    );
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-
-      <AppBar position="relative">
+      <AllEventsHeader id={111} />
+      <AllEventsLanding />
+      {/* <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
             Events
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
       {/* <h3>Search 🔍</h3>
       <Search keyword={keyword} handleKeywordChange={handleKeywordChange} /> */}
-      <div className="justify-center flex mt-5">
+      <div className="justify-center flex mt-5 relative top-[-100px]">
         <CustomizedInputBase
           keyword={keyword}
           handleKeywordChange={handleKeywordChange}
