@@ -32,7 +32,7 @@ const Sponsors = () => {
 
   // let { eventID } = useParams();
   // eventID = eventID.toString();
-  const eventID = '642e6937973a5984d960f4cd';
+  const eventID = '643e6ca96030148f194b771d';
 
   const getRegisteredData = async () => {
     try {
@@ -288,12 +288,18 @@ const Sponsors = () => {
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing
-        onEditingRowSave={handleSaveRowEdits}
-        onEditingRowCancel={handleCancelRowEdits}
+        // onEditingRowSave={handleSaveRowEdits}
+        // onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: 'flex', gap: '1rem' }}>
             <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
+              <IconButton
+                onClick={() => {
+                  navigate('/org/dashboard/updateSponsor/', {
+                    state: { sponsor: row.original },
+                  });
+                }}
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -310,7 +316,9 @@ const Sponsors = () => {
               <Button
                 sx={{ marginRight: '5px' }}
                 color="primary"
-                onClick={() => setCreateModalOpen(true)}
+                onClick={() => {
+                  navigate('/org/dashboard/addSponsor/');
+                }}
                 variant="contained"
               >
                 ADD A SPONSOR

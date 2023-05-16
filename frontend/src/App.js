@@ -94,6 +94,13 @@ import FBills from './Finance/scenes/finance/bills';
 import FPayments from './Finance/scenes/finance/payments';
 import FReport from './Finance/scenes/finance/report';
 import FPayPal from 'Finance/scenes/finance/paymentform';
+import AddSpeaker from 'Partners/organizer/speakers/AddSpeaker';
+import UpdateSpeaker from 'Partners/organizer/speakers/UpdateSpeaker';
+import AddSponsor from 'Partners/organizer/sponsors/AddSponsor';
+import UpdateSponsor from 'Partners/organizer/sponsors/UpdateSponsor';
+import UpdateOpportunity from 'Partners/organizer/opportunities/UpdateOpportunity';
+import AddOpportunity from 'Partners/organizer/opportunities/AddOpportunity';
+import VolunteerSchedule from 'Partners/user/volunteer/VolunteerSchedule';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -249,7 +256,23 @@ function App() {
               <Route element={<OLayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
                 <Route path="/org/dashboard/speakers/" element={<Speaker />} />
+                <Route
+                  path="/org/dashboard/addSpeaker/"
+                  element={<AddSpeaker />}
+                />
+                <Route
+                  path="/org/dashboard/updateSpeaker/"
+                  element={<UpdateSpeaker />}
+                />
                 <Route path="/org/dashboard/sponsors/" element={<Sponsors />} />
+                <Route
+                  path="/org/dashboard/addSponsor/"
+                  element={<AddSponsor />}
+                />
+                <Route
+                  path="/org/dashboard/updateSponsor/"
+                  element={<UpdateSponsor />}
+                />
                 <Route
                   path="/org/dashboard/volunteers/"
                   element={<Volunteers />}
@@ -257,6 +280,14 @@ function App() {
                 <Route
                   path="/org/dashboard/opportunities/"
                   element={<Opportunities />}
+                />
+                <Route
+                  path="/org/dashboard/addOpportunity/"
+                  element={<AddOpportunity />}
+                />
+                <Route
+                  path="/org/dashboard/updateOpportunity/"
+                  element={<UpdateOpportunity />}
                 />
               </Route>
               <Route
@@ -274,6 +305,10 @@ function App() {
               <Route
                 path="/event/appliedOpportunities/:userID"
                 element={<AppliedOpportunitiesList />}
+              />
+              <Route
+                path="/event/appliedOpportunities/schedule/:oppID"
+                element={<VolunteerSchedule />}
               />
               <Route
                 path="/event/updateVolunteerApplication/:volunteerID"
