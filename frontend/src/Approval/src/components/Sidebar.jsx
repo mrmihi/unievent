@@ -20,6 +20,8 @@ import {
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import ViewListIcon from '@mui/icons-material/ViewList';
 
 const navItems = [
     {
@@ -28,23 +30,29 @@ const navItems = [
         location: "/admin/dashboard",
     },
     {
+        text: "Event Approval Management",
+    },
+    {
         text: "Approval Requests",
-        icon: null,
+        icon: <PlaylistAddCheckIcon/> ,
         location: "/admin/approval/requests",
     },
     {
-        text: "Approvals",
-        icon: null,
+        text: "All Requests",
+        icon: <ViewListIcon/> ,
         location: "/admin/approvals",
     },
     {
-        text: "Appointments",
-        icon: null,
+        text: "Appointment Management",
+    },
+    {
+        text: "Upcoming Appointments",
+        icon: <PlaylistAddCheckIcon/> ,
         location: "/admin/appointments",
     },
     {
         text: "Appointment Requests",
-        icon: null,
+        icon: <ViewListIcon/> ,
         location: "/admin/appointment/requests",
     },
 ];

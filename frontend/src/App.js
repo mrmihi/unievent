@@ -62,10 +62,10 @@ import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 import ALayout from 'Approval/src/scenes/layout';
 import ADashboard from 'Approval/src/scenes/dashboard';
 import ALoginPage from 'Approval/src/scenes/login';
-import AApproval from 'Approval/src/scenes/login'
-import AApprovalRequests from 'Approval/src/scenes/login'
-import AAppointmentRequests from 'Approval/src/scenes/login'
-import AAppointments from 'Approval/src/scenes/login'
+import AApproval from 'Approval/src/scenes/approvalRequests'
+import AApprovalRequests from 'Approval/src/scenes/allApprovalRequests'
+import AAppointmentRequests from 'Approval/src/scenes/appointmentRequests'
+import AAppointments from 'Approval/src/scenes/upcomingAppointments'
 
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
@@ -143,12 +143,12 @@ function App() {
               {/* Staff Dashbaord */}
               <Route path="/admin" element={<ALoginPage />} />
               <Route element={<ALayout />}>
-                {/* <Route path="/admin/dashboard/*" element={<Navigate to="/admin/dashboard" replace />} /> */}
+                <Route path="/admin/dashboard/*" element={<Navigate to="/admin/dashboard" replace />} />
                 <Route path="/admin/dashboard" element={<ADashboard />} />
                 <Route path="/admin/appointment/requests" element={<AAppointmentRequests />} />
                 <Route path="/admin/appointments" element={<AAppointments />} />
-                <Route path="/admin/approval/requests" element={<AApprovalRequests />} />
-                <Route path="/admin/approvals" element={<AApproval />} />
+                <Route path="/admin/approvals" element={<AApprovalRequests />} />
+                <Route path="/admin/approval/requests" element={<AApproval />} />
               </Route>
 
 

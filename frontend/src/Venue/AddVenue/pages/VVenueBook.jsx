@@ -189,6 +189,6 @@ const VVenueBook = () => {
             <ToastContainer />
         </Container>
     );
-};
+}
 
 export default VVenueBook;

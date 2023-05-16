@@ -82,7 +82,7 @@ function ApprovalMain() {
   };
   const handlePrintBtn = () => {
     navigate(`/org/dashboard/events/approval/print/${eventApprovalData._id}`);
-  }
+  };
 
   const handleNoteChange = (event) => {
     const role = event.target.id;
@@ -308,8 +308,7 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log("fetchApproval");
-        console.log(res.data.data[0]);
+        // console.log(res.data.data[0]);
         fetchOrgDetails(res.data.data[0].event_id.orgId);
 
         if (res.data.data[0].lic_approval != null) {
@@ -348,7 +347,7 @@ function ApprovalMain() {
       })
         .then((res) => {
           // console.log("fetchVenueManagerDetails");
-          // console.log(res.data);
+          console.log(res.data);
           setVenue(res.data);
         })
         .catch((err) => {
@@ -362,7 +361,7 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log(res.data[0].venue.manager);
+        // console.log(res.data[0]);
         setVenueBooking(res.data[0]);
         fetchVenueManagerDetails(res.data[0].venue.manager);
       })
@@ -393,7 +392,6 @@ function ApprovalMain() {
     if (eventApprovalData.admin_approval != null) {
       fetchRequests(eventApprovalData.admin_approval._id, "admin");
     }
-    
   }, [eventApprovalData]);
 
   useEffect(() => {
@@ -416,18 +414,14 @@ function ApprovalMain() {
   const RejectedBtn = "#dc3545";
   const normalBtn = "#007bff";
 
-  const statusText =
-    lic.status === "Not_Yet_Sent"
-      ? NotYetSentBtn
-      : lic.status === "Sent"
-      ? SentBtn
-      : lic.status === "Viewed"
-      ? ViewedBtn
-      : lic.status === "Approved"
-      ? ApprovedBtn
-      : lic.status === "Rejected"
-      ? RejectedBtn
-      : normalBtn;
+  const statusText = (request) => {
+    if (request.status === "Not_Yet_Sent") return NotYetSentBtn;
+    if (lic.status === "Sent") return SentBtn;
+    if (lic.status === "Viewed") return ViewedBtn;
+    if (lic.status === "Approved") return ApprovedBtn;
+    if (lic.status === "Rejected") return RejectedBtn;
+    else return normalBtn;
+  };
 
   function getStatus(status) {
     switch (status) {
@@ -457,7 +451,12 @@ function ApprovalMain() {
             </Typography>
           </div>
           <div>
-            <Button variant="outlined" color="secondary" size="large" onClick={handlePrintBtn} >
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="large"
+              onClick={handlePrintBtn}
+            >
               Print
             </Button>
           </div>
@@ -487,7 +486,7 @@ function ApprovalMain() {
               <Typography variant="h5">Lecturer-In-Charge</Typography>
 
               {licReq != null ? (
-                <Typography variant="h5" color={statusText}>
+                <Typography variant="h5" color={statusText(licReq)}>
                   Approval Status : {getStatus(licReq.status)}
                 </Typography>
               ) : null}
@@ -566,13 +565,13 @@ function ApprovalMain() {
               </Typography>
 
               {venueBooking != null ? (
-                <Typography variant="h5" color={statusText}>
+                <Typography variant="h5">
                   Booking Status : {venueBooking.booking_status}
                 </Typography>
               ) : null}
 
               {venueBooking != null ? (
-                <Typography variant="h5" color={statusText}>
+                <Typography variant="h5">
                   Payment Status : {venueBooking.payment_status}
                 </Typography>
               ) : null}
@@ -637,7 +636,7 @@ function ApprovalMain() {
               <Typography variant="h5">Budget Approval</Typography>
 
               {budgetReq != null ? (
-                <Typography variant="h5" color={statusText}>
+                <Typography variant="h5" color={statusText(budgetReq)}>
                   Approval Status : {getStatus(budgetReq.status)}
                 </Typography>
               ) : null}
@@ -726,11 +725,11 @@ function ApprovalMain() {
               <Typography variant="h5">Administration</Typography>
 
               {adminReq != null ? (
-                <Typography variant="h5" color={statusText}>
+                <Typography variant="h5" color={statusText(adminReq)}>
                   Approval Status : {getStatus(adminReq.status)}
                 </Typography>
               ) : null}
-              
+
               {adminReq != null && adminReq.status != "Not_Yet_Sent" ? (
                 <Typography variant="h5">
                   {" "}

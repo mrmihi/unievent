@@ -2,6 +2,7 @@ const { Approval_Request } = require("../models/approval.model");
 
 const getApprovalRequestsOfUser = async (userID) => {
     const eventApprovals = await Approval_Request.find({ requested_to: userID })
+            .populate("approval_id")
             .populate("requested_to")
             .populate("requested_by")
     
