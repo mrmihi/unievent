@@ -10,6 +10,8 @@ import { useParams } from 'react-router-dom';
 const VolunteerSchedule = () => {
   const [opportunities, setOpportunities] = useState();
   const [selectedOpportunity, setSelectedOpportunity] = useState(null);
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
   const localizer = momentLocalizer(moment);
   const [loading, setLoading] = useState(true);
 
@@ -23,6 +25,7 @@ const VolunteerSchedule = () => {
         if (res.data.data) {
           console.log(res.data.data);
           setOpportunities(res.data.data);
+          console.log(new Date(opportunities.date));
           setLoading(false);
         }
       })
@@ -36,26 +39,33 @@ const VolunteerSchedule = () => {
     return <div>Loading...</div>;
   }
 
+  const startDate = moment(opportunities.date).toDate();
+  const endDate = moment(opportunities.date).add(4, 'hour').toDate();
+
+  const event = {
+    title: opportunities.name,
+    start: startDate,
+    end: endDate,
+  };
+
+  console.log(event);
+
   const handleSelectEvent = (event) => {
     setSelectedOpportunity(event);
+    setImage(opportunities.opportunityImage);
+    setDescription(opportunities.description);
   };
 
   return (
     <Box m="1.5rem 2.5rem">
       <Box>
         <FlexBetween>
-          <Header title="Event Calendar" />
+          <Header title="Schedule" />
         </FlexBetween>
         <Box mt={10}>
           <Calendar
             localizer={localizer}
-            events={[
-              {
-                title: opportunities.name,
-                start: new Date(opportunities.date),
-                end: new Date(opportunities.date + 1 * 60 * 60 * 1000), // Adding 1 hour duration
-              },
-            ]}
+            events={[event]}
             eventPropGetter={(event, start, end, isSelected) => {
               let backgroundColor = '#3174ad';
 
@@ -96,10 +106,19 @@ const VolunteerSchedule = () => {
           <div className="p-4 bg-gray-100">
             <div className="bg-white p-4 rounded-lg shadow-md">
               <h2 className="text-lg font-semibold mb-4">
-                {selectedOpportunity.name}
+                {selectedOpportunity.title}
               </h2>
               <div className="grid grid-cols-2 gap-4">
                 <div>
+                  <img
+                    src={image}
+                    className="mb-4"
+                    alt=""
+                    width="400"
+                    height="300"
+                  />
+                  <div className="mb-2 text-base">{description}</div>
+
                   <p className="text-gray-600">
                     Start Time:{' '}
                     {moment(selectedOpportunity.start).format(
