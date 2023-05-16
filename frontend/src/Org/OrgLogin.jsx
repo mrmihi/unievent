@@ -66,9 +66,9 @@ export default function OLoginPage() {
         console.log(response.data);
         console.log(_id);
 
-        Cookies.set('id', _id, { expires: 1 });
-        Cookies.set('accessToken', accessToken, { expires: 1 });
-        Cookies.set('name', name, { expires: 1 });
+        Cookies.set('org_id', _id, { expires: 1 });
+        Cookies.set('org_accessToken', accessToken, { expires: 1 });
+        Cookies.set('org_name', name, { expires: 1 });
 
         navigate('/org/dashboard/');
       } catch (error) {
