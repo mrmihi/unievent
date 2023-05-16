@@ -112,13 +112,6 @@ const deleteBudget = async (req, res) => {
         else{
             res.status(200).json({message: 'Budget deleted successfully'})
         }
-
-
-
-
-
-
-
     }catch(error){
         res.status(500).json({message: error.message})
     }

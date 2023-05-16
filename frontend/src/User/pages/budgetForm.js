@@ -138,61 +138,42 @@ export default function BudgetForm() {
   const [totalIncomeAmount, setTotalIncomeAmount] = useState(0);
   const [totalExpenseAmount, setTotalExpenseAmount] = useState(0);
   const [budgetId, setBudgetId] = useState(null);
-
-  
-
-  // useEffect(() => {
-  //   axios.post('http://localhost:3000/api/budgets')
-  //     .then(res => {
-  //       console.log(res.data);
-  //      setIncome(res.data.income.description);
-  //      setIncome(res.data.income.amount);
-  //      setExpenses(res.data.expenses.description);
-  //       setExpenses(res.data.expenses.amount);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }, []);
-
-  
-  
-
+  const [eventName, setEventName] = useState(null);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();// prevent default form submission
-
+    event.preventDefault(); // prevent default form submission
+  
     const Budget = {
-      income:income,
-      expenses:expenses,
-      eventId:eventid
-    }
-
-
-
+      income: income,
+      expenses: expenses,
+      eventId: eventid,
+    };
+  
     try {
-      console.log(Budget);
-
-
-
-      await axios.post('/api/budgets/create',Budget);// send post request to register route
-      alert('Successful');// alert user
-      // setIncome(true);
-
-      
-      
-
-      
-
-
+      console.log("budget",Budget);
+  
+      // Send GET request to retrieve event information based on eventid
+      const eventResponse = await axios.get(`http://localhost:5000/api/events/${eventid}`);
+      console.log("data",eventResponse.data);
+      console.log(eventResponse.data.name);
+      // Extract the event name from the response data
+      const eventName = eventResponse.data.name;
+      console.log(eventName);
+  
+      // Update the state with the event name
+      setEventName(eventName);
+  
+      // Send POST request to create budget
+      await axios.post('http://localhost:5000/api/budgets/create', Budget);
+  
+      alert('Successful'); // alert user
     } catch (error) {
-      // console.log(error);
-      alert('Error');// alert user
-      // setRegisterError(true);
+      console.log(error);
+      alert('Error'); // alert user
     }
-
-
   };
+
+  
 
 
   if (!incomerows) return (<>Loading....</>)
@@ -208,7 +189,7 @@ export default function BudgetForm() {
           <br></br>
           Organization: Foss
           <br></br>
-          Event Name: CodeGen 2022
+          Event Name: {eventName} {eventid}
           <br></br>
           Date: {currentDate}
         </Typography>
