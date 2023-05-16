@@ -87,6 +87,7 @@ import FBills from "./Finance/scenes/finance/bills";
 import FPayments from "./Finance/scenes/finance/payments";
 import FReport from "./Finance/scenes/finance/report";
 import FPayPal from "Finance/scenes/finance/paymentform";
+import FPaymentOptions from "Finance/scenes/finance/paymentpage";
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -256,6 +257,7 @@ function App() {
 
                 {/* Finance Routes */}
                         <Route path="/finance/paypal" element={<FPayPal />} />
+                        <Route path="/finance/paymentpage" element={<FPaymentOptions />} />
                         <Route path="*" element={<h1>Page not found!</h1>} />
                         <Route path="/admin/finance" element={<FLoginPage />} />
                         <Route element={<FLayout />}>
@@ -267,6 +269,7 @@ function App() {
                             <Route path="/admin/finance/bills" element={<FBills />} />
                             <Route path="/admin/finance/payments" element={<FPayments />} />
                             <Route path="/admin/finance/report" element={<FReport />} />
+                            
                         </Route>
               {/* venue add to an event */}
               <Route>
