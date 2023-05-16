@@ -50,10 +50,10 @@ const navItems = [
         text: "Attendees",
         icon: <Groups2Outlined />,
     },
-    {
-        text: "DataFinalists",
-        icon: <ReceiptLongOutlined />,
-    },
+    // {
+    //     text: "DataFinalists",
+    //     icon: <ReceiptLongOutlined />,
+    // },
     {
         text: "RSVPEMAIL",
         icon: <EmailIcon />,

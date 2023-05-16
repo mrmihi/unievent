@@ -30,6 +30,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import AttendeeStatusPDF from './AttendeeStatusPDF';
 const AttendeeStatus = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
@@ -335,6 +336,7 @@ const AttendeeStatus = () => {
               >
                 Add New Attendee Status
               </Button>
+              <AttendeeStatusPDF tableData={tableData} />
             </Box>
           )}
         />
@@ -396,17 +398,19 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                   </LocalizationProvider>
                 );
               } else {
-                return (<TextField
-                  key={column.accessorKey}
-                  label={column.header}
-                  name={column.accessorKey}
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                />);
+                return (
+                  <TextField
+                    key={column.accessorKey}
+                    label={column.header}
+                    name={column.accessorKey}
+                    onChange={(e) =>
+                      setValues({
+                        ...values,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                );
               }
             })}
           </Stack>

@@ -54,10 +54,10 @@ function App() {
               <Route path="/attendeemanager/dashboard" element={<Dashboard />} />
               <Route path="/attendeemanager/feedBacks" element={<FeedBacks />} />
               <Route path="/attendeemanager/attendees" element={<Attendees />} />
-              <Route
+              {/* <Route
                 path="/attendeemanager/dataFinalists"
                 element={<DataFinalists />}
-              />
+              /> */}
               <Route path="/attendeemanager/overview" element={<Overview />} />
               <Route path="/attendeemanager/daily" element={<Daily />} />
               <Route path="/attendeemanager/monthly" element={<Monthly />} />
