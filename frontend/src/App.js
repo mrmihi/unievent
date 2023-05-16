@@ -4,6 +4,9 @@ import { useMemo } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { themeSettings } from 'theme';
 import { Formik } from 'formik';
+import { createContext, useEffect, useState } from 'react';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 import Layout from './Attendee/scenes/layout';
 import Dashboard from './Attendee/scenes/dashboard';
@@ -98,6 +101,14 @@ function App() {
     () => createTheme(themeSettings('light'))
     // , [mode]
   );
+
+  useEffect(() => {
+    Aos.init({ offset: 0, duration: 1500 });
+    window.addEventListener('load', Aos.refresh);
+    if (window.location.href.includes('#rules')) {
+      document.getElementById('rules').scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -3,13 +3,12 @@ import eventService from './event.service';
 import { useEffect, useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { WidthNormal } from '@mui/icons-material';
 import CalendarEvent from './scenes/CalendarEvent';
 import Landing from './components/Landing';
 import Header from './components/Header';
 import moment from 'moment';
 import { IoLocationSharp } from 'react-icons/io5';
-
+import Description from './components/Description';
 import React from 'react';
 import './styles/singleEvent.css';
 import Loading from './components/Loading';
@@ -102,7 +101,7 @@ function SingleEvent() {
         </div>
       </div> */}
 
-      <div className="mx-5">
+      <div className="mx-5 mt-8">
         <p className=" text-3xl font-extrabold">When and Where</p>
         <div className="flex justify-left mt-8">
           <span className="relative flex items-center">
@@ -133,6 +132,11 @@ function SingleEvent() {
             {event.venue}
           </span>
         </div>
+
+        <Description
+          description={event.description}
+          categories={event.categories}
+        />
       </div>
     </>
   );
