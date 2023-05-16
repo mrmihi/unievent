@@ -210,7 +210,6 @@ function App() {
                   element={<ResourcesTable />}
                 />
               </Route>
-              <Route path="*" element={<PageNotFound />} />
 
               {/*Partner Routes */}
               <Route element={<OLayout />}>

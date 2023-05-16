@@ -17,6 +17,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import resourcesService from '../resources.service';
 import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -34,6 +35,9 @@ function Copyright() {
 const theme = createTheme();
 
 export default function AllResources({ resources }) {
+  const { eid } = useParams();
+  //const { vid } = useParams();
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -78,6 +82,20 @@ export default function AllResources({ resources }) {
                     <Typography>
                       Available Quantity : {resource.availableQty}
                     </Typography>
+                    <div
+                      className="mt-5 w-3/4"
+                      style={{ marginTop: '-6rem', marginBottom: '3.5rem' }}
+                    >
+                      <Button
+                        variant="contained"
+                        className="w-full"
+                        style={{ marginTop: '1rem' }}
+                        component={Link}
+                        to={`/resource/${resource._id}/reservation/${eid}`}
+                      >
+                        Reserve
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               </Grid>
