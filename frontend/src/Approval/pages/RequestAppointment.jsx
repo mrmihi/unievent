@@ -14,81 +14,115 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const RequestAppointment = () => {
+  const [date, setDate] = useState(null);
+  const [dateError, setDateError] = useState(null);
+
+  const sixAM = moment("06:00", "HH:mm");
+  const eightPM = moment("20:00", "HH:mm");
+  const [startTime, setStartTime] = useState(null);
+  const [startTimeError, setStartTimeError] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [endTimeError, setEndTimeError] = useState(null);
+
+  const [mode, setMode] = useState(null);
+  const [modeError, setModeError] = useState(null);
+
+  const [location, setLocation] = useState(null);
+  const [locationError, setLocationError] = useState(null);
+
+  const [meetinglink, setMeetingLink] = useState(null);
+  const [meetinglinkError, setMeetingLinkError] = useState(null);
+
+  const [appointmentNote, setAppointmentNote] = useState(null);
+  const [appointmentNoteError, setAppointmentNoteError] = useState(null);
+
   const APPOINTMENT_MODE = {
     VIRTUAL: "Virtual",
     PHYSICAL: "Physical",
     EITHER: "Either",
   };
 
-  const appointmentSchema = Yup.object().shape({
-    meetinglink: Yup.string().url("Meeting Link must be a valid URL"),
-  });
+  const handleStartTimeChange = (value) => {
+    console.log(value);
 
-  const formik = useFormik({
-    initialValues: {
-      meetinglink: "",
-    },
-    validationSchema: appointmentSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+    switch (String(value)) {
+      case "maxTime":
+        setStartTimeError("Must be after 6 AM");
+        break;
+      case "minTime":
+        setStartTimeError("Must be before 8 PM");
+        break;
+      default:
+        setStartTimeError(null);
+    }
+    console.log(startTimeError);
+  };
 
-  const [date, setDate] = useState(null);
-  const [dateError, setDateError] = useState(null);
-  const [startTime, setStarTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
+  const handleEndTimeChange = (value) => {
+    switch (String(value)) {
+      case "maxTime":
+        setEndTimeError("Must be after 6 AM");
+        break;
 
-  const [mode, setMode] = useState("");
-  const [location, setLocation] = useState("");
-  const [meetinglink, setMeetingLink] = useState("");
-  const [appointmentNote, setAppointmentNote] = useState("");
+      case "minTime":
+        setEndTimeError("Must be before 8 PM");
+        break;
 
-  // useEffect ( () => {
-  //   if (date == null) {
-  //     setDateError("Required");
-  //   } else {
-  //     setDateError("");
-  //   }
+      case "greater":
+        setEndTimeError("Start time cannot be after the end time ");
+        break;
 
-  //   console.log(`${dateError}`)
-  //   toast.error(`Error :  ${Boolean(dateError)}`, {position: "top-right"})
-  // }, [date])
+      case "equal":
+        setEndTimeError("Start and end time cannot be same");
+        break;
 
-  const handleDateBlur = () => {
-    toast.info(`OnBlur `, {position:"top-center"})
-    if (!validateDate(date)) {
-      setDateError("Invalid date");
-    } else {
-      setDateError(null);
+      default:
+        setEndTimeError(null);
     }
   };
 
-  const handleDateChange = (value) => {
-    toast.error(`value :  ${value}`, { position: "top-right" });
-    setDate(value);
-    if (!validateDate(value)) {
-      setDateError("Invalid date");
-    } else {
-      setDateError(null);
+  const handleLinkChange = (value) => {
+    setMeetingLink(value);
+    setMeetingLinkError(null);
+    if (meetinglink == "" || meetinglink == null)
+      setMeetingLinkError("Required");
+    else
+    try {
+      new URL(value);
+    } catch (error) {
+      setMeetingLinkError("Invalid URL");
     }
-  };
-
-  const validateDate = (value) => {
-    return value !== null;
   };
 
   const handleSubmitBtn = () => {
-    if (!validateDate(date)) {
-      toast.error(`validation failed :  ${date}`, { position: "top-right" });
-      setDateError("Invalid date");
-    } else {
-      setDateError(null);
+    if (date == null) setDateError("Required");
+    if (startTime == null) setStartTimeError("Required");
+    if (endTime == null) setEndTimeError("Required");
+
+    if (mode == null) setModeError("Required");
+    else {
+      if (mode == "Virtual") {
+        if (meetinglink == null) {
+          setMeetingLinkError("Required");
+          setLocationError(null);
+        } else handleLinkChange(meetinglink);
+      } else if (mode == "Physical") {
+        if (location == null) {
+          setMeetingLinkError(null);
+          setLocationError("Required");
+        }
+      } else if (mode == "Either") {
+        if (location == null || location == "") setLocationError("Required");
+        if (meetinglink == null || meetinglink == "")
+          setMeetingLinkError("Required");
+        else handleLinkChange(meetinglink);
+      }
     }
+
+    if (appointmentNote == null) setAppointmentNoteError("Required");
+
+    toast.info("Submit clicked", { position: "top-center" });
   };
-  const handleFocus = () => {
-    toast.info(`OnBlur `, {position:"top-center"})
-  }
 
   return (
     <Box className="flex flex-col items-center h-full">
@@ -107,7 +141,7 @@ const RequestAppointment = () => {
             id="date"
             name="date"
             label="Date"
-            disablePast="true"
+            disablePast
             value={date}
             onError={(newError) => setDateError(newError)}
             slotProps={{
@@ -116,9 +150,10 @@ const RequestAppointment = () => {
                 error: Boolean(dateError),
               },
             }}
-            onBlur={handleDateBlur}
-            onChange={handleDateChange}
-            onFocus={handleFocus}
+            onChange={(value) => {
+              setDate(value);
+              setDateError(null);
+            }}
           ></DatePicker>
 
           <TimePicker
@@ -126,6 +161,19 @@ const RequestAppointment = () => {
             name="start_time"
             label="Start Time"
             value={startTime}
+            minTime={sixAM}
+            maxTime={eightPM}
+            onError={handleStartTimeChange}
+            slotProps={{
+              textField: {
+                helperText: startTimeError,
+                error: Boolean(startTimeError),
+              },
+            }}
+            onChange={(value) => {
+              setStartTime(value);
+              setStartTimeError(null);
+            }}
           ></TimePicker>
 
           <TimePicker
@@ -133,11 +181,66 @@ const RequestAppointment = () => {
             name="end_time"
             label="End Time"
             value={endTime}
+            minTime={sixAM}
+            maxTime={eightPM}
+            onError={handleEndTimeChange}
+            slotProps={{
+              textField: {
+                helperText: endTimeError,
+                error: Boolean(endTimeError),
+              },
+            }}
+            onChange={(value) => {
+              setEndTime(value);
+              const date1 = Date.parse(startTime);
+              const date2 = Date.parse(value);
+              if (date1 == date2)
+                setEndTimeError("Start and end time cannot be same");
+              else if (date1 > date2)
+                setEndTimeError("End time cannot be before the end time ");
+              else setEndTimeError(null);
+            }}
           ></TimePicker>
-          <TextField id="mode" name="mode" label="Mode" select value={mode}>
-            {Object.keys(APPOINTMENT_MODE).map((mode) => (
-              <MenuItem key={mode} value={APPOINTMENT_MODE[mode]}>
-                {APPOINTMENT_MODE[mode]}
+
+          <TextField
+            id="mode"
+            name="mode"
+            label="Mode"
+            select
+            value={mode}
+            onChange={(event) => {
+              setMode(event.target.value);
+              setModeError(null);
+              if (event.target.value == "Physical") {
+                setMeetingLinkError(null);
+                if (location == null || location == "")
+                  setLocationError("Required");
+              }
+
+              if (event.target.value == "Either") {
+                handleLinkChange(meetinglink);
+                if (location == null || location == "")
+                  setLocationError("Required");
+              }
+
+              if (event.target.value == "Virtual") {
+                handleLinkChange(meetinglink);
+                setLocationError(null);
+              }
+            }}
+            onError={(err) => setModeError(err)}
+            helperText={modeError}
+            error={Boolean(modeError)}
+            slotProps={{
+              textField: {
+                helperText: modeError,
+                error: Boolean(modeError),
+              },
+            }}
+          >
+            {Object.keys(APPOINTMENT_MODE).map((x) => (
+              <MenuItem key={x} value={APPOINTMENT_MODE[x]}>
+                {APPOINTMENT_MODE[x]}
               </MenuItem>
             ))}
           </TextField>
@@ -147,6 +250,13 @@ const RequestAppointment = () => {
             name="location"
             label="Location"
             value={location}
+            onChange={(event) => {
+              setLocation(event.target.value);
+              setLocationError(null);
+            }}
+            onError={(err) => setLocationError(err)}
+            helperText={locationError}
+            error={Boolean(locationError)}
           />
 
           <TextField
@@ -154,9 +264,10 @@ const RequestAppointment = () => {
             name="meetinglink"
             label="Meeting Link"
             value={meetinglink}
-            onBlur={handleDateBlur}
-            onChange={handleDateChange}
-            onFocus={handleFocus}
+            onChange={(event) => handleLinkChange(event.target.value)}
+            onError={(err) => setMeetingLinkError(err)}
+            helperText={meetinglinkError}
+            error={Boolean(meetinglinkError)}
           />
 
           <TextField
@@ -165,7 +276,13 @@ const RequestAppointment = () => {
             label="Appointment Note"
             multiline
             rows={4}
-            value={appointmentNote}
+            onChange={(value) => {
+              setAppointmentNote(value);
+              setAppointmentNoteError(null);
+            }}
+            onError={(err) => setAppointmentNoteError(err)}
+            helperText={appointmentNoteError}
+            error={Boolean(appointmentNoteError)}
           />
           <Button variant="contained" size="large" onClick={handleSubmitBtn}>
             Submit
