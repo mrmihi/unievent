@@ -115,6 +115,7 @@ import USignUp from './User/pages/signUp';
 import UBudgetForm from './User/pages/budgetForm';
 import UBudgetView from './User/pages/budgetView';
 import UserProfileEdit from './User/pages/UserProfileEdit';
+import VenuesReviewsAdd from 'Org/VenueReviews/pages/VenueReviewsAdd';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -192,13 +193,15 @@ function App() {
                 <Route path="events-draft" element={<AllEventsTable />} />
                 <Route
                   path="/org/dashboard/events/approval/print/:id"
-                  element={<PrintAll />}
-                />
+                  element={<PrintAll />} />
                 {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
                 <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
-                <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
+              <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
+
+                <Route path='/org/dashboard/venues/reviews' element={<VenuesReviewsAdd/>}/> 
               </Route>
+
               {/* Staff Dashbaord */}
               <Route path="/admin" element={<ALoginPage />} />
               <Route element={<ALayout />}>

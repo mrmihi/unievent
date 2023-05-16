@@ -84,47 +84,14 @@ const navItems = [
     text: 'Opportunities',
     icon: <PeopleIcon />,
   },
-  //   {
-  //     text: "Attendees",
-  //     icon: <Groups2Outlined />,
-  //   },
-  //   {
-  //     text: "DataFinalists",
-  //     icon: <ReceiptLongOutlined />,
-  //   },
-
-  //   {
-  //     text: "Venue Management",
-  //     icon: null,
-  //   },
-  //   {
-  //     text: "Overview",
-  //     icon: <PointOfSaleOutlined />,
-  //   },
-  //   {
-  //     text: "Daily",
-  //     icon: <TodayOutlined />,
-  //   },
-  //   {
-  //     text: "Monthly",
-  //     icon: <CalendarMonthOutlined />,
-  //   },
-  //   {
-  //     text: "Breakdown",
-  //     icon: <PieChartOutlined />,
-  //   },
-  //   {
-  //     text: "Resource Management",
-  //     icon: null,
-  //   },
-  //   {
-  //     text: "Administrator",
-  //     icon: <AdminPanelSettingsOutlined />,
-  //   },
-  //   {
-  //     text: "AttendeeStatus",
-  //     icon: <AssignmentIndOutlined />,
-  //   },
+    {
+      text: "Review Management",
+      icon: null,
+    },
+    {
+      text: "Venues",
+      icon: <AssignmentIndOutlined />,
+    },
 ];
 
 const Sidebar = ({
@@ -189,12 +156,15 @@ const Sidebar = ({
                     </Typography>
                   );
                 }
-                const lcText = text.toLowerCase();
+                let lcText = text.toLowerCase();
 
                 return (
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
+                        if (lcText === 'venues') {
+                          lcText = "venues/reviews"
+                        } 
                         navigate(`/org/dashboard/${lcText}`);
                         setActive(lcText);
                       }}
