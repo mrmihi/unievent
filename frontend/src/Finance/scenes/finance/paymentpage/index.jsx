@@ -138,7 +138,8 @@ const paymentOptions = () => {
                   style={{ fontStyle: 'bold' }}
                 >
                   Instructions
-                </Typography>
+                  </Typography>
+                  Please review and accept the <a href="https://www.paypal.com/lk/legalhub/useragreement-full" target="_blank" rel="noopener noreferrer" style={{fontStyle: 'italic' ,textDecoration: 'underline', color: 'blue'}}>PayPal User Agreement</a> before proceeding.
                 To make a payment using PayPal, please follow these
                 instructions:
                 <ol>
