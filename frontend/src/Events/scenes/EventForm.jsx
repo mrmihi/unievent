@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -22,6 +23,7 @@ import { DateField } from '@mui/x-date-pickers/DateField';
 import { Dayjs } from 'dayjs';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
 
 const validationSchema = yup.object({
   name: yup.string().required('Name is required'),
@@ -38,6 +40,8 @@ export function EventForm() {
   const [serverSuccessMessage, setServerSuccessMessage] = useState('');
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [imageUrl, setimageUrl] = useState('');
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -57,7 +61,8 @@ export function EventForm() {
       const newValues = {
         ...values,
         headerImage: imageUrl,
-        orgId: '642e4928973a5984d960f4bc',
+        orgId: Cookies.get('org_id'),
+        org: Cookies.get('org_name'),
       };
 
       try {
@@ -72,10 +77,12 @@ export function EventForm() {
       }
 
       resetForm();
+      formik.setFieldValue('headerImage', null);
       setIsSubmitting(false);
     },
   });
 
+  console.log('Org ID', Cookies.get('org_id'));
   const uploadImage = () => {
     if (imageSelected) {
       const formData = new FormData();

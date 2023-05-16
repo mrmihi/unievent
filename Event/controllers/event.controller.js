@@ -6,7 +6,7 @@ const tokenHelper = require('../helpers/token.helper');
 const jwt = require('jsonwebtoken');
 
 const createEvent = async (req, res) => {
-  const event = await EventService.createEvent(req.body, req.org);
+  const event = await EventService.createEvent(req.body);
   console.log(req.body);
   return makeResponse({
     res,
@@ -17,8 +17,10 @@ const createEvent = async (req, res) => {
 
 //for shabs
 const getEventById = async (req, res) => {
-  const event = await EventService.getEventById(req.params.id).populate("venue").populate("orgId");
-  
+  const event = await EventService.getEventById(req.params.id)
+    .populate('venue')
+    .populate('orgId');
+
   if (!event)
     return makeResponse({
       res,
@@ -34,7 +36,7 @@ const getEventById = async (req, res) => {
 };
 
 const getAllEvents = async (req, res) => {
-  const events = await Event.find({}).populate("venue").populate("orgId");
+  const events = await Event.find({}).populate('venue').populate('orgId');
   res.json(events);
 };
 
