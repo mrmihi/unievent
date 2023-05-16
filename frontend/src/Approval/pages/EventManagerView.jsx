@@ -101,8 +101,7 @@ function EventManagerView() {
       })
         .then((res) => {
           console.log(res.data[0]);
-          if(res.data[0].venue != null)
-            setVenueData(res.data[0]);
+          if (res.data[0].venue != null) setVenueData(res.data[0]);
         })
         .catch((err) => {
           setVenueData(null);
@@ -129,9 +128,6 @@ function EventManagerView() {
     navigate(`/org/dashboard/events/approval/${eventID}`);
   };
   const handleRequestAppointment = () => {
-<<<<<<< HEAD
-    navigate(`/appointment/${eventID}`);
-=======
     navigate(`/org/dashboard/appointment/${eventID}`);
   };
   const handleMakePaymentBtn = () => {
@@ -140,7 +136,6 @@ function EventManagerView() {
 
   const handlePublishBtn = () => {
     //Dinal
->>>>>>> ad21b35181017ed403d1459837275e8732d7087a
   };
 
   function approvalStatus(status) {
@@ -170,54 +165,30 @@ function EventManagerView() {
     <div className="w-full">
       <ToastContainer />
       <Box className="px-8 w-full">
-<<<<<<< HEAD
-        <Typography id="eventName" variant="h2">
-          {eventData != null ? eventData.name : 'Event Name'}
-        </Typography>
-        <Typography id="eventDescription" variant="h4">
-          {eventData != null ? eventData.description : 'Description'}
-        </Typography>
-        <Typography id="eventDate" variant="h5">
-          {eventData != null
-            ? String(eventData.startTime).split('T')[0]
-            : 'Date'}
-        </Typography>
-        <Typography id="eventStartTime" variant="h5">
-          {eventData != null
-            ? String(eventData.startTime).split('T')[1]
-            : 'Start Time'}
-        </Typography>
-        <Typography id="eventEndTime" variant="h5">
-          {eventData != null
-            ? String(eventData.endTime).split('T')[1]
-            : 'End Time'}
-        </Typography>
-=======
         <div className="flex flex-row">
           <div className="flex flex-col w-2/3">
             <Typography id="eventName" variant="h2">
-              {eventData != null ? eventData.name : "Event Name"}
+              {eventData != null ? eventData.name : 'Event Name'}
             </Typography>
             <Typography id="eventDescription" variant="h4">
-              {eventData != null ? eventData.description : "Description"}
+              {eventData != null ? eventData.description : 'Description'}
             </Typography>
             <Typography id="eventDate" variant="h5">
               {eventData != null
-                ? String(eventData.startTime).split("T")[0]
-                : "Date"}
+                ? String(eventData.startTime).split('T')[0]
+                : 'Date'}
             </Typography>
             <Typography id="eventStartTime" variant="h5">
               {eventData != null
-                ? String(eventData.startTime).split("T")[1]
-                : "Start Time"}
+                ? String(eventData.startTime).split('T')[1]
+                : 'Start Time'}
             </Typography>
             <Typography id="eventEndTime" variant="h5">
               {eventData != null
-                ? String(eventData.endTime).split("T")[1]
-                : "End Time"}
+                ? String(eventData.endTime).split('T')[1]
+                : 'End Time'}
             </Typography>
           </div>
->>>>>>> ad21b35181017ed403d1459837275e8732d7087a
 
           <div className="flex flex-row justify-center align-middle items-center w-1/3 ">
             {disabled ? (
@@ -257,23 +228,6 @@ function EventManagerView() {
               <Typography variant="h4" id="eventVenue">
                 Event Venue
               </Typography>
-<<<<<<< HEAD
-              <Typography variant="h5" id="eventVenue" color="secondary">
-                {venueData != null
-                  ? 'Location : ' + venueData.venue.name
-                  : 'Not added yet'}
-              </Typography>
-              <Typography variant="h5" id="eventVenueStatus" color="secondary">
-                {venueData != null
-                  ? 'Status : ' + venueData.booking_status
-                  : ''}
-              </Typography>
-              <Typography
-                variant="h6"
-                id="eventVenue"
-                color="secondary"
-              ></Typography>
-=======
               {venueData != null ? (
                 <Typography variant="h5" id="eventVenue">
                   Location : {venueData.venue.name}
@@ -285,17 +239,16 @@ function EventManagerView() {
               )}
               <Typography variant="h5" id="eventVenueStatus">
                 {venueData != null
-                  ? "Booking Status : " + venueData.booking_status
-                  : ""}
+                  ? 'Booking Status : ' + venueData.booking_status
+                  : ''}
               </Typography>
               <Typography variant="h5" id="eventVenuePaymentStatus">
                 {venueData != null
-                  ? "Payment Status : " + venueData.payment_status
-                  : ""}
+                  ? 'Payment Status : ' + venueData.payment_status
+                  : ''}
               </Typography>
 
               <Typography variant="h6" id="eventVenue"></Typography>
->>>>>>> ad21b35181017ed403d1459837275e8732d7087a
               <Box className="flex w-full justify-around flex-row my-2">
                 {venueData == null ? (
                   <Button
@@ -306,49 +259,27 @@ function EventManagerView() {
                   >
                     Add Venue
                   </Button>
-                ) : venueData.booking_status == "approved" &&
-                  venueData.payment_status != "completed" ? (
+                ) : venueData.booking_status == 'approved' &&
+                  venueData.payment_status != 'completed' ? (
                   <Button
                     variant="contained"
                     color="secondary"
                     size="large"
-<<<<<<< HEAD
-                    disabled
-                  >
-                    Request Approval
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="large"
-                    onClick={handleRequestAppointment}
-                  >
-                    Request Approval
-                  </Button>
-=======
                     onClick={handleMakePaymentBtn}
                   >
                     Make Payment
                   </Button>
-                ) : venueData.booking_status == "approved" &&
-                  venueData.payment_status == "completed" ? (
+                ) : venueData.booking_status == 'approved' &&
+                  venueData.payment_status == 'completed' ? (
                   <Typography variant="h4" id="eventResource" color="#28a745">
                     Completed
                   </Typography>
-                ) : 
-                venueData.booking_status == "pending" &&
-                  venueData.payment_status == "pending" ? (
-                    <Button
-                    variant="outlined"
-                    color="secondary"
-                    size="large" >
+                ) : venueData.booking_status == 'pending' &&
+                  venueData.payment_status == 'pending' ? (
+                  <Button variant="outlined" color="secondary" size="large">
                     Venue Added
                   </Button>
-                ) : (
-                  null
->>>>>>> ad21b35181017ed403d1459837275e8732d7087a
-                )}
+                ) : null}
               </Box>
             </div>
           </Box>
