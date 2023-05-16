@@ -54,28 +54,28 @@ const VBookings = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 axios.put(`http://localhost:5000/api/bookings/${selectedEvent._id}`, { booking_status: selectedStatus })
-                .then((res) => {
-                    if (res.data) {
-                        if (selectedStatus === "approved") {
-                            toast.success("Booking approved!");
-                        } else {
-                            toast.success("Booking rejected!");
+                    .then((res) => {
+                        if (res.data) {
+                            if (selectedStatus === "approved") {
+                                toast.success("Booking approved!");
+                            } else {
+                                toast.success("Booking rejected!");
+                            }
+                            setSelectedEvent(null);
+                            setSelectedStatus("");
+
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
                         }
-                        setSelectedEvent(null);
-                        setSelectedStatus("");
-    
-                        setTimeout(() => {
-                            window.location.reload();
-                        }  , 2000);
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             }
         })
     };
-    
+
     return (
         <Box m="1.5rem 2.5rem">
             <Box>
@@ -121,29 +121,57 @@ const VBookings = () => {
                     />
                 </Box>
                 {selectedEvent && (
-                    <Box mt={10} style={{ marginBottom: "2rem" }}>
-                        <h2>{selectedEvent.event.name}</h2>
-                        <p>Start Time: {moment(selectedEvent.start).format("YYYY-MM-DD hh:mm A")}</p>
-                        <p>End Time: {moment(selectedEvent.end).format("YYYY-MM-DD hh:mm A")}</p>
-                        <p>Status: {selectedEvent.status}</p>
-                        <p>Price: {selectedEvent.price}</p>
-                        <p>Venue: {selectedEvent.venue.name}</p>
-                        <p>Organizer: {selectedEvent.organizer.name}</p>
-                        <Box mt={3}>
-                            <InputLabel id="status-label">Booking Status</InputLabel>
-                            <Select
-                                labelId="status-label"
-                                id="status-select"
-                                value={selectedStatus}
-                                onChange={(e) => setSelectedStatus(e.target.value)}
-                                style={{ marginRight: "10px" }}
-                            >
-                                <MenuItem value="approved">Approved</MenuItem>
-                                <MenuItem value="rejected">Rejected</MenuItem>
-                            </Select>
-                            <Button variant="contained" onClick={handleUpdateStatus}>Update Status</Button>
-                        </Box>
-                    </Box>
+                    <div className="p-4 bg-gray-100">
+                        <div className="bg-white p-4 rounded-lg shadow-md">
+                            <h2 className="text-lg font-semibold mb-4">{selectedEvent.event.name}</h2>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p className="text-gray-600">
+                                        Start Time: {moment(selectedEvent.start).format("YYYY-MM-DD hh:mm A")}
+                                    </p>
+                                    <p className="text-gray-600">
+                                        End Time: {moment(selectedEvent.end).format("YYYY-MM-DD hh:mm A")}
+                                    </p>
+                                    <p className="text-gray-600">Venue Approval Status: {selectedEvent.status}</p>
+                                </div>
+                                <div>
+                                    <p className="text-gray-600">Price: {selectedEvent.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+                                    <p className="text-gray-600">Venue: {selectedEvent.venue.name}</p>
+                                    <p className="text-gray-600">Organizer: {selectedEvent.organizer.name}</p>
+                                </div>
+                            </div>
+                            <Box mt={4}>
+                                <InputLabel id="status-label">Booking Status</InputLabel>
+                                <Select
+                                    labelId="status-label"
+                                    id="status-select"
+                                    value={selectedStatus}
+                                    onChange={(e) => setSelectedStatus(e.target.value)}
+                                    sx={{ width: 200 }}
+                                >
+                                    <MenuItem disabled value="">
+                                        Select Status
+                                    </MenuItem>
+                                    <MenuItem value="approved">Approved</MenuItem>
+                                    <MenuItem value="rejected">Rejected</MenuItem>
+                                </Select>
+                                {selectedStatus === "" && (
+                                    <p className="text-gray-500 text-sm mt-2">
+                                        Please select a status to update.
+                                    </p>
+                                )}
+                            </Box>
+                            <div className="mt-4 flex justify-end">
+                                <Button
+                                    variant="contained"
+                                    onClick={handleUpdateStatus}
+                                    disabled={selectedStatus === ""}
+                                >
+                                    Update Status
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </Box>
             <Box><FlexBetween></FlexBetween></Box>

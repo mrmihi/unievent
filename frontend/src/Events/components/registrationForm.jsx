@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import confetti from 'https://esm.run/canvas-confetti@1';
 
 const userID = '643f6e981a4293c8000d4bd7';
 
@@ -69,6 +70,13 @@ const OpportunityRegister = () => {
       console.log(error.response.data);
     }
   };
+
+  function confettiX() {
+    confetti({
+      particleCount: 150,
+      spread: 60,
+    });
+  }
 
   return (
     <div>
@@ -173,6 +181,7 @@ const OpportunityRegister = () => {
                   variant="contained"
                   sx={{ padding: 2 }}
                   fullWidth
+                  onClick={confettiX}
                 >
                   Submit
                 </Button>
@@ -180,7 +189,7 @@ const OpportunityRegister = () => {
                   variant="overline"
                   sx={{ padding: 2 }}
                   fullWidth
-                  colot="error"
+                  color="error"
                   onClick={() => navigate(`/events/${id}`)}
                 >
                   <Typography variant="body" color="error">

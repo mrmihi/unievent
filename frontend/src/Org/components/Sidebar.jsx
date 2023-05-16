@@ -26,12 +26,18 @@ import {
   TrendingUpOutlined,
   PieChartOutlined,
   AssignmentIndOutlined,
+  People,
 } from '@mui/icons-material';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import EmailIcon from '@mui/icons-material/Email';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
+import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import TodayIcon from '@mui/icons-material/Today';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import PeopleIcon from '@mui/icons-material/People';
 
 const navItems = [
   {
@@ -43,12 +49,20 @@ const navItems = [
     icon: null,
   },
   {
-    text: 'Event Form',
-    icon: <FeedbackIcon />,
+    text: 'Events',
+    icon: <EmojiEventsIcon />,
   },
   {
-    text: 'Events',
-    icon: <FeedbackIcon />,
+    text: 'Public Events',
+    icon: <TheaterComedyIcon />,
+  },
+  {
+    text: 'Event Form',
+    icon: <InsertDriveFileIcon />,
+  },
+  {
+    text: 'Event Calendar',
+    icon: <TodayIcon />,
   },
   {
     text: 'Partner Management',
@@ -56,19 +70,19 @@ const navItems = [
   },
   {
     text: 'Speakers',
-    icon: <FeedbackIcon />,
+    icon: <PeopleIcon />,
   },
   {
     text: 'Sponsors',
-    icon: <FeedbackIcon />,
+    icon: <PeopleIcon />,
   },
   {
     text: 'Volunteers',
-    icon: <FeedbackIcon />,
+    icon: <PeopleIcon />,
   },
   {
     text: 'Opportunities',
-    icon: <FeedbackIcon />,
+    icon: <PeopleIcon />,
   },
   //   {
   //     text: "Attendees",
