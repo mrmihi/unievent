@@ -153,7 +153,7 @@ const AttendeeStatus = () => {
       {
         accessorKey: 'name',
         header: 'Name',
-        size: 140,
+        size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
@@ -426,13 +426,13 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   );
 };
 
-const validateRequired = (value) => !!value;
+const validateRequired = (value) => !!value.length;
 const validateEmail = (email) =>
-  !!email &&
+  !!email.length &&
   email
     .toLowerCase()
     .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     );
 const validateAge = (age) => age >= 18 && age <= 50;
 
