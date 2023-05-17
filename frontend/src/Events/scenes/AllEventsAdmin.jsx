@@ -26,6 +26,7 @@ import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import EventPDF from 'Events/pdf/EventPDF';
+import Cookies from 'js-cookie';
 
 function Copyright() {
   return (
@@ -70,9 +71,9 @@ const CustomizedInputBase = (props) => {
 export default function AllEventsAdmin() {
   const [events, setEvents] = useState([]);
   const [keyword, setKeyword] = useState('');
-
+  const orgId = Cookies.get('org_id');
   useEffect(() => {
-    eventService.getAll().then((response) => setEvents(response));
+    eventService.getEventsByOrg(orgId).then((response) => setEvents(response));
   }, []);
 
   // Search Functionality

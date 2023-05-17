@@ -58,10 +58,21 @@ const deleteEventById = async (req, res) => {
   res.sendStatus(204).end();
 };
 
+const getEventsByOrg = async (req, res) => {
+  // const token = req.headers.authorization.split(' ')[1];
+  // const decodedToken = jwt.verify(token, tokenHelper.secret);
+  // const orgId = decodedToken.id;
+  //orgId will be passed in as a parameter
+  const orgId = req.params.id;
+  const events = await Event.find({ orgId: orgId }).populate('venue');
+  res.json(events);
+};
+
 module.exports = {
   createEvent,
   getAllEvents,
   getEventById,
   updateEventById,
   deleteEventById,
+  getEventsByOrg,
 };
