@@ -12,7 +12,7 @@ const createReservation = async (req, res) => {
 
 const getAllReservations = async (req, res) => {
   try {
-    const Reservations = await Reservation.find({}).populate('resource');
+    const Reservations = await Reservation.find({}).populate('resource').populate('event');
     res.status(200).json(Reservations);
   } catch (error) {
     res.status(500).json(error);
@@ -45,34 +45,54 @@ const getReservationByOrganizerId = async (req, res) => {
   }
 };
 
-const updateReservationById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const Reservation = await Reservation.findByIdAndUpdate(
-      { _id: id },
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-    res.status(200).json(Reservation);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+// const updateReservationById = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const Reservation = await Reservation.findByIdAndUpdate(
+//       { _id: id },
+//       req.body,
+//       {
+//         new: true,
+//         runValidators: true,
+//       }
+//     );
+//     res.status(200).json(Reservation);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// };
+
+const  updateReservationById = async (req, res) => {
+  const resource = req.body;
+  const id = req.params.id;
+
+  const updatedResource = await Reservation.findByIdAndUpdate(id, resource, {
+    new: true,
+  });
+
+  updatedResource
+    ? res.status(200).json(updatedResource.toJSON())
+    : res.status(404).end();
 };
 
+// const deleteReservationById = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const Reservation = await Reservation.findByIdAndDelete({ _id: id });
+//     if (!Reservation) {
+//       res.status(404).json({ message: 'Reservation not found' });
+//     }
+//     res.status(200).json(Reservation);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// };
+
 const deleteReservationById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const Reservation = await Reservation.findByIdAndDelete({ _id: id });
-    if (!Reservation) {
-      res.status(404).json({ message: 'Reservation not found' });
-    }
-    res.status(200).json(Reservation);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+  const id = req.params.id;
+  const resource = await Reservation.findById(id);
+  await resource.deleteOne({ _id: id });
+  res.sendStatus(204).end();
 };
 
 const getReservationByResourceManagerId = async (req, res) => {

@@ -80,14 +80,17 @@ const OrgView = () => {
     if (!Object.keys(validationErrors).length) {
       const newValues = {
         ...values,
-        availableQty: values.availableQty,
+        name: values.name,
+        quantity: values.quantity,
       };
       tableData[row.index] = newValues;
       try {
         const response = await axios.put(
           `/api/resources/${row.getValue('_id')}`,
           {
-            availableQty: values.availableQty,
+            name: values.name,
+            quantity: values.quantity,
+
           }
         );
         setServerSuccessMessage(response.data.message);
@@ -218,7 +221,7 @@ const OrgView = () => {
       {
         accessorKey: 'name',
         header: 'Resources Name',
-        enableEditing: false,
+        enableEditing: true,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -228,16 +231,7 @@ const OrgView = () => {
         accessorKey: 'quantity',
         header: 'Quantity',
         enableColumnOrdering: false,
-        enableEditing: false,
-        enableSorting: false,
-        size: 80,
-        columnVisibility: false,
-      },
-      {
-        accessorKey: 'availableQty',
-        header: 'Available Quantity',
-        enableColumnOrdering: false,
-        enableEditing: true, //disable editing on this column
+        enableEditing: true,
         enableSorting: false,
         size: 80,
         columnVisibility: false,

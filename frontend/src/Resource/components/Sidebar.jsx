@@ -142,8 +142,8 @@ const Sidebar = ({
                   <Typography variant="h4" fontWeight="bold">
                     UniEventPro
                   </Typography>
-                  <Typography variant="h4" fontWeight="bold" color="orange">
-                    ADMIN
+                  <Typography variant="h5" fontWeight="bold" color="orange">
+                    Resource
                   </Typography>
                 </Box>
                 {!isNonMobile && (
