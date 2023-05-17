@@ -11,7 +11,7 @@ const {
   getReservationByResourceManagerId,
   getReservationByResourceManagerIdPending,
   getReservationByEventId,
-} = require('../controllers/Reservation.controller');
+} = require('../controllers/reservation.controller');
 
 const ReservationRouter = express.Router();
 

@@ -50,10 +50,10 @@ const navItems = [
         text: "Attendees",
         icon: <Groups2Outlined />,
     },
-    {
-        text: "DataFinalists",
-        icon: <ReceiptLongOutlined />,
-    },
+    // {
+    //     text: "DataFinalists",
+    //     icon: <ReceiptLongOutlined />,
+    // },
     {
         text: "RSVPEMAIL",
         icon: <EmailIcon />,
@@ -135,8 +135,11 @@ const Sidebar = ({
                                     alignItems="center"
                                     gap="0.5rem"
                                 >
-                                    <Typography variant="h4" fontWeight="bold">
-                                        UNIEVENT-PRO
+                                    <Typography variant="h4" fontWeight="bold" style={{display: 'inline-block'}}>
+                                        UNIEVENTPRO
+                                    </Typography>
+                                    <Typography variant="h5" fontWeight="bold" color="orange"style={{display: 'inline-block'}} >
+                                        Org-attendee
                                     </Typography>
                                 </Box>
                                 {!isNonMobile && (
@@ -168,7 +171,7 @@ const Sidebar = ({
                                     <ListItem key={text} disablePadding>
                                         <ListItemButton
                                             onClick={() => {
-                                                navigate(`/administrator/${lcText}`);
+                                                navigate(`/attendeemanager/${lcText}`);
                                                 setActive(lcText);
                                             }}
                                             sx={{

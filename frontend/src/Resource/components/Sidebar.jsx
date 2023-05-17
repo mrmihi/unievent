@@ -32,6 +32,9 @@ import EmailIcon from '@mui/icons-material/Email';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 const navItems = [
   {
@@ -44,15 +47,15 @@ const navItems = [
   },
   {
     text: 'Resources',
-    icon: <FeedbackIcon />,
+    icon: <WidgetsIcon />,
   },
   {
     text: 'Reservations',
-    icon: <FeedbackIcon />,
+    icon: <CheckBoxIcon />,
   },
   {
     text: 'Supplier Details',
-    icon: <FeedbackIcon />,
+    icon: <LocalShippingIcon />,
   },
   //   {
   //     text: "Attendees",

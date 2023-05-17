@@ -12,7 +12,7 @@ const createReservation = async (req, res) => {
 
 const getAllReservations = async (req, res) => {
   try {
-    const Reservations = await Reservation.find({}).populate('venue');
+    const Reservations = await Reservation.find({}).populate('resource');
     res.status(200).json(Reservations);
   } catch (error) {
     res.status(500).json(error);
