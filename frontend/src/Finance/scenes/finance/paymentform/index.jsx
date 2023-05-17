@@ -49,9 +49,10 @@ const PaymentPage = () => {
       console.log(response.data);
       const booking = response.data;
       setPrice(booking.price);
-      setVenue(booking.venue);
+      //setVenue(booking.venue);
       setStartTime(formatDateTime(booking.start_time));
       setEndTime(formatDateTime(booking.end_time));
+      setDuration(booking.duration);
     });
   
     const orgId = Cookies.get('org_id');
@@ -132,7 +133,7 @@ const PaymentPage = () => {
       console.log(response.data);
   
       // Update booking status
-      const bookingId = response.data._id;
+      //const bookingId = response.data._id;
       await axios.put(`/api/bookings/${id}`, { payment_status: 'completed' });
   
       // Update booking status to "complete"
@@ -265,7 +266,7 @@ const PaymentPage = () => {
             </FormControl>
             <center>
               <Box m="1rem" width="100%" >
-                <Link to="/finance/paymentpage">
+                <Link to="/venue/payment/${id}">
                   <Button
                     variant="contained"
                     type="submit"
