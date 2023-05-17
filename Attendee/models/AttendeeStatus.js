@@ -43,7 +43,7 @@ const attendeeStatusSchema = new mongoose.Schema(
         },
         date: {
             type: Date,
-            default: Date.now,
+            default: new Date('2022-01-01'),
         },
     },
     { timestamps: true }

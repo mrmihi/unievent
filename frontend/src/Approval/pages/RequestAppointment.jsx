@@ -28,8 +28,8 @@ const RequestAppointment = () => {
       .then((res) => {
         console.log(res.data.data)
         setApprovalRequest(res.data.data)
-        // setRequestTo(res.data.data.requested_to.firstname + res.data.data.requested_to.lastname)
-        setRequestTo(res.data.data.requested_to.name)
+        setRequestTo(res.data.data.requested_to.firstname + " " + res.data.data.requested_to.lastname)
+        // setRequestTo(res.data.data.requested_to.name)
       })
       .catch((error) => {
         console.log(error.response.data)
@@ -188,6 +188,7 @@ const RequestAppointment = () => {
                   status: "Sent",
                   meetinglink: meetinglink,
                   appointment_note: appointmentNote,
+                  requested_by : orgId
                 };
                 console.log(appointment)
                 console.log("--")

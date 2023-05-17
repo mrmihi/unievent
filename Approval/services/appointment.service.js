@@ -1,6 +1,75 @@
 const { Appointment } = require("../models/approval.model");
 const appointmentRepository = require("../repositories/appointment.repository.js");
 
+const getAppoinmentsOfUser = async (userID) => {
+  try {
+    const appointments = await appointmentRepository.getAppointmentsOfUser(userID);
+
+    if (appointments.length == 0) {
+      return {
+        success: false,
+        message: "No Appointments found",
+      };
+    }
+
+    return {
+      message: "Appointments fetched successfully",
+      data: appointments,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
+const getPendingAppoinmentsOfUser = async (userID) => {
+  try {
+    const appointments = await appointmentRepository.getPendingAppoinmentsOfUser(userID);
+
+    if (appointments.length == 0) {
+      return {
+        success: false,
+        message: "No Appointments found",
+      };
+    }
+
+    return {
+      message: "Appointments fetched successfully",
+      data: appointments,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+}
+
+const getAppointmentByRequestID = async (requestId) => {
+  try {
+    const appointments = await appointmentRepository.getAppointmentByRequestID(requestId);
+
+    if (appointments.length == 0) {
+      return {
+        success: false,
+        message: "No Appointments found",
+      };
+    }
+
+    return {
+      message: "Appointments fetched successfully",
+      data: appointments,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+}
+
 const createAppointment = async (appointmentData) => {
   try {
     const appointment = await appointmentRepository.createAppointment(appointmentData);
@@ -24,28 +93,6 @@ const createAppointment = async (appointmentData) => {
   }
 };
 
-const getAppoinmentsOfUser = async (userID) => {
-  try {
-    const appointments = await appointmentRepository.getAppointmentsOfUser(userID);
-
-    if (appointments.length == 0) {
-      return {
-        success: false,
-        message: "No Appointments found",
-      };
-    }
-
-    return {
-      message: "Appointments fetched successfully",
-      data: appointments,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message: error.message,
-    };
-  }
-};
 
 const getAllAppointments = async (req, res) => {
   try {
@@ -145,5 +192,7 @@ module.exports = {
     getAppointment,
     updateAppointment,
     deleteAppointment,
-    getAppoinmentsOfUser
+    getAppoinmentsOfUser,
+    getPendingAppoinmentsOfUser,
+    getAppointmentByRequestID
 };

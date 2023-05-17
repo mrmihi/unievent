@@ -22,6 +22,10 @@ import axios from 'axios';
 // import Alert from '@mui/material/Alert';
 // import BudgetPDF from './bugetPDF';
 import { useNavigate } from 'react-router-dom';
+import { Cookie } from '@mui/icons-material';
+import Cookies from 'js-cookie';
+import {useHistory} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
 function Copyright(props) {
@@ -64,6 +68,8 @@ const theme = createTheme();
 
 
 export default function BudgetForm() {
+
+  const { eventid } = useParams();
 
   // const handleSubmit = (event) => {
   //   event.preventDefault();
@@ -131,45 +137,36 @@ export default function BudgetForm() {
   const [expenses, setExpenses] = useState([{ description: '', amount: 0 }]);
   const [totalIncomeAmount, setTotalIncomeAmount] = useState(0);
   const [totalExpenseAmount, setTotalExpenseAmount] = useState(0);
-
-  
-
-  // useEffect(() => {
-  //   axios.post('http://localhost:3000/api/budgets')
-  //     .then(res => {
-  //       console.log(res.data);
-  //      setIncome(res.data.income.description);
-  //      setIncome(res.data.income.amount);
-  //      setExpenses(res.data.expenses.description);
-  //       setExpenses(res.data.expenses.amount);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }, []);
-
-  
-  
-
+  const [budgetId, setBudgetId] = useState(null);
+  const [eventName, setEventName] = useState(null);
+  const [organizationName, setOrganizationName] = useState(null);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // prevent default form submission
+  
+    const Budget = {
+      income: income,
+      expenses: expenses,
+      eventId: eventid,
+      organizationName: organizationName,
+      eventName: eventName,
 
-
+    };
+  
     try {
-
-      await axios.post('http://localhost:3000/api/budgets/create', { income, expenses });// send post request to register route
-      alert('Successful');// alert user
-      // setIncome(true);
-
+      console.log("budget",Budget);
+  
+      // Send POST request to create budget
+      await axios.post('http://localhost:5000/api/budgets/create', Budget);
+  
+      alert('Successful'); // alert user
     } catch (error) {
-      // console.log(error);
-      alert('Error');// alert user
-      // setRegisterError(true);
+      console.log(error);
+      alert('Error'); // alert user
     }
-
-
   };
+
+  
 
 
   if (!incomerows) return (<>Loading....</>)
@@ -177,21 +174,42 @@ export default function BudgetForm() {
   return (
     <ThemeProvider theme={theme}>
 
+      <Box component="form" noValidate onSubmit={handleSubmit}>
+
       <Grid>
         <Typography component="h1" variant="h2" align='center' fontAmount='bold'>
           Budget Report
         </Typography>
         <Typography align='center' component="h1" variant="h6">
           <br></br>
-          Organization: Foss
+          Organization:
+          <TextField
+                  required
+                  id="organizationName"
+                  label="organizationName"
+                  name="organizationName"
+                  value={organizationName}
+                  onChange={(e) => setOrganizationName(e.target.value)}
+                />
           <br></br>
-          Event Name: CodeGen 2022
+          Event Name:
+          <TextField
+                  required
+                  id="eventName"
+                  label="eventName"
+                  name="eventName"
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
+                />
           <br></br>
           Date: {currentDate}
         </Typography>
       </Grid>
 
-      <Box component="form" noValidate onSubmit={handleSubmit}>
+
+
+
+
         <Grid container component="main" sx={{ height: '90vh' }}>
 
           {/* expenses */}
@@ -217,9 +235,7 @@ export default function BudgetForm() {
                 Add Income
               </Typography>
 
-              <Box noValidate sx={{ mt: 1 }}>
-
-
+              <Box noValidate sx={{ mt: 1}}  width ="100%">
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 800 }} aria-label="customized table">
                     <TableHead>
@@ -269,7 +285,7 @@ export default function BudgetForm() {
                               id="outlined-start-adornment"
                               sx={{ m: 0, width: '25ch' }}
                               InputProps={{
-                                startAdornment: <InputAdornment position="start">Rs.</InputAdornment>,
+                                startAdornment: <InputAdornment position="start">$.</InputAdornment>,
                               }}
                               value={row.amount}
                               onChange={(event) => {
@@ -304,7 +320,7 @@ export default function BudgetForm() {
                   <Grid item mt={1} component={Paper} elevation={6} square borderRadius={2}>
                     <Box>
                       <Typography component="h1" variant="h5" fontAmount='bold'>
-                        Total Income:{totalIncomeAmount}
+                        Total Income:$ {totalIncomeAmount}
                       </Typography>
                     </Box>
                   </Grid>
@@ -334,7 +350,7 @@ export default function BudgetForm() {
               <Typography component="h1" variant="h5" fontAmount='bold'>
                 Add Expenses
               </Typography>
-              <Box component="form" noValidate sx={{ mt: 1 }}>
+              <Box component="form" noValidate sx={{ mt: 1 }} width ="100%">
 
                 {/* form in here  */}
 
@@ -384,7 +400,7 @@ export default function BudgetForm() {
                               id="outlined-start-adornment"
                               sx={{ m: 0, width: '25ch' }}
                               InputProps={{
-                                startAdornment: <InputAdornment position="start">Rs.</InputAdornment>,
+                                startAdornment: <InputAdornment position="start">$</InputAdornment>,
                               }}
                               value={row.amount}
                               onChange={(event) => {
@@ -417,7 +433,7 @@ export default function BudgetForm() {
                   <Grid item mt={1} component={Paper} elevation={6} square borderRadius={2}>
                     <Box >
                       <Typography component="h1" variant="h5" fontAmount='bold'>
-                        Total Expenses: {totalExpenseAmount}
+                        Total Expenses:$ {totalExpenseAmount}
                       </Typography>
                     </Box>
                   </Grid>
@@ -432,21 +448,22 @@ export default function BudgetForm() {
             variant="contained"
             sx={{ mt: 3, mb: 2, fontSize: 20, mr: 2 }}
             onClick={()=>{
-                navigate("/admin/event")
+                navigate(`/org/dashboard/events/${eventid}`)
+
             }}
           >
             Back
           </Button>
-          <Button
+          {/* <Button
             type="submit"
             variant="contained"
             sx={{ mt: 3, mb: 2, fontSize: 20, mr: 2 }}
             onClick={()=>{
-                navigate("/admin/event/budget/view")
-            }}
+              navigate("/admin/event/budget/view")
+          }}
           >
             View Report
-          </Button>
+          </Button> */}
           <Button
             type="submit"
             variant="contained"

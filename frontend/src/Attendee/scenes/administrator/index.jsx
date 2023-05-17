@@ -3,6 +3,7 @@ import {
     useCreateAdminsitratorMutation,
     useDeleteAdminsitratorMutation,
     useUpdateAdminsitratorMutation,
+    
 } from "../../state/api";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import MaterialReactTable from "material-react-table";
@@ -40,6 +41,7 @@ const Administrator = () => {
     const [createAdministrator] = useCreateAdminsitratorMutation();
     const [deleteAdministrator] = useDeleteAdminsitratorMutation();
     const [updateAdministrator] = useUpdateAdminsitratorMutation();
+    //const [getEventSpecificAttendees] = useGetEventSpecificAttendeesQuery();
 
     const handleCreateNewRow = (values) => {
         console.log("values", values);
