@@ -3,8 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
 import API from '../components/api.approval';
 import { toast, ToastContainer } from 'react-toastify';
-import axios from 'axios';
-import Swal from 'sweetalert2';
 
 function EventManagerView() {
   const { id: eventID } = useParams();
@@ -15,9 +13,6 @@ function EventManagerView() {
   const [resourceData, setResourceData] = useState({});
   const [budgetData, setBudgetData] = useState({});
   const [approvalData, setApprovalData] = useState({});
-
-  const [serverErrorMessage, setServerErrorMessage] = useState('');
-  const [serverSuccessMessage, setServerSuccessMessage] = useState('');
 
   const navigate = useNavigate();
 
@@ -148,19 +143,8 @@ function EventManagerView() {
     navigate(`/org/dashboard/opportunities/${eventID}`);
   };
 
-  const handlePublishBtn = async () => {
+  const handlePublishBtn = () => {
     //Dinal
-    try {
-      const response = await axios.put(`/api/events/${eventID}`, {
-        status: 'Published',
-      });
-      setServerSuccessMessage(response.data.message);
-      if (serverSuccessMessage !== '') {
-        Swal.fire('', response.data.message, 'success');
-      }
-    } catch (error) {
-      setServerErrorMessage(error.response.data.message);
-    }
   };
 
   function approvalStatus(status) {

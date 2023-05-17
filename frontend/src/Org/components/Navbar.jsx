@@ -19,9 +19,7 @@ import {
   MenuItem,
   useTheme,
 } from '@mui/material';
-import OrgLogout from 'Org/OrgLogout';
-import Cookies from 'js-cookie';
-
+// import Logout from '../scenes/logout';
 
 const Navbar = ({ attendee, isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
@@ -41,13 +39,10 @@ const Navbar = ({ attendee, isSidebarOpen, setIsSidebarOpen }) => {
             <MenuIcon />
           </IconButton>
         </FlexBetween>
-        {Cookies.get('org_name')}
         <div style={{ flexGrow: 1 }} />
-
-        <Button color="error" onClick={OrgLogout} sx={{ float: 'right' }}>
+        {/* <Button color="inherit" onClick={Logout} sx={{ float: 'right' }}>
           Logout
-        </Button>
-
+        </Button> */}
       </Toolbar>
     </AppBar>
   );
