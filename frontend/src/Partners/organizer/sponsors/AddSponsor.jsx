@@ -55,6 +55,11 @@ const AddSponsor = () => {
     onSubmit: async (values, { resetForm }) => {
       setIsSubmitting(true);
 
+      if (!imageUrl) {
+        Swal.fire('', 'Please Upload an Image!', 'warning');
+        return;
+      }
+
       const newValues = {
         ...values,
         sponsorImage: imageUrl,

@@ -57,6 +57,11 @@ const UpdateOpportunity = () => {
     onSubmit: async (values, { resetForm }) => {
       setIsSubmitting(true);
 
+      if (!imageUrl) {
+        Swal.fire('', 'Please Upload an Image!', 'warning');
+        return;
+      }
+
       // perform submit here, e.g. send data to server
       const newValues = {
         ...values,
