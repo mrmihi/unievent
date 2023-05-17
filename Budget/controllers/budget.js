@@ -55,8 +55,8 @@ const getAllBudgets = async (req, res) => {
 //getBudgetById
 const getBudgetById = async (req, res) => {
     try {
-        const { id } = req.params
-        const budget = await Budget.findById(id)
+        const { id : eventId} = req.params
+        const budget = await Budget.find({eventId : eventId})
         if (budget) {
             res.status(200).json(budget)
         } else {

@@ -114,4 +114,7 @@ module.exports = {
   venueManagerProtect,
   resourceManagerProtect,
   staffProtect,
+
+  
 };
+

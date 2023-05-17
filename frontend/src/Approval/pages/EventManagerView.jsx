@@ -24,7 +24,7 @@ function EventManagerView() {
         withCredentials: true,
       })
         .then((res) => {
-          // console.log(res.data.data)
+          console.log(res.data.data.orgId)
           setEventData(res.data.data);
         })
         .catch((err) => {
@@ -91,7 +91,22 @@ function EventManagerView() {
     const getResourceDetails = async () => {};
 
     //Maleesha
-    const getBudgetDetails = async () => {};
+    const getBudgetDetails = async () => {
+      console.log(eventID)
+      await API.get(
+        `budgets/${eventID}`
+      )
+        .then((res) => {
+          console.log("budget Found");
+          console.log(res.response.data);
+          
+        })
+        .catch((err) => {
+          console.log("budget not Found");
+          console.log(err.response);
+          
+        });
+    };
 
     //Sapumal
     const getVenueDetails = async () => {
@@ -112,6 +127,7 @@ function EventManagerView() {
     getEventDetails();
     getApprovalDetails();
     getVenueDetails();
+    getBudgetDetails();
   }, [eventID]);
 
   const handleAddVenueBtn = () => {
@@ -122,7 +138,7 @@ function EventManagerView() {
     navigate(`/resources/${eventID}/reservation`);
   };
   const handleCreateBudgetBtn = () => {
-    navigate(`/budget/create/${eventID}`);
+    navigate(`/org/event/budget/${eventID}`);
   };
   const handleFillApprovalRequestBtn = () => {
     navigate(`/org/dashboard/events/approval/${eventID}`);

@@ -1,4 +1,5 @@
 const express = require('express');
+
 const { createUser, loginUser, getAllUsers,deleteUser,updateUser, getMe, getUserByID, getAllAdmin, getAllStaff } = require('../controllers/user.js');
 
 
@@ -22,6 +23,8 @@ userRouter.get('/',getAllUsers);//get all users
 userRouter.get('/profile', protect, getMe);//get all users')
 userRouter.delete('/:id',deleteUser);//delete user
 userRouter.put('/:id', updateUser);//update user
+
 userRouter.get('/:id', getUserByID);//get user by id
+
 module.exports = userRouter;
 

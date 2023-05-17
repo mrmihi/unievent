@@ -95,6 +95,30 @@ import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
 import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
 import PublicVenueTable from 'Venue/PublicVenueTable';
 
+import { EventForm } from 'Events/scenes/EventForm';
+
+import FLayout from "./Finance/scenes/layout";
+import FDashboard from "Finance/scenes/dashboard";
+import FOverview from "Finance/scenes/finance/overview";
+import FLoginPage from "Finance/scenes/login";
+import FRefunds from "Finance/scenes/finance/refunds";
+import FTable from "./Finance/scenes/finance/table";
+import FBills from "./Finance/scenes/finance/bills";
+import FPayments from "./Finance/scenes/finance/payments";
+import FReport from "./Finance/scenes/finance/report";
+import FPayPal from "Finance/scenes/finance/paymentform";
+
+import ULayout from "./User/scenes/layout/Layout";
+import UDashboard from "./User/scenes/dashboard";
+import UAllEventView from "../src/Events/AllEvents";
+import UProfilePage from "./User/pages/profilePage";
+import ULogin from "./User/pages/login";
+import UAllusers from "./User/pages/allUsers";
+import USignUp from "./User/pages/signUp";
+import UBudgetForm from "./User/pages/budgetForm";
+import UBudgetView from "./User/pages/budgetView";
+import UserProfileEdit from "./User/pages/UserProfileEdit";
+
 import FLayout from './Finance/scenes/layout';
 import FDashboard from 'Finance/scenes/dashboard';
 import FOverview from 'Finance/scenes/finance/overview';
@@ -499,21 +523,41 @@ function App() {
               <Route path="/" element={<ULogin />} />
 
               <Route element={<ULayout />}>
-                <Route path="/admin/dashboard" element={<UDashboard />} />
-                <Route path="/admin/event" element={<UAllEventView />} />
-                <Route path="/admin/allUsers" element={<UAllusers />} />
-                <Route path="/admin/register" element={<USignUp />} />
-                <Route path="/admin/event/budget" element={<UBudgetForm />} />
-                <Route path="/admin/profile" element={<UProfilePage />} />
-                <Route
-                  path="/admin/event/budget/view"
-                  element={<UBudgetView />}
-                />
-                <Route
-                  path="/admin/profile/edit"
-                  element={<UserProfileEdit />}
-                />
-              </Route>
+
+              <Route
+                path="/admin/dashboard"
+                element={<UDashboard />}
+              />
+              <Route
+                path="/admin/event"
+                element={<UAllEventView />}
+              />
+              <Route
+                path="/admin/allUsers"
+                element={<UAllusers />}
+              />
+              <Route
+                path="/admin/register"
+                element={<USignUp />}
+              />
+              <Route
+                path="/admin/event/budget/:eventid"
+                element={<UBudgetForm />}
+              />
+              <Route
+                path="/admin/profile"
+                element={<UProfilePage />}
+              />
+              <Route
+                path="/admin/event/viewBudget/:event_id"
+                element={<UBudgetView />}
+              />
+              <Route
+                path="/admin/profile/edit"
+                element={<UserProfileEdit />}
+              />
+            </Route>
+
             </Routes>
           </ThemeProvider>
         </BrowserRouter>
