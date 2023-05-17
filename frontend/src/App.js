@@ -205,9 +205,19 @@ function App() {
                 />
                 <Route path="events-draft" element={<AllEventsTable />} />
                 <Route
+
+                path="/org/event/budget/:eventid"
+                element={<UBudgetForm />}
+              />
+              <Route
+                path="/org/event/viewBudget/:event_id"
+                element={<UBudgetView />}
+              />
+               <Route
                   path="/org/dashboard/events/approval/print/:id"
                   element={<PrintAll />}
                 />
+
                 {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
                 <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
@@ -561,21 +571,40 @@ function App() {
               <Route path="/" element={<ULogin />} />
 
               <Route element={<ULayout />}>
-                <Route path="/admin/dashboard" element={<UDashboard />} />
-                <Route path="/admin/event" element={<UAllEventView />} />
-                <Route path="/admin/allUsers" element={<UAllusers />} />
-                <Route path="/admin/register" element={<USignUp />} />
-                <Route path="/admin/event/budget" element={<UBudgetForm />} />
-                <Route path="/admin/profile" element={<UProfilePage />} />
-                <Route
-                  path="/admin/event/budget/view"
-                  element={<UBudgetView />}
-                />
-                <Route
-                  path="/admin/profile/edit"
-                  element={<UserProfileEdit />}
-                />
-              </Route>
+              <Route
+                path="/admin/dashboard"
+                element={<UDashboard />}
+              />
+              <Route
+                path="/admin/event"
+                element={<UAllEventView />}
+              />
+              <Route
+                path="/admin/allUsers"
+                element={<UAllusers />}
+              />
+              <Route
+                path="/admin/register"
+                element={<USignUp />}
+              />
+              {/* <Route
+                path="/org/event/budget/:eventid"
+                element={<UBudgetForm />}
+              /> */}
+              <Route
+                path="/admin/profile"
+                element={<UProfilePage />}
+              />
+              {/* <Route
+                path="/admin/event/viewBudget/:event_id"
+                element={<UBudgetView />}
+              /> */}
+              <Route
+                path="/admin/profile/edit"
+                element={<UserProfileEdit />}
+              />
+            </Route>
+
             </Routes>
           </ThemeProvider>
         </BrowserRouter>
