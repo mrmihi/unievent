@@ -147,32 +147,33 @@ const OrgView = () => {
     }
   }, [serverSuccessMessage]);
 
-  const [status, setStatus] = useState(tableData.availableQty);
+  // const [status, setStatus] = useState(tableData.availableQty);
 
-  const updateStatus = (id) => {
-    console.log(status);
-    console.log(id);
-    if (status === 'pending') {
-      setStatus('Approved');
-    } else {
-      setStatus('Rejected');
-    }
+  // const updateStatus = (id) => {
+  //   console.log(status);
+  //   console.log(id);
+  //   if (status === 'pending') {
+  //     setStatus('Approved');
+  //   } else {
+  //     setStatus('Rejected');
+  //   }
 
-    const updatedTableData = tableData.map((item) => {
-      if (item._id === id) {
-        // replace "selectedItemId" with the actual ID of the item you want to update
-        return {
-          ...item,
-          status: status,
-        };
-      } else {
-        return item;
-      }
-    });
+  //   const updatedTableData = tableData.map((item) => {
+  //     if (item._id === id) {
+  //       // replace "selectedItemId" with the actual ID of the item you want to update
+  //       return {
+  //         ...item,
+  //         status: status,
+  //         price: item.price,
+  //       };
+  //     } else {
+  //       return item;
+  //     }
+  //   });
 
-    console.log(updatedTableData);
-    setTableData(updatedTableData);
-  };
+  //   console.log(updatedTableData);
+  //   setTableData(updatedTableData);
+  // };
 
   const getCommonEditTextFieldProps = useCallback(
     (cell) => {
@@ -278,11 +279,15 @@ const OrgView = () => {
         accessorKey: 'price',
         header: 'Price (USD)',
         enableColumnOrdering: false,
-        enableEditing: false, //disable editing on this column
+        enableEditing: true, //disable editing on this column
         enableSorting: false,
         size: 80,
         columnVisibility: false,
-        Cell: ({ cell }) => `USD ${cell.row.original.price.toFixed(2)}`,
+        Cell: ({ cell }) => {
+          const price = cell.row.original.price;
+          const formattedPrice = typeof price === 'number' ? `USD ${price.toFixed(2)}` : '';
+          return formattedPrice;
+        },
       },
       {
         accessorKey: 'venue',

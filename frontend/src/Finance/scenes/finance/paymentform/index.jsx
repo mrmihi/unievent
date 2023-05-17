@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   FormControl,
   TextField,
@@ -12,30 +13,35 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
 import { CloudinaryContext } from 'cloudinary-react';
 import { Link } from 'react-router-dom';
 
 const PaymentPage = () => {
+  const { id } = useParams();
   const [price, setPrice] = useState('');
-  const [venue, setVenue] = useState('61556c6d037937a260869b0f');
-  const [organizer, setOrganizer] = useState('61556c6d037937a260869b0e');
+  const [venue, setVenue] = useState('');
+  const [organizer, setOrganizer] = useState('');
   const [start_time, setStartTime] = useState();
   const [end_time, setEndTime] = useState(null);
   const [duration, setDuration] = useState(0);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('approved');
   const [image, setImage] = useState(null);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (start_time && end_time) {
-      const durationInMs =
-        (new Date(end_time).getTime() - new Date(start_time).getTime()) /
-        3600000;
-      setDuration(durationInMs);
-    } else {
-      setDuration(0);
-    }
-  }, [start_time, end_time]);
+    axios.get(`/api/bookings/${id}`).then((response) => {
+      console.log(response.data);
+      const booking = response.data;
+      setPrice(booking.price);
+      setVenue(booking.venue);
+      setStartTime(booking.start_time);
+      setEndTime(booking.end_time);
+    });
+  
+    const orgId = Cookies.get('org_id');
+    setOrganizer(orgId);
+  }, [id]);
 
   const validate = () => {
     let errors = {};
@@ -69,6 +75,16 @@ const PaymentPage = () => {
 
     if (!status) {
       errors.status = 'Status is required';
+    }
+
+    
+    if (start_time && end_time) {
+      const durationInMs =
+        (new Date(end_time).getTime() - new Date(start_time).getTime()) /
+        3600000;
+      setDuration(durationInMs);
+    } else {
+      setDuration(0);
     }
 
     setErrors(errors);
@@ -106,6 +122,14 @@ const PaymentPage = () => {
         paymentImage: imageUrl,
       });
       console.log(response.data);
+  
+      // Update booking status
+      const bookingId = response.data._id;
+      await axios.put(`/api/bookings/${id}`, { payment_status: 'completed' });
+  
+      // Update booking status to "complete"
+      // await axios.put(`/api/bookings/${bookingId}`, { status: 'complete' });
+      //update booking table
       Swal.fire('Success!', 'Payment Successful!', 'success');
     } catch (error) {
       console.error(error);
@@ -119,61 +143,73 @@ const PaymentPage = () => {
 
   return (
     <div>
-      <center>
-        <Box m="1rem" width="50%" mt="1rem">
+      
+      <Box m="1rem" width="100%" px="30%" mt="1rem" position="relative" justifyContent="center">
+        <center>
           <Typography variant="h2" sx={{ mb: '1rem' }}>
             Payment Form
-          </Typography>
+          </Typography></center>
           <CloudinaryContext
             cloudName="your_cloudinary_cloud_name"
             uploadPreset="iussagsw"
           >
             <form onSubmit={handleSubmit}>
-              <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal">
+            <Typography variant="h6" sx={{ mb: '1rem' }}>
+                Price
+              </Typography>
                 <TextField
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">USD</InputAdornment>
                     ),
                   }}
-                  label="Price"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   error={errors.price ? true : false}
                   helperText={errors.price}
                 />
               </FormControl>
-              <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal">
+            <Typography variant="h6" sx={{ mb: '1rem' }}>
+                Venue
+              </Typography>
                 <TextField
-                  label="Venue"
                   value={venue}
                   onChange={(e) => setVenue(e.target.value)}
                   error={errors.venue ? true : false}
                   helperText={errors.venue}
                 />
               </FormControl>
-              <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal">
+            <Typography variant="h6" sx={{ mb: '1rem' }}>
+                Organizer
+              </Typography>
                 <TextField
-                  label="Organizer"
                   value={organizer}
                   onChange={(e) => setOrganizer(e.target.value)}
                   error={errors.organizer ? true : false}
                   helperText={errors.organizer}
                 />
               </FormControl>
+              
               <FormControl fullWidth margin="normal">
+              <Typography variant="h6" sx={{ mb: '1rem' }}>
+                Start Time
+              </Typography>
                 <TextField
                   type="datetime-local"
-                  label="Start Time"
                   value={start_time}
                   onChange={(e) => setStartTime(e.target.value)}
                   error={errors.start_time ? true : false}
                   helperText={errors.start_time}
                 />
               </FormControl>
-              <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal">
+            <Typography variant="h6" sx={{ mb: '1rem' }}>
+                End Time
+              </Typography>
                 <TextField
-                  label="End Time"
                   type="datetime-local"
                   value={end_time}
                   onChange={(e) => setEndTime(e.target.value)}
@@ -181,9 +217,11 @@ const PaymentPage = () => {
                   helperText={errors.end_time}
                 />
               </FormControl>
-              <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal">
+            <Typography variant="h6" sx={{ mb: '1rem' }}>
+                Duration
+              </Typography>
                 <TextField
-                  label="Duration"
                   type="number"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
@@ -192,11 +230,10 @@ const PaymentPage = () => {
                 />
               </FormControl>
               <FormControl fullWidth margin="normal">
-                <InputLabel id="demo-simple-select-helper-label">
-                  Status
-                </InputLabel>
+              <Typography variant="h6" sx={{ mb: '1rem' }}>
+                Status
+              </Typography>
                 <Select
-                  label="Status"
                   labelId="demo-simple-select-helper-label"
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
@@ -208,28 +245,31 @@ const PaymentPage = () => {
                   <MenuItem value="rejected">Rejected</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal">
+            <Typography variant="h6" sx={{ mb: '1rem' }}>
+                Upload the payment receipt
+              </Typography>
                 <TextField
                   labelId="demo-simple-select-helper-label"
                   type="file"
-                  label="Upload the recipt"
                   onChange={(e) => setImage(e.target.files[0])}
                 />
-              </FormControl>
-              <Box m="1rem">
-                <Link to ="/finance/paymentpage">
-              <Button
-                  variant="contained"
-                  type="submit"
-                  color="secondary"
-                  style={{
-                    marginInline: '5px',
-                    width: '150px',
-                  }}
-                >
-                  Back
+            </FormControl>
+            <center>
+              <Box m="1rem" width="100%" >
+                <Link to="/finance/paymentpage">
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    color="secondary"
+                    style={{
+                      marginInline: '5px',
+                      width: '150px',
+                    }}
+                  >
+                    Back
                   </Button>
-                  </Link>
+                </Link>
                 <Button
                   variant="contained"
                   type="submit"
@@ -257,11 +297,12 @@ const PaymentPage = () => {
                   Cancel
                 </Button>
               </Box>
+              </center>
               <Box></Box>
             </form>
           </CloudinaryContext>
         </Box>
-      </center>
+      
     </div>
   );
 };

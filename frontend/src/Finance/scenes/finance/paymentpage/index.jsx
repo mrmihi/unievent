@@ -3,11 +3,16 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Swal from 'sweetalert2';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const paymentOptions = () => {
+
+const PaymentOptions = () => {
+  
+  const { id } = useParams(); 
+const navigate = useNavigate();  
+
   return (
     <>
       <Box  width="100%" position="relative" justifyContent="center" style={{backgroundColor: "#bbdefb"}}>
@@ -93,19 +98,19 @@ const paymentOptions = () => {
             </CardContent>
           </CardActionArea>
           <CardActions m="1rem">
-            <Link to="/finance/paypal">
-              <Button
+              <Button width="100%"
                 variant="contained"
                 type="submit"
+                  
                 style={{
                   marginInline: '5px',
                   width: '70px',
                   backgroundColor: '#0123F5',
                 }}
+                onClick={() => { navigate(`/finance/paypal/${id}`)}}
               >
                 pay
               </Button>
-            </Link>
           </CardActions>
         </Card>
       </Box>
@@ -198,4 +203,4 @@ const paymentOptions = () => {
   );
 };
 
-export default paymentOptions;
+export default PaymentOptions;
