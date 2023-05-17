@@ -30,13 +30,28 @@ const PaymentPage = () => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
+    const formatDateTime = (dateTimeString) => {
+      const date = new Date(dateTimeString);
+      const formattedDateTime = date.toISOString().slice(0, 16);
+      return formattedDateTime;
+    };
+
+    if (start_time && end_time) {
+      const durationInMs =
+        (new Date(end_time).getTime() - new Date(start_time).getTime()) /
+        3600000;
+      setDuration(durationInMs);
+    } else {
+      setDuration(0);
+    }
+    
     axios.get(`/api/bookings/${id}`).then((response) => {
       console.log(response.data);
       const booking = response.data;
       setPrice(booking.price);
       setVenue(booking.venue);
-      setStartTime(booking.start_time);
-      setEndTime(booking.end_time);
+      setStartTime(formatDateTime(booking.start_time));
+      setEndTime(formatDateTime(booking.end_time));
     });
   
     const orgId = Cookies.get('org_id');
@@ -78,14 +93,7 @@ const PaymentPage = () => {
     }
 
     
-    if (start_time && end_time) {
-      const durationInMs =
-        (new Date(end_time).getTime() - new Date(start_time).getTime()) /
-        3600000;
-      setDuration(durationInMs);
-    } else {
-      setDuration(0);
-    }
+    
 
     setErrors(errors);
     return Object.keys(errors).length === 0;
@@ -170,7 +178,7 @@ const PaymentPage = () => {
                   helperText={errors.price}
                 />
               </FormControl>
-            <FormControl fullWidth margin="normal">
+            {/* <FormControl fullWidth margin="normal">
             <Typography variant="h6" sx={{ mb: '1rem' }}>
                 Venue
               </Typography>
@@ -191,7 +199,7 @@ const PaymentPage = () => {
                   error={errors.organizer ? true : false}
                   helperText={errors.organizer}
                 />
-              </FormControl>
+              </FormControl> */}
               
               <FormControl fullWidth margin="normal">
               <Typography variant="h6" sx={{ mb: '1rem' }}>
