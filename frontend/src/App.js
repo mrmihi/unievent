@@ -123,6 +123,7 @@ import UBudgetForm from './User/pages/budgetForm';
 import UBudgetView from './User/pages/budgetView';
 import UserProfileEdit from './User/pages/UserProfileEdit';
 import VenuesReviewsAdd from 'Org/VenueReviews/pages/VenueReviewsAdd';
+import VenuesReviewsUpdate from 'Org/VenueReviews/pages/VenuesReviewsUpdate';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -207,6 +208,7 @@ function App() {
               <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
 
                 <Route path='/org/dashboard/venues/reviews' element={<VenuesReviewsAdd/>}/> 
+                <Route path='/org/dashboard/venues/reviews/added' element={<VenuesReviewsUpdate/>}/>
               </Route>
 
               {/* Staff Dashbaord */}

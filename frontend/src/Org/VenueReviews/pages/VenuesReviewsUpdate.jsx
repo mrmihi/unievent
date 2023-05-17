@@ -8,10 +8,10 @@ import Rating from '@mui/material/Rating';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Swal from 'sweetalert2';
 
-const VenuesReviewsAdd = () => {
+const VenuesReviewsUpdate = () => {
     const navigate = useNavigate();
-
     const [venues, setVenues] = useState([]);
     const [selectedVenue, setSelectedVenue] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
@@ -23,7 +23,11 @@ const VenuesReviewsAdd = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/api/venues/eligible/${organizerId}`)
+            .get(`http://localhost:5000/api/reviews/organizer/${organizerId}`, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("org_accessToken")}`,
+                },
+            })
             .then((response) => {
                 setVenues(response.data);
             })
@@ -32,57 +36,101 @@ const VenuesReviewsAdd = () => {
             });
     }, []);
 
-    const handleVenueClick = (venue) => {
-        setSelectedVenue(venue);
+    const handleVenueClick = (review) => {
+        setRating(review.rating);
+        setReviewText(review.review);
+
+        setRatingError(false);
+        setReviewError(false);
+
+        setSelectedVenue(review);
         setOpenDialog(true);
     };
 
-    const handleReviewSubmit = () => {
+    const handleReviewUpdateSubmit = () => {
         // Validate rating and review fields
-        if (rating === 0) {
+        if ((!rating || rating < 1 || rating > 5) && !reviewText.trim()) {
             setRatingError(true);
-        } else {
+            setReviewError(true);
+        } else if (!rating || rating < 1 || rating > 5) {
+            setRatingError(true);
+            setReviewError(false);
+        } else if (!reviewText.trim()) {
             setRatingError(false);
-        }
-
-        if (reviewText.trim() === '') {
             setReviewError(true);
         } else {
+            setRatingError(false);
             setReviewError(false);
-        }
 
-        if (rating !== 0 && reviewText.trim() !== '') {        
-            axios.post("http://localhost:5000/api/reviews", {
-                venue: selectedVenue.venue._id,
+            axios.put(`http://localhost:5000/api/reviews/${selectedVenue._id}`, {
                 rating: rating,
                 review: reviewText,
-                manager: selectedVenue.venue.manager,
-                event: selectedVenue.event._id,
-                booking: selectedVenue._id,
-            }, {   
-                headers: {
-                    Authorization: `Bearer ${Cookies.get("org_accessToken")}`,
-                },
             }).then((response) => {
-                axios.put(`http://localhost:5000/api/bookings/${selectedVenue._id}`, {
-                    review: true,
-                }).then((response) => {
-                    toast.success("Review added successfully");
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
-                }).catch((err) => {
-                    toast.error("Error while adding review");
-                });
+                toast.success('Review updated successfully!');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             }).catch((err) => {
-                toast.error("Error while adding review");
+                console.log(err);
+                toast.error('Error updating review!');
             });
-            
+
             setSelectedVenue(null);
             setRating(0);
             setReviewText('');
             setOpenDialog(false);
         }
+    };
+
+
+
+    const handleDeleteReview = (review) => {
+        const reviewId = review._id;
+        const bookingId = review.booking.toString();
+
+        // Display SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Delete Review',
+            text: 'Are you sure you want to delete this review?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // User confirmed the deletion
+
+                // delete review from database
+                axios.delete(`http://localhost:5000/api/reviews/${reviewId}`)
+                    .then((response) => {
+                        // update bookings review to false
+                        axios.put(`http://localhost:5000/api/bookings/${bookingId}`, {
+                            review: false
+                        })
+                            .then((response) => {
+                                toast.success('Review deleted successfully!');
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 2000);
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                                toast.error('Error updating booking!');
+                            });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        toast.error('Error deleting review!');
+                    });
+
+                setSelectedVenue(null);
+                setRating(0);
+                setReviewText('');
+                setOpenDialog(false);
+            }
+        });
     };
 
     return (
@@ -98,18 +146,21 @@ const VenuesReviewsAdd = () => {
             </div>
             <Box mt={3}>
                 <Typography variant="h4" gutterBottom>
-                    Available Venues for Adding Review
+                    Already Added Reviews for Venues
                 </Typography>
                 <Box display="flex" flexWrap="wrap">
                     {venues.length === 0 ? (
-                        <Typography variant="body1">No venues available for review.</Typography>
+                        <Typography variant="body1">You haven't reviewed any venue yet.</Typography>
                     ) : (
                         venues.map((venue) => (
                             <Card key={venue._id} style={{ width: '300px', margin: '10px' }}>
                                 <CardContent>
-                                <Typography variant="h5">Event Name: {venue.event.name}</Typography>
+                                    <Typography variant="h5">Event Name: {venue.event.name}</Typography>
                                     <Typography variant="h6">Venue Name: {venue.venue.name}</Typography>
-                                    <Typography variant="body1">Venue Location: {venue.venue.location}</Typography>
+                                    <Typography variant="body1" mb={2}>Venue Location: {venue.venue.location}</Typography>
+
+                                    <Typography variant="body1">My Rating: {venue.rating}</Typography>
+                                    <Typography variant="body1">My Review: {venue.review}</Typography>
                                     <img
                                         src={venue.venue.image_url}
                                         alt={venue.venue.image_url}
@@ -121,7 +172,15 @@ const VenuesReviewsAdd = () => {
                                         style={{ marginTop: '10px' }}
                                         onClick={() => handleVenueClick(venue)}
                                     >
-                                        Add Review
+                                        Update Review
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        style={{ marginTop: '10px', marginLeft: '5px', backgroundColor: "#ff4569", color: "#fff" }}
+                                        onClick={() => handleDeleteReview(venue)}
+                                    >
+                                        Delete Review
                                     </Button>
                                 </CardContent>
                             </Card>
@@ -175,8 +234,8 @@ const VenuesReviewsAdd = () => {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
-                        <Button variant="contained" color="primary" onClick={handleReviewSubmit}>
-                            Submit Review
+                        <Button variant="contained" color="primary" onClick={handleReviewUpdateSubmit}>
+                            Update
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -186,4 +245,4 @@ const VenuesReviewsAdd = () => {
     );
 };
 
-export default VenuesReviewsAdd;
+export default VenuesReviewsUpdate;
