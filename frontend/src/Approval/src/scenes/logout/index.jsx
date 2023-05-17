@@ -1,10 +1,10 @@
 import Cookies from "js-cookie"
 
 const Logout = () => {
-    Cookies.remove("staff_accessToken")
-    Cookies.remove("staff_role")
-    Cookies.remove("staff_id")
-    window.location.href = "/admin"
+    Cookies.remove("accessToken")
+    Cookies.remove("role")
+    Cookies.remove("id")
+    window.location.href = "/staff"
 }
 
 export default Logout

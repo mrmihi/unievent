@@ -16,8 +16,8 @@ const VAppointments = (props) => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
 
-  //   const venueManagerID = Cookies.get("id")
-  const venueManagerID = "64456a13c2ee758733aa7ce7";
+    const venueManagerID = Cookies.get("id")
+  // const venueManagerID = "64456a13c2ee758733aa7ce7";
 
   const getData = async () => {
     try {
@@ -26,19 +26,13 @@ const VAppointments = (props) => {
       );
       //   const response = await axios.get(`/api/approval/request`);
 
-      var data = []
-      data = response.data.data.map((request) => {
-        request.type = String(request.type).replace("_", " ");
-        return request;
-      });
-
-      if (data.length > 0) setTableData(data);
+      setTableData(response.data.data);
 
     } catch (error) {
       console.log(error.response.data);
-      toast.info(error.response.data.message, {
-        position: "top-right",
-      });
+      // toast.info(error.response.data.message, {
+      //   position: "top-right",
+      // });
     }
   };
 
