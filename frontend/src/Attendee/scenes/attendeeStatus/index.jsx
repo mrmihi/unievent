@@ -112,24 +112,24 @@ const AttendeeStatus = () => {
   const getCommonEditTextFieldProps = useCallback(
     (cell) => {
       return {
-        error: !!validationErrors[cell._id],
-        helperText: validationErrors[cell._id],
+        error: !!validationErrors[cell.id],
+        helperText: validationErrors[cell.id],
         onBlur: (event) => {
           const isValid =
-            cell.column._id === 'email'
+            cell.column.id === 'email'
               ? validateEmail(event.target.value)
-              : cell.column._id === 'age'
-              ? validateAge(+event.target.value)
+              : cell.column.id === 'phoneNumber'
+              ? validatePhoneNumber(+event.target.value)
               : validateRequired(event.target.value);
           if (!isValid) {
             //set validation error for cell if invalid
             setValidationErrors({
               ...validationErrors,
-              [cell._id]: `${cell.column.columnDef.header} is required`,
+              [cell.id]: `${cell.column.columnDef.header} is required`,
             });
           } else {
             //remove validation error for cell if valid
-            delete validationErrors[cell._id];
+            delete validationErrors[cell.id];
             setValidationErrors({
               ...validationErrors,
             });
@@ -432,8 +432,19 @@ const validateEmail = (email) =>
   email
     .toLowerCase()
     .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
-const validateAge = (age) => age >= 18 && age <= 50;
+//const validatePhoneNumber = (phoneNumber) => phoneNumber >= 0 && phoneNumber < 10;
+
+const validatePhoneNumber = (phoneNumber) =>
+  !!phoneNumber.length &&
+  phoneNumber.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/);
+
+// const validatePhoneNumber = ({ phoneNumber, setPhoneError }) => {
+//     var phoneRegular = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+//     return phoneNumber && !phoneNumber.match(phoneRegular)
+//         ? setPhoneError("Phone Number not valid")
+//         : setPhoneError("");
+// };
 
 export default AttendeeStatus;
