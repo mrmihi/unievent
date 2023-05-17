@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { createUser, loginUser, getAllUsers,deleteUser,updateUser, getMe, getUserByID, getAllAdmin, getAllStaff } = require('../controllers/user.js');
+const { createUser, loginUser, getAllUsers,deleteUser,updateUser, getMe, getUserById,getAllAdmin,getAllStaff } = require('../controllers/user.js');
 
 
 const { protect,
@@ -24,7 +24,9 @@ userRouter.get('/profile', protect, getMe);//get all users')
 userRouter.delete('/:id',deleteUser);//delete user
 userRouter.put('/:id', updateUser);//update user
 
+
 userRouter.get('/:id', getUserByID);//get user by id
+
 
 module.exports = userRouter;
 

@@ -3,6 +3,7 @@ import autoTable from "jspdf-autotable";
 import { Button } from "@mui/material";
 import logo from "./image.png";
 import moment from "moment";
+
 const doc = new jsPDF({
   orientation: "landscape",
 });
@@ -33,6 +34,7 @@ doc.addImage(logo, 'PNG', 0, 0, 200, 50);
     body: data,
     styles: {
       cellWidth: "auto",
+      fontSize:12
     },
     startY: 65,
   });
