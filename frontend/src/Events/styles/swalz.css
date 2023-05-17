@@ -1,0 +1,7 @@
+.my-swal-container {
+    z-index: 9999; /* Set a high z-index value for the SweetAlert container */
+  }
+  
+  .my-swal-popup {
+    z-index: 10000; /* Set an even higher z-index value for the SweetAlert popup */
+  }

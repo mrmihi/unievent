@@ -64,7 +64,7 @@ const Landing = (props) => {
             <img
               src={props.image}
               // className="w-16 h-16 sm:w-28 sm:h-28 mx-5"
-              className="w-auto h-auto mx-5"
+              className="w-auto h-auto"
               alt="Event"
             />
             {/* <img src="/assets/logo/SLIIT.svg" className="w-30 h-30 mr-5 mt-8" />

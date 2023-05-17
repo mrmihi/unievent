@@ -19,6 +19,15 @@ const getOne = async (id) => {
   }
 };
 
+const getEventsByOrg = async (id) => {
+  try {
+    const response = await axios.get(`${baseUrl}/byorg/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const getOneShab = async (id) => {
   try {
     const response = await axios.get(`http://localhost:5000/api/events/${id}`);
@@ -46,5 +55,13 @@ const update = (id, newObject) => {
   return request.then((response) => response.data);
 };
 
-const eventService = { getAll, getOne, create, erase, update, getOneShab };
+const eventService = {
+  getAll,
+  getOne,
+  getEventsByOrg,
+  create,
+  erase,
+  update,
+  getOneShab,
+};
 export default eventService;
