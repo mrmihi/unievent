@@ -35,7 +35,9 @@ const ReservationTable = () => {
   // GET method
   const getReservationData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/reservations`);
+      const response = await axios.get(
+        `http://localhost:5000/api/reservations`
+      );
       setTableData(response.data);
     } catch (error) {
       console.log(error);
@@ -202,7 +204,7 @@ const ReservationTable = () => {
     [validationErrors]
   );
 
-  // const statusValues = ['Archived', 'Active', 'Upcoming'];
+  const statusValues = ['Approved', 'Rejected', 'Pending'];
 
   const columns = useMemo(
     () => [
@@ -250,7 +252,8 @@ const ReservationTable = () => {
         enableSorting: false,
         size: 80,
         columnVisibility: false,
-      },      {
+      },
+      {
         accessorKey: 'booking_status',
         header: 'Reservation Approval Status',
         enableColumnOrdering: false,
@@ -258,6 +261,14 @@ const ReservationTable = () => {
         enableSorting: false,
         size: 80,
         columnVisibility: false,
+        muiTableBodyCellEditTextFieldProps: () => ({
+          children: statusValues.map((value) => (
+            <MenuItem key={value} value={value}>
+              {value}
+            </MenuItem>
+          )),
+          select: true,
+        }),
       },
     ],
     [getCommonEditTextFieldProps]

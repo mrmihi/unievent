@@ -90,7 +90,6 @@ const OrgView = () => {
           {
             name: values.name,
             quantity: values.quantity,
-
           }
         );
         setServerSuccessMessage(response.data.message);
@@ -235,6 +234,7 @@ const OrgView = () => {
         enableSorting: false,
         size: 80,
         columnVisibility: false,
+        type: 'number',
       },
     ],
     [getCommonEditTextFieldProps]
