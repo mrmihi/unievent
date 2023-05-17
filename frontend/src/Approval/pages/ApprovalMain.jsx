@@ -5,7 +5,10 @@ import { toast, ToastContainer } from "react-toastify";
 import API from "../components/api.approval";
 import axios from "axios";
 import Cookies from "js-cookie";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
+import { IconButton } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import SendIcon from '@mui/icons-material/Send';
 
 function ApprovalMain() {
   const { id: eventID } = useParams();
@@ -92,22 +95,29 @@ function ApprovalMain() {
   };
 
   const handleViewAppointments = (appointment) => {
-    console.log(appointment.requested_to)
+    console.log(appointment.requested_to);
     Swal.fire({
-      title: 'Appointment Details',
+      title: "Appointment Details",
       html: `
         <p><strong>Date:</strong> ${appointment.date}</p>
-        <p><strong>Start Time:</strong> ${String(appointment.start_time).split("T")[1]}</p>
-        <p><strong>End Time:</strong> ${String(appointment.end_time).split("T")[1]}</p>
+        <p><strong>Start Time:</strong> ${
+          String(appointment.start_time).split("T")[1]
+        }</p>
+        <p><strong>End Time:</strong> ${
+          String(appointment.end_time).split("T")[1]
+        }</p>
         <p><strong>Mode:</strong> ${appointment.mode}</p>
-        <p><strong>Location:</strong> ${appointment.location || 'N/A'}</p>
+        <p><strong>Location:</strong> ${appointment.location || "N/A"}</p>
         <p><strong>Status:</strong> ${appointment.status}</p>
-        <p><strong>Meeting Link:</strong> <a href=${appointment.meetinglink || 'N/A'}/>${appointment.meetinglink || 'N/A'}</p>
-        <p><strong>Appointment Note:</strong> ${appointment.appointment_note}</p>
+        <p><strong>Meeting Link:</strong> <u><a href=${
+          appointment.meetinglink || "N/A"
+        }/>${appointment.meetinglink || "N/A"}<u/></p>
+        <p><strong>Appointment Note:</strong> ${
+          appointment.appointment_note
+        }</p>
       `,
-      confirmButtonText: 'Close'
+      confirmButtonText: "Close",
     });
-
   };
   const handleNoteChange = (event) => {
     const role = event.target.id;
@@ -431,67 +441,75 @@ function ApprovalMain() {
   }, [lic]);
 
   const fetchAppointment = async (role, requestId) => {
-    await API.get(`approval/appointment/r/${requestId}`)
-      .then((res) => {
-        console.log(res.data.data);
-        switch (role) {
-          case "lic":
-            setLicAppointments(res.data.data);
-            break;
-          case "venue":
-            setVenueAppointments(res.data.data);
-            break;
-          case "budget":
-            setBudgetAppointments(res.data.data);
-            break;
-          case "admin":
-            setAdminAppointments(res.data.data);
-            break;
+    switch (role) {
+      case "lic":
+        if (licAppointments == null) {
+          await API.get(`approval/appointment/r/${requestId}`)
+            .then((res) => {
+              setLicAppointments(res.data.data);
+            })
+            .catch((err) => {
+              setLicAppointments(null);
+            });
         }
-      })
-      .catch((err) => {
-        switch (role) {
-          case "lic":
-            setLicAppointments(null);
-            break;
-          case "venue":
-            setVenueAppointments(null);
-            break;
-          case "budget":
-            setBudgetAppointments(null);
-            break;
-          case "admin":
-            setAdminAppointments(null);
-            break;
+        break;
+      case "venue":
+        if (venueAppointments == null) {
+          await API.get(`approval/appointment/r/${requestId}`)
+            .then((res) => {
+              setVenueAppointments(res.data.data);
+            })
+            .catch((err) => {
+              setVenueAppointments(null);
+            });
         }
-      });
+        break;
+      case "budget":
+        if (budgetAppointments == null) {
+          await API.get(`approval/appointment/r/${requestId}`)
+            .then((res) => {
+              setBudgetAppointments(res.data.data);
+            })
+            .catch((err) => {
+              setBudgetAppointments(null);
+            });
+        }
+        break;
+      case "admin":
+        if (adminAppointments == null) {
+          await API.get(`approval/appointment/r/${requestId}`)
+            .then((res) => {
+              setAdminAppointments(res.data.data);
+            })
+            .catch((err) => {
+              setAdminAppointments(null);
+            });
+        }
+        break;
+    }
   };
 
   useEffect(() => {
     if (licReq != null && licReq.status != "Not_Yet_Status") {
       fetchAppointment("lic", licReq._id);
-      // console.log(licReq.status )
     }
   }, [licReq]);
 
   useEffect(() => {
     if (venueReq != null && venueReq.status != "Not_Yet_Status") {
       fetchAppointment("venue", venueReq._id);
-      // console.log(venueReq.status )
     }
   }, [venueReq]);
 
   useEffect(() => {
     if (budgetReq != null && budgetReq.status != "Not_Yet_Status") {
       fetchAppointment("budget", budgetReq._id);
-      // console.log(budgetReq.status )
     }
   }, [budgetReq]);
 
   useEffect(() => {
     if (adminReq != null && adminReq.status != "Not_Yet_Status") {
       fetchAppointment("admin", adminReq._id);
-      // console.log(adminReq.status )
     }
   }, [adminReq]);
 
@@ -604,6 +622,7 @@ function ApprovalMain() {
                     color="secondary"
                     size="large"
                     disabled
+                    endIcon={<SendIcon />}
                   >
                     Send Request
                   </Button>
@@ -613,6 +632,7 @@ function ApprovalMain() {
                     color="secondary"
                     size="large"
                     onClick={handleLicApprovalSendRequest}
+                    endIcon={<SendIcon />}
                   >
                     Send Request
                   </Button>
@@ -627,15 +647,25 @@ function ApprovalMain() {
                     Request Appointment
                   </Button>
                 ) : (
-                  <Button
-                    id="lic"
-                    variant="outlined"
-                    style={{ color: "green", borderColor: "green" }}
-                    size="large"
-                    onClick={() => handleViewAppointments(licAppointments[0])}
-                  >
-                    View Appointment
-                  </Button>
+                  <>
+                    <Button
+                      id="lic"
+                      variant="outlined"
+                      style={{ color: "green", borderColor: "green" }}
+                      size="large"
+                    >
+                      {licAppointments[0].status}
+                    </Button>
+                    <Button
+                      id="lic"
+                      variant="outlined"
+                      size="large"
+                      onClick={() => handleViewAppointments(licAppointments[0])}
+                      endIcon={<VisibilityIcon />}
+                    >
+                      View Appointment
+                    </Button>
+                  </>
                 )}
               </Box>
             </div>
@@ -677,6 +707,12 @@ function ApprovalMain() {
                 </Typography>
               ) : null}
 
+              {venueAppointments != null ? (
+                <Typography variant="h5">
+                  Appointment status : {venueAppointments[0].status}
+                </Typography>
+              ) : null}
+
               <Box className="flex w-full justify-between flex-row my-2">
                 {venueReq != null ? (
                   venueAppointments == null ? (
@@ -693,9 +729,11 @@ function ApprovalMain() {
                     <Button
                       id="venue"
                       variant="outlined"
-                      style={{ color: "green", borderColor: "green" }}
                       size="large"
-                      onClick={() => handleViewAppointments(venueAppointments[0])}
+                      onClick={() =>
+                        handleViewAppointments(venueAppointments[0])
+                      }
+                      endIcon={<VisibilityIcon />}
                     >
                       View Appointment
                     </Button>
@@ -778,6 +816,7 @@ function ApprovalMain() {
                     color="secondary"
                     size="large"
                     disabled
+                    endIcon={<SendIcon />}
                   >
                     Send Request
                   </Button>
@@ -787,6 +826,7 @@ function ApprovalMain() {
                     color="secondary"
                     size="large"
                     onClick={handleBudgetApprovalSendRequest}
+                    endIcon={<SendIcon />}
                   >
                     Send Request
                   </Button>
@@ -806,7 +846,10 @@ function ApprovalMain() {
                     variant="outlined"
                     style={{ color: "green", borderColor: "green" }}
                     size="large"
-                    onClick={() => handleViewAppointments(budgetAppointments[0])}
+                    onClick={() =>
+                      handleViewAppointments(budgetAppointments[0])
+                    }
+                    endIcon={<VisibilityIcon />}
                   >
                     View Appointment
                   </Button>
@@ -877,6 +920,7 @@ function ApprovalMain() {
                     color="secondary"
                     size="large"
                     disabled
+                    endIcon={<SendIcon />}
                   >
                     Send Request
                   </Button>
@@ -886,6 +930,7 @@ function ApprovalMain() {
                     color="secondary"
                     size="large"
                     onClick={handleAdminApprovalSendRequest}
+                    endIcon={<SendIcon />}
                   >
                     Send Request
                   </Button>
@@ -903,9 +948,9 @@ function ApprovalMain() {
                   <Button
                     id="admin"
                     variant="outlined"
-                    style={{ color: "green", borderColor: "green" }}
                     size="large"
                     onClick={() => handleViewAppointments(adminAppointments[0])}
+                    endIcon={<VisibilityIcon />}
                   >
                     View Appointment
                   </Button>
