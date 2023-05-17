@@ -7,11 +7,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    firstname: {
-      type: String,
-      required: false,
-    },
-    lastname: {
+    name: {
       type: String,
       required: false,
     },
@@ -36,27 +32,7 @@ const userSchema = new mongoose.Schema(
     //     type: Boolean,
     //     default: true
     // }
-    foodtype: {
-      type: String,
-      enum: [
-        'veg',
-        'non-veg',
-      ]
-    },
-    mobile: {
-      type: String,
-    },
-    address: {
-      type: String,
-    },
-    profileimage: {
-      type: String,
-    },
-    itnumber: {
-      type: String,
-    }
   },
-
   {
     versionKey: false,
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },

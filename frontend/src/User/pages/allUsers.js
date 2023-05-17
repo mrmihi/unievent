@@ -61,7 +61,7 @@ const Opportunities = () => {
   const getRegisteredData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/users`,
+        `http://localhost:5000/api/users`,
       );
       console.log(response.data);
       setTableData(response.data);

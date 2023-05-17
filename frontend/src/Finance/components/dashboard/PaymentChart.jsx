@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import Chart from "chart.js/auto";
 
-
 const PaymentChart = () => {
   const [chartData, setChartData] = useState(null);
 
@@ -13,21 +12,28 @@ const PaymentChart = () => {
         const response = await fetch("http://localhost:5000/api/payments");
         const paymentData = await response.json();
 
-        // Format the payment data into Chart.js format
-        const chartLabels = ["Total Payments", "Total Refund"];
-        //const chartDataPoints = [paymentData.totalPayments, paymentData.totalRefund];
+        // Calculate total positive payments and total negative payments
+        let totalPositivePayments = 0;
+        let totalNegativePayments = 0;
+        paymentData.forEach((payment) => {
+          if (payment.price >= 0) {
+            totalPositivePayments += payment.price;
+          } else {
+            totalNegativePayments += payment.price;
+          }
+        });
 
         setChartData({
-          labels: chartLabels,
+          labels: ["Total Payments and Refunds"],
           datasets: [
             {
-              label: "Payments",
-              data: [paymentData.totalPayments],
+              label: "Total Payments",
+              data: [totalPositivePayments],
               backgroundColor: "#2E8B57",
             },
             {
-              label: "Refund",
-              data: [paymentData.totalRefund],
+              label: "Total Refunds",
+              data: [totalNegativePayments],
               backgroundColor: "#FF5733",
             },
           ],
@@ -42,7 +48,7 @@ const PaymentChart = () => {
 
   useEffect(() => {
     // Create the chart instance when chartData is updated
-    // if (chartData) {
+    if (chartData) {
       const chartConfig = {
         type: "bar",
         data: chartData,
@@ -52,34 +58,30 @@ const PaymentChart = () => {
               beginAtZero: true,
               ticks: {
                 callback: function (value, index, values) {
-                  return "$" + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  return  "$ " + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 },
               },
             },
           },
           plugins: {
             legend: {
-              display: false,
+              display: true,
             },
           },
         },
       };
 
-      
-    // }
-     const chartCanvas = document.getElementById("payment-chart");
+      const chartCanvas = document.getElementById("payment-chart");
       new Chart(chartCanvas, chartConfig);
-    return () => {
-      chartCanvas.destroy()
-        
+      // return () => {
+      //   chartCanvas.destroy();
+      // };
     }
-
- 
   }, [chartData]);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="left" maxHeight={400}>
-      <Typography variant="h5" gutterBottom>Total Payments and Refunds</Typography>
+      <Typography variant="h" gutterBottom>Total Payments and Refunds</Typography>
       <canvas id="payment-chart"></canvas>
     </Box>
   );

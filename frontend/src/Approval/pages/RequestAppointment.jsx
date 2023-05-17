@@ -1,368 +1,268 @@
-import React, { useState, useEffect } from "react";
-import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Box, Typography } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
-import { TimePicker } from "@mui/x-date-pickers";
-import { TextField, Button, MenuItem } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie"
+import React, { useEffect, useState } from "react";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import "react-datepicker/dist/react-datepicker.css";
+import {
+  Typography,
+} from "@mui/material";
+import { useParams } from "react-router-dom";
+import API from "../components/api.approval";
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router";
+
+const APPOINTMENT_MODE = {
+  VIRTUAL: "Virtual",
+  PHYSICAL: "Physical",
+  EITHER: "Either",
+};
 
 const RequestAppointment = () => {
-  const orgId = Cookies.get("org_id")
-  const {id : requestID } = useParams()
-  const navigate = useNavigate() 
-  const [approvalRequest, setApprovalRequest] = useState({})
-  const [requestTo, setRequestTo] = useState("")
+  const { id: approvalRequestID } = useParams();
+  const [sendingTo, setSendingTo] = useState(null);
+  const [sendingFrom, setSendingFrom] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [startTime, setStartTime] = useState(new Date());
+  const [EndTime, setEndTime] = useState(new Date());
+  const [note, setNote] = useState("");
+  const navigate = useNavigate();
 
-  const fetchRequest = async () => {
-    axios.
-      get(`http://localhost:5000/api/approval/request/${requestID}`, 
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
+  const getApprovalRequest = async () => {
+    await API.get(`approvalrequest/${approvalRequestID}`, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
       .then((res) => {
-        console.log(res.data.data)
-        setApprovalRequest(res.data.data)
-        // setRequestTo(res.data.data.requested_to.firstname + res.data.data.requested_to.lastname)
-        setRequestTo(res.data.data.requested_to.name)
+        setSendingTo(res.data.data.requested_to);
+        setSendingFrom(res.data.data.requested_by);
       })
-      .catch((error) => {
-        console.log(error.response.data)
-        toast.error(error.response.data.message, { position: "top-right" })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-      })
-  }
+  const handleSubmitBtn = async (values) => {
+    if (startTime > EndTime) {
+      toast.error("Start Time cannot be after End Time", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1000,
+      });
+    } else if (startTime === EndTime) {
+      console.log("Start Time cannot be same as End Time");
+      toast.error("Start Time cannot be same as End Time", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1000,
+      });
+    }
 
-  useEffect( () => {
-    fetchRequest()
-  }, [requestID])
+    const data = {
+      approval_request_id: approvalRequestID,
+      date: selectedDate.toISOString(),
+      start_time: startTime.toISOString(),
+      end_time: EndTime.toISOString(),
+      mode: values.mode,
+      location: values.location,
+      status: "Sent",
+      meetinglink: values.meetinglink,
+      appointment_note: note,
+    };
 
-  const sendAppointmentRequest = async (data) => {
-    axios.
-      post(`http://localhost:5000/api/approval/appointment/`, 
-      data,
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
+    await API.post("approval/appointment", data, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
       .then((res) => {
-        console.log(res)
-        toast.success("Successfully Requested an Appointment", { position: "top-right" })
-
-        setTimeout(() => {
-          navigate(`/org/dashboard/events/approval/${approvalRequest.approval_id.event_id}`)
-        }, 2000);
+        console.log(res);
+        toast.success("Appointment Request Sent", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+        });
       })
-      .catch((error) => {
-        console.log(error.response.data)
-        toast.error(error.response.data.message, { position: "top-right" })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
 
-      })
-  }
-
-  const [date, setDate] = useState(null);
-  const [dateError, setDateError] = useState(null);
-
-  const sixAM = moment("06:00", "HH:mm");
-  const eightPM = moment("20:00", "HH:mm");
-  const [startTime, setStartTime] = useState(null);
-  const [startTimeError, setStartTimeError] = useState(null);
-  const [endTime, setEndTime] = useState(null);
-  const [endTimeError, setEndTimeError] = useState(null);
-
-  const [mode, setMode] = useState(null);
-  const [modeError, setModeError] = useState(null);
-
-  const [location, setLocation] = useState(null);
-  const [locationError, setLocationError] = useState(null);
-
-  const [meetinglink, setMeetingLink] = useState(null);
-  const [meetinglinkError, setMeetingLinkError] = useState(null);
-
-  const [appointmentNote, setAppointmentNote] = useState(null);
-  const [appointmentNoteError, setAppointmentNoteError] = useState(null);
-
-  const APPOINTMENT_MODE = {
-    VIRTUAL: "Virtual",
-    PHYSICAL: "Physical",
-    EITHER: "Either",
+    // refresh
+    // navigate(0);
   };
 
-  const handleStartTimeChange = (value) => {
-    console.log(value);
+  const handleChange = (e) => {
+    setNote(e.target.value);
+  };
 
-    switch (String(value)) {
-      case "maxTime":
-        setStartTimeError("Must be after 6 AM");
-        break;
-      case "minTime":
-        setStartTimeError("Must be before 8 PM");
-        break;
-      default:
-        setStartTimeError(null);
+  useEffect(() => {
+    if (startTime > EndTime) {
+      toast.error("Start Time cannot be after End Time", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1000,
+      });
     }
-    console.log(startTimeError);
-  };
-
-  const handleEndTimeChange = (value) => {
-    switch (String(value)) {
-      case "maxTime":
-        setEndTimeError("Must be after 6 AM");
-        break;
-
-      case "minTime":
-        setEndTimeError("Must be before 8 PM");
-        break;
-
-      case "greater":
-        setEndTimeError("Start time cannot be after the end time ");
-        break;
-
-      case "equal":
-        setEndTimeError("Start and end time cannot be same");
-        break;
-
-      default:
-        setEndTimeError(null);
-    }
-  };
-
-  const handleLinkChange = (value) => {
-    setMeetingLink(value);
-    setMeetingLinkError(null);
-    if (meetinglink == "" || meetinglink == null)
-      setMeetingLinkError("Required");
-    else
-      try {
-        new URL(value);
-      } catch (error) {
-        setMeetingLinkError("Invalid URL");
-      }
-  };
-
-  const handleSubmitBtn = () => {
-    if (date == null) setDateError("Required");
-    if (startTime == null) setStartTimeError("Required");
-    if (endTime == null) setEndTimeError("Required");
-
-    if (mode == null) setModeError("Required");
-    else {
-      if (mode == "Virtual") {
-        if (meetinglink == null) {
-          setMeetingLinkError("Required");
-          setLocationError(null);
-        } else handleLinkChange(meetinglink);
-      } else if (mode == "Physical") {
-        if (location == null) {
-          setMeetingLinkError(null);
-          setLocationError("Required");
-        }
-      } else if (mode == "Either") {
-        if (location == null || location == "") setLocationError("Required");
-        if (meetinglink == null || meetinglink == "")
-          setMeetingLinkError("Required");
-        else handleLinkChange(meetinglink);
-      }
-    }
-
-    if (appointmentNote == null) setAppointmentNoteError("Required");
-
-    if (dateError == null && date != null)
-      if (startTimeError == null && startTime != null)
-        if (endTimeError == null && endTime != null)
-          if (modeError == null && mode != null)
-            if (locationError == null && meetinglinkError == null)
-              if (appointmentNoteError == null && appointmentNote != null) {
-                const appointment = {
-                  approval_request_id : requestID,
-                  date: date.toString(),
-                  start_time: startTime.toLocaleString(),
-                  end_time: endTime.toString(),
-                  mode: mode,
-                  location: location,
-                  status: "Sent",
-                  meetinglink: meetinglink,
-                  appointment_note: appointmentNote,
-                };
-                console.log(appointment)
-                console.log("--")
-                sendAppointmentRequest(appointment)
-              }
-  };
+  }, [EndTime]);
 
   return (
-    <Box className="flex flex-col items-center h-full">
-      <ToastContainer />
-      <Typography variant="h2" gutterBottom>
-        Request an Appointment
-      </Typography>
+    <div>
+      <Formik
+        initialValues={{
+          mode: APPOINTMENT_MODE.EITHER,
+          location: "",
+          meetinglink: "",
+          appointment_note: "",
+        }}
+        validationSchema={Yup.object().shape({
+          location: Yup.string(),
+          meetinglink: Yup.string().url("Meeting Link must be a valid URL"),
+          appointment_note: Yup.string()
+            .required("Appointment Note is required")
+            .matches(
+              /^[a-zA-Z0-9@\s]+$/,
+              "Only alphanumeric characters and @ are allowed"
+            ),
+        })}
+        onSubmit={(values) => {
+          handleSubmitBtn(values);
+        }}
+      >
+        {({ values, touched, errors, handleSubmit, handleChange }) => (
+          <Form className="w-full flex flex-col justify-center align-middle items-center ">
+            <div className="w-1/2 m-4 p-4 flex flex-col justify-center items-center border-2 rounded-lg">
+              <ToastContainer />
 
-      <Typography variant="h4" gutterBottom>
-        Appointment with: {requestTo}
-      </Typography>
+              <Typography variant="h4" className="m-4">
+                Request Appointment
+              </Typography>
 
-      <Box width="50%" className="h-3/4">
-        <div className="flex flex-col align-middle h-full justify-between">
-          <DatePicker
-            id="date"
-            name="date"
-            label="Date"
-            disablePast
-            value={date}
-            onError={(newError) => setDateError(newError)}
-            slotProps={{
-              textField: {
-                helperText: dateError,
-                error: Boolean(dateError),
-              },
-            }}
-            onChange={(value) => {
-              setDate(value);
-              setDateError(null);
-            }}
-          ></DatePicker>
+              {/* 
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <div className="w-full p-2 flex flex-col justify-center align-middle items-center">
+                  <div className="m-4 w-3/4">
+                    <div className="mb-8">
+                      <Typography variant="h6" className="m-2">
+                        Appointment With
+                      </Typography>
+                      <Typography variant="h6" className="m-2">
+                        {sendingTo != null ? sendingTo.name : ""}
+                      </Typography>
+                    </div>
 
-          <TimePicker
-            id="start_time"
-            name="start_time"
-            label="Start Time"
-            value={startTime}
-            minTime={sixAM}
-            maxTime={eightPM}
-            onError={handleStartTimeChange}
-            slotProps={{
-              textField: {
-                helperText: startTimeError,
-                error: Boolean(startTimeError),
-              },
-            }}
-            onChange={(value) => {
-              setStartTime(value);
-              setStartTimeError(null);
-            }}
-          ></TimePicker>
+                    <div className="mb-8">
+                      <Typography variant="h6" className="m-2">
+                        Date
+                      </Typography>
+                      <DatePicker
+                        value={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        minDate={new Date()}
+                      />
+                    </div>
 
-          <TimePicker
-            id="end_time"
-            name="end_time"
-            label="End Time"
-            value={endTime}
-            minTime={sixAM}
-            maxTime={eightPM}
-            onError={handleEndTimeChange}
-            slotProps={{
-              textField: {
-                helperText: endTimeError,
-                error: Boolean(endTimeError),
-              },
-            }}
-            onChange={(value) => {
-              setEndTime(value);
-              const date1 = Date.parse(startTime);
-              const date2 = Date.parse(value);
-              if (date1 == date2)
-                setEndTimeError("Start and end time cannot be same");
-              else if (date1 > date2)
-                setEndTimeError("End time cannot be before the end time ");
-              else setEndTimeError(null);
-            }}
-          ></TimePicker>
+                    <Typography variant="h6" className="m-2">
+                      Time
+                    </Typography>
 
-          <TextField
-            id="mode"
-            name="mode"
-            label="Mode"
-            select
-            value={mode}
-            onChange={(event) => {
-              setMode(event.target.value);
-              setModeError(null);
-              if (event.target.value == "Physical") {
-                setMeetingLinkError(null);
-                if (location == null || location == "")
-                  setLocationError("Required");
-              }
+                    <div className="py-2 w-full flex flex-row">
+                      <TimePicker
+                        label="Start Time"
+                        value={startTime}
+                        onChange={(time) => setStartTime(time)}
+                        error={touched.startTime && !!errors.startTime}
+                        helperText={touched.startTime && errors.startTime}
+                      />
 
-              if (event.target.value == "Either") {
-                handleLinkChange(meetinglink);
-                if (location == null || location == "")
-                  setLocationError("Required");
-              }
+                      <TimePicker
+                        label="End Time"
+                        value={EndTime}
+                        onChange={(time) => setEndTime(time)}
+                        error={touched.endTime && !!errors.endTime}
+                        helperText={touched.endTime && errors.endTime}
+                      />
+                    </div>
+                  </div>
 
-              if (event.target.value == "Virtual") {
-                handleLinkChange(meetinglink);
-                setLocationError(null);
-              }
-            }}
-            onError={(err) => setModeError(err)}
-            helperText={modeError}
-            error={Boolean(modeError)}
-            slotProps={{
-              textField: {
-                helperText: modeError,
-                error: Boolean(modeError),
-              },
-            }}
-          >
-            {Object.keys(APPOINTMENT_MODE).map((x) => (
-              <MenuItem key={x} value={APPOINTMENT_MODE[x]}>
-                {APPOINTMENT_MODE[x]}
-              </MenuItem>
-            ))}
-          </TextField>
+                  <div className="m-4 w-3/4">
+                    <div className="mb-4 w-full">
+                      <Field
+                        as={TextField}
+                        name="mode"
+                        label="Mode"
+                        fullWidth
+                        select
+                        value={values.mode}
+                        error={touched.mode && !!errors.mode}
+                        helperText={touched.mode && errors.mode}
+                      >
+                        {Object.values(APPOINTMENT_MODE).map((mode) => (
+                          <option
+                            key={mode}
+                            value={mode}
+                            className="text-center m-1 cursor-pointer border-b"
+                          >
+                            {mode}
+                          </option>
+                        ))}
+                      </Field>
+                    </div>
 
-          <TextField
-            id="location"
-            name="location"
-            label="Location"
-            value={location}
-            onChange={(event) => {
-              setLocation(event.target.value);
-              setLocationError(null);
-              if (event.target.value == "") setLocationError("Required");
-            }}
-            onError={(err) => setLocationError(err)}
-            helperText={locationError}
-            error={Boolean(locationError)}
-          />
+                    <div className="mt-4 w-full mb-4">
+                      {values.mode === APPOINTMENT_MODE.PHYSICAL ||
+                      values.mode === APPOINTMENT_MODE.EITHER ? (
+                        <Field
+                          as={TextField}
+                          name="location"
+                          label="Location"
+                          fullWidth
+                          value={values.location}
+                          error={touched.location && !!errors.location}
+                          helperText={touched.location && errors.location}
+                        />
+                      ) : null}
 
-          <TextField
-            id="meetinglink"
-            name="meetinglink"
-            label="Meeting Link"
-            value={meetinglink}
-            onChange={(event) => handleLinkChange(event.target.value)}
-            onError={(err) => setMeetingLinkError(err)}
-            helperText={meetinglinkError}
-            error={Boolean(meetinglinkError)}
-          />
+                      {values.mode === APPOINTMENT_MODE.VIRTUAL ||
+                      values.mode === APPOINTMENT_MODE.EITHER ? (
+                        <Field
+                          as={TextField}
+                          name="meetinglink"
+                          label="Meeting Link"
+                          fullWidth
+                          value={values.meetinglink}
+                          error={touched.meetinglink && !!errors.meetinglink}
+                          helperText={touched.meetinglink && errors.meetinglink}
+                        />
+                      ) : null}
+                    </div>
+                    <Field
+                      as={TextField}
+                      name="appointment_note"
+                      label="Note"
+                      fullWidth
+                      onChange={handleChange}
+                      value={values.appointment_note}
+                      error={
+                        touched.appointment_note && !!errors.appointment_note
+                      }
+                      helperText={
+                        touched.appointment_note && errors.appointment_note
+                      }
+                    />
 
-          <TextField
-            id="appointment_note"
-            name="appointment_note"
-            label="Appointment Note"
-            multiline
-            rows={4}
-            onChange={(event) => {
-              setAppointmentNote(event.target.value);
-              setAppointmentNoteError(null);
-              if (event.target.value == "") setAppointmentNoteError("Required");
-            }}
-            onError={(err) => setAppointmentNoteError(err)}
-            helperText={appointmentNoteError}
-            error={Boolean(appointmentNoteError)}
-          />
-          <Button variant="contained" size="large" onClick={handleSubmitBtn}>
-            Submit
-          </Button>
-        </div>
-      </Box>
-    </Box>
+                    <div className="m-2 w-full flex justify-center align-middle">
+                      <Button
+                        typeof="submit"
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        style={{ width: "50%", fontSize: "1rem" }}
+                      >
+                        Submit
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </MuiPickersUtilsProvider>
+               */}
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };
 

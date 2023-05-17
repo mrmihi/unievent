@@ -22,7 +22,6 @@ const VReview = () => {
             { accessorKey: "row", header: "Number" },
             { accessorKey: "rating", header: "Rating" },
             { accessorKey: "review", header: "Review" },
-            { accessorKey: "event.name", header: "Event" },
             { accessorKey: "organizer.name", header: "Organizer" },
             { accessorKey: "venue.name", header: "Venue" },
         ],

@@ -22,6 +22,7 @@ import {
 import OrgLogout from 'Org/OrgLogout';
 import Cookies from 'js-cookie';
 
+
 const Navbar = ({ attendee, isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -42,9 +43,11 @@ const Navbar = ({ attendee, isSidebarOpen, setIsSidebarOpen }) => {
         </FlexBetween>
         {Cookies.get('org_name')}
         <div style={{ flexGrow: 1 }} />
+
         <Button color="error" onClick={OrgLogout} sx={{ float: 'right' }}>
           Logout
         </Button>
+
       </Toolbar>
     </AppBar>
   );
