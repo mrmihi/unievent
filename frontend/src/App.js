@@ -124,6 +124,8 @@ import UBudgetView from './User/pages/budgetView';
 import UserProfileEdit from './User/pages/UserProfileEdit';
 import VenuesReviewsAdd from 'Org/VenueReviews/pages/VenueReviewsAdd';
 import VenuesReviewsUpdate from 'Org/VenueReviews/pages/VenuesReviewsUpdate';
+import AllSpeakers from 'Partners/organizer/speakers/AllSpeakers';
+import AllSponsors from 'Partners/organizer/sponsors/AllSponsors';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -372,7 +374,7 @@ function App() {
                   element={<UpdateSponsor />}
                 />
                 <Route
-                  path="/org/dashboard/volunteers/"
+                  path="/org/dashboard/all volunteers/"
                   element={<Volunteers />}
                 />
                 <Route
@@ -386,6 +388,14 @@ function App() {
                 <Route
                   path="/org/dashboard/updateOpportunity/"
                   element={<UpdateOpportunity />}
+                />
+                <Route
+                  path="/org/dashboard/all speakers/"
+                  element={<AllSpeakers />}
+                />
+                <Route
+                  path="/org/dashboard/all sponsors/"
+                  element={<AllSponsors />}
                 />
               </Route>
               <Route
