@@ -27,6 +27,7 @@ import { DateField } from '@mui/x-date-pickers/DateField';
 import { Dayjs } from 'dayjs';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useParams } from 'react-router';
 
 const validationSchema = yup.object({
   name: yup.string().required('Name is required'),
@@ -36,6 +37,7 @@ const validationSchema = yup.object({
 });
 
 const AppOpportunity = () => {
+  const { eventID } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageSelected, setImageSelected] = useState('');
   const [serverSuccessMessage, setServerSuccessMessage] = useState('');
@@ -56,7 +58,7 @@ const AppOpportunity = () => {
       const newValues = {
         ...values,
         opportunityImage: imageUrl,
-        eventID: '643e6ca96030148f194b771d',
+        eventID: `${eventID}`,
       };
 
       try {

@@ -376,11 +376,11 @@ function App() {
                   element={<Volunteers />}
                 />
                 <Route
-                  path="/org/dashboard/opportunities/"
+                  path="/org/dashboard/opportunities/:eventID"
                   element={<Opportunities />}
                 />
                 <Route
-                  path="/org/dashboard/addOpportunity/"
+                  path="/org/dashboard/addOpportunity/:eventID"
                   element={<AddOpportunity />}
                 />
                 <Route

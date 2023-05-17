@@ -36,7 +36,7 @@ const Sponsors = () => {
 
   const getRegisteredData = async () => {
     try {
-      const response = await axios.get(` /api/partners/sponsors/${eventID}`);
+      const response = await axios.get(`/api/partners/sponsors/${eventID}`);
       console.log(response.data.data);
       setTableData(response.data.data);
     } catch (error) {
@@ -83,7 +83,7 @@ const Sponsors = () => {
       tableData.push(newValues);
       setTableData([...tableData]);
       try {
-        const response = await axios.post(` /api/partners/sponsors`, newValues);
+        const response = await axios.post(`/api/partners/sponsors`, newValues);
         console.log(response);
         setServerSuccessMessage(response.data.message);
       } catch (error) {

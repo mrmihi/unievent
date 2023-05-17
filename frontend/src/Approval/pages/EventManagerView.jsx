@@ -139,6 +139,9 @@ function EventManagerView() {
   const handleViewSponsorsRequestBtn = () => {
     navigate(`/org/dashboard/sponsors/${eventID}`);
   };
+  const handleViewOpportunitiesRequestBtn = () => {
+    navigate(`/org/dashboard/opportunities/${eventID}`);
+  };
 
   const handlePublishBtn = () => {
     //Dinal
@@ -476,7 +479,7 @@ function EventManagerView() {
                   variant="contained"
                   color="secondary"
                   size="large"
-                  onClick={handleFillApprovalRequestBtn}
+                  onClick={handleViewOpportunitiesRequestBtn}
                 >
                   View Opportunities
                 </Button>

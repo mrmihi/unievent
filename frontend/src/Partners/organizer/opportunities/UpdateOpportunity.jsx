@@ -61,8 +61,6 @@ const UpdateOpportunity = () => {
       const newValues = {
         ...values,
         opportunityImage: imageUrl,
-        eventID: '643e6ca96030148f194b771d',
-        organizationID: '642e4928973a5984d960f4bc',
       };
 
       try {
