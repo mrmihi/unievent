@@ -2,6 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import Header from "User/components/Header"
 import FlexBetween from "User/components/FlexBetween";
+import FourAnalytics from "User/pages/FourAnalytics";
 
 const getGreeting = () => {
     const now = new Date();
@@ -27,6 +28,8 @@ const Dashboard = () => {
 					subtitle="Welcome to your dashboard"
 				/>	
 				</FlexBetween>
+                <FourAnalytics />
+                
 
             </div>
         </Box>

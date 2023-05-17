@@ -42,6 +42,7 @@ const appointmentSchema = new Schema({
     responded_on: { type: Date },
     meetinglink : { type: String },
     appointment_note : { type: String, required: true },
+    requested_by : { type: String, ref: 'Organization' },
 },{
     timestamps: true,
 });

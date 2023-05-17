@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
@@ -37,6 +37,7 @@ const CustomizedInputBase = (props) => {
 };
 
 const OpportunitiesList = () => {
+  const { eventID } = useParams();
   const navigate = useNavigate();
   const [opportunitiesData, setOpportunitiesData] = useState([]);
   const [query, setQuery] = useState('');
@@ -44,9 +45,7 @@ const OpportunitiesList = () => {
 
   //fetch Opportunities data
   const fetchData = async () => {
-    const res = await axios.get(
-      '/api/partners/opportunities/643e6ca96030148f194b771d'
-    );
+    const res = await axios.get(`/api/partners/opportunities/${eventID}`);
     setOpportunitiesData(res.data.data);
   };
 
@@ -95,7 +94,7 @@ const OpportunitiesList = () => {
             </Typography>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 w-5/6">
             {searchResult &&
               searchResult?.map((opportunity) => {
                 return (

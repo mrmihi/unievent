@@ -22,6 +22,7 @@ import Header from '../../components/Header';
 import SponsorPDF from '../../pdf/SponsorPDF';
 
 const Sponsors = () => {
+  const { eventID } = useParams();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -32,11 +33,10 @@ const Sponsors = () => {
 
   // let { eventID } = useParams();
   // eventID = eventID.toString();
-  const eventID = '643e6ca96030148f194b771d';
 
   const getRegisteredData = async () => {
     try {
-      const response = await axios.get(` /api/partners/sponsors/${eventID}`);
+      const response = await axios.get(`/api/partners/sponsors/${eventID}`);
       console.log(response.data.data);
       setTableData(response.data.data);
     } catch (error) {
@@ -83,7 +83,7 @@ const Sponsors = () => {
       tableData.push(newValues);
       setTableData([...tableData]);
       try {
-        const response = await axios.post(` /api/partners/sponsors`, newValues);
+        const response = await axios.post(`/api/partners/sponsors`, newValues);
         console.log(response);
         setServerSuccessMessage(response.data.message);
       } catch (error) {
@@ -317,7 +317,7 @@ const Sponsors = () => {
                 sx={{ marginRight: '5px' }}
                 color="primary"
                 onClick={() => {
-                  navigate('/org/dashboard/addSponsor/');
+                  navigate(`/org/dashboard/addSponsor/${eventID}`);
                 }}
                 variant="contained"
               >

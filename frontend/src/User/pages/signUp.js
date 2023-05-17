@@ -54,6 +54,11 @@ export default function SignUp() {
 
 
   const [emailError, setEmailError] = useState('');// email error state
+  const [passwordError, setPasswordError] = useState('');// password error state
+  const [firstnameError, setFirstnameError] = useState('');// password error state
+  const [lastnameError, setLastnameError] = useState('');// password error state
+  const [roleError, setRoleError] = useState('');// password error state
+  
   const handleClickShowPassword = () => setShowPassword((show) => !show);// handle show password
 
   const handleMouseDownPassword = (event) => {
@@ -61,17 +66,40 @@ export default function SignUp() {
   };// handle mouse down password
 
 
-  const handleSubmit =async (event) => {
+
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    
 
-    try{
+    if (!email) {
+      setEmailError('Email is required');
+    }
+    if (!password) {
+      setPasswordError('Password is required');
+    }
+    if (!firstname) {
+      setFirstnameError('First name is required');
+    }
+    if (!lastname) {
+      setLastnameError('Last name is required');
+    }
+    if (!role) {
+      setRoleError('Role is required');
+    }
+  
+    // Return early if any errors exist
+    if (emailError || passwordError || firstnameError || lastnameError || roleError) {
+      return;
+    }
 
-      await axios.post('http://localhost:3000/api/users/register', {email, password, firstname,lastname, role});// send post request to register route
+
+    try {
+
+      await axios.post('http://localhost:3000/api/users/register', { email, password, firstname, lastname, role });// send post request to register route
       // alert('Registration Successful');// alert user
       setRegisterSuccess(true);
 
-    }catch(error){
+    } catch (error) {
       console.log(error);
       // alert('Registration Failed');// alert user
       setRegisterError(true);
@@ -90,8 +118,15 @@ export default function SignUp() {
     }
   };
 
- 
-  
+  const validatePassword = () => {
+    if (password.length < 8) {
+      return { error: true, helperText: 'Password must be at least 8 characters long' };
+    }
+    return { error: false, helperText: '' };
+  };
+
+
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -108,11 +143,11 @@ export default function SignUp() {
             boxShadow: '0 0 10px 0 rgba(0,0,0,0.2)',
             padding: '20px',
 
-            
+
           }}
 
 
-          
+
 
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -125,19 +160,19 @@ export default function SignUp() {
 
             {/* display success message if register is successful */}
             {registerSuccess && (
-                <Alert severity="success" onClose={() => setRegisterSuccess(false)}>
-                  Register successful
-                </Alert>
-              )}
-              
-              {/* display error message if register fails */}
-              {registerError && (
-                <Alert severity="error" onClose={() => setRegisterError(false)}>
-                  Register Failed - Email already exists
-                </Alert>
-              )}
+              <Alert severity="success" onClose={() => setRegisterSuccess(false)}>
+                Register successful
+              </Alert>
+            )}
 
-              <br></br>
+            {/* display error message if register fails */}
+            {registerError && (
+              <Alert severity="error" onClose={() => setRegisterError(false)}>
+                Register Failed - Email already exists
+              </Alert>
+            )}
+
+            <br></br>
 
 
             <Grid container spacing={2}>
@@ -173,83 +208,84 @@ export default function SignUp() {
                   id="email"
                   label="Email Address"
                   name="email"
-                  autoComplete="email"
                   value={email}
                   error={Boolean(emailError)}
-                  
+                  helperText={emailError}
                   onChange={(e) => setEmail(e.target.value)}
+                  onBlur={validateEmail}
                 />
-                
               </Grid>
-              
-              <FormControl sx={{ ml:2,mt:2 , width: '100%' }} variant="outlined">
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <OutlinedInput
-                // id="outlined-adornment-password"
-                type={showPassword ? 'text' : 'password'}
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                // label="Password"
-                // type="password"
-                id="password"
-                autoComplete="current-password"
-                sx={{width:'100%'}}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                 endAdornment={
-                <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-              }
-              label="Password"
-            />
-            </FormControl>
-            
+
+              <FormControl sx={{ ml: 2, mt: 2, width: '100%' }} variant="outlined">
+                <InputLabel htmlFor="password">Password</InputLabel>
+                <OutlinedInput
+                  type={showPassword ? 'text' : 'password'}
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  id="password"
+                  autoComplete="current-password"
+                  sx={{ width: '100%' }}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                    // Validate the password
+                    ...(validatePassword().error && { error: true }),
+                    ...(validatePassword().helperText && { helperText: validatePassword().helperText }),
+                  }}
+                  label="Password"
+                />
+              </FormControl>
+
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                    <Select  
-                        labelId='demo-simple-select-label'
-                        id='demo-simple-select'
-                        label='Role'
-                        name='role'
-                        required
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                    >
-                        <MenuItem value='student'>Student</MenuItem>
-                        {/* <MenuItem value='admin'>User Manager</MenuItem> */}
-                        <MenuItem value='accountant'>Accountant</MenuItem>
-                        <MenuItem value='venue'>Venue Manager</MenuItem>
-                        <MenuItem value='attendee'>Attendee Manager</MenuItem>
-                        <MenuItem value='resource'>Resource Manager</MenuItem>
-                        <MenuItem value='staff'>Staff</MenuItem>
-                        <MenuItem value='admin'>Administrator</MenuItem>
+                  <Select
+                    labelId='demo-simple-select-label'
+                    id='demo-simple-select'
+                    label='Role'
+                    name='role'
+                    required
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                  >
+                    <MenuItem value='student'>Student</MenuItem>
+                    {/* <MenuItem value='admin'>User Manager</MenuItem> */}
+                    <MenuItem value='accountant'>Accountant</MenuItem>
+                    <MenuItem value='venue'>Venue Manager</MenuItem>
+                    <MenuItem value='attendee'>Attendee Manager</MenuItem>
+                    <MenuItem value='resource'>Resource Manager</MenuItem>
+                    <MenuItem value='staff'>Staff</MenuItem>
+                    <MenuItem value='admin'>Administrator</MenuItem>
 
 
-                    </Select>
+                  </Select>
                 </FormControl>
               </Grid>
-              
+
             </Grid>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2,fontSize:20}}
+              sx={{ mt: 3, mb: 2, fontSize: 20 }}
             >
               Sign Up
             </Button>
-            
+
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

@@ -3,15 +3,16 @@ import autoTable from "jspdf-autotable";
 import { Button } from "@mui/material";
 import logo from "./image.png";
 import moment from "moment";
+
 const doc = new jsPDF({
   orientation: "landscape",
 });
 
 const exportPDF = (tableData) => {
-doc.addImage(logo, 'PNG', 0, 0, 200, 50);
-  doc.setFontSize(11);
-  doc.text("User Report", 15, 53);
-  doc.text(`Report Generated ${moment().format("MMMM Do YYYY, h:mm:ss a")}`, 14, 59);
+doc.addImage(logo, 'PNG', 0, 0, 300, 70);
+  doc.setFontSize(15);
+  doc.text("User Report", 14,70);
+  doc.text(`Report Generated ${moment().format("MMMM Do YYYY, h:mm:ss a")}`, 14, 80);
 
 
   autoTable(doc, { html: "#my-table" });
@@ -33,8 +34,9 @@ doc.addImage(logo, 'PNG', 0, 0, 200, 50);
     body: data,
     styles: {
       cellWidth: "auto",
+      fontSize:12
     },
-    startY: 65,
+    startY: 85,
   });
 
   doc.save("Opportunities.pdf");

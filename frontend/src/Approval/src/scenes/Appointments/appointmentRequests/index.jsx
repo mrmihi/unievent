@@ -24,29 +24,29 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { toast, ToastContainer } from "react-toastify";
 
-const Approvals = () => {
+const AppointmentRequests = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
 
   const StaffID = Cookies.get("staff_id");
 
   const getData = async () => {
-    try {
-      // const response = await axios.get(`/api/approval/request`);
-      const response = await axios.get(`/api/approval/request/user/p/${StaffID}`);
-
-      setTableData(response.data.data);
-
-    } catch (error) {
-      console.log(error.response.data);
-    }
+    await axios
+    .get(
+        `/api/approval/appointment/user/p/${StaffID}`
+    )
+    .then((res) => {
+    //   console.log(res);
+      console.log(res.data.data);
+      setTableData(res.data.data);
+    })
+    .catch((err) => {
+      console.log(err.response.data);
+    })
   };
 
   useEffect(() => {
-    const fetchRegisteredData = async () => {
-      await getData();
-    };
-    fetchRegisteredData();
+    getData();
   }, [StaffID]);
 
 
@@ -61,38 +61,68 @@ const Approvals = () => {
         size: 80,
       },
       {
-        accessorKey: "approval_id",
-        header: "Approval ID",
+        accessorKey: "approval_request_id",
+        header: "Approval Request ID",
         enableColumnOrdering: false,
         enableEditing: false,
         enableSorting: false,
         size: 120,
       },
       {
-        accessorKey: "type",
-        header: "Type",
+        accessorKey: "requested_by.name",
+        header: "Requested By",
         enableColumnOrdering: true,
         enableEditing: false,
         enableSorting: true,
-        
       },
       {
-        accessorKey: "requested_at",
-        header: "Requested At",
-        enableColumnOrdering: false,
+        accessorKey: "date",
+        header: "Date",
+        enableColumnOrdering: true,
         enableEditing: false,
         enableSorting: true,
       },
       {
-        accessorKey: "request_note",
-        header: "Requested Note",
-        enableColumnOrdering: false,
+        accessorKey: "start_time",
+        header: "Start Time",
+        enableColumnOrdering: true,
         enableEditing: false,
         enableSorting: true,
       },
       {
-        accessorKey: "requested_by.name",
-        header: "Requested By",
+        accessorKey: "end_time",
+        header: "End Time",
+        enableColumnOrdering: true,
+        enableEditing: false,
+        enableSorting: true,
+      },
+      {
+        accessorKey: "mode",
+        header: "Mode",
+        enableColumnOrdering: true,
+        enableEditing: false,
+        enableSorting: true,
+      },
+      {
+        accessorKey: "location",
+        header: "Location",
+        enableColumnOrdering: true,
+        enableEditing: false,
+        enableSorting: true,
+      },
+      {
+        accessorKey: "meetinglink",
+        header: "meetinglink",
+        enableColumnOrdering: true,
+        enableEditing: false,
+        enableSorting: true,
+      },
+      {
+        accessorKey: "appointment_note",
+        header: "Appointment Note",
+        enableColumnOrdering: true,
+        enableEditing: false,
+        enableSorting: true,
       },
     ],
     []
@@ -100,25 +130,21 @@ const Approvals = () => {
 
   const handleViewBtn = (row) => {
     Swal.fire({
-      title: "Request Note",
-      text: row.getValue("request_note"),
+      title: "Appointment Note",
+      text: row.getValue("appointment_note"),
       showCancelButton: false,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Okay",
     }).then((result) => {
-      if (result.isConfirmed) {
-        toast.info(`View Btn clicked on ${row.getValue("approval_id")}`, {
-          position: "top-center",
-        });
-      }
+      
     });
   };
 
   const updateRequest = async (rId, status, index) => {
     await axios
       .put(
-        `/api/approval/request/${rId}`,
+        `/api/approval/appointment/${rId}`,
         {
           status: status,
           responded_at : Date()
@@ -172,7 +198,7 @@ const Approvals = () => {
           <FlexBetween>
             <Header
               id="headerText"
-              title="Approval Requests to be Reviewed"
+              title="Appointment Requests to be Reviewed"
               subtitle="Welcome!"
             />
           </FlexBetween>
@@ -202,16 +228,16 @@ const Approvals = () => {
             },
           }}
           columns={columns}
-          data={tableData}
+          data={tableData != null ? tableData : null}
           enableColumnOrdering
           enableEditing
           enableSorting
           initialState={{
             columnVisibility: {
               _id: false,
-              approval_id: false,
+              approval_request_id: false,
               requested_to: false,
-              request_note: false,
+              appointment_note: false,
             },
           }}
           renderRowActions={({ row, table }) => (
@@ -242,4 +268,4 @@ const Approvals = () => {
   );
 };
 
-export default Approvals;
+export default AppointmentRequests;

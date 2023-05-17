@@ -2,25 +2,16 @@ import * as React from 'react';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-// import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import Logout from 'User/components/logout';
 import { useEffect } from 'react';
 import Grid from "@mui/material/Grid";
 import Paper from '@mui/material/Paper';
-import { red } from '@mui/material/colors';
-import { BoltRounded } from '@mui/icons-material';
-import { InputText } from 'primereact/inputtext';
-import { Dialog } from 'primereact/dialog';
-import Profileimage from '../images/profile.png';
-import Avatar from 'react-avatar-edit'
 import "../styles/profilePage.css";
 import {Image} from 'cloudinary-react';
 
@@ -62,7 +53,7 @@ export default function ProfilePage() {
   // const [updateSuccess, setUpdateSuccess] = useState(false);// update success state
   // const [updateError, setUpdateError] = useState(false);// update error state
 
-  const id = Cookie.get('id');
+  const id = Cookie.get('id');// get id from cookie
   console.log(id)
 
   useEffect(() => {
@@ -116,7 +107,7 @@ export default function ProfilePage() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid justifyContent='center' container component="main" sx={{ height: '90vh' }} paddingTop={5} >
+      <Grid justifyContent='center' container component="main" sx={{ height: '90vh',borderRadius:'5px' }} paddingTop={5} >
         <CssBaseline />
 
         <Grid

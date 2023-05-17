@@ -12,7 +12,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { toast, ToastContainer } from "react-toastify";
 
-const AllAppointments = (props) => {
+const AllApprovalRequests = (props) => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
 
@@ -142,4 +142,5 @@ const AllAppointments = (props) => {
   );
 };
 
-export default AllAppointments;
+
+export default AllApprovalRequests;

@@ -1,10 +1,11 @@
+import { Button } from '@mui/material';
 import Title from './Title';
 
 const Actions = () => {
   const prizeList = [
     {
       name: 'Register',
-      image: 'Badge.svg',
+      image: 'SignUp.svg',
       details: ['Register for the event', 'and get notified'],
     },
     {
@@ -17,12 +18,12 @@ const Actions = () => {
     },
     {
       name: 'Create a Badge',
-      image: 'Badge.svg',
+      image: 'ProfileBadge.svg',
       details: ['Create a badge to show your', 'support for the event!'],
     },
     {
       name: 'View Opportunities',
-      image: 'Opportunities.svg',
+      image: 'VolunteerOpportunities.svg',
       details: ['View the opportunities', 'available for the event!'],
     },
   ];
@@ -34,7 +35,7 @@ const Actions = () => {
           <img
             src={`/assets/${image}`}
             alt="Actions"
-            className="w-32 h-32 md:w-32 md:h-32 mx-16 p-2  flex justify-center items-center transform hover:scale-105 transition duration-300"
+            className="w-40 h-40 md:w-40 md:h-40 mx-16 p-2  flex justify-center items-center transform hover:scale-105 transition duration-300"
           />
           <span className="text-white text-xl font-semibold text-center mt-8 mb-6">
             {name}
@@ -64,6 +65,7 @@ const Actions = () => {
           {prizeList.map((prize, index) => {
             return (
               <Prize
+                onClick={() => console.log('hello')}
                 key={prize}
                 name={prize.name}
                 details={prize.details}
