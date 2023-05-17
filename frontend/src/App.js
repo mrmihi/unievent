@@ -41,6 +41,7 @@ import ResourcesTable from './Resource/tables/allResources';
 import PageNotFound from './Events/pages/PageNotFound.jsx';
 import AllResourcesView from 'Resource/pages/AllResourcesView';
 import AddReservation from 'Resource/views/AddReservation';
+import ReservationTable from 'Resource/tables/allReservations';
 
 import Speaker from 'Partners/organizer/speakers';
 import Sponsors from 'Partners/organizer/sponsors';
@@ -50,10 +51,9 @@ import OpportunitiesList from 'Partners/user/volunteer/OpportunitiesList';
 import AppliedOpportunitiesList from 'Partners/user/volunteer/AppliedOpportunitiesList';
 import UpdateVolunteerApplication from 'Partners/user/volunteer/UpdateVolunteerApplication';
 import OpportunityDetails from 'Partners/user/volunteer/OpportunityDetails';
-
-// import OpportunityRegister from "Resource/components/registrationForm";
-
 import OpportunityRegister from 'Partners/user/volunteer/OpportunityRegister';
+import AllSpeakers from 'Partners/organizer/speakers/AllSpeakers';
+import AllSponsors from 'Partners/organizer/sponsors/AllSponsors';
 
 import VLayout from 'Venue/src/scenes/layout';
 import VDashboard from 'Venue/src/scenes/dashboard';
@@ -71,11 +71,11 @@ import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 import ALayout from 'Approval/src/scenes/layout';
 import ADashboard from 'Approval/src/scenes/dashboard';
 import ALoginPage from 'Approval/src/scenes/login';
-import AApproval from 'Approval/src/scenes/approvalRequests';
-import AApprovalRequests from 'Approval/src/scenes/allApprovalRequests';
-import AAppointmentRequests from 'Approval/src/scenes/appointmentRequests';
-import AAppointments from 'Approval/src/scenes/upcomingAppointments';
-
+import AApproval from 'Approval/src/scenes/Approval_Requests/approvalRequests';
+import AApprovalRequests from 'Approval/src/scenes/Approval_Requests/allApprovalRequests';
+import AAppointmentRequests from 'Approval/src/scenes/Appointments/appointmentRequests';
+import AAppointments from 'Approval/src/scenes/Appointments/allAppointments';
+import AAppointmentsUpcoming from 'Approval/src/scenes/Appointments/upcomingAppointments';
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
 import Staffs from 'Approval/pages/Staffs';
@@ -104,6 +104,19 @@ import FBills from './Finance/scenes/finance/bills';
 import FPayments from './Finance/scenes/finance/payments';
 import FReport from './Finance/scenes/finance/report';
 import FPayPal from 'Finance/scenes/finance/paymentform';
+import FPaymentOptions from 'Finance/scenes/finance/paymentpage';
+import FPrintBill from 'Finance/scenes/finance/printbill';
+
+import ULayout from './User/scenes/layout/Layout';
+import UDashboard from './User/scenes/dashboard';
+import UProfilePage from './User/pages/profilePage';
+import ULogin from './User/pages/login';
+import UAllusers from './User/pages/allUsers';
+import USignUp from './User/pages/signUp';
+import UBudgetForm from './User/pages/budgetForm';
+import UBudgetView from './User/pages/budgetView';
+import UserProfileEdit from './User/pages/UserProfileEdit';
+
 import AddSpeaker from 'Partners/organizer/speakers/AddSpeaker';
 import UpdateSpeaker from 'Partners/organizer/speakers/UpdateSpeaker';
 import AddSponsor from 'Partners/organizer/sponsors/AddSponsor';
@@ -112,16 +125,6 @@ import UpdateOpportunity from 'Partners/organizer/opportunities/UpdateOpportunit
 import AddOpportunity from 'Partners/organizer/opportunities/AddOpportunity';
 import VolunteerSchedule from 'Partners/user/volunteer/VolunteerSchedule';
 
-import ULayout from './User/scenes/layout/Layout';
-import UDashboard from './User/scenes/dashboard';
-import UAllEventView from './User/pages/AllEventView';
-import UProfilePage from './User/pages/profilePage';
-import ULogin from './User/pages/login';
-import UAllusers from './User/pages/allUsers';
-import USignUp from './User/pages/signUp';
-import UBudgetForm from './User/pages/budgetForm';
-import UBudgetView from './User/pages/budgetView';
-import UserProfileEdit from './User/pages/UserProfileEdit';
 import VenuesReviewsAdd from 'Org/VenueReviews/pages/VenueReviewsAdd';
 import VenuesReviewsUpdate from 'Org/VenueReviews/pages/VenuesReviewsUpdate';
 
@@ -200,13 +203,27 @@ function App() {
                 />
                 <Route path="events-draft" element={<AllEventsTable />} />
                 <Route
+                  path="/org/event/budget/:eventid"
+                  element={<UBudgetForm />}
+                />
+                <Route
+                  path="/org/event/viewBudget/:event_id"
+                  element={<UBudgetView />}
+                />
+                <Route
                   path="/org/dashboard/events/approval/print/:id"
                   element={<PrintAll />}
                 />
-                {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
-                <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
-                <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
-              <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
+
+                <Route
+                  path="/org/event/budget/:eventid"
+                  element={<UBudgetForm />}
+                />
+
+                <Route
+                  path="/org/event/viewBudget/:event_id"
+                  element={<UBudgetView />}
+                />
 
                 <Route
                   path="/org/dashboard/venues/reviews"
@@ -232,6 +249,10 @@ function App() {
                   element={<AAppointmentRequests />}
                 />
                 <Route path="/admin/appointments" element={<AAppointments />} />
+                <Route
+                  path="/admin/appointments/upcoming"
+                  element={<AAppointmentsUpcoming />}
+                />
                 <Route
                   path="/admin/approvals"
                   element={<AApprovalRequests />}
@@ -284,39 +305,48 @@ function App() {
               {/* Attendee Routes */}
               <Route element={<Layout />}>
                 <Route
-                  path="/administrator/dashboard"
+                  path="/"
+                  element={<Navigate to="/attendeemanager/dashboard" replace />}
+                />
+                <Route
+                  path="/attendeemanager/dashboard"
                   element={<Dashboard />}
                 />
                 <Route
-                  path="/administrator/feedBacks"
+                  path="/attendeemanager/feedBacks"
                   element={<FeedBacks />}
                 />
                 <Route
-                  path="/administrator/attendees"
+                  path="/attendeemanager/attendees"
                   element={<Attendees />}
                 />
+                {/* <Route
+                path="/attendeemanager/dataFinalists"
+                element={<DataFinalists />}
+              /> */}
                 <Route
-                  path="/administrator/dataFinalists"
-                  element={<DataFinalists />}
+                  path="/attendeemanager/overview"
+                  element={<Overview />}
                 />
-                <Route path="/administrator/overview" element={<Overview />} />
-                <Route path="/administrator/daily" element={<Daily />} />
-                <Route path="/administrator/monthly" element={<Monthly />} />
+                <Route path="/attendeemanager/daily" element={<Daily />} />
+                <Route path="/attendeemanager/monthly" element={<Monthly />} />
                 <Route
-                  path="/administrator/breakdown"
+                  path="/attendeemanager/breakdown"
                   element={<Breakdown />}
                 />
                 <Route
-                  path="/administrator/rsvpemail"
+                  path="/attendeemanager/rsvpemail"
                   element={<RSVPEMAIL />}
                 />
                 <Route
-                  path="/administrator/administrator"
+                  path="/attendeemanager/administrator"
                   element={<Administrator />}
                 />
                 <Route
-                  path="/administrator/attendeeStatus"
+                  path="/attendeemanager/attendeeStatus"
                   element={<AttendeeStatus />}
+                  // path="/event/opportunity/:opportunityID"
+                  // element={<OpportunityDetails />}
                 />
               </Route>
 
@@ -341,6 +371,10 @@ function App() {
                 <Route
                   path="/admin/resources/dashboard/resources"
                   element={<ResourcesTable />}
+                />
+                <Route
+                  path="/admin/resources/dashboard/reservations"
+                  element={<ReservationTable />}
                 />
               </Route>
 
@@ -372,7 +406,7 @@ function App() {
                   element={<UpdateSponsor />}
                 />
                 <Route
-                  path="/org/dashboard/volunteers/"
+                  path="/org/dashboard/all volunteers/"
                   element={<Volunteers />}
                 />
                 <Route
@@ -387,9 +421,17 @@ function App() {
                   path="/org/dashboard/updateOpportunity/"
                   element={<UpdateOpportunity />}
                 />
+                <Route
+                  path="/org/dashboard/all speakers/"
+                  element={<AllSpeakers />}
+                />
+                <Route
+                  path="/org/dashboard/all sponsors/"
+                  element={<AllSponsors />}
+                />
               </Route>
               <Route
-                path="/event/opportunities/"
+                path="/event/opportunities/:eventID"
                 element={<OpportunitiesList />}
               />
               <Route
@@ -414,7 +456,12 @@ function App() {
               />
 
               {/* Finance Routes */}
-              <Route path="/finance/paypal" element={<FPayPal />} />
+              <Route path="/finance/paypal/:id" element={<FPayPal />} />
+              <Route
+                path="/finance/paymentpage"
+                element={<FPaymentOptions />}
+              />
+              <Route path="/finance/printbill" element={<FPrintBill />} />
               <Route path="*" element={<h1>Page not found!</h1>} />
               <Route path="/admin/finance" element={<FLoginPage />} />
               <Route element={<FLayout />}>
@@ -529,8 +576,8 @@ function App() {
                   />
                   <Route path="/venue/:vid/book/:id" element={<VVenueBook />} />
                   <Route
-                    path="/venue/payment"
-                    element={<h1>payment page</h1>}
+                    path="/venue/payment/:id"
+                    element={<FPaymentOptions />}
                   />
                 </Route>
               </Route>
@@ -547,13 +594,19 @@ function App() {
 
               <Route element={<ULayout />}>
                 <Route path="/admin/dashboard" element={<UDashboard />} />
-                <Route path="/admin/event" element={<UAllEventView />} />
+                {/* <Route
+                path="/admin/event"
+                element={<UAllEventView />}
+              /> */}
                 <Route path="/admin/allUsers" element={<UAllusers />} />
                 <Route path="/admin/register" element={<USignUp />} />
-                <Route path="/admin/event/budget" element={<UBudgetForm />} />
+                <Route
+                  path="/admin/event/budget/:eventid"
+                  element={<UBudgetForm />}
+                />
                 <Route path="/admin/profile" element={<UProfilePage />} />
                 <Route
-                  path="/admin/event/budget/view"
+                  path="/admin/event/viewBudget/:event_id"
                   element={<UBudgetView />}
                 />
                 <Route

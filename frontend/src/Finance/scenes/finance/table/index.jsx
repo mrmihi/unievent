@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import MaterialReactTable from 'material-react-table';
+import { Image } from 'cloudinary-react';
+import ClearIcon from '@mui/icons-material/Clear';
 import {
   Box,
   Button,
@@ -21,7 +23,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import theme from 'theme';
 import PaymentPDF from '../../../pdf/paymentPDF';
 
@@ -145,32 +147,33 @@ const OrgView = () => {
     }
   }, [serverSuccessMessage]);
 
-  const [status, setStatus] = useState(tableData.availableQty);
+  // const [status, setStatus] = useState(tableData.availableQty);
 
-  const updateStatus = (id) => {
-    console.log(status);
-    console.log(id);
-    if (status === 'pending') {
-      setStatus('Approved');
-    } else {
-      setStatus('Rejected');
-    }
+  // const updateStatus = (id) => {
+  //   console.log(status);
+  //   console.log(id);
+  //   if (status === 'pending') {
+  //     setStatus('Approved');
+  //   } else {
+  //     setStatus('Rejected');
+  //   }
 
-    const updatedTableData = tableData.map((item) => {
-      if (item._id === id) {
-        // replace "selectedItemId" with the actual ID of the item you want to update
-        return {
-          ...item,
-          status: status,
-        };
-      } else {
-        return item;
-      }
-    });
+  //   const updatedTableData = tableData.map((item) => {
+  //     if (item._id === id) {
+  //       // replace "selectedItemId" with the actual ID of the item you want to update
+  //       return {
+  //         ...item,
+  //         status: status,
+  //         price: item.price,
+  //       };
+  //     } else {
+  //       return item;
+  //     }
+  //   });
 
-    console.log(updatedTableData);
-    setTableData(updatedTableData);
-  };
+  //   console.log(updatedTableData);
+  //   setTableData(updatedTableData);
+  // };
 
   const getCommonEditTextFieldProps = useCallback(
     (cell) => {
@@ -205,6 +208,21 @@ const OrgView = () => {
 
   const statusValues = ['Approved', 'Pending', 'Rejected'];
 
+  //view image in full screen
+  const [showModal, setShowModal] = useState(false);
+  const [imagePublicId, setImagePublicId] = useState(null);
+
+  const handleImageClick = (publicId) => {
+    setImagePublicId(publicId);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setImagePublicId(null);
+  };
+
+
   const columns = useMemo(
     () => [
       { accessorKey: null, header: "ID", Cell: ({ row }) => row.index + 1, size: 5, },
@@ -222,9 +240,12 @@ const OrgView = () => {
         header: 'Start_time',
         enableEditing: false,
         size: 80,
+        
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
+        Cell: ({ cell }) => dayjs(cell.row.original.start_time).format('DD/MM/YYYY hh.mmA'),
+        //Cell: ({ value }) => dayjs.utc(value).format('DD/MM/YYYY, hh:mm A'),
       },
       {
         accessorKey: 'end_time',
@@ -234,6 +255,8 @@ const OrgView = () => {
         enableSorting: false,
         size: 80,
         columnVisibility: false,
+        Cell: ({ cell }) => dayjs(cell.row.original.end_time).format('DD/MM/YYYY hh.mmA'),
+        //Cell: ({ value }) => dayjs(value).format('YYYY/MM/DD hh:mmA'),
       },
       {
         accessorKey: 'status',
@@ -254,12 +277,17 @@ const OrgView = () => {
       },
       {
         accessorKey: 'price',
-        header: 'Price $',
+        header: 'Price (USD)',
         enableColumnOrdering: false,
-        enableEditing: false, //disable editing on this column
+        enableEditing: true, //disable editing on this column
         enableSorting: false,
         size: 80,
         columnVisibility: false,
+        Cell: ({ cell }) => {
+          const price = cell.row.original.price;
+          const formattedPrice = typeof price === 'number' ? `USD ${price.toFixed(2)}` : '';
+          return formattedPrice;
+        },
       },
       {
         accessorKey: 'venue',
@@ -278,6 +306,24 @@ const OrgView = () => {
         enableSorting: false,
         size: 80,
         columnVisibility: false,
+      },
+      {
+        accessorKey: 'paymentImage',
+        header: 'Image of the reciept',
+        enableColumnOrdering: false,
+        enableEditing: false,
+        enableSorting: false,
+        size: 80,
+        columnVisibility: false,
+        Cell: ({ cell }) => (
+          <Image 
+          cloudName="dtf9sr7jl"
+            publicId={cell.row.original.paymentImage}
+            width="50"
+            height="50"
+            onClick={() => handleImageClick(cell.row.original.paymentImage)}
+          />
+        ),
       },
     ],
     [getCommonEditTextFieldProps]
@@ -335,10 +381,63 @@ const OrgView = () => {
             }}
           >
             
+            
             <PaymentPDF tableData={tableData} variant="contained" color="secondary"/>
           </Box>
         )}
       />
+
+      {/* Render the modal or lightbox */}
+      {showModal && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9999,
+          }}
+          onClick={handleCloseModal}
+        >
+          <div
+            style={{
+              position: 'relative',
+              width: '80%',
+              height: '80%',
+              backgroundColor: '#fff',
+              overflow: 'auto',
+            }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Image
+                cloudName="dtf9sr7jl"
+                publicId={imagePublicId}
+                style={{ maxWidth: '100%', maxHeight: '100%' }}
+              />
+            </div>
+            <button
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+              onClick={handleCloseModal}
+            >
+              <ClearIcon sx={{ fontSize: 40 }}/>
+            </button>
+          </div>
+        </div>
+      )}
+
       <CreateNewAccountModal
         columns={columns}
         open={createModalOpen}
@@ -346,6 +445,7 @@ const OrgView = () => {
         onSubmit={handleCreateNewRow}
       />
     </Box>
+    
     
   );
 };

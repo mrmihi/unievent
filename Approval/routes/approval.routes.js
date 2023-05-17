@@ -61,5 +61,6 @@ router.get("/appointment/r/:id", getAppointmentByRequestID);
 router.put("/appointment/:id", updateAppointment);
 router.delete("/appointment/:id", deleteAppointment);
 router.get("/appointment/user/:id", getAppoinmentsOfUser);
+router.get("/appointment/user/p/:id", getPendingAppoinmentsOfUser);
 
 module.exports = router;

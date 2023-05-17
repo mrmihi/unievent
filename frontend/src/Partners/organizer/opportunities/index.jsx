@@ -188,12 +188,20 @@ const Opportunities = () => {
   const columns = useMemo(
     () => [
       {
+        accessorKey: null,
+        header: 'ID',
+        Cell: ({ row }) => row.index + 1,
+        size: 5,
+      },
+      {
         accessorKey: '_id',
         header: 'ID',
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 80,
+        columnVisibility: false,
+        isVisible: false,
       },
       {
         accessorFn: (row) => `${row.name} `,
@@ -299,7 +307,9 @@ const Opportunities = () => {
         }}
         columns={columns}
         data={tableData}
-        initialState={{ columnVisibility: { opportunityImage: false } }}
+        initialState={{
+          columnVisibility: { _id: false, opportunityImage: false },
+        }}
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing

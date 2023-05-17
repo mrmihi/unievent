@@ -11,8 +11,10 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
 
-const userID = '643f6e981a4293c8000d4bd7';
+const userID = Cookies.get('id');
+console.log(userID);
 
 const OpportunityRegister = () => {
   const navigate = useNavigate();
@@ -182,9 +184,7 @@ const OpportunityRegister = () => {
                   type="submit"
                   variant="contained"
                   onClick={() => {
-                    navigate(
-                      `/event/appliedOpportunities/643f6e981a4293c8000d4bd7`
-                    );
+                    navigate(`/event/appliedOpportunities/${userID}`);
                   }}
                   sx={{ padding: 2, marginTop: '10px' }}
                   fullWidth

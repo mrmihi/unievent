@@ -36,7 +36,7 @@ const VDashboard = () => {
                     <RevenueChart />
                 </Box>
                 <Box style={{ width: "40%" }}>
-                    <LatestBookings />
+                    <LatestBookings heading={"Latest Bookings"}/>
                 </Box>
             </Box>
 

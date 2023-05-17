@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Typography, Button } from '@mui/material';
-import API from '../components/api.approval';
-import { toast, ToastContainer } from 'react-toastify';
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Box, Typography, Button } from "@mui/material";
+import API from "../components/api.approval";
+import { toast, ToastContainer } from "react-toastify";
 
 function EventManagerView() {
   const { id: eventID } = useParams();
-  const boxColor = '#f2f2f2';
+  const boxColor = "#f2f2f2";
   const [error, setError] = useState({});
   const [eventData, setEventData] = useState({});
   const [venueData, setVenueData] = useState(null);
@@ -16,20 +14,71 @@ function EventManagerView() {
   const [budgetData, setBudgetData] = useState({});
   const [approvalData, setApprovalData] = useState({});
   const [disabled, setDisabled] = useState(true);
-
-  const [serverErrorMessage, setServerErrorMessage] = useState('');
-  const [serverSuccessMessage, setServerSuccessMessage] = useState('');
+  const [approvalStatus, setApprovalStatus] = useState("Unavailable");
 
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    var approvalStatus = "Draft";
+    if (approvalData._id != null) {
+      if (
+        approvalData.lic_approval != null &&
+        approvalData.venue_approval != null &&
+        approvalData.budget_approval != null &&
+        approvalData.admin_approval != null
+      ) {
+        approvalStatus = "Initiated";
+        if (approvalData.lic_approval.status == "Sent")
+          approvalStatus = "LIC_Awaiting";
+        else if (approvalData.lic_approval.status == "Approved")
+          {if (approvalData.venue_approval.status == "Sent")
+            approvalStatus = "VM_Awaiting";
+          else if (approvalData.venue_approval.status == "Approved")
+            if (approvalData.budget_approval.status == "Sent")
+              approvalStatus = "FM_Awaiting";
+            else if (approvalData.budget_approval.status == "Approved")
+              if (approvalData.admin_approval == "Sent")
+                approvalStatus = "Admin_Awaiting";
+              else if (approvalData.admin_approval == "Approved")
+                approvalStatus = "Approved";
+              else if (approvalData.admin_approval == "Rejected")
+                approvalStatus = "Rejected";}
+                
+      }
+    }
+    setApprovalStatus(approvalStatus);
+    console.log(approvalStatus);
+    updateEventApprovalStatus(approvalData._id, approvalStatus);
+  }, [approvalData]);
+
+  const updateEventApprovalStatus = async (id, status) => {
+    await API.put(
+      `approval/event/${id}`,
+      {
+        status: status,
+      },
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }
+    )
+      .then((res) => {
+        console.log(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
 
   useEffect(() => {
     const getEventDetails = async () => {
       await API.get(`/events/${eventID}`, {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })
         .then((res) => {
-          // console.log(res.data.data)
+          // console.log(res.data.data.orgId)
           setEventData(res.data.data);
         })
         .catch((err) => {
@@ -44,37 +93,37 @@ function EventManagerView() {
           `approval/event/`,
           {
             event_id: eventID.toString(),
-            status: 'Initiated',
+            status: "Draft",
           },
           {
-            headers: { 'Content-Type': 'application/json' },
+            headers: { "Content-Type": "application/json" },
             withCredentials: true,
           }
         )
           .then((res) => {
-            console.log('Event Approval Reference Created');
-            if (res.data.data._id != '') {
+            console.log("Event Approval Reference Created");
+            if (res.data.data._id != "") {
               setApprovalData(res.data.data);
             } else {
-              toast.error('Could not create a reference to event', {
-                position: 'top-right',
+              toast.error("Could not create a reference to event", {
+                position: "top-right",
               });
             }
           })
           .catch((err) => {
             console.log(err);
-            toast.error('Failed to create a reference to event', {
-              position: 'top-right',
+            toast.error("Failed to create a reference to event", {
+              position: "top-right",
             });
           });
       };
 
       await API.get(`approval/event/events/${eventID}`, {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })
         .then((res) => {
-          if (res.data.data[0] != '') {
+          if (res.data.data[0] != "") {
             // console.log(res.data.data[0]);
             setApprovalData(res.data.data[0]);
           }
@@ -96,12 +145,25 @@ function EventManagerView() {
     const getResourceDetails = async () => {};
 
     //Maleesha
-    const getBudgetDetails = async () => {};
+    const getBudgetDetails = async () => {
+      console.log(eventID);
+      await API.get(`/budgets/${eventID}`)
+        .then((res) => {
+          // console.log("budget Found");
+          // console.log(res.data[0]);
+          setBudgetData(res.data[0]);
+        })
+        .catch((err) => {
+          console.log("budget not Found");
+          console.log(err);
+          setBudgetData(null);
+        });
+    };
 
     //Sapumal
     const getVenueDetails = async () => {
       await API.get(`bookings/event/${eventID}`, {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })
         .then((res) => {
@@ -117,6 +179,7 @@ function EventManagerView() {
     getEventDetails();
     getApprovalDetails();
     getVenueDetails();
+    getBudgetDetails();
   }, [eventID]);
 
   const handleAddVenueBtn = () => {
@@ -127,16 +190,17 @@ function EventManagerView() {
     navigate(`/resources/${eventID}/reservation`);
   };
   const handleCreateBudgetBtn = () => {
-    navigate(`/budget/create/${eventID}`);
+    navigate(`/org/event/budget/${eventID}`);
   };
+  const handleViewBudgetBtn = () => {
+    navigate(`/org/event/viewBudget/${eventID}`);
+  };
+
   const handleFillApprovalRequestBtn = () => {
     navigate(`/org/dashboard/events/approval/${eventID}`);
   };
-  const handleRequestAppointment = () => {
-    navigate(`/org/dashboard/appointment/${eventID}`);
-  };
   const handleMakePaymentBtn = () => {
-    navigate(`/venue/payment`);
+    navigate(`/venue/payment/${venueData._id}`);
   };
   const handleViewSpeakersRequestBtn = () => {
     navigate(`/org/dashboard/speakers/${eventID}`);
@@ -148,41 +212,30 @@ function EventManagerView() {
     navigate(`/org/dashboard/opportunities/${eventID}`);
   };
 
-  const handlePublishBtn = async () => {
+  const handlePublishBtn = () => {
     //Dinal
-    try {
-      const response = await axios.put(`/api/events/${eventID}`, {
-        status: 'Published',
-      });
-      setServerSuccessMessage(response.data.message);
-      if (serverSuccessMessage !== '') {
-        Swal.fire('', response.data.message, 'success');
-      }
-    } catch (error) {
-      setServerErrorMessage(error.response.data.message);
-    }
   };
 
-  function approvalStatus(status) {
+  function approvalStatusFunc(status) {
     switch (status) {
-      case 'Initiated':
-        return 'Initiated';
-      case 'Draft':
-        return 'Draft';
-      case 'LIC_Awaiting':
-        return 'Request Sent To LIC';
-      case 'FM_Awaiting':
-        return 'LIC Approved';
-      case 'VM_Awaiting':
-        return 'Budget Approved';
-      case 'Admin_Awaiting':
-        return 'Venue Manager Approved';
-      case 'Approved':
-        return 'Event Approved';
-      case 'Rejected':
-        return 'Rejected';
+      case "Initiated":
+        return "Initiated";
+      case "Draft":
+        return "Draft";
+      case "LIC_Awaiting":
+        return "Request Sent To LIC";
+      case "FM_Awaiting":
+        return "LIC Approved";
+      case "VM_Awaiting":
+        return "Budget Approved";
+      case "Admin_Awaiting":
+        return "Venue Manager Approved";
+      case "Approved":
+        return "Event Approved";
+      case "Rejected":
+        return "Rejected";
       default:
-        return 'Unknown';
+        return "Unknown";
     }
   }
 
@@ -192,50 +245,50 @@ function EventManagerView() {
       <Box className="px-8 w-full">
         <div className="flex flex-row">
           <div className="flex flex-col w-2/3">
-            <Typography id="eventName" variant="h2">
-              {eventData != null ? eventData.name : 'Event Name'}
+            <Typography id="eventName" variant="h4">
+              {eventData != null ? eventData.name : "Event Name"}
             </Typography>
-            <Typography id="eventDescription" variant="h4">
-              {eventData != null ? eventData.description : 'Description'}
+            <Typography id="eventDescription" variant="h6">
+              {eventData != null ? eventData.description : "Description"}
             </Typography>
-            <Typography id="eventDate" variant="h5">
+            <Typography id="eventDate" variant="h6">
               {eventData != null
-                ? String(eventData.startTime).split('T')[0]
-                : 'Date'}
+                ? String(eventData.startTime).split("T")[0]
+                : "Date"}
             </Typography>
-            <Typography id="eventStartTime" variant="h5">
+            <Typography id="eventStartTime" variant="h6">
               {eventData != null
-                ? String(eventData.startTime).split('T')[1]
-                : 'Start Time'}
+                ? String(eventData.startTime).split("T")[1]
+                : "Start Time"}
             </Typography>
-            <Typography id="eventEndTime" variant="h5">
+            <Typography id="eventEndTime" variant="h6">
               {eventData != null
-                ? String(eventData.endTime).split('T')[1]
-                : 'End Time'}
+                ? String(eventData.endTime).split("T")[1]
+                : "End Time"}
             </Typography>
           </div>
 
           <div className="flex flex-row justify-center align-middle items-center w-1/3 ">
-            {disabled ? (
+            {approvalStatus == "Approved" ? (
               <Button
-                className="w-1/2 h-1/2"
-                variant="contained"
-                color="secondary"
-                size="large"
-                disabled
-              >
-                Publish
-              </Button>
+              className="w-1/2 h-1/2"
+              variant="contained"
+              color="secondary"
+              size="large"
+              onClick={handlePublishBtn}
+            >
+              Publish
+            </Button>
             ) : (
               <Button
-                className="w-1/2 h-1/2"
-                variant="contained"
-                color="secondary"
-                size="large"
-                onClick={handlePublishBtn}
-              >
-                Publish
-              </Button>
+              className="w-1/2 h-1/2"
+              variant="contained"
+              color="secondary"
+              size="large"
+              disabled
+            >
+              Publish
+            </Button>
             )}
           </div>
         </div>
@@ -264,13 +317,13 @@ function EventManagerView() {
               )}
               <Typography variant="h5" id="eventVenueStatus">
                 {venueData != null
-                  ? 'Booking Status : ' + venueData.booking_status
-                  : ''}
+                  ? "Booking Status : " + venueData.booking_status
+                  : ""}
               </Typography>
               <Typography variant="h5" id="eventVenuePaymentStatus">
                 {venueData != null
-                  ? 'Payment Status : ' + venueData.payment_status
-                  : ''}
+                  ? "Payment Status : " + venueData.payment_status
+                  : ""}
               </Typography>
 
               <Typography variant="h6" id="eventVenue"></Typography>
@@ -284,8 +337,8 @@ function EventManagerView() {
                   >
                     Add Venue
                   </Button>
-                ) : venueData.booking_status == 'approved' &&
-                  venueData.payment_status != 'completed' ? (
+                ) : venueData.booking_status == "approved" &&
+                  venueData.payment_status != "completed" ? (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -294,13 +347,13 @@ function EventManagerView() {
                   >
                     Make Payment
                   </Button>
-                ) : venueData.booking_status == 'approved' &&
-                  venueData.payment_status == 'completed' ? (
+                ) : venueData.booking_status == "approved" &&
+                  venueData.payment_status == "completed" ? (
                   <Typography variant="h4" id="eventResource" color="#28a745">
                     Completed
                   </Typography>
-                ) : venueData.booking_status == 'pending' &&
-                  venueData.payment_status == 'pending' ? (
+                ) : venueData.booking_status == "pending" &&
+                  venueData.payment_status == "pending" ? (
                   <Button variant="outlined" color="secondary" size="large">
                     Venue Added
                   </Button>
@@ -370,7 +423,7 @@ function EventManagerView() {
                 Event Budget
               </Typography>
               <Typography variant="h5" id="eventBudgetStatus" color="secondary">
-                Not Created Yet
+                {budgetData == null ? "Not Created Yet" : "Created"}
               </Typography>
               <Typography
                 variant="h6"
@@ -379,22 +432,25 @@ function EventManagerView() {
               ></Typography>
 
               <Box className="flex w-full justify-around flex-row my-2">
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="large"
-                  onClick={handleCreateBudgetBtn}
-                >
-                  Create Budget
-                </Button>
-                {/* <Button
-                  variant="outlined"
-                  color="secondary"
-                  size="large"
-                  disabled
-                >
-                  Request Approval
-                </Button> */}
+                {budgetData == null ? (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="large"
+                    onClick={handleCreateBudgetBtn}
+                  >
+                    Create Budget
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    size="large"
+                    onClick={handleViewBudgetBtn}
+                  >
+                    View Budget
+                  </Button>
+                )}
               </Box>
             </div>
           </Box>
@@ -417,10 +473,10 @@ function EventManagerView() {
                 id="eventApprovalStatus"
                 color="secondary"
               >
-                Status :{' '}
+                Status :{" "}
                 {approvalData != null
-                  ? approvalStatus(approvalData.status)
-                  : 'Unavailable'}
+                  ? approvalStatusFunc(approvalStatus)
+                  : "Unavailable"}
               </Typography>
               <Typography
                 variant="h6"

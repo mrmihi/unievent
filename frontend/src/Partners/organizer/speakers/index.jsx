@@ -201,12 +201,20 @@ const Speaker = () => {
   const columns = useMemo(
     () => [
       {
+        accessorKey: null,
+        header: 'ID',
+        Cell: ({ row }) => row.index + 1,
+        size: 5,
+      },
+      {
         accessorKey: '_id',
         header: 'ID',
         enableColumnOrdering: false,
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 80,
+        columnVisibility: false,
+        isVisible: false,
       },
       {
         accessorFn: (row) => `${row.fullName} `,
@@ -300,7 +308,7 @@ const Speaker = () => {
         }}
         columns={columns}
         data={tableData}
-        initialState={{ columnVisibility: { speakerImage: false } }}
+        initialState={{ columnVisibility: { _id: false, speakerImage: false } }}
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing

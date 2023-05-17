@@ -191,8 +191,8 @@ const AddReservation = () => {
 
       <Box mt={10}>
         <Typography variant="h1" align="left" gutterBottom>
-          Reserve Resource : Available Quantity:
-          {resource.quantity - reservationCount}
+          Reserve Resource : {resource.name} <br/>
+          Available Quantity:{resource.quantity - reservationCount}
         </Typography>
         <Container maxWidth="sm" style={{ paddingBottom: '200px' }}>
           <Box

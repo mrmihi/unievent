@@ -73,29 +73,25 @@ const navItems = [
     icon: null,
   },
   {
-    text: 'Speakers',
+    text: 'All Speakers',
     icon: <CampaignIcon />,
   },
   {
-    text: 'Sponsors',
+    text: 'All Sponsors',
     icon: <CardGiftcardIcon />,
   },
   {
-    text: 'Volunteers',
+    text: 'All Volunteers',
     icon: <VolunteerActivismIcon />,
   },
   {
-    text: 'Opportunities',
-    icon: <Diversity3Icon />,
+    text: 'Review Management',
+    icon: null,
   },
-    {
-      text: "Review Management",
-      icon: null,
-    },
-    {
-      text: "Venues",
-      icon: <AssignmentIndOutlined />,
-    },
+  {
+    text: 'Venues',
+    icon: <AssignmentIndOutlined />,
+  },
 ];
 
 const Sidebar = ({
@@ -167,8 +163,8 @@ const Sidebar = ({
                     <ListItemButton
                       onClick={() => {
                         if (lcText === 'venues') {
-                          lcText = "venues/reviews"
-                        } 
+                          lcText = 'venues/reviews';
+                        }
                         navigate(`/org/dashboard/${lcText}`);
                         setActive(lcText);
                       }}

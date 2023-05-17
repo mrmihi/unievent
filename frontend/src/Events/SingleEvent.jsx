@@ -72,9 +72,11 @@ function SingleEvent() {
         name={event.name}
         eventDay={moment(event.startTime).format('DD')}
       />
+
       {/* <div className="flex flex-col justify-right  items-right "> */}
       {/* <img src={event.headerImage} alt={event.name} className="mx-auto" /> */}
       {/* <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl mt-8">
+
           <div>
           add a typography tag that says Details and make it bold
           <Typography variant="h2">Details</Typography>
@@ -94,6 +96,7 @@ function SingleEvent() {
         </div> */}
 
       {/* </div> */}
+
 
       <div className="mx-5 mt-8 pt-[80px]">
         <Title title="When and Where" aos="fade-left" />

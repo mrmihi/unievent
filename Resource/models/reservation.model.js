@@ -19,14 +19,14 @@ const ReservationSchema = new Schema(
       enum: ['pending', 'rejected', 'approved'],
       default: 'pending',
     },
-    payment_status: {
-      type: String,
-      enum: ['pending', 'available', 'completed', 'unavailable'],
-      default: 'pending',
-    },
-    price: {
-      type: Number,
-    },
+    // payment_status: {
+    //   type: String,
+    //   enum: ['pending', 'available', 'completed', 'unavailable'],
+    //   default: 'pending',
+    // },
+    // price: {
+    //   type: Number,
+    // },
     resource: {
       type: Schema.Types.ObjectId,
       ref: 'Resource',

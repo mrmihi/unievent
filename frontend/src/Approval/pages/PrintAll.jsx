@@ -190,34 +190,44 @@ const PrintAll = () => {
         "Approval Type",
         "Requested On",
         "Status",
+        "Signature",
+        "Signed Date",
       ],
       [
-        `${lic.name != undefined ? lic.name : ""}`,
+        `${lic.firstname != undefined && lic.lastname != undefined ? lic.firstname + " " + lic.lastname: ""}`,
         `${"Lecturer-In-Charge"}`,
         `${"LIC Approval"}`,
         `${licDate}`,
         `${requestStatus(licStatus)}`,
+        `_ _ _ _ _ _`,
+        `_ _ _ _ _ _ _`,
       ],
       [
-        `${venue.name != undefined ? venue.name : ""}`,
+        `${venue.firstname != undefined && venue.lastname != undefined ? venue.firstname + " " + venue.lastname: ""}`,
         `${"Venue Manager"}`,
         `${"venue Approval"}`,
         `${venueDate}`,
         `${requestStatus(venueStatus)}`,
+        `_ _ _ _ _ _`,
+        `_ _ _ _ _ _ _ `,
       ],
       [
-        `${budget.name != undefined ? budget.name : ""}`,
+        `${budget.firstname != undefined && budget.lastname != undefined ? budget.firstname + " " + budget.lastname: ""}`,
         `${"Staff"}`,
         `${"Budget Approval"}`,
         `${budgetDate}`,
         `${requestStatus(budgetStatus)}`,
+        `_ _ _ _ _ _`,
+        `_ _ _ _ _ _ _`,
       ],
       [
-        `${admin.name != undefined ? admin.name : "" }`,
+        `${admin.firstname != undefined && admin.lastname != undefined ? admin.firstname + " " + admin.lastname: ""}`,
         `${"Administator"}`,
         `${"Admin Approval"}`,
         `${adminDate}`,
         `${requestStatus(adminStatus)}`,
+        `_ _ _ _ _ _`,
+        `_ _ _ _ _ _ _ `,
       ],
     ];
 
@@ -225,7 +235,7 @@ const PrintAll = () => {
       startY: 170,
       head: [detailsData[0]],
       body: detailsData.slice(1),
-      tableWidth: "90%",
+      tableWidth: "93%",
       theme: "striped",
       headStyles: { fillColor: "#ADD8E6" },
     });
@@ -234,7 +244,7 @@ const PrintAll = () => {
     doc.text(
       `Date of Issue: ${new Date().toLocaleDateString()}`,
       140,
-      220,
+      230,
       { align: "left" }
     );
 
@@ -248,16 +258,10 @@ const PrintAll = () => {
       { align: "left" }
     );
 
-    doc.getFontSize(12);
-    doc.text(
-      "Disclaimer: This is a computer generated document and does not require a signature",
-      20,
-      280,
-      { align: "left" }
-    );
 
+    const date = new Date()
     // save the PDF
-    doc.save("event-approval-request-form.pdf");
+    doc.save(`event-approval-request-form-${date.toISOString()}.pdf`);
   };
 
   return (

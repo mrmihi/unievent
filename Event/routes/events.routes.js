@@ -14,8 +14,6 @@ router.get('/', EventController.getAllEvents);
 
 router.get('/:id', EventController.getEventById);
 
-router.get('/byorg/:id', EventController.getEventsByOrg);
-
 router.post('/', EventController.createEvent);
 
 router.put('/:id', EventController.updateEventById);

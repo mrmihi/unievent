@@ -4,6 +4,7 @@ import { Box, Button, Grid } from "@mui/material";
 import FlexBetween from "../../../components/FlexBetween";
 import Header from "../../../components/Header";
 import MaterialReactTable from "material-react-table";
+import dayjs from "dayjs";
 
 const Refunds = () => {
   const [reviews, setReviews] = useState([]);
@@ -23,10 +24,10 @@ const Refunds = () => {
     () => [
       { accessorKey: null, header: "ID", Cell: ({ row }) => row.index + 1 },
       { accessorKey: "_id", header: "Payment_ID" },
-      { accessorKey: "start_time", header: "start_time" },
-      { accessorKey: "end_time", header: "end_time" },
+      { accessorKey: "start_time", header: "start_time",Cell: ({ cell }) => dayjs(cell.row.original.start_time).format('DD/MM/YYYY hh.mmA') },
+      { accessorKey: "end_time", header: "end_time" ,Cell: ({ cell }) => dayjs(cell.row.original.end_time).format('DD/MM/YYYY hh.mmA')},
       { accessorKey: "status", header: "status" },
-      { accessorKey: "price", header: "price" },
+      { accessorKey: "price", header: "price" ,Cell: ({ cell }) => `USD ${cell.row.original.price.toFixed(2)}`},
       { accessorKey: "organizer", header: "Organizer" },
       { accessorKey: "venue", header: "Venue" },
       

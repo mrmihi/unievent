@@ -1,6 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import DoorSlidingIcon from '@mui/icons-material/DoorSliding';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import ReviewsIcon from '@mui/icons-material/Reviews';
+import SellIcon from '@mui/icons-material/Sell';
 
 const FourAnalytics = () => {
     const [venuesCount, setVenuesCount] = useState(0);
@@ -11,7 +15,6 @@ const FourAnalytics = () => {
     useEffect(() => {
         // fetch data from backend
         axios.get("http://localhost:5000/api/dashboard/venues").then((res) => {
-            console.log(res.data);
             setVenuesCount(res.data.venueCount);
             setTotalBookings(res.data.bookingCount);
             setAvgReview(res.data.reviewCount);
@@ -37,10 +40,17 @@ const FourAnalytics = () => {
                     },
                 }}
             >
-                <Typography variant="h5">Venues Count</Typography>
-                <Typography variant="h4" mt={2} sx={{textAlign: "center"}}>
-                    {venuesCount}
-                </Typography>
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography variant="h5">Venues Count</Typography>
+                            <Typography variant="h4" mt={2} ml={3}>{venuesCount}</Typography>
+                        </Box>
+                    </Grid>
+                    <Grid item ml={10}>
+                        <DoorSlidingIcon sx={{ fontSize: 50, float: 'right', color: '#AED9FF' }} />
+                    </Grid>
+                </Grid>
             </Box>
 
             <Box
@@ -55,10 +65,17 @@ const FourAnalytics = () => {
                     },
                 }}
             >
-                <Typography variant="h5">Total Bookings</Typography>
-                <Typography variant="h4" mt={2} sx={{textAlign: "center"}}>
-                    {totalBookings}
-                </Typography>
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography variant="h5">Total Bookings</Typography>
+                            <Typography variant="h4" mt={2} ml={3}>{totalBookings}</Typography>
+                        </Box>
+                    </Grid>
+                    <Grid item ml={10}>
+                        <BookmarkAddedIcon sx={{ fontSize: 50, float: 'right', color: '#AED9FF' }} />
+                    </Grid>
+                </Grid>
             </Box>
 
             <Box
@@ -73,10 +90,17 @@ const FourAnalytics = () => {
                     },
                 }}
             >
-                <Typography variant="h5">Total Reviews</Typography>
-                <Typography variant="h4" mt={2} sx={{textAlign: "center"}}>
-                    {avgReview}
-                </Typography>
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography variant="h5">Total Reviews</Typography>
+                            <Typography variant="h4" mt={2} ml={3}>{avgReview}</Typography>
+                        </Box>
+                    </Grid>
+                    <Grid item ml={10}>
+                        <ReviewsIcon sx={{ fontSize: 50, float: 'right', color: '#AED9FF' }} />
+                    </Grid>
+                </Grid>
             </Box>
 
             <Box
@@ -91,10 +115,17 @@ const FourAnalytics = () => {
                     },
                 }}
             >
-                <Typography variant="h5">Total Income</Typography>
-                    <Typography variant="h4" mt={2} sx={{ textAlign: "center" }}>
-                        {totalIncome.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
-                    </Typography>
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography variant="h5">Total Income</Typography>
+                            <Typography variant="h4" mt={2} ml={3}>{totalIncome.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</Typography>
+                        </Box>
+                    </Grid>
+                    <Grid item ml={10}>
+                        <SellIcon sx={{ fontSize: 50, float: 'right', color: '#AED9FF' }} />
+                    </Grid>
+                </Grid>
             </Box>
         </Box>
     )
