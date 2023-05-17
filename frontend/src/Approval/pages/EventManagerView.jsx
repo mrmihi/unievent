@@ -121,7 +121,7 @@ function EventManagerView() {
     navigate(`/admin/resources`);
   };
   const handleCreateBudgetBtn = () => {
-    navigate(`/budget/create/${eventID}`);
+    navigate(`/org/event/budget/${eventID}`);
   };
   const handleFillApprovalRequestBtn = () => {
     navigate(`/approval/${eventID}`);

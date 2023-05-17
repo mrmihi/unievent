@@ -108,7 +108,6 @@ import VolunteerSchedule from 'Partners/user/volunteer/VolunteerSchedule';
 
 import ULayout from './User/scenes/layout/Layout';
 import UDashboard from './User/scenes/dashboard';
-import UAllEventView from './User/pages/AllEventView';
 import UProfilePage from './User/pages/profilePage';
 import ULogin from './User/pages/login';
 import UAllusers from './User/pages/allUsers';
@@ -197,9 +196,18 @@ function App() {
                 />
                 <Route path="events-draft" element={<AllEventsTable />} />
                 <Route
+                  path="/org/event/budget/:eventid"
+                  element={<UBudgetForm />}
+                />
+                <Route
+                  path="/org/event/viewBudget/:event_id"
+                  element={<UBudgetView />}
+                />
+                <Route
                   path="/org/dashboard/events/approval/print/:id"
                   element={<PrintAll />}
                 />
+
                 {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
                 <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
@@ -403,7 +411,10 @@ function App() {
 
               {/* Finance Routes */}
               <Route path="/finance/paypal" element={<FPayPal />} />
-              <Route path="/finance/paymentpage" element={<FPaymentOptions />}/>
+              <Route
+                path="/finance/paymentpage"
+                element={<FPaymentOptions />}
+              />
               <Route path="/finance/printbill" element={<FPrintBill />} />
               <Route path="*" element={<h1>Page not found!</h1>} />
               <Route path="/admin/finance" element={<FLoginPage />} />
@@ -524,6 +535,37 @@ function App() {
                   />
                 </Route>
               </Route>
+
+
+              {/* public venue time table page */}
+              <Route
+                path="/venue/timetable/:id"
+                element={<PublicVenueTable />}
+              />
+
+              {/*User Routes */}
+
+              <Route path="/" element={<ULogin />} />
+
+              <Route element={<ULayout />}>
+                <Route path="/admin/dashboard" element={<UDashboard />} />
+                <Route path="/admin/allUsers" element={<UAllusers />} />
+                <Route path="/admin/register" element={<USignUp />} />
+                {/* <Route
+                path="/org/event/budget/:eventid"
+                element={<UBudgetForm />}
+              /> */}
+                <Route path="/admin/profile" element={<UProfilePage />} />
+                {/* <Route
+                path="/admin/event/viewBudget/:event_id"
+                element={<UBudgetView />}
+              /> */}
+                <Route
+                  path="/admin/profile/edit"
+                  element={<UserProfileEdit />}
+                />
+              </Route>
+
             </Routes>
           </ThemeProvider>
         </BrowserRouter>
