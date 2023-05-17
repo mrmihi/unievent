@@ -49,7 +49,7 @@ const AddReservation = () => {
 
     axios
       .post('http://localhost:5000/api/reservations', {
-        start_time: start,
+        start_time: moment(start).format("YYYY-MM-DD"),
         end_time: end,
         duration: moment(end).diff(moment(start), 'hours'),
         resource: rid,

@@ -28,7 +28,7 @@ const Approvals = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
 
-  const StaffID = Cookies.get("staff_id");
+  const StaffID = Cookies.get("id");
 
   const getData = async () => {
     try {
