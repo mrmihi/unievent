@@ -99,7 +99,7 @@ import FPayPal from "Finance/scenes/finance/paymentform";
 
 import ULayout from "./User/scenes/layout/Layout";
 import UDashboard from "./User/scenes/dashboard";
-import UAllEventView from "./User/pages/AllEventView";
+import UAllEventView from "../src/Events/AllEvents";
 import UProfilePage from "./User/pages/profilePage";
 import ULogin from "./User/pages/login";
 import UAllusers from "./User/pages/allUsers";
