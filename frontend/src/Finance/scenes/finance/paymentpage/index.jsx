@@ -43,7 +43,7 @@ const paymentOptions = () => {
               <Box
                 mb="0.5rem"
                 p="1.5rem"
-                style={{ backgroundColor: '#bbdefb', borderRadius: '5px' }}
+                style={{ backgroundColor: '#FFFFF', borderRadius: '5px' , border: '2px solid #0123F5'}}
               >
                 <Typography variant="h5" color="text.primary" gutterBottom>
                   Account Number: 045-1523-256 <br />
@@ -53,7 +53,7 @@ const paymentOptions = () => {
               </Box>
               <Box
                 p="1.5rem"
-                style={{ backgroundColor: '#bbdefb', borderRadius: '5px' }}
+                style={{ backgroundColor: '#FFFFF', borderRadius: '5px' , border: '2px solid #0123F5'}}
               >
                 <Typography variant="h5" color="text.primary" gutterBottom>
                   Account Number: 076-9564-852 <br />
@@ -64,7 +64,7 @@ const paymentOptions = () => {
               <Box
                 mt="1rem"
                 p="1.5rem"
-                style={{ backgroundColor: '#fff9c4', borderRadius: '5px' }}
+                style={{ backgroundColor: '#F2F5FA', borderRadius: '5px' }}
               >
                 <Typography
                   variant="h5"
@@ -97,10 +97,10 @@ const paymentOptions = () => {
               <Button
                 variant="contained"
                 type="submit"
-                color="secondary"
                 style={{
                   marginInline: '5px',
                   width: '70px',
+                  backgroundColor: '#0123F5',
                 }}
               >
                 pay
@@ -128,7 +128,7 @@ const paymentOptions = () => {
               <Box
                 mt="1rem"
                 p="1.5rem"
-                style={{ backgroundColor: '#fff9c4', borderRadius: '5px' }}
+                style={{ backgroundColor: '#F2F5FA', borderRadius: '5px' }}
               >
                 <Typography
                   variant="h5"
@@ -139,7 +139,7 @@ const paymentOptions = () => {
                 >
                   Instructions
                   </Typography>
-                  Please review and accept the <a href="https://www.paypal.com/lk/legalhub/useragreement-full" target="_blank" rel="noopener noreferrer" style={{fontStyle: 'italic' ,textDecoration: 'underline', color: 'blue'}}>PayPal User Agreement</a> before proceeding.
+                  Please review and accept the <a href="https://www.paypal.com/lk/legalhub/useragreement-full" target="_blank" rel="noopener noreferrer" style={{fontStyle: 'italic' ,}}>PayPal User Agreement</a> before proceeding.
                 To make a payment using PayPal, please follow these
                 instructions:
                 <ol>
