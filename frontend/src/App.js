@@ -410,7 +410,7 @@ function App() {
                 />
               </Route>
               <Route
-                path="/event/opportunities/"
+                path="/event/opportunities/:eventID"
                 element={<OpportunitiesList />}
               />
               <Route
