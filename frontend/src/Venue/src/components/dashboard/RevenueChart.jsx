@@ -10,26 +10,26 @@ const RevenueChart = () => {
 
     useEffect(() => {
         // Fetch revenue data from an API or backend server
-        axios.get("http://localhost:5000/api/dashboard/revenue", {
-            headers: {
-                Authorization: `Bearer ${Cookies.get("accessToken")}`,
-            },
-        }).then((res) => {
-            setRevenue(res.data);
-        }).catch((err) => {
-            console.log(err);
-        });
+        axios
+            .get("http://localhost:5000/api/dashboard/revenue", {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("accessToken")}`,
+                },
+            })
+            .then((res) => {
+                setRevenue(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }, []);
 
     useEffect(() => {
-        // Fetch revenue data from an API or backend server
-        const revenueData = revenue;
-    
         // Format the revenue data into Chart.js format
-        if (revenueData && revenueData.length > 0) {
-            const chartLabels = revenueData.map((data) => `${data.year} ${data.month}`);
-            const chartDataPoints = revenueData.map((data) => data.revenue);
-    
+        if (revenue && revenue.length > 0) {
+            const chartLabels = revenue.map((data) => `${data.year} ${data.month}`);
+            const chartDataPoints = revenue.map((data) => data.revenue);
+
             setChartData({
                 labels: chartLabels,
                 datasets: [
@@ -43,7 +43,6 @@ const RevenueChart = () => {
             });
         }
     }, [revenue]);
-    
 
     useEffect(() => {
         // Create the chart instance when chartData is updated
@@ -77,8 +76,16 @@ const RevenueChart = () => {
 
     return (
         <Box display="flex" flexDirection="column" alignItems="left" maxHeight={400}>
-            <Typography variant="h5" gutterBottom>Revenue Generated</Typography>
-            <canvas id="revenue-chart"></canvas>
+            <Typography variant="h5" gutterBottom mb={2} sx={{ fontWeight: 'bold' }}>
+                Revenue Generated
+            </Typography>
+            {chartData ? (
+                <canvas id="revenue-chart"></canvas>
+            ) : (
+                <Typography variant="body1" color="textSecondary" mb={2}>
+                    Not enough data to generate the graph
+                </Typography>
+            )}
         </Box>
     );
 };
