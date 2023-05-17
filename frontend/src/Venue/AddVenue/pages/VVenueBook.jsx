@@ -9,16 +9,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
-import WarningComponent from "../components/WarningComponent";
 
 const localizer = momentLocalizer(moment);
 
 const VVenueBook = () => {
     const { id } = useParams();
     const { vid } = useParams();
-
-    const organizerId = Cookies.get('org_id');
 
     const navigate = useNavigate();
     const [events, setEvents] = useState([]);
@@ -54,7 +50,7 @@ const VVenueBook = () => {
             end_time: end,
             duration: moment(end).diff(moment(start), 'hours'),
             venue: id,
-            organizer: organizerId,
+            organizer: '6448be13969607971f3761a3',
             event: vid,
             price: venue.price * moment(end).diff(moment(start), 'hours')
         }).then((res) => {
@@ -62,7 +58,7 @@ const VVenueBook = () => {
                 position: toast.POSITION.TOP_CENTER,
             });
             setTimeout(() => {
-                navigate(`/org/dashboard/events/${vid}`);
+                navigate('/venue/payment');
             }, 2000);
         }).catch((err) => {
             console.log(err);
@@ -163,7 +159,7 @@ const VVenueBook = () => {
                 <Typography variant="h1" align="left" gutterBottom>
                     Book Venue
                 </Typography>
-                <Container maxWidth="sm" style={{ paddingBottom: "20px" }}>
+                <Container maxWidth="sm" style={{ paddingBottom: "200px" }}>
                     <Box display="flex" justifyContent="space-between" alignItems="flex-end" mt={3}>
                         <MobileDateTimePicker
                             label="Start Date & Time"
@@ -190,12 +186,9 @@ const VVenueBook = () => {
                     </Box>
                 </Container>
             </Box>
-            <Box  style={{ paddingBottom: "50px" }} pl={20} pr={20}>
-            <WarningComponent message="Please note that once a manager approves an event during pending times, they become unavailable for booking. Choose a venue without any pending events for better availability." />
-            </Box>
             <ToastContainer />
         </Container>
     );
-}
+};
 
 export default VVenueBook;

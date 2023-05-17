@@ -46,10 +46,6 @@ const BookingSchema = new Schema(
             ref: 'Event',
             required: true
         },
-        review: {
-            type: Boolean,
-            default: false
-        }
     },
     {
         versionKey: false,

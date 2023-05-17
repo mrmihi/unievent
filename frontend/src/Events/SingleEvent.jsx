@@ -12,8 +12,6 @@ import Description from './components/Description';
 import React from 'react';
 import './styles/singleEvent.css';
 import Loading from './components/Loading';
-import Title from './components/Title';
-import Actions from './components/Actions';
 
 function SingleEvent() {
   const { id } = useParams();
@@ -103,9 +101,9 @@ function SingleEvent() {
         </div>
       </div> */}
 
-      <div className="mx-5 mt-8 pt-[80px]">
-        <Title title="When and Where" aos="fade-left" />
-        <div className="flex justify-center mt-[60px]">
+      <div className="mx-5 mt-8">
+        <p className=" text-3xl font-extrabold">When and Where</p>
+        <div className="flex justify-left mt-8">
           <span className="relative flex items-center">
             <img
               src="/assets/Calendar.svg"
@@ -139,7 +137,6 @@ function SingleEvent() {
           description={event.description}
           categories={event.categories}
         />
-        <Actions />
       </div>
     </>
   );

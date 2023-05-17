@@ -3,28 +3,6 @@ const { HTTP_STATUS } = require("../utils/http_status");
 const { makeResponse } = require("../utils/response");
 const { Appointment } = require("../models/approval.model");
 
-const getPendingAppoinmentsOfUser = async (req, res) => {
-    const { id : userID } = req.params;
-    const result = await AppointmentService.getPendingAppoinmentsOfUser(userID);
-    return makeResponse({
-        res,
-        message: result.message,
-        data: result.data,
-        success: result.success,
-    });
-}
-
-const getAppointmentByRequestID = async (req, res) => {
-    const { id : requestId } = req.params;
-    const result = await AppointmentService.getAppointmentByRequestID(requestId);
-    return makeResponse({
-        res,
-        message: result.message,
-        data: result.data,
-        success: result.success,
-    });
-}
-
 const getAllAppointment = async (req, res) => {
   const result = await AppointmentService.getAllAppointments();
   return makeResponse({
@@ -99,6 +77,14 @@ module.exports = {
   updateAppointment,
   deleteAppointment,
   getAppoinmentsOfUser,
-  getPendingAppoinmentsOfUser,
-  getAppointmentByRequestID
+};
+
+
+module.exports = {
+  getAllAppointment,
+  createAppointment,
+  getAppointment,
+  updateAppointment,
+  deleteAppointment,
+  getAppoinmentsOfUser,
 };

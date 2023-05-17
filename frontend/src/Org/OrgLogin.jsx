@@ -34,7 +34,10 @@ export default function OLoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (Cookies.get('org_accessToken') && Cookies.get('org_role') === 'org') {
+    const accessToken = Cookies.get('accessToken');
+    const name = Cookies.get('name');
+
+    if (accessToken) {
       navigate('/org/dashboard');
     }
   }, [navigate]);
@@ -63,10 +66,9 @@ export default function OLoginPage() {
         console.log(response.data);
         console.log(_id);
 
-        Cookies.set('org_id', _id, { expires: 1 });
-        Cookies.set('org_accessToken', accessToken, { expires: 1 });
-        Cookies.set('org_name', name, { expires: 1 });
-        Cookies.set('org_role', 'org', { expires: 1 });
+        Cookies.set('id', _id, { expires: 1 });
+        Cookies.set('accessToken', accessToken, { expires: 1 });
+        Cookies.set('clubName', name, { expires: 1 });
 
         navigate('/org/dashboard/');
       } catch (error) {

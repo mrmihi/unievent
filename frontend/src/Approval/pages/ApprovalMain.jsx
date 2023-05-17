@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import API from "../components/api.approval";
-import Cookies from "js-cookie"
 
 function ApprovalMain() {
   const { id: eventID } = useParams();
@@ -13,13 +12,13 @@ function ApprovalMain() {
   const [licReq, setLicReq] = useState(null);
   const [venue, setVenue] = useState({});
   const [venueReq, setVenueReq] = useState(null);
-  const [venueBooking, setVenueBooking] = useState(null);
+  const [venueBooking, setVenueBooking] = useState({});
   const [budget, setBudget] = useState({});
   const [budgetReq, setBudgetReq] = useState(null);
   const [admin, setAdmin] = useState({});
   const [adminReq, setAdminReq] = useState(null);
   const [org, setOrg] = useState({});
-  const loggedOrgId = Cookies.get("org_id");
+  const loggedOrgId = "644557c3276961373d2c608c";
   const [requestNoteLIC, setRequestNoteLIC] = useState("");
   const [requestNoteBudget, setRequestNoteBudget] = useState("");
   const [requestNoteAdmin, setRequestNoteAdmin] = useState("");
@@ -27,7 +26,7 @@ function ApprovalMain() {
 
   const handleLicApprovalSendRequest = () => {
     if (requestNoteLIC != "") {
-      sendApprovalRequest("lic", licReq._id);
+      createApprovalRequest("lic");
     } else {
       toast.error("Add Request Note to proceed", {
         position: "top-right",
@@ -36,7 +35,7 @@ function ApprovalMain() {
   };
   const handleBudgetApprovalSendRequest = () => {
     if (requestNoteBudget != "") {
-      sendApprovalRequest("budget", budgetReq._id);
+      createApprovalRequest("budget");
     } else {
       toast.error("Add Request Note to proceed", {
         position: "top-right",
@@ -45,7 +44,7 @@ function ApprovalMain() {
   };
   const handleAdminApprovalSendRequest = () => {
     if (requestNoteAdmin != "") {
-      sendApprovalRequest("admin", adminReq._id);
+      createApprovalRequest("admin");
     } else {
       toast.error("Add Request Note to proceed", {
         position: "top-right",
@@ -53,83 +52,34 @@ function ApprovalMain() {
     }
   };
 
-  const handleRequestAppointmentBtn = (event) => {
-    const role = event.target.id;
-    var requestId = "";
-    switch (role) {
-      case "venue":
-        requestId = venueReq._id;
-        break;
-
-      case "lic":
-        requestId = licReq._id;
-        break;
-
-      case "budget":
-        requestId = budgetReq._id;
-        break;
-
-      case "admin":
-        requestId = adminReq._id;
-        break;
-    }
-    navigate(`/org/dashboard/approval/appointment/${requestId}`);
-  };
-  const handleAddAdminBtn = () => {
-    navigate(`/org/dashboard/admin/list/${eventApprovalData._id}`);
-  };
-  const handleAddStaffBtn = () => {
-    navigate(`/org/dashboard/staff/list/${eventApprovalData._id}`);
-  };
-  const handlePrintBtn = () => {
-    navigate(`/org/dashboard/events/approval/print/${eventApprovalData._id}`);
-  };
-
-  const handleNoteChange = (event) => {
-    const role = event.target.id;
-    if (event.target.value.length < 500) {
-      if (role == "lic") {
-        setRequestNoteLIC(event.target.value);
-      } else if (role == "budget") {
-        setRequestNoteBudget(event.target.value);
-      } else if (role == "admin") {
-        setRequestNoteAdmin(event.target.value);
-      }
-    } else {
-      toast.error("Note must be less than 500 characters", {
-        position: "top-right",
-      });
-    }
-  };
-
-  const updateEventApproval = async (role, status, id) => {
+  const updateEventApproval = async (role, status) => {
     var data = null;
     switch (role) {
       case "venue":
         data = {
           status: status,
-          venue_approval: id,
+          venue_approval: venueReq._id,
         };
         break;
 
       case "lic":
         data = {
           status: status,
-          lic_approval: id,
+          lic_approval: licReq._id,
         };
         break;
 
       case "budget":
         data = {
           status: status,
-          budget_approval: id,
+          budget_approval: budgetReq._id,
         };
         break;
 
       case "admin":
         data = {
           status: status,
-          admin_approval: id,
+          admin_approval: adminReq._id,
         };
         break;
     }
@@ -142,7 +92,7 @@ function ApprovalMain() {
         setData(res.data.data);
       })
       .catch((err) => {
-        //console.log(err);
+        console.log(err);
         toast.error("Approval Request sending failed", {
           position: "top-right",
         });
@@ -157,9 +107,9 @@ function ApprovalMain() {
           approval_id: eventApprovalData._id,
           type: "Venue_Request",
           requested_at: venueBooking.created_at,
-          requested_to: venueBooking.venue.manager,
+          requested_to: venue._id,
           requested_by: loggedOrgId,
-          status: "Sent",
+          status: "Not_Yet_Sent",
         };
         break;
 
@@ -172,6 +122,26 @@ function ApprovalMain() {
           status: "Not_Yet_Sent",
         };
         break;
+
+      case "budget":
+        data = {
+          approval_id: eventApprovalData._id,
+          type: "Budget_Request",
+          requested_to: budget._id,
+          requested_by: loggedOrgId,
+          status: "Not_Yet_Sent",
+        };
+        break;
+
+      case "admin":
+        data = {
+          approval_id: eventApprovalData._id,
+          type: "Admin_Request",
+          requested_to: admin._id,
+          requested_by: loggedOrgId,
+          status: "Not_Yet_Sent",
+        };
+        break;
     }
 
     await API.post(`approval/request/`, data, {
@@ -179,65 +149,30 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        //console.log(res.data.data);
         switch (role) {
           case "venue":
             setVenueReq(res.data.data);
-            updateEventApproval("venue", "Draft", res.data.data._id);
+            updateEventApproval("venue", "Draft");
             break;
 
           case "lic":
             setLicReq(res.data.data);
-            updateEventApproval("lic", "Draft", res.data.data._id);
+            updateEventApproval("lic", "Draft");
+            break;
+
+          case "budget":
+            setBudgetReq(res.data.data);
+            updateEventApproval("budget", "Draft");
+            break;
+
+          case "admin":
+            setAdminReq(res.data.data);
+            updateEventApproval("admin", "Draft");
             break;
         }
       })
       .catch((err) => {
-        //console.log(err.response.data);
-      });
-  };
-
-  const sendApprovalRequest = async (role, id) => {
-    var data = null;
-    switch (role) {
-      case "lic":
-        data = {
-          requested_at: Date(),
-          status: "Sent",
-          requested_note: requestNoteLIC,
-        };
-        break;
-
-      case "budget":
-        data = {
-          requested_at: Date(),
-          status: "Sent",
-          requested_note: requestNoteLIC,
-        };
-        break;
-
-      case "admin":
-        data = {
-          requested_at: Date(),
-          status: "Sent",
-          requested_note: requestNoteLIC,
-        };
-        break;
-    }
-
-    await API.put(`approval/request/${id}`, data, {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((res) => {
-        //console.log(res.data.data);
-        fetchApproval();
-        toast.success("Request sent successfully", {
-          position: "top-center",
-        });
-      })
-      .catch((err) => {
-        //console.log(err.response);
+        console.log(err.response);
       });
   };
 
@@ -247,8 +182,6 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // //console.log("fetchRequests " + role);
-        // //console.log(res.data.data.requested_to);
         switch (role) {
           case "lic":
             setLicReq(res.data.data);
@@ -257,51 +190,79 @@ function ApprovalMain() {
             setVenueReq(res.data.data);
             break;
           case "budget":
-            setBudget(res.data.data.requested_to);
             setBudgetReq(res.data.data);
             break;
           case "admin":
-            setAdmin(res.data.data.requested_to);
             setAdminReq(res.data.data);
             break;
         }
         setError({});
       })
       .catch((err) => {
-        //console.log(err.response);
-        setLicReq(null);
-        setBudgetReq(null);
-        setAdminReq(null);
-        setVenueReq(null);
+        console.log(err.response);
+        setLic({});
+        setBudget({});
+        setAdmin({});
         setError(err.response);
       });
   };
 
-  const fetchOrgDetails = async (orgId) => {
-    await API.get(`org/${orgId}`, {
+  const fetchVenueBookingDetails = async () => {
+    const fetchVenueManagerDetails = async (venueManagerID) => {
+      await API.get(`users/${venueManagerID}`, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      })
+        .then((res) => {
+          setVenue(res.data);
+        })
+        .catch((err) => {
+          setVenue({});
+          console.log(err.response);
+        });
+    };
+
+    await API.get(`bookings/event/${eventID}`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
       .then((res) => {
-        // //console.log("fetchOrgDetails");
-        // //console.log(res.data);
-        setOrg(res.data);
-        setLic(res.data.incharge);
+        setVenueBooking(res.data[0]);
+        fetchVenueManagerDetails(res.data[0].venue.manager);
+        if (eventApprovalData.venue_approval == null) {
+          createApprovalRequest("venue");
+        }
       })
       .catch((err) => {
-        setLic({});
-        setOrg({});
-        //console.log(err.response);
+        setVenueBooking({});
+        console.log(err.response);
       });
   };
 
   const fetchApproval = async () => {
+    const fetchOrgDetails = async (orgId) => {
+      await API.get(`org/${orgId}`, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      })
+        .then((res) => {
+          //   console.log(res.data);
+          setOrg(res.data);
+          setLic(res.data.incharge);
+        })
+        .catch((err) => {
+          setLic({});
+          setOrg({});
+          console.log(err.response);
+        });
+    };
+
     await API.get(`approval/event/events/${eventID}`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })
       .then((res) => {
-        //console.log(res.data.data[0].event_id.orgId);
+        setData(res.data.data[0]);
         fetchOrgDetails(res.data.data[0].event_id.orgId);
 
         if (res.data.data[0].lic_approval != null) {
@@ -320,7 +281,6 @@ function ApprovalMain() {
           fetchRequests(res.data.data[0].admin_approval._id, "admin");
         }
 
-        setData(res.data.data[0]);
         setError({});
       })
       .catch((err) => {
@@ -332,41 +292,33 @@ function ApprovalMain() {
       });
   };
 
-  const fetchVenueBookingDetails = async () => {
-    const fetchVenueManagerDetails = async (venueManagerID) => {
-      await API.get(`users/${venueManagerID}`, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
-        .then((res) => {
-          // //console.log("fetchVenueManagerDetails");
-          //console.log(res.data);
-          setVenue(res.data);
-        })
-        .catch((err) => {
-          setVenue({});
-          //console.log(err);
-        });
-    };
-
-    await API.get(`bookings/event/${eventID}`, {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    })
-      .then((res) => {
-        // //console.log(res.data[0]);
-        setVenueBooking(res.data[0]);
-        fetchVenueManagerDetails(res.data[0].venue.manager);
-      })
-      .catch((err) => {
-        setVenueBooking({});
-        //console.log(err.response);
+  const handleAddAdminBtn = () => {
+    navigate(`/admin/list/${eventID}`);
+  };
+  const handleAddStaffBtn = () => {
+    navigate(`/staff/list/${eventID}`);
+  };
+  const handleNoteChange = (event) => {
+    console.log(event.target.id);
+    const role = event.target.id;
+    if (event.target.value.length < 500) {
+      if ((role = "lic")) {
+        setRequestNoteLIC(event.target.value);
+      } else if (role == "budget") {
+        setRequestNoteBudget(event.target.value);
+      } else if (role == "admin") {
+        setRequestNoteAdmin(event.target.value);
+      }
+    } else {
+      toast.error("Note must be less than 500 characters", {
+        position: "top-right",
       });
+    }
   };
 
   useEffect(() => {
-    fetchVenueBookingDetails();
     fetchApproval();
+    fetchVenueBookingDetails();
   }, [eventID]);
 
   useEffect(() => {
@@ -385,20 +337,8 @@ function ApprovalMain() {
     if (eventApprovalData.admin_approval != null) {
       fetchRequests(eventApprovalData.admin_approval._id, "admin");
     }
+    // fetchVenueBookingDetails()
   }, [eventApprovalData]);
-
-  useEffect(() => {
-    if (eventApprovalData.venue_approval == null && venueBooking != null) {
-      console.log(venueBooking)
-      createApprovalRequest("venue");
-    }
-  }, [venueBooking]);
-
-  useEffect(() => {
-    if (eventApprovalData.lic_approval == null && lic != null) {
-      createApprovalRequest("lic");
-    }
-  }, [lic]);
 
   const boxColor = "#f2f2f2";
   const NotYetSentBtn = "#808080;";
@@ -408,14 +348,18 @@ function ApprovalMain() {
   const RejectedBtn = "#dc3545";
   const normalBtn = "#007bff";
 
-  const statusText = (request) => {
-    if (request.status === "Not_Yet_Sent") return NotYetSentBtn;
-    if (lic.status === "Sent") return SentBtn;
-    if (lic.status === "Viewed") return ViewedBtn;
-    if (lic.status === "Approved") return ApprovedBtn;
-    if (lic.status === "Rejected") return RejectedBtn;
-    else return normalBtn;
-  };
+  const statusText =
+    lic.status === "Not_Yet_Sent"
+      ? NotYetSentBtn
+      : lic.status === "Sent"
+      ? SentBtn
+      : lic.status === "Viewed"
+      ? ViewedBtn
+      : lic.status === "Approved"
+      ? ApprovedBtn
+      : lic.status === "Rejected"
+      ? RejectedBtn
+      : normalBtn;
 
   function getStatus(status) {
     switch (status) {
@@ -438,23 +382,9 @@ function ApprovalMain() {
     <div className="w-full">
       <ToastContainer />
       <Box className="px-8 w-full">
-        <div className="flex flex-row px-8 justify-between w-full align-middle">
-          <div>
-            <Typography id="eventName" variant="h2">
-              Event Approval Request Form
-            </Typography>
-          </div>
-          <div>
-            <Button
-              variant="outlined"
-              color="secondary"
-              size="large"
-              onClick={handlePrintBtn}
-            >
-              Print
-            </Button>
-          </div>
-        </div>
+        <Typography id="eventName" variant="h2">
+          Event Approval Request Form
+        </Typography>
 
         <Box className="flex flex-row flex-wrap my-4">
           <Box
@@ -463,40 +393,30 @@ function ApprovalMain() {
             bgcolor={boxColor}
             mb="1%"
             mr="1%"
-            height={300}
+            height={200}
             className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
           >
             <div className="p-4 flex flex-col justify-between h-full">
               <Typography variant="h3" id="licApproval" fontWeight="bold">
-                {lic != null
-                  ? lic.firstname + " " + lic.lastname
-                  : "Not Added Yet"}
-              </Typography>
-
-              <Typography variant="h5">
-                {org._id != null ? org.name : "Not Added Yet"}
+                {lic._id != null ? lic.name : "Not Added Yet"}
               </Typography>
 
               <Typography variant="h5">Lecturer-In-Charge</Typography>
 
               {licReq != null ? (
-                <Typography variant="h5" color={statusText(licReq)}>
-                  Approval Status : {getStatus(licReq.status)}
-                </Typography>
-              ) : null}
-
-              {licReq != null && licReq.status != "Not_Yet_Sent" ? (
-                <Typography variant="h5">
-                  {" "}
-                  Requested On : {licReq.requested_at}{" "}
-                </Typography>
+                <div>
+                  <Typography variant="h5" color={statusText}>
+                    {getStatus(licReq.status)}
+                  </Typography>
+                  <Typography variant="h5"> {licReq.requested_on} </Typography>
+                </div>
               ) : (
                 <TextField
                   id="lic"
                   size="small"
                   className="w-full my-2"
                   variant="outlined"
-                  value={requestNoteLIC}
+                  value={requestNoteAdmin}
                   label="Request Note"
                   onChange={handleNoteChange}
                 />
@@ -508,27 +428,21 @@ function ApprovalMain() {
                     variant="contained"
                     color="secondary"
                     size="large"
-                    disabled
-                  >
-                    Send Request
-                  </Button>
-                ) : licReq.status == "Not_Yet_Sent" ? (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="large"
                     onClick={handleLicApprovalSendRequest}
                   >
                     Send Request
                   </Button>
-                ) : (
+                ) : licReq.status != "Not_Yet_Sent" ? (
                   <Button
-                    id="lic"
                     variant="outlined"
                     color="secondary"
                     size="large"
-                    onClick={handleRequestAppointmentBtn}
+                    disabled
                   >
+                    Request Appointment
+                  </Button>
+                ) : (
+                  <Button variant="outlined" color="secondary" size="large">
                     Request Appointment
                   </Button>
                 )}
@@ -542,7 +456,7 @@ function ApprovalMain() {
             bgcolor={boxColor}
             mb="1%"
             mr="1%"
-            height={300}
+            height={200}
             className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
           >
             <div className="p-4 flex flex-col justify-between h-full">
@@ -559,36 +473,31 @@ function ApprovalMain() {
               </Typography>
 
               {venueBooking != null ? (
-                <Typography variant="h5">
+                <Typography variant="h5" color={statusText}>
                   Booking Status : {venueBooking.booking_status}
                 </Typography>
               ) : null}
 
-              {venueBooking != null ? (
-                <Typography variant="h5">
-                  Payment Status : {venueBooking.payment_status}
-                </Typography>
-              ) : null}
-
               <Box className="flex w-full justify-between flex-row my-2">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                  disabled
+                >
+                  Make Payment
+                </Button>
+
                 {venueReq != null ? (
-                  <Button
-                    id="venue"
-                    variant="outlined"
-                    color="secondary"
-                    size="large"
-                    onClick={handleRequestAppointmentBtn}
-                  >
+                  <Button variant="outlined" color="secondary" size="large">
                     Request Appointment
                   </Button>
                 ) : (
                   <Button
-                    id="venue"
                     variant="outlined"
                     color="secondary"
                     size="large"
                     disabled
-                    onClick={handleRequestAppointmentBtn}
                   >
                     Request Appointment
                   </Button>
@@ -597,15 +506,8 @@ function ApprovalMain() {
             </div>
           </Box>
 
-          <Box
-            id="budgetBox"
-            width="48%"
-            bgcolor={boxColor}
-            mb="1%"
-            mr="1%"
-            height={300}
-            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
-          >
+          <Box id="budgetBox" width="48%" bgcolor={boxColor} mb="1%" mr="1%" height={200}
+            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400">
             <div className="p-4 flex flex-col justify-between h-full">
               {budget.name != null ? (
                 <Typography variant="h3" fontWeight="bold">
@@ -628,17 +530,15 @@ function ApprovalMain() {
               )}
 
               <Typography variant="h5">Budget Approval</Typography>
+              <Typography variant="h5">
+                {budgetReq != null
+                  ? "Sent On : " + budgetReq.requested_on
+                  : null}
+              </Typography>
 
               {budgetReq != null ? (
-                <Typography variant="h5" color={statusText(budgetReq)}>
+                <Typography variant="h5" color={statusText}>
                   Approval Status : {getStatus(budgetReq.status)}
-                </Typography>
-              ) : null}
-
-              {budgetReq != null && budgetReq.status != "Not_Yet_Sent" ? (
-                <Typography variant="h5">
-                  {" "}
-                  Requested On : {budgetReq.requested_at}{" "}
                 </Typography>
               ) : (
                 <TextField
@@ -654,31 +554,36 @@ function ApprovalMain() {
 
               <Box className="flex w-full justify-between flex-row my-2">
                 {budgetReq == null ? (
+                  budget.name != null ? (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      size="large"
+                      onClick={handleBudgetApprovalSendRequest}
+                    >
+                      Send Request
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      size="large"
+                      disabled
+                    >
+                      Send Request
+                    </Button>
+                  )
+                ) : budgetReq.status != "Not_Yet_Sent" ? (
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     color="secondary"
                     size="large"
                     disabled
                   >
-                    Send Request
-                  </Button>
-                ) : budgetReq != null && budgetReq.status == "Not_Yet_Sent" ? (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="large"
-                    onClick={handleBudgetApprovalSendRequest}
-                  >
-                    Send Request
+                    Request Appointment
                   </Button>
                 ) : (
-                  <Button
-                    id="budget"
-                    variant="outlined"
-                    color="secondary"
-                    size="large"
-                    onClick={handleRequestAppointmentBtn}
-                  >
+                  <Button variant="outlined" color="secondary" size="large">
                     Request Appointment
                   </Button>
                 )}
@@ -686,15 +591,8 @@ function ApprovalMain() {
             </div>
           </Box>
 
-          <Box
-            id="adminBox"
-            width="48%"
-            bgcolor={boxColor}
-            mb="1%"
-            mr="1%"
-            height={300}
-            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
-          >
+          <Box id="adminBox" width="48%" bgcolor={boxColor} mb="1%" mr="1%" height={200}
+            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400">
             <div className="p-4 flex flex-col justify-between h-full">
               {admin.name != null ? (
                 <Typography variant="h3" fontWeight="bold">
@@ -716,18 +614,13 @@ function ApprovalMain() {
                 </div>
               )}
 
-              <Typography variant="h5">Administration</Typography>
-
+              <Typography variant="h5">Admin</Typography>
+              <Typography variant="h5">
+                {adminReq != null ? adminReq.requested_on : null}
+              </Typography>
               {adminReq != null ? (
-                <Typography variant="h5" color={statusText(adminReq)}>
-                  Approval Status : {getStatus(adminReq.status)}
-                </Typography>
-              ) : null}
-
-              {adminReq != null && adminReq.status != "Not_Yet_Sent" ? (
-                <Typography variant="h5">
-                  {" "}
-                  Requested On : {adminReq.requested_at}{" "}
+                <Typography variant="h5" color={statusText}>
+                  Approval status : {getStatus(adminReq.status)}
                 </Typography>
               ) : (
                 <TextField
@@ -742,32 +635,38 @@ function ApprovalMain() {
               )}
 
               <Box className="flex w-full justify-between flex-row my-2">
-                {adminReq == null ? (
+              {adminReq == null ? (
+                  budget.name != null ? (
+                    <Button
+                    id="admin"
+                      variant="contained"
+                      color="secondary"
+                      size="large"
+                      onClick={handleAdminApprovalSendRequest}
+                    >
+                      Send Request
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      size="large"
+                      disabled
+                    >
+                      Send Request
+                    </Button>
+                  )
+                ) : adminReq.status != "Not_Yet_Sent" ? (
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     color="secondary"
                     size="large"
                     disabled
                   >
-                    Send Request
-                  </Button>
-                ) : adminReq != null && adminReq.status == "Not_Yet_Sent" ? (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="large"
-                    onClick={handleAdminApprovalSendRequest}
-                  >
-                    Send Request
+                    Request Appointment
                   </Button>
                 ) : (
-                  <Button
-                    id="admin"
-                    variant="outlined"
-                    color="secondary"
-                    size="large"
-                    onClick={handleRequestAppointmentBtn}
-                  >
+                  <Button variant="outlined" color="secondary" size="large">
                     Request Appointment
                   </Button>
                 )}

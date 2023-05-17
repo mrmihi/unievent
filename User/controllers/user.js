@@ -23,6 +23,7 @@ const getAllStaff = async (req, res) => {
 
 
 
+
 //create user
 const createUser = async (req, res) => {
   try {
@@ -181,4 +182,3 @@ module.exports = {
   getAllAdmin,
   getAllStaff
 }; //export all functions
-

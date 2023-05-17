@@ -92,6 +92,7 @@ const navItems = [
     text: 'Venues',
     icon: <AssignmentIndOutlined />,
   },
+
 ];
 
 const Sidebar = ({
@@ -156,15 +157,17 @@ const Sidebar = ({
                     </Typography>
                   );
                 }
-                let lcText = text.toLowerCase();
+                const lcText = text.toLowerCase();
 
                 return (
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
+
                         if (lcText === 'venues') {
                           lcText = 'venues/reviews';
                         }
+
                         navigate(`/org/dashboard/${lcText}`);
                         setActive(lcText);
                       }}

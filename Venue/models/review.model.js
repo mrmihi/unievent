@@ -26,16 +26,6 @@ const ReviewSchema = new Schema(
             ref: 'User',
             required: true
         },
-        event: {
-            type: Schema.Types.ObjectId,
-            ref: 'Event',
-            required: true
-        },
-        booking: {
-            type: Schema.Types.ObjectId,
-            ref: 'Booking',
-            required: true
-        },
         row: {
             type: Number,
             required: true,
