@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Box,
+  Typography,
   Button,
   FormControl,
   InputLabel,
@@ -136,7 +137,7 @@ const VVenueQuotation = () => {
         <FlexBetween>
           <Header
             title="Venue Quotation"
-            subtitle="Please select a venue and number of days to receive a quotation."
+            subtitle="Welcome to the Venue Quotation Page."
           />
         </FlexBetween>
       </div>
@@ -149,7 +150,7 @@ const VVenueQuotation = () => {
           margin: 'auto',
         }}
       >
-
+        <Typography variant="h3" sx={{ mt: 10 }}>Please select a venue and number of days to receive a quotation.</Typography>
         <FormControl fullWidth sx={{ mt: 4 }}>
           <InputLabel id="venue-select-label">Venue</InputLabel>
           <Select

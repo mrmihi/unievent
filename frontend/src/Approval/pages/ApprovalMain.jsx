@@ -638,7 +638,7 @@ function ApprovalMain() {
                   </Button>
                 ) : licAppointments == null ? (
                   <Button
-                    id="venue"
+                    id="lic"
                     variant="outlined"
                     color="secondary"
                     size="large"
@@ -832,7 +832,7 @@ function ApprovalMain() {
                   </Button>
                 ) : budgetAppointments == null ? (
                   <Button
-                    id="venue"
+                    id="budget"
                     variant="outlined"
                     color="secondary"
                     size="large"
@@ -844,7 +844,6 @@ function ApprovalMain() {
                   <Button
                     id="budget"
                     variant="outlined"
-                    style={{ color: "green", borderColor: "green" }}
                     size="large"
                     onClick={() =>
                       handleViewAppointments(budgetAppointments[0])
@@ -936,7 +935,7 @@ function ApprovalMain() {
                   </Button>
                 ) : adminAppointments == null ? (
                   <Button
-                    id="venue"
+                    id="admin"
                     variant="outlined"
                     color="secondary"
                     size="large"

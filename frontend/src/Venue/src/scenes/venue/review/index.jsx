@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import FlexBetween from "Venue/src/components/FlexBetween";
 import Header from "Venue/src/components/Header";
 import axios from "axios";
@@ -32,22 +32,31 @@ const VReview = () => {
     return (
         <Box m="1.5rem 2.5rem">
             <FlexBetween>
-                <Header title="All Reviews for my venues" />
+                <Header title="All Reviews" subtitle="Welcome to all reviews page" />
             </FlexBetween>
             {reviews.length === 0 ? (
-                <Typography
-                    variant="h6"
-                    align="center"
+                <Stack
                     sx={{
-                        mt: 10,
-                        fontWeight: "bold",
-                        fontSize: "1.5rem",
-                        border: "2px dashed gray",
-                        p: 2,
+                        width: '75%',
+                        minWidth: { xs: '300px', sm: '360px', md: '400px' },
+                        gap: '1.5rem',
+                        margin: 'auto',
                     }}
                 >
-                    No reviews in the database.
-                </Typography>
+                    <Typography
+                        variant="h6"
+                        align="center"
+                        sx={{
+                            mt: 10,
+                            fontWeight: "bold",
+                            fontSize: "1.5rem",
+                            border: "2px dashed gray",
+                            p: 2,
+                        }}
+                    >
+                        No reviews in the database.
+                    </Typography>
+                </Stack>
             ) : (
                 <Box mt={4}>
                     <MaterialReactTable columns={columns} data={reviews} />
