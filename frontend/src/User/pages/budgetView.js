@@ -12,7 +12,8 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+
 import BudgetPDF from '../pdf/BudgetPDF';
 import Grid from '@mui/material/Grid';
 import Swal from 'sweetalert2';
@@ -114,6 +115,8 @@ export default function CustomizedTables() {
     return `${year}/${month < 10 ? '0' + month : month}/${day < 10 ? '0' + day : day}`;
   }
 
+  const navigate = useNavigate()
+
   const handleDelete = useCallback(
     (row) => {
       Swal.fire({
@@ -131,7 +134,8 @@ export default function CustomizedTables() {
           .then((response) => {
             Swal.fire('Deleted!', `Deleted The budget`, 'success');
             console.log(response.data);
-            window.location.href='/admin/event';
+            navigate(`org/dashboard/events/${event_id}`)
+
           });
          
           
@@ -184,7 +188,8 @@ export default function CustomizedTables() {
             <TableHead >
               <TableRow>
                 <StyledTableCell align="left">Description</StyledTableCell>
-                <StyledTableCell align="left">Amount($)</StyledTableCell>
+                <StyledTableCell align="left">Amount</StyledTableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
@@ -206,6 +211,7 @@ export default function CustomizedTables() {
             <TableHead>
               <TableRow>
                 <StyledTableCell align="left">Description</StyledTableCell>
+
                 <StyledTableCell align="left">Amount($)</StyledTableCell>
               </TableRow>
             </TableHead>
@@ -222,6 +228,7 @@ export default function CustomizedTables() {
 
         </TableContainer>
         <Box>
+
             <Typography variant="h3" sx={{ marginBottom: '20px', fontWeight: 'bold',marginTop:'50px' }}>Total Income Amount:$ {totalIncomeAmount}</Typography>
             <Typography variant="h3" sx={{ marginBottom: '20px', fontWeight: 'bold' }}>Total Expense Amount:$  {totalExpenseAmount}</Typography>
             

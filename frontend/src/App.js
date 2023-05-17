@@ -71,10 +71,11 @@ import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 import ALayout from 'Approval/src/scenes/layout';
 import ADashboard from 'Approval/src/scenes/dashboard';
 import ALoginPage from 'Approval/src/scenes/login';
-import AApproval from 'Approval/src/scenes/approvalRequests';
-import AApprovalRequests from 'Approval/src/scenes/allApprovalRequests';
-import AAppointmentRequests from 'Approval/src/scenes/appointmentRequests';
-import AAppointments from 'Approval/src/scenes/upcomingAppointments';
+import AApproval from 'Approval/src/scenes/Approval_Requests/approvalRequests';
+import AApprovalRequests from 'Approval/src/scenes/Approval_Requests/allApprovalRequests';
+import AAppointmentRequests from 'Approval/src/scenes/Appointments/appointmentRequests';
+import AAppointments from 'Approval/src/scenes/Appointments/allAppointments';
+import AAppointmentsUpcoming from "Approval/src/scenes/Appointments/upcomingAppointments"
 
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
@@ -117,6 +118,7 @@ import VolunteerSchedule from 'Partners/user/volunteer/VolunteerSchedule';
 
 import ULayout from './User/scenes/layout/Layout';
 import UDashboard from './User/scenes/dashboard';
+
 import UProfilePage from './User/pages/profilePage';
 import ULogin from './User/pages/login';
 import UAllusers from './User/pages/allUsers';
@@ -213,13 +215,16 @@ function App() {
                 />
                 <Route
                   path="/org/dashboard/events/approval/print/:id"
-                  element={<PrintAll />}
+
+                  element={<PrintAll />} />
+                
+                <Route path='/org/event/budget/:eventid' element={<UBudgetForm/>}/> 
+
+                <Route
+                  path="/org/event/viewBudget/:event_id"
+                  element={<UBudgetView />}
                 />
 
-                {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
-                <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
-                <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
-              <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
 
                 <Route
                   path="/org/dashboard/venues/reviews"
@@ -245,6 +250,7 @@ function App() {
                   element={<AAppointmentRequests />}
                 />
                 <Route path="/admin/appointments" element={<AAppointments />} />
+                <Route path="/admin/appointments/upcoming" element={<AAppointmentsUpcoming />} />
                 <Route
                   path="/admin/approvals"
                   element={<AApprovalRequests />}
@@ -572,23 +578,43 @@ function App() {
               <Route path="/" element={<ULogin />} />
 
               <Route element={<ULayout />}>
-                <Route path="/admin/dashboard" element={<UDashboard />} />
-                <Route path="/admin/allUsers" element={<UAllusers />} />
-                <Route path="/admin/register" element={<USignUp />} />
-                {/* <Route
-                path="/org/event/budget/:eventid"
-                element={<UBudgetForm />}
+
+
+              <Route
+                path="/admin/dashboard"
+                element={<UDashboard />}
+              />
+              {/* <Route
+                path="/admin/event"
+                element={<UAllEventView />}
               /> */}
-                <Route path="/admin/profile" element={<UProfilePage />} />
-                {/* <Route
+              <Route
+                path="/admin/allUsers"
+                element={<UAllusers />}
+              />
+              <Route
+                path="/admin/register"
+                element={<USignUp />}
+              />
+              <Route
+                path="/admin/event/budget/:eventid"
+                element={<UBudgetForm />}
+              />
+              <Route
+                path="/admin/profile"
+                element={<UProfilePage />}
+              />
+              <Route
                 path="/admin/event/viewBudget/:event_id"
                 element={<UBudgetView />}
-              /> */}
-                <Route
-                  path="/admin/profile/edit"
-                  element={<UserProfileEdit />}
-                />
-              </Route>
+              />
+              <Route
+                path="/admin/profile/edit"
+                element={<UserProfileEdit />}
+              />
+            </Route>
+
+
             </Routes>
           </ThemeProvider>
         </BrowserRouter>

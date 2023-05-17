@@ -24,7 +24,7 @@ function EventManagerView() {
         withCredentials: true,
       })
         .then((res) => {
-          // console.log(res.data.data)
+          // console.log(res.data.data.orgId)
           setEventData(res.data.data);
         })
         .catch((err) => {
@@ -91,7 +91,22 @@ function EventManagerView() {
     const getResourceDetails = async () => {};
 
     //Maleesha
-    const getBudgetDetails = async () => {};
+    const getBudgetDetails = async () => {
+      console.log(eventID)
+      await API.get(
+        `/budgets/${eventID}`
+      )
+        .then((res) => {
+          // console.log("budget Found");
+          // console.log(res.data[0]);
+          setBudgetData(res.data[0])
+        })
+        .catch((err) => {
+          console.log("budget not Found");
+          console.log(err);
+          setBudgetData(null)
+        });
+    };
 
     //Sapumal
     const getVenueDetails = async () => {
@@ -112,6 +127,7 @@ function EventManagerView() {
     getEventDetails();
     getApprovalDetails();
     getVenueDetails();
+    getBudgetDetails();
   }, [eventID]);
 
   const handleAddVenueBtn = () => {
@@ -124,11 +140,12 @@ function EventManagerView() {
   const handleCreateBudgetBtn = () => {
     navigate(`/org/event/budget/${eventID}`);
   };
+  const handleViewBudgetBtn = () => {
+    navigate(`/org/event/viewBudget/${eventID}`);
+  }
+
   const handleFillApprovalRequestBtn = () => {
     navigate(`/org/dashboard/events/approval/${eventID}`);
-  };
-  const handleRequestAppointment = () => {
-    navigate(`/org/dashboard/appointment/${eventID}`);
   };
   const handleMakePaymentBtn = () => {
     navigate(`/venue/payment`);
@@ -176,23 +193,23 @@ function EventManagerView() {
       <Box className="px-8 w-full">
         <div className="flex flex-row">
           <div className="flex flex-col w-2/3">
-            <Typography id="eventName" variant="h2">
+            <Typography id="eventName" variant="h4">
               {eventData != null ? eventData.name : 'Event Name'}
             </Typography>
-            <Typography id="eventDescription" variant="h4">
+            <Typography id="eventDescription" variant="h6">
               {eventData != null ? eventData.description : 'Description'}
             </Typography>
-            <Typography id="eventDate" variant="h5">
+            <Typography id="eventDate" variant="h6">
               {eventData != null
                 ? String(eventData.startTime).split('T')[0]
                 : 'Date'}
             </Typography>
-            <Typography id="eventStartTime" variant="h5">
+            <Typography id="eventStartTime" variant="h6">
               {eventData != null
                 ? String(eventData.startTime).split('T')[1]
                 : 'Start Time'}
             </Typography>
-            <Typography id="eventEndTime" variant="h5">
+            <Typography id="eventEndTime" variant="h6">
               {eventData != null
                 ? String(eventData.endTime).split('T')[1]
                 : 'End Time'}
@@ -354,7 +371,7 @@ function EventManagerView() {
                 Event Budget
               </Typography>
               <Typography variant="h5" id="eventBudgetStatus" color="secondary">
-                Not Created Yet
+                { budgetData == null ? "Not Created Yet" : "Created"}
               </Typography>
               <Typography
                 variant="h6"
@@ -363,22 +380,24 @@ function EventManagerView() {
               ></Typography>
 
               <Box className="flex w-full justify-around flex-row my-2">
-                <Button
+                { budgetData == null ?
+                  (<Button
                   variant="contained"
                   color="secondary"
                   size="large"
                   onClick={handleCreateBudgetBtn}
                 >
                   Create Budget
-                </Button>
-                {/* <Button
-                  variant="outlined"
-                  color="secondary"
-                  size="large"
-                  disabled
-                >
-                  Request Approval
-                </Button> */}
+                </Button>)
+                : <Button
+                variant="outlined"
+                color="secondary"
+                size="large"
+                onClick={handleViewBudgetBtn}
+              >
+                View Budget
+              </Button>
+                }
               </Box>
             </div>
           </Box>

@@ -21,8 +21,6 @@ const getAllStaff = async (req, res) => {
   } //catch error
 }; 
 
-
-
 //create user
 const createUser = async (req, res) => {
   try {

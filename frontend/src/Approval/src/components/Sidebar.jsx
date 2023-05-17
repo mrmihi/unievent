@@ -22,6 +22,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import EventIcon from '@mui/icons-material/Event';
 
 const navItems = [
     {
@@ -47,13 +48,18 @@ const navItems = [
     },
     {
         text: "Upcoming Appointments",
-        icon: <PlaylistAddCheckIcon/> ,
-        location: "/admin/appointments",
+        icon: <EventIcon/> ,
+        location: "/admin/appointments/upcoming",
     },
     {
         text: "Appointment Requests",
-        icon: <ViewListIcon/> ,
+        icon: <PlaylistAddCheckIcon/> ,
         location: "/admin/appointment/requests",
+    },
+    {
+        text: "All Appointments",
+        icon: <ViewListIcon/> ,
+        location: "/admin/appointments",
     },
 ];
 

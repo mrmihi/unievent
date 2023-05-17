@@ -235,9 +235,7 @@ export default function BudgetForm() {
                 Add Income
               </Typography>
 
-              <Box noValidate sx={{ mt: 1 }}>
-
-
+              <Box noValidate sx={{ mt: 1}}  width ="100%">
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 800 }} aria-label="customized table">
                     <TableHead>
@@ -352,7 +350,7 @@ export default function BudgetForm() {
               <Typography component="h1" variant="h5" fontAmount='bold'>
                 Add Expenses
               </Typography>
-              <Box component="form" noValidate sx={{ mt: 1 }}>
+              <Box component="form" noValidate sx={{ mt: 1 }} width ="100%">
 
                 {/* form in here  */}
 
@@ -450,7 +448,8 @@ export default function BudgetForm() {
             variant="contained"
             sx={{ mt: 3, mb: 2, fontSize: 20, mr: 2 }}
             onClick={()=>{
-                navigate("/org/dashboard/events")
+                navigate(`/org/dashboard/events/${eventid}`)
+
             }}
           >
             Back

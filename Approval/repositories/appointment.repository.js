@@ -1,17 +1,22 @@
 const { Appointment, Approval_Request } = require("../models/approval.model");
 
-const getPendingAppoinmentsOfUser = async (userID) => {
-  const approvalRequests = await Approval_Request.find({
-    requested_to: userID,
-  });
+const getAppointmentsOfUser = async (userID) => {
+  const allAppointments = await Appointment.find({})
+  .populate("requested_by")
+    .populate("approval_request_id")
+  const filteredAppointments = allAppointments.filter(
+    (response) => response.approval_request_id.requested_to == userID
+  );
+  return filteredAppointments;
+};
 
-  approvalRequests.forEach(async (approvalRequest) => {
-    const appointment = await Appointment.find({
-      approval_request_id: approvalRequest._id,
-      status: "Sent",
-    }).populate("approval_request_id");
-    return appointment;
-  });
+const getPendingAppoinmentsOfUser = async (userID) => {
+  const allAppointments = await Appointment.find({})
+    .populate("approval_request_id")
+    .populate("requested_by");
+  const filteredAppointments = allAppointments.filter((response) => response.approval_request_id.requested_to == userID  && response.status == "Sent"
+  );
+  return filteredAppointments;
 };
 
 const getAppointmentByRequestID = async (requestId) => {
@@ -19,19 +24,6 @@ const getAppointmentByRequestID = async (requestId) => {
     approval_request_id: requestId,
   });
   return approvalRequests;
-};
-
-const getAppointmentsOfUser = async (userID) => {
-  const approvalRequests = await Approval_Request.find({
-    requested_to: userID,
-  });
-
-  approvalRequests.forEach(async (approvalRequest) => {
-    const appointment = await Appointment.find({
-      approval_request_id: approvalRequest._id,
-    }).populate("approval_request_id");
-    return appointment;
-  });
 };
 
 const getAllAppointments = async () => {
