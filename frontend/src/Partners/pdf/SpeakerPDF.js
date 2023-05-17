@@ -27,7 +27,7 @@ const exportPDF = (tableData) => {
     styles: {
       cellWidth: 'wrap',
     },
-    startY: 30,
+    startY: 65,
   });
 
   doc.save('Speakers.pdf');
