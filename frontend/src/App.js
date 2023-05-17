@@ -304,6 +304,7 @@ function App() {
 
               {/* Attendee Routes */}
               <Route element={<Layout />}>
+              
                 <Route
                   path="/attendeemanager/dashboard"
                   element={<Dashboard />}
