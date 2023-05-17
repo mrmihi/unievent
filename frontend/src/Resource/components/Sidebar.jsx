@@ -49,7 +49,6 @@ const navItems = [
     text: 'Resources',
     icon: <WidgetsIcon />,
   },
-
   {
     text: 'Reservations',
     icon: <CheckBoxIcon />,
@@ -58,8 +57,47 @@ const navItems = [
     text: 'Supplier Details',
     icon: <LocalShippingIcon />,
   },
+  //   {
+  //     text: "Attendees",
+  //     icon: <Groups2Outlined />,
+  //   },
+  //   {
+  //     text: "DataFinalists",
+  //     icon: <ReceiptLongOutlined />,
+  //   },
 
-
+  //   {
+  //     text: "Venue Management",
+  //     icon: null,
+  //   },
+  //   {
+  //     text: "Overview",
+  //     icon: <PointOfSaleOutlined />,
+  //   },
+  //   {
+  //     text: "Daily",
+  //     icon: <TodayOutlined />,
+  //   },
+  //   {
+  //     text: "Monthly",
+  //     icon: <CalendarMonthOutlined />,
+  //   },
+  //   {
+  //     text: "Breakdown",
+  //     icon: <PieChartOutlined />,
+  //   },
+  //   {
+  //     text: "Resource Management",
+  //     icon: null,
+  //   },
+  //   {
+  //     text: "Administrator",
+  //     icon: <AdminPanelSettingsOutlined />,
+  //   },
+  //   {
+  //     text: "AttendeeStatus",
+  //     icon: <AssignmentIndOutlined />,
+  //   },
 ];
 
 const Sidebar = ({

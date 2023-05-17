@@ -17,7 +17,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import resourcesService from '../resources.service';
 import { useState, useEffect } from 'react';
-
 import { useNavigate, useParams } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
@@ -65,6 +64,9 @@ const CustomizedInputBase = (props) => {
 };
 
 export default function AllResources({ resources }) {
+  const { eid } = useParams();
+  //const { vid } = useParams();
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -108,7 +110,6 @@ export default function AllResources({ resources }) {
                     {/* <Typography>Quantity : {resource.quantity}</Typography> */}
                     {/* <Typography>
                       Available Quantity : {resource.availableQty}
-
                     </Typography> */}
 
                       <div className="items-center justify-center">
@@ -140,7 +141,6 @@ export default function AllResources({ resources }) {
                         Reserve
                       </Button>
                     </div> */}
-
               </Grid>
               
             ))}
