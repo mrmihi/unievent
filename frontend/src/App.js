@@ -94,6 +94,31 @@ import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
 import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
 import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
 import PublicVenueTable from 'Venue/PublicVenueTable';
+import { EventForm } from 'Events/scenes/EventForm';
+
+import FLayout from "./Finance/scenes/layout";
+import FDashboard from "Finance/scenes/dashboard";
+import FOverview from "Finance/scenes/finance/overview";
+import FLoginPage from "Finance/scenes/login";
+import FRefunds from "Finance/scenes/finance/refunds";
+import FTable from "./Finance/scenes/finance/table";
+import FBills from "./Finance/scenes/finance/bills";
+import FPayments from "./Finance/scenes/finance/payments";
+import FReport from "./Finance/scenes/finance/report";
+import FPayPal from "Finance/scenes/finance/paymentform";
+
+import ULayout from "./User/scenes/layout/Layout";
+import UDashboard from "./User/scenes/dashboard";
+import UAllEventView from "./User/pages/AllEventView";
+import UProfilePage from "./User/pages/profilePage";
+import ULogin from "./User/pages/login";
+import UAllusers from "./User/pages/allUsers";
+import USignUp from "./User/pages/signUp";
+import UBudgetForm from "./User/pages/budgetForm";
+import UBudgetView from "./User/pages/budgetView";
+import UserProfileEdit from "./User/pages/UserProfileEdit";
+import ReservationTable from 'Resource/tables/allReservations';
+
 
 import FLayout from './Finance/scenes/layout';
 import FDashboard from 'Finance/scenes/dashboard';
@@ -360,6 +385,10 @@ function App() {
                 <Route
                   path="/admin/resources/dashboard/resources"
                   element={<ResourcesTable />}
+                />
+                <Route
+                  path="/admin/resources/dashboard/reservations"
+                  element={<ReservationTable />}
                 />
               </Route>
 

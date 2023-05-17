@@ -50,8 +50,8 @@ const CustomizedInputBase = (props) => {
     >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search Events."
-        inputProps={{ 'aria-label': 'search events' }}
+        placeholder="Search Resources"
+        inputProps={{ 'aria-label': 'search resources' }}
         value={props.keyword}
         onChange={props.handleKeywordChange}
       />

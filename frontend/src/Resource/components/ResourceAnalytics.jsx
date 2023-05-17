@@ -35,8 +35,8 @@ const ResourceAnalytics = () => {
             <Box
                 sx={{
                     backgroundColor: "#F7FAFC",
-                    width: "20%",
-                    padding: "2rem",
+                    width: "25%",
+                    padding: "2.5rem",
                     borderRadius: "0.5rem",
                     transition: "box-shadow 0.2s ease",
                     "&:hover": {
@@ -44,7 +44,7 @@ const ResourceAnalytics = () => {
                     },
                 }}
             >
-                <Typography variant="h5">Total Resources</Typography>
+                <Typography variant="h5">No of Available Resources</Typography>
                 <Typography variant="h4" mt={2}>
                     {countResources}
                 </Typography>
