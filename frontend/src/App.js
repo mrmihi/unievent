@@ -304,6 +304,7 @@ function App() {
 
               {/* Attendee Routes */}
               <Route element={<Layout />}>
+              
                 <Route
                   path="/attendeemanager/dashboard"
                   element={<Dashboard />}
@@ -587,25 +588,14 @@ function App() {
 
               <Route element={<ULayout />}>
                 <Route path="/admin/dashboard" element={<UDashboard />} />
-                {/* <Route
-                path="/admin/event"
-                element={<UAllEventView />}
-              /> */}
                 <Route path="/admin/allUsers" element={<UAllusers />} />
                 <Route path="/admin/register" element={<USignUp />} />
-                <Route
-                  path="/admin/event/budget/:eventid"
-                  element={<UBudgetForm />}
-                />
                 <Route path="/admin/profile" element={<UProfilePage />} />
-                <Route
-                  path="/admin/event/viewBudget/:event_id"
-                  element={<UBudgetView />}
-                />
                 <Route
                   path="/admin/profile/edit"
                   element={<UserProfileEdit />}
                 />
+                <Route path="/admin/events" element={<AllEventsAdmin/>}/>
               </Route>
             </Routes>
           </ThemeProvider>

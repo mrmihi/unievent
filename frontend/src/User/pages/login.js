@@ -181,15 +181,52 @@ export default function LoginPage() {
                                     label="Show Password"
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{ mt: 3, mb: 2 }}
-                                >
-                                    Sign In
-                                </Button>
+                            <Grid container sx={{ textAlign: 'center' }}>
+                                <Grid item xs={12}>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{
+                                            mt: 3,
+                                            mb: 2,
+                                            backgroundColor: '#2E3B55',
+                                            color: 'white',
+                                            borderRadius: '5px',
+                                            padding: '10px 20px',
+                                            boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
+                                            transition: 'background-color 0.3s',
+                                            '&:hover': {
+                                                backgroundColor: '#1E2745',
+                                            },
+                                        }}
+                                    >
+                                        Sign In
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{
+                                            mt: 3,
+                                            mb: 2,
+                                            backgroundColor: '#2E3B55',
+                                            color: 'white',
+                                            borderRadius: '5px',
+                                            padding: '10px 20px',
+                                            boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)',
+                                            transition: 'background-color 0.3s',
+                                            '&:hover': {
+                                                backgroundColor: '#1E2745',
+                                            },
+                                        }}
+                                        onClick={() => {
+                                            navigate('/org/login');
+                                        }}
+                                    >
+                                        Log In as an Organization
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Box>

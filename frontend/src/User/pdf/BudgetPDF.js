@@ -9,7 +9,6 @@ const doc = new jsPDF({
 });
 
 const exportPDF = (tableData) => {
-
     doc.addImage(logo, 'PNG', 0, 0, 300, 70);
     doc.setFontSize(13);
     doc.text("Budget Report", 15, 70);
@@ -37,13 +36,12 @@ const exportPDF = (tableData) => {
   
     const tableHeaders = ["Description", "Amount"];
 
-    doc.text(`Organization: ${headData[0][0]}`, 14, 70);
-    doc.text(`Event: ${headData[0][1]}`, 14, 75);
+    doc.text(`Organization: ${headData[0][0]}`, 14, 80);
+    doc.text(`Event: ${headData[0][1]}`, 14, 85);
     
     
     // Generate the income table
-    doc.text("Income", doc.internal.pageSize.width / 2, 79, { align: "center" });
-
+    doc.text("Income", doc.internal.pageSize.width / 2, 100, { align: "center" });
     autoTable(doc, {
       head: [tableHeaders],
       body: incomeData,
@@ -51,7 +49,6 @@ const exportPDF = (tableData) => {
         cellWidth: "auto",
         fontSize:14
       },
-
       startY: 90,
     });
   
@@ -75,31 +72,6 @@ const exportPDF = (tableData) => {
 
 const BudgetPDF = ({ tableData }) => {
   return (
-    // <div>
-    //   <table id="my-table">
-    //     <thead>
-    //       <tr>
-    //         <th>Income Description</th>
-    //         <th>Income Amount</th>
-    //         <th>Expense Description</th>
-    //         <th>Expense Amount</th>
-    //         <th>Total Income</th>
-    //         <th>Total Expenses</th>
-    //       </tr>
-    //     </thead>
-    //     <tbody>
-    //       {tableData.map((budget, index) => (
-    //         <tr key={index}>
-    //           <td>{budget.income.map((item) => item.description).join(", ")}</td>
-    //           <td>{budget.income.map((item) => item.amount).join(", ")}</td>
-    //           <td>{budget.expenses.map((item) => item.description).join(", ")}</td>
-    //           <td>{budget.expenses.map((item) => item.amount).join(", ")}</td>
-    //           <td>{budget.totalIncome}</td>
-    //           <td>{budget.totalExpenses}</td>
-    //         </tr>
-    //       ))}
-    //     </tbody>
-    //   </table>
       <Button
         color="primary"
         onClick={() => {
@@ -109,7 +81,6 @@ const BudgetPDF = ({ tableData }) => {
       >
         Export as PDF
       </Button>
-    // </div>
   );
 };
 

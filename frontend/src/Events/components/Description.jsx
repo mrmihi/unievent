@@ -2,7 +2,7 @@ import Title from './Title';
 
 const Description = (props) => {
   return (
-    <div className="flex flex-col items-center px-7 pt-[80px]" id="description">
+    <div className="flex flex-col items-center px-7 pt-[50px]" id="description">
       <Title title="About This Event" aos="fade-left" />
       <div className="flex flex-col md:flex-row justify-between px-3 md:px-12 xl:px-20">
         <div

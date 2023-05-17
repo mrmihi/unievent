@@ -136,7 +136,10 @@ const Sidebar = ({
                                     gap="0.5rem"
                                 >
                                     <Typography variant="h4" fontWeight="bold">
-                                        UniEventPro
+                                        UniEventPro<br />
+                                    </Typography>
+                                    <Typography variant="h4" fontWeight="bold" color="orange">
+                                        Fin
                                     </Typography>
                                 </Box>
                                 {!isNonMobile && (
