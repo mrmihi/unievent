@@ -42,7 +42,7 @@ const AllEventsHeader = (props) => {
     },
     {
       name: 'Log Out',
-      path: '/event/opportunities/',
+      path: '/',
     },
   ];
 
