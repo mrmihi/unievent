@@ -146,7 +146,6 @@ export default function AllEventsAdmin() {
                     <Typography gutterBottom variant="h5" component="h2">
                       {event.name}
                     </Typography>
-                    <Typography>{event.description}</Typography>
                   </CardContent>
                 </Card>
               </Grid>
