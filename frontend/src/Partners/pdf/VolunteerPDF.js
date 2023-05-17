@@ -5,10 +5,10 @@ import logo from './image.png';
 const doc = new jsPDF();
 
 const exportPDF = (tableData) => {
-  doc.addImage(logo, 'PNG', 0, 0, 200, 50);
+  doc.addImage(logo, 'PNG', 0, 0, 210, 60);
   doc.setFontSize(12);
-  doc.text('Volunteer Report', 15, 50);
-  doc.text('Date: ' + new Date().toLocaleString(), 15, 60);
+  doc.text('Volunteer Report', 15, 60);
+  doc.text('Date: ' + new Date().toLocaleString(), 15, 70);
 
   // It can parse html:
   // <table id="my-table"><!-- ... --></table>
@@ -26,7 +26,7 @@ const exportPDF = (tableData) => {
       ['Full Name', 'Available Time', 'Email', 'Contact Number', 'Status'],
     ],
     body: data,
-    startY: 65,
+    startY: 80,
   });
 
   doc.save('Volunteers.pdf');
