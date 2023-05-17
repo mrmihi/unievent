@@ -135,8 +135,11 @@ const Sidebar = ({
                                     alignItems="center"
                                     gap="0.5rem"
                                 >
-                                    <Typography variant="h4" fontWeight="bold">
-                                        UNIEVENT-PRO
+                                    <Typography variant="h4" fontWeight="bold" style={{display: 'inline-block'}}>
+                                        UNIEVENTPRO
+                                    </Typography>
+                                    <Typography variant="h5" fontWeight="bold" color="orange"style={{display: 'inline-block'}} >
+                                        Org-attendee
                                     </Typography>
                                 </Box>
                                 {!isNonMobile && (
