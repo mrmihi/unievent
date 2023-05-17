@@ -2,64 +2,27 @@ import React from 'react';
 import { ResponsivePie } from '@nivo/pie';
 import { Box, Typography, useTheme } from '@mui/material';
 import { useGetManagemnetEventsQuery } from '../state/api';
-import { useEffect, useState } from 'react';
-//import { Axios } from "axios";
 
 const BreakdownChart = ({ isDashboard = false }) => {
   const { data, isLoading } = useGetManagemnetEventsQuery();
-
-
-
   const theme = useTheme();
+
+  if (!data || isLoading) return 'Loading...';
+
   const colors = [
     theme.palette.secondary[500],
     theme.palette.secondary[300],
     theme.palette.secondary[300],
     theme.palette.secondary[500],
   ];
-  const [formattedData, setFormattedData] = useState([
-    // {
-    //   id: 'totalAttendees',
-    //   label: 'Total Attendees',
-    //   value: 5251,
-    //   color: '#FFCD56',
-    // },
-    // {
-    //   id: 'yearlyAttendeesTotal',
-    //   label: 'Yearly Attendees Total',
-    //   value: 65152,
-    //   color: '#36A2EB',
-    // },
-    // {
-    //   id: 'yearlyTotalPartAttendees',
-    //   label: 'Yearly Total Part. Attendees',
-    //   value: 12969,
-    //   color: '#FF6384',
-    // },
-    // {
-    //   id: '2021',
-    //   label: '2021',
-    //   value: 0,
-    //   color: '#4BC0C0',
-    // },
-  ]);
-
-  useEffect(() => {
-    if (data && data[0].EventsByCategory) {
-      const formattedData = Object.entries(data[0].EventsByCategory).map(
-        ([category, events], i) => ({
-          id: category,
-          label: category,
-          value: events,
-          color: colors[i],
-        })
-      );
-      setFormattedData(formattedData);
-    }
-  }, []);
-
- console.log('breakdown', data[0].EventsByCategory);
-  if (!data || isLoading) return 'Loading...';
+  const formattedData = data[0].EventsByCategory
+    ? Object.entries(data[0].EventsByCategory).map(([category, events], i) => ({
+        id: category,
+        label: category,
+        value: events,
+        color: colors[i],
+      }))
+    : [];
 
   return (
     <Box
@@ -104,7 +67,7 @@ const BreakdownChart = ({ isDashboard = false }) => {
             },
           },
         }}
-       // colors={{ datum: 'data.color' }}
+        // colors={{ datum: "data.color" }}
         margin={
           isDashboard
             ? { top: 40, right: 80, bottom: 100, left: 50 }
@@ -167,7 +130,7 @@ const BreakdownChart = ({ isDashboard = false }) => {
         }}
       >
         <Typography variant="h6">
-          {!isDashboard && 'Total Events:'} {data[0].yearlyAttendeesTotal}
+          {!isDashboard && 'Total Events:'} {data.yearlyAttendeesTotal}
         </Typography>
       </Box>
     </Box>
