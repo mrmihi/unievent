@@ -41,7 +41,7 @@ const Staffs = () => {
   }, []);
 
   const filteredStaffs = staffs.filter((staff) =>
-    staff.name.toLowerCase().includes(searchText.toLowerCase())
+    staff.firstname.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const createRequest = async (selectedStaffID) => {
@@ -121,10 +121,10 @@ const Staffs = () => {
                         <Grid item xs={12} sm={6} md={4} key={staff._id}>
                             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         
-                                <CardMedia component="img" image={staff.img_url} alt={staff.name} style={{ height: '200px', width: '300px' }} />
+                                <CardMedia component="img" image={staff.profileimage} alt={staff.firstname} style={{ height: '200px', width: '300px' }} />
                                     <CardContent sx={{ flexGrow: 1 }}>
                                         <Typography gutterBottom variant="h5" component="h2">
-                                            {staff.name}
+                                            {staff.firstname + " " + staff.lastname}
                                         </Typography>
                                         <Button id={staff._id} variant="contained" color="secondary" size="medium" onClick={handleAddToFormBtn} >
                                             Add To Form
