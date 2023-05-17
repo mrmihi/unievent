@@ -32,7 +32,16 @@ const LatestBookings = ({ heading }) => {
                 <Table>
                     <TableBody>
                         {latestBookings.map((booking, index) => (
-                            <TableRow key={index}>
+                            <TableRow
+                                key={index}
+                                sx={{
+                                    "&:hover": {
+                                        backgroundColor: "#F7FAFC",
+                                        cursor: "pointer",
+                                    },
+                                    borderRadius: "2rem"
+                                }}
+                            >
                                 <TableCell>
                                     <Typography variant="subtitle1">
                                         Event - {booking.event.name}
