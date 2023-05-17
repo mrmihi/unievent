@@ -1,8 +1,10 @@
 const Venue = require('../models/venue.model');
 const Review = require('../models/review.model');
 const Organizer = require('../../User/models/org.model');
+const Booking = require('../models/booking.model');
 const VenueSubscription = require('../models/subscribe.model');
 const SendPriceDropMail = require('../services/email.service');
+const qrcode = require('qrcode');
 
 const createVenue = async (req, res) => {
   try {
@@ -113,6 +115,52 @@ const getVenueAndReviews = async (req, res) => {
   }
 };
 
+const publicVenueTimeTableToQR = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const url = `http://localhost:3000/venue/timetable/${id}`;
+
+    // Generate the QR code
+    const qrCode = await qrcode.toDataURL(url, {
+      width: 720,
+      height: 720,
+    });
+
+    // Return the QR code image as a response
+    res.setHeader('Content-Type', 'image/png');
+    res.send(Buffer.from(qrCode.split(',')[1], 'base64'));
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getBookingTableForVenue = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bookings = await Booking.find({ venue: id, booking_status: "approved", payment_status: "completed" }).select('-booking_status -payment_status -price -created_at -updated_at')
+      .populate('organizer', 'name')
+      .populate('venue', 'name')
+      .populate('event', 'name');
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const showEligibleVenues = async (req, res) => {
+  const orgId = req.params.id;
+  try {
+      const bookings = await Booking.find({ organizer: orgId, booking_status: 'approved', payment_status: 'completed', review: 'false' })
+      .select('-review')
+      .populate('venue')
+      .populate('event', 'name')
+      .populate('organizer', 'name');
+      res.status(200).json(bookings);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createVenue,
   getAllVenues,
@@ -121,4 +169,7 @@ module.exports = {
   updateVenueById,
   deleteVenueById,
   getVenueAndReviews,
+  publicVenueTimeTableToQR,
+  getBookingTableForVenue,
+  showEligibleVenues
 };

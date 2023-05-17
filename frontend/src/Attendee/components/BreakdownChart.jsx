@@ -18,30 +18,30 @@ const BreakdownChart = ({ isDashboard = false }) => {
     theme.palette.secondary[500],
   ];
   const [formattedData, setFormattedData] = useState([
-    // {
-    //   id: 'totalAttendees',
-    //   label: 'Total Attendees',
-    //   value: 5251,
-    //   color: '#FFCD56',
-    // },
-    // {
-    //   id: 'yearlyAttendeesTotal',
-    //   label: 'Yearly Attendees Total',
-    //   value: 65152,
-    //   color: '#36A2EB',
-    // },
-    // {
-    //   id: 'yearlyTotalPartAttendees',
-    //   label: 'Yearly Total Part. Attendees',
-    //   value: 12969,
-    //   color: '#FF6384',
-    // },
-    // {
-    //   id: '2021',
-    //   label: '2021',
-    //   value: 0,
-    //   color: '#4BC0C0',
-    // },
+    {
+      id: 'totalAttendees',
+      label: 'Total Attendees',
+      value: 5251,
+      color: '#FFCD56',
+    },
+    {
+      id: 'yearlyAttendeesTotal',
+      label: 'Yearly Attendees Total',
+      value: 65152,
+      color: '#36A2EB',
+    },
+    {
+      id: 'yearlyTotalPartAttendees',
+      label: 'Yearly Total Part. Attendees',
+      value: 12969,
+      color: '#FF6384',
+    },
+    {
+      id: '2021',
+      label: '2021',
+      value: 0,
+      color: '#4BC0C0',
+    },
   ]);
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const BreakdownChart = ({ isDashboard = false }) => {
             },
           },
         }}
-       // colors={{ datum: 'data.color' }}
+        colors={{ datum: 'data.color' }}
         margin={
           isDashboard
             ? { top: 40, right: 80, bottom: 100, left: 50 }

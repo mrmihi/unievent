@@ -49,22 +49,10 @@ const APPOINTMENT_MODE = {
     EITHER : "Either",
 }
 
-//Temperary stored in approval.constants.js
-//must be moved to user.constants.js
-const USER_ROLES = {
-  LIC: "LIC",
-  VM: "Venue_Manager",
-  FM: "Finance_Manager",
-  ADMIN: "Admin",
-  STUDENT: "Student",
-  LECTURER: "Lecturer",
-};
-
 module.export = {
     EVENT_APPROVAL_STATUS,
     APPROVAL_REQUEST_STATUS,
     REQUEST_TYPE,
-    USER_ROLES,
     APPOINTMENT_STATUS,
     APPOINTMENT_MODE
 };

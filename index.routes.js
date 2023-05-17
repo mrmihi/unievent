@@ -21,6 +21,6 @@ routes.use('/', financeRouter);
 routes.use('/', budgetRouter);
 routes.use('/', approvalRouter);
 routes.use('/partners', partnerRouter);
-routes.use('/', attendeeRouter);
+//routes.use('/', attendeeRouter);
 
 module.exports = routes;

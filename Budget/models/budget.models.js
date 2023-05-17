@@ -47,7 +47,20 @@ const budgetSchema = new mongoose.Schema({
         required: true
       }
 
+      // createdBy: {
+      //   type: mongoose.Schema.Types.ObjectId,
+      //   // ref: 'User',
+      //   // required: true
+      // }
 });
+
+// budgetSchema.virtual('creatorEmail', {
+//     ref: 'User',
+//     localField: 'createdBy',
+//     foreignField: '_id',
+//     justOne: true,
+//     select: 'email'
+// });
 
 
 const Budget = mongoose.model('Budget', budgetSchema);

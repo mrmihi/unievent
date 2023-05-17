@@ -66,13 +66,13 @@ const Navbar = ({ attendee, isSidebarOpen, setIsSidebarOpen }) => {
                                     fontSize="0.85rem"
                                     sx={{ color: theme.palette.secondary[100] }}
                                 >
-                                    {/* {attendees.name} */}
+                                    {attendee.name}
                                 </Typography>
                                 <Typography
                                     fontSize="0.75rem"
                                     sx={{ color: theme.palette.secondary[200] }}
                                 >
-                                    {/* {attendees.occupation} */}
+                                    {attendee.occupation}
                                 </Typography>
                             </Box>
                             <ArrowDropDownOutlined
