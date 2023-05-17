@@ -8,22 +8,21 @@ const doc = new jsPDF();
 const exportPDF = (tableData) => {
   doc.addImage(logo, 'PNG', 0, 0, 210, 60);
   doc.setFontSize(12);
-  doc.text('Events Report', 15, 60);
+  doc.text('Opportunity Report', 15, 60);
   doc.text('Date: ' + new Date().toLocaleString(), 15, 70);
 
   // It can parse html:
   // <table id="my-table"><!-- ... --></table>
   autoTable(doc, { html: '#my-table' });
-  const data = tableData.map((event) => [
-    event.name,
-    moment(`${event.startTime}`).format('DD-MM-YYYY'),
-    moment(`${event.startTime}`).format('HH:mm'),
-    moment(event.endTime).diff(moment(event.startTime), 'hours'),
-    event.status,
+  const data = tableData.map((opportunity) => [
+    opportunity.name,
+    moment(`${opportunity.date}`).format('DD-MM-YYYY'),
+    opportunity.time,
+    opportunity.description,
   ]);
   // Or use javascript directly:
   autoTable(doc, {
-    head: [['Event', 'Date', 'Time', 'Duration', 'Status']],
+    head: [['Opportunity', 'Date', 'Time', 'Description']],
     body: data,
     styles: {
       cellWidth: 'wrap',
@@ -31,10 +30,10 @@ const exportPDF = (tableData) => {
     startY: 80,
   });
 
-  doc.save('Events.pdf');
+  doc.save('Opportunities.pdf');
 };
 
-const EventPDF = ({ tableData }) => {
+const OpportunityPDF = ({ tableData }) => {
   return (
     <div>
       <Button
@@ -50,4 +49,4 @@ const EventPDF = ({ tableData }) => {
   );
 };
 
-export default EventPDF;
+export default OpportunityPDF;
