@@ -26,7 +26,7 @@ const exportPDF = (tableData) => {
       ['Full Name', 'Available Time', 'Email', 'Contact Number', 'Status'],
     ],
     body: data,
-    startY: 30,
+    startY: 65,
   });
 
   doc.save('Volunteers.pdf');
