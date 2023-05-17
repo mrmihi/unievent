@@ -87,7 +87,7 @@ const ReservationTable = () => {
         const response = await axios.put(
           `/api/reservations/${row.getValue('_id')}`,
           {
-            availableQty: values.availableQty,
+            booking_status: values.booking_status,
           }
         );
         setServerSuccessMessage(response.data.message);
@@ -216,8 +216,8 @@ const ReservationTable = () => {
         columnVisibility: false,
       },
       {
-        accessorKey: 'start_time',
-        header: 'Resources Name',
+        accessorKey: 'resource.name',
+        header: 'Resource Name',
         enableEditing: false,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -225,17 +225,34 @@ const ReservationTable = () => {
         }),
       },
       {
-        accessorKey: 'end_time',
-        header: 'Quantity',
-        enableColumnOrdering: false,
+        accessorKey: 'event.name',
+        header: 'Event Name',
         enableEditing: false,
-        enableSorting: false,
-        size: 80,
-        columnVisibility: false,
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'start_time',
+        header: 'Event Date',
+        enableEditing: false,
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
       },
       {
         accessorKey: 'duration',
-        header: 'Available Quantity',
+        header: 'Duration',
+        enableColumnOrdering: false,
+        enableEditing: false, //disable editing on this column
+        enableSorting: false,
+        size: 80,
+        columnVisibility: false,
+      },      {
+        accessorKey: 'booking_status',
+        header: 'Reservation Approval Status',
         enableColumnOrdering: false,
         enableEditing: true, //disable editing on this column
         enableSorting: false,
