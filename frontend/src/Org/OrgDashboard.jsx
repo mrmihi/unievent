@@ -6,27 +6,29 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { People } from '@mui/icons-material';
+import Cookies from 'js-cookie';	
 
-const Dashboard = () => {
-  const theme = useTheme();
-  const getGreeting = () => {
-    const now = new Date();
-    const hour = now.getHours();
-
-    if (hour >= 5 && hour < 12) {
-      return 'Good Morning!';
-    } else if (hour >= 12 && hour < 18) {
-      return 'Good Afternoon!';
-    } else {
-      return 'Good Evening!';
-    }
-  };
+const Dashboard = () => {	
+  const theme = useTheme();	
+  const getGreeting = () => {	
+    const now = new Date();	
+    const hour = now.getHours();	
+    const clubName = Cookies.get('org_name');	
+    if (hour >= 5 && hour < 12) {	
+      return `Good Morning`;	
+    } else if (hour >= 12 && hour < 18) {	
+      return `Good Afternoon`;	
+    } else {	
+      return `Good Evening`;	
+    }	
+  };	
 
   return (
     <Box m="1.5rem 2.5rem">
       <FlexBetween>
         <Header
           title={getGreeting()}
+          orgName={Cookies.get('org_name')}
           subtitle="Welcome to the Organization Dashboard"
         />
       </FlexBetween>

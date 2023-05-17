@@ -77,7 +77,7 @@ const ProfileFrame = () => {
           </div>
           <div className="mt-8">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-sky-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={handleProfilePictureUpload}
             >
               Upload Image
@@ -157,7 +157,7 @@ const ProfileFrame = () => {
             </div>
             <div className="mt-8">
               <button
-                className="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded"
+                className="px-4 py-2 bg-sky-600 hover:bg-blue-700 text-white font-bold rounded"
                 onClick={saveCombinedImage}
               >
                 Download Badge

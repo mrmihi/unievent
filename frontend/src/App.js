@@ -317,10 +317,7 @@ function App() {
                   path="/attendeemanager/attendees"
                   element={<Attendees />}
                 />
-                {/* <Route
-                path="/attendeemanager/dataFinalists"
-                element={<DataFinalists />}
-              /> */}
+
                 <Route
                   path="/attendeemanager/overview"
                   element={<Overview />}
