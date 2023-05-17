@@ -2,6 +2,7 @@ import React from 'react';
 import { createEvent } from 'ics';
 import { saveAs } from 'file-saver';
 import moment from 'moment';
+import { Button, Typography } from '@mui/material';
 
 export default function CalendarEvent(props) {
   console.log(props.name);
@@ -35,13 +36,15 @@ export default function CalendarEvent(props) {
   };
 
   return (
-    <div>
-      <button
-        className="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded"
+    <div className="mt-8">
+      <Button
+        size="medium"
+        variant="contained"
+        color="primary"
         onClick={handleSave}
       >
-        Save your schedule
-      </button>
+        Save to Your Schedule
+      </Button>
     </div>
   );
 }

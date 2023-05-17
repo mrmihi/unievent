@@ -14,6 +14,8 @@ import './styles/singleEvent.css';
 import Loading from './components/Loading';
 import Title from './components/Title';
 import Actions from './components/Actions';
+import { createEvent } from 'ics';
+import { saveAs } from 'file-saver';
 
 function SingleEvent() {
   const { id } = useParams();
@@ -27,6 +29,34 @@ function SingleEvent() {
   }, [id]);
 
   const navigate = useNavigate();
+
+  // const formattedStartDate = moment(event.startTime).format('YYYY, M, D, H, m');
+  // const formattedEndDate = moment(event.startTime).format('YYYY, M, D, H, m');
+  // const startDateArray = formattedStartDate.split(',').map(Number);
+  // const endDateArray = formattedEndDate.split(',').map(Number);
+
+  // const calendarEvent = {
+  //   start: startDateArray,
+  //   end: endDateArray,
+  //   title: event.name,
+  //   description: event.description,
+
+  // location: null,
+  // url: null,
+  // geo: null,
+  // categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
+  // status: props.status,
+  // busyStatus: null,
+  // organizer: { name: props.org, email: 'foss@gmail.com' },
+  // attendees: [],
+  // };
+
+  // const handleSave = () => {
+  //   createEvent(calendarEvent, (error, value) => {
+  //     const blob = new Blob([value], { type: 'text/plain;charset=utf-8' });
+  //     saveAs(blob, `${event.name}-calendar.ics`);
+  //   });
+  // };
 
   if (!event)
     return (
@@ -42,10 +72,9 @@ function SingleEvent() {
         name={event.name}
         eventDay={moment(event.startTime).format('DD')}
       />
-      <div className="flex flex-col justify-center  items-center ">
-        <img src={event.headerImage} alt={event.name} className="mx-auto" />
-
-        {/* <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl mt-8">
+      {/* <div className="flex flex-col justify-right  items-right "> */}
+      {/* <img src={event.headerImage} alt={event.name} className="mx-auto" /> */}
+      {/* <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl mt-8">
           <div>
           add a typography tag that says Details and make it bold
           <Typography variant="h2">Details</Typography>
@@ -63,45 +92,8 @@ function SingleEvent() {
             <Typography variant="h4">Capacity : {event.capacity}</Typography>
           </div>
         </div> */}
-        <div className="mt-8 text-center ml-12 mr-12 mb-6">
-          <Button
-            sx={{ width: 300 }}
-            variant="contained"
-            color="primary"
-            {...(event.attendeeCount < event.capacity
-              ? {}
-              : { disabled: true })}
-            onClick={() => {
-              navigate(`/events/${id}/register`);
-            }}
-          >
-            {event.attendeeCount < event.capacity
-              ? 'Register'
-              : 'Registrations Exceeded'}
-          </Button>
-          <Button
-            sx={{ width: 300, marginLeft: '5px' }}
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              navigate(`/event/opportunities/`);
-            }}
-          >
-            Opportunities
-          </Button>
-          <Button
-            sx={{ width: 300, marginLeft: '5px' }}
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              navigate(`/events/${id}/frame`);
-            }}
-          >
-            Create a Badge
-          </Button>
-          <CalendarEvent {...event} />
-        </div>
-      </div>
+
+      {/* </div> */}
 
       <div className="mx-5 mt-8 pt-[80px]">
         <Title title="When and Where" aos="fade-left" />
@@ -133,13 +125,38 @@ function SingleEvent() {
             <br></br>
             {event.venue}
           </span>
+          <div
+            className="mt-8 text-center ml-12 mr-12 mb-6 mx-4  border-2 border-sky-900 border-solid
+                     rounded-md	"
+          >
+            <Button variant="outlined" color="primary" size="medium">
+              {event.attendeeCount}
+            </Button>
+            <Button
+              // sx={{ width: 300 }}
+              variant="contained"
+              color="primary"
+              size="medium"
+              {...(event.attendeeCount < event.capacity
+                ? {}
+                : { disabled: true })}
+              onClick={() => {
+                navigate(`/events/${id}/register`);
+              }}
+            >
+              {event.attendeeCount < event.capacity
+                ? 'Register'
+                : 'Registrations Exceeded'}
+            </Button>
+            <CalendarEvent {...event} />
+          </div>
         </div>
 
         <Description
           description={event.description}
           categories={event.categories}
         />
-        <Actions />
+        <Actions {...event} />
       </div>
     </>
   );
