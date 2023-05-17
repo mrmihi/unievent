@@ -26,12 +26,10 @@ const eventSchema = new Schema(
     name: {
       type: String,
       required: true,
-      minlength: [5, 'Name should have a minimum of 10 characters'],
     },
     description: {
       type: String,
       required: true,
-      minlength: [10, 'Description should have a minimum of 10 characters'],
     },
     headerImage: {
       type: String,
@@ -43,24 +41,10 @@ const eventSchema = new Schema(
     startTime: {
       type: Date,
       required: true,
-      validate: {
-        validator: function (value) {
-          // Ensure the startTime is not in the past
-          return value >= new Date();
-        },
-        message: 'Start Date & Time should be in the future',
-      },
     },
     endTime: {
       type: Date,
       required: true,
-      validate: {
-        validator: function (value) {
-          // Ensure the endTime is not in the past
-          return value >= new Date();
-        },
-        message: 'End Date & Time should be in the future',
-      },
     },
     status: {
       type: String,
@@ -81,8 +65,6 @@ const eventSchema = new Schema(
     },
     capacity: {
       type: Number,
-      min: [10, 'Capacity should be at least 10'],
-      max: [1000, 'Capacity should be at most 1000'],
     },
     tags: {
       type: [String],

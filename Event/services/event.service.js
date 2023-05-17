@@ -17,7 +17,6 @@ const createEvent = async ({
   joinLink,
   host,
   org,
-  orgId,
 }) =>
   // Org
   {
@@ -38,7 +37,7 @@ const createEvent = async ({
       host,
       joinLink,
       org,
-      orgId,
+      // orgId: cId,
     });
 
     return event.save();

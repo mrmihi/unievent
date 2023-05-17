@@ -40,10 +40,10 @@ function SingleEvent() {
         name={event.name}
         eventDay={moment(event.startTime).format('DD')}
       />
-      <div className="flex flex-col justify-center  items-center ">
+      {/* <div className="flex flex-col justify-center  items-center ">
         <img src={event.headerImage} alt={event.name} className="mx-auto" />
 
-        {/* <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl mt-8">
+        <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl mt-8">
           <div>
           add a typography tag that says Details and make it bold
           <Typography variant="h2">Details</Typography>
@@ -60,7 +60,7 @@ function SingleEvent() {
             </Typography>
             <Typography variant="h4">Capacity : {event.capacity}</Typography>
           </div>
-        </div> */}
+        </div>
         <div className="mt-8 text-center ml-12 mr-12 mb-6">
           <Button
             sx={{ width: 300 }}
@@ -99,7 +99,7 @@ function SingleEvent() {
           </Button>
           <CalendarEvent {...event} />
         </div>
-      </div>
+      </div> */}
 
       <div className="mx-5 mt-8">
         <p className=" text-3xl font-extrabold">When and Where</p>
