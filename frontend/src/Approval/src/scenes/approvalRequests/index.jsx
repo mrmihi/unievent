@@ -32,19 +32,13 @@ const Approvals = () => {
 
   const getData = async () => {
     try {
-      const response = await axios.get(`/api/approval/request`);
-      // const response = await axios.get(`/api/approval/request/user/${StaffID}`);
-      const data = response.data.data.map((request) => {
-        request.type = String(request.type).replace("_", " ")
-        if (request.status == "Sent" || request.status == "Viewed")
-          return request;
-      });
-      setTableData(data);
+      // const response = await axios.get(`/api/approval/request`);
+      const response = await axios.get(`/api/approval/request/user/p/${StaffID}`);
+
+      setTableData(response.data.data);
+
     } catch (error) {
       console.log(error.response.data);
-      toast.info(error.response.data.message, {
-        position: "top-right",
-      });
     }
   };
 
@@ -55,20 +49,6 @@ const Approvals = () => {
     fetchRegisteredData();
   }, [StaffID]);
 
-  const APPROVAL_REQUEST_STATUS = {
-    NOT_YET_SENT: "Not_Yet_Sent",
-    SENT: "Sent",
-    VIEWED: "Viewed",
-    APPROVED: "Approved",
-    REJECTED: "Rejected",
-  };
-
-  const REQUEST_TYPE = {
-    LIC: "LIC_Request",
-    VENUE: "Venue_Request",
-    FINANCE: "Budget_Request",
-    ADMIN: "Admin_Request",
-  };
 
   const columns = useMemo(
     () => [
@@ -91,13 +71,10 @@ const Approvals = () => {
       {
         accessorKey: "type",
         header: "Type",
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          select: true,
-          selectOptions: REQUEST_TYPE.map((type) => ({
-            label: type,
-            value: type,
-          })),
-        }),
+        enableColumnOrdering: true,
+        enableEditing: false,
+        enableSorting: true,
+        
       },
       {
         accessorKey: "requested_at",
@@ -138,15 +115,52 @@ const Approvals = () => {
     });
   };
 
+  const updateRequest = async (rId, status, index) => {
+    await axios
+      .put(
+        `/api/approval/request/${rId}`,
+        {
+          status: status,
+          responded_at : Date()
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log(res.data.data);
+        tableData.splice(index, 1);
+        setTableData([...tableData]);
+        toast.info(status, {
+          position: "top-right",
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        toast.error("Failed", {
+          position: "top-right",
+        });
+      });
+  };
+
   const handleApproveBtn = (row) => {
-    toast.info(`Approve Btn clicked on ${row.getValue("approval_id")}`, {
-      position: "top-right",
-    });
+    updateRequest(row.getValue("_id"), "Approved");
   };
 
   const handleRejectBtn = (row) => {
-    toast.info(`Reject Btn clicked on ${row.getValue("approval_id")}`, {
-      position: "top-right",
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Reject Request",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        updateRequest(row.getValue("_id"), "Rejected", row.index);
+      }
     });
   };
 

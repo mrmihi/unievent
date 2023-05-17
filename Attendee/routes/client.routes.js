@@ -14,6 +14,7 @@ const {
   updateAttendeeStatus,
   deleteAttendeeStatus,
   getAllAttendeeStatuses,
+  //getEventSpcificAttendees,
 } = require("../controllers/client.js");
 
 const EmailSender = require("../controllers/sendEmail.js");
@@ -38,6 +39,8 @@ router.patch("/attendeeStatus/:id", updateAttendeeStatus);
 router.delete("/attendeeStatus/:id", deleteAttendeeStatus);
 router.get("/attendeeStatus", getAllAttendeeStatuses);
 // router.get("/attendeeStatus/:id", getAttendeeStatusById);
+
+//router.get("/eventSpecificAttendees/:event", getEventSpcificAttendees);
 
 router.post("/send", async (req, res) => {
   try {
