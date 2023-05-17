@@ -35,11 +35,11 @@ export default function VLoginPage() {
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
-        const accessToken = Cookies.get("staff_accessToken");
-        const role = Cookies.get("staff_role");
+        const accessToken = Cookies.get("accessToken");
+        const role = Cookies.get("role");
 
-        if (accessToken && role === "admin" || role === "staff") {
-            navigate("/admin/dashboard");
+        if (accessToken && role === "staff") {
+            navigate("/staff/dashboard");
         }
         
     }, [navigate]);
@@ -68,11 +68,11 @@ export default function VLoginPage() {
                 console.log(response.data);
                 console.log(_id);
 
-                Cookies.set("staff_id", _id, { expires: 1 });
-                Cookies.set("staff_accessToken", accessToken, { expires: 1 });
-                Cookies.set("staff_role", role, { expires: 1 });
+                Cookies.set("id", _id, { expires: 1 });
+                Cookies.set("accessToken", accessToken, { expires: 1 });
+                Cookies.set("role", role, { expires: 1 });
 
-                navigate("/admin/dashboard");
+                navigate("/staff/dashboard");
 
             } catch (error) {
                 if (!error?.response) {
