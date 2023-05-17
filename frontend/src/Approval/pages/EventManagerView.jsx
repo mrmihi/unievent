@@ -148,7 +148,7 @@ function EventManagerView() {
     navigate(`/org/dashboard/events/approval/${eventID}`);
   };
   const handleMakePaymentBtn = () => {
-    navigate(`/venue/payment`);
+    navigate(`/venue/payment/`);
   };
 
   const handlePublishBtn = () => {

@@ -3,20 +3,26 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import API from "../components/api.approval";
-import Cookies from "js-cookie"
+import axios from "axios";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2"
 
 function ApprovalMain() {
   const { id: eventID } = useParams();
   const [eventApprovalData, setData] = useState({});
   const [error, setError] = useState({});
-  const [lic, setLic] = useState({});
+  const [lic, setLic] = useState(null);
   const [licReq, setLicReq] = useState(null);
+  const [licAppointments, setLicAppointments] = useState(null);
   const [venue, setVenue] = useState({});
+  const [venueAppointments, setVenueAppointments] = useState(null);
   const [venueReq, setVenueReq] = useState(null);
   const [venueBooking, setVenueBooking] = useState(null);
   const [budget, setBudget] = useState({});
+  const [budgetAppointments, setBudgetAppointments] = useState(null);
   const [budgetReq, setBudgetReq] = useState(null);
   const [admin, setAdmin] = useState({});
+  const [adminAppointments, setAdminAppointments] = useState(null);
   const [adminReq, setAdminReq] = useState(null);
   const [org, setOrg] = useState({});
   const loggedOrgId = Cookies.get("org_id");
@@ -85,6 +91,24 @@ function ApprovalMain() {
     navigate(`/org/dashboard/events/approval/print/${eventApprovalData._id}`);
   };
 
+  const handleViewAppointments = (appointment) => {
+    console.log(appointment.requested_to)
+    Swal.fire({
+      title: 'Appointment Details',
+      html: `
+        <p><strong>Date:</strong> ${appointment.date}</p>
+        <p><strong>Start Time:</strong> ${String(appointment.start_time).split("T")[1]}</p>
+        <p><strong>End Time:</strong> ${String(appointment.end_time).split("T")[1]}</p>
+        <p><strong>Mode:</strong> ${appointment.mode}</p>
+        <p><strong>Location:</strong> ${appointment.location || 'N/A'}</p>
+        <p><strong>Status:</strong> ${appointment.status}</p>
+        <p><strong>Meeting Link:</strong> <a href=${appointment.meetinglink || 'N/A'}/>${appointment.meetinglink || 'N/A'}</p>
+        <p><strong>Appointment Note:</strong> ${appointment.appointment_note}</p>
+      `,
+      confirmButtonText: 'Close'
+    });
+
+  };
   const handleNoteChange = (event) => {
     const role = event.target.id;
     if (event.target.value.length < 500) {
@@ -174,6 +198,8 @@ function ApprovalMain() {
         break;
     }
 
+    console.log(role);
+    console.log(data);
     await API.post(`approval/request/`, data, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
@@ -289,7 +315,7 @@ function ApprovalMain() {
         setLic(res.data.incharge);
       })
       .catch((err) => {
-        setLic({});
+        setLic(null);
         setOrg({});
         //console.log(err.response);
       });
@@ -340,11 +366,11 @@ function ApprovalMain() {
       })
         .then((res) => {
           // //console.log("fetchVenueManagerDetails");
-          //console.log(res.data);
+          // console.log(res.data);
           setVenue(res.data);
         })
         .catch((err) => {
-          setVenue({});
+          setVenue(null);
           //console.log(err);
         });
     };
@@ -354,12 +380,12 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // //console.log(res.data[0]);
+        // console.log(res.data[0]);
         setVenueBooking(res.data[0]);
         fetchVenueManagerDetails(res.data[0].venue.manager);
       })
       .catch((err) => {
-        setVenueBooking({});
+        setVenueBooking(null);
         //console.log(err.response);
       });
   };
@@ -388,8 +414,12 @@ function ApprovalMain() {
   }, [eventApprovalData]);
 
   useEffect(() => {
-    if (eventApprovalData.venue_approval == null && venueBooking != null) {
-      console.log(venueBooking)
+    if (
+      eventApprovalData.venue_approval == null &&
+      venueBooking != null &&
+      eventApprovalData._id != undefined
+    ) {
+      // console.log(venueBooking)
       createApprovalRequest("venue");
     }
   }, [venueBooking]);
@@ -399,6 +429,71 @@ function ApprovalMain() {
       createApprovalRequest("lic");
     }
   }, [lic]);
+
+  const fetchAppointment = async (role, requestId) => {
+    await API.get(`approval/appointment/r/${requestId}`)
+      .then((res) => {
+        console.log(res.data.data);
+        switch (role) {
+          case "lic":
+            setLicAppointments(res.data.data);
+            break;
+          case "venue":
+            setVenueAppointments(res.data.data);
+            break;
+          case "budget":
+            setBudgetAppointments(res.data.data);
+            break;
+          case "admin":
+            setAdminAppointments(res.data.data);
+            break;
+        }
+      })
+      .catch((err) => {
+        switch (role) {
+          case "lic":
+            setLicAppointments(null);
+            break;
+          case "venue":
+            setVenueAppointments(null);
+            break;
+          case "budget":
+            setBudgetAppointments(null);
+            break;
+          case "admin":
+            setAdminAppointments(null);
+            break;
+        }
+      });
+  };
+
+  useEffect(() => {
+    if (licReq != null && licReq.status != "Not_Yet_Status") {
+      fetchAppointment("lic", licReq._id);
+      // console.log(licReq.status )
+    }
+  }, [licReq]);
+
+  useEffect(() => {
+    if (venueReq != null && venueReq.status != "Not_Yet_Status") {
+      fetchAppointment("venue", venueReq._id);
+      // console.log(venueReq.status )
+    }
+  }, [venueReq]);
+
+  useEffect(() => {
+    if (budgetReq != null && budgetReq.status != "Not_Yet_Status") {
+      fetchAppointment("budget", budgetReq._id);
+      // console.log(budgetReq.status )
+    }
+  }, [budgetReq]);
+
+  useEffect(() => {
+    if (adminReq != null && adminReq.status != "Not_Yet_Status") {
+      fetchAppointment("admin", adminReq._id);
+      // console.log(adminReq.status )
+    }
+  }, [adminReq]);
 
   const boxColor = "#f2f2f2";
   const NotYetSentBtn = "#808080;";
@@ -521,15 +616,25 @@ function ApprovalMain() {
                   >
                     Send Request
                   </Button>
-                ) : (
+                ) : licAppointments == null ? (
                   <Button
-                    id="lic"
+                    id="venue"
                     variant="outlined"
                     color="secondary"
                     size="large"
                     onClick={handleRequestAppointmentBtn}
                   >
                     Request Appointment
+                  </Button>
+                ) : (
+                  <Button
+                    id="lic"
+                    variant="outlined"
+                    style={{ color: "green", borderColor: "green" }}
+                    size="large"
+                    onClick={() => handleViewAppointments(licAppointments[0])}
+                  >
+                    View Appointment
                   </Button>
                 )}
               </Box>
@@ -547,7 +652,9 @@ function ApprovalMain() {
           >
             <div className="p-4 flex flex-col justify-between h-full">
               <Typography variant="h3" id="venueApproval" fontWeight="bold">
-                {venue != null ? venue.name : "Not Added Yet"}
+                {venue != null
+                  ? venue.firstname + " " + venue.lastname
+                  : "Not Added Yet"}
               </Typography>
 
               <Typography variant="h5">Venue Manager</Typography>
@@ -572,15 +679,27 @@ function ApprovalMain() {
 
               <Box className="flex w-full justify-between flex-row my-2">
                 {venueReq != null ? (
-                  <Button
-                    id="venue"
-                    variant="outlined"
-                    color="secondary"
-                    size="large"
-                    onClick={handleRequestAppointmentBtn}
-                  >
-                    Request Appointment
-                  </Button>
+                  venueAppointments == null ? (
+                    <Button
+                      id="venue"
+                      variant="outlined"
+                      color="secondary"
+                      size="large"
+                      onClick={handleRequestAppointmentBtn}
+                    >
+                      Request Appointment
+                    </Button>
+                  ) : (
+                    <Button
+                      id="venue"
+                      variant="outlined"
+                      style={{ color: "green", borderColor: "green" }}
+                      size="large"
+                      onClick={() => handleViewAppointments(venueAppointments[0])}
+                    >
+                      View Appointment
+                    </Button>
+                  )
                 ) : (
                   <Button
                     id="venue"
@@ -607,9 +726,9 @@ function ApprovalMain() {
             className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
           >
             <div className="p-4 flex flex-col justify-between h-full">
-              {budget.name != null ? (
+              {budget.firstname != null && budget.lastname != null ? (
                 <Typography variant="h3" fontWeight="bold">
-                  {budget.name}
+                  {budget.firstname + " " + budget.lastname}
                 </Typography>
               ) : (
                 <div className="flex flex-row justify-between">
@@ -671,15 +790,25 @@ function ApprovalMain() {
                   >
                     Send Request
                   </Button>
-                ) : (
+                ) : budgetAppointments == null ? (
                   <Button
-                    id="budget"
+                    id="venue"
                     variant="outlined"
                     color="secondary"
                     size="large"
                     onClick={handleRequestAppointmentBtn}
                   >
                     Request Appointment
+                  </Button>
+                ) : (
+                  <Button
+                    id="budget"
+                    variant="outlined"
+                    style={{ color: "green", borderColor: "green" }}
+                    size="large"
+                    onClick={() => handleViewAppointments(budgetAppointments[0])}
+                  >
+                    View Appointment
                   </Button>
                 )}
               </Box>
@@ -696,9 +825,9 @@ function ApprovalMain() {
             className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
           >
             <div className="p-4 flex flex-col justify-between h-full">
-              {admin.name != null ? (
+              {admin.firstname != null && admin.lastname != null ? (
                 <Typography variant="h3" fontWeight="bold">
-                  {admin.name}
+                  {admin.firstname + " " + admin.lastname}
                 </Typography>
               ) : (
                 <div className="flex flex-row justify-between">
@@ -760,15 +889,25 @@ function ApprovalMain() {
                   >
                     Send Request
                   </Button>
-                ) : (
+                ) : adminAppointments == null ? (
                   <Button
-                    id="admin"
+                    id="venue"
                     variant="outlined"
                     color="secondary"
                     size="large"
                     onClick={handleRequestAppointmentBtn}
                   >
                     Request Appointment
+                  </Button>
+                ) : (
+                  <Button
+                    id="admin"
+                    variant="outlined"
+                    style={{ color: "green", borderColor: "green" }}
+                    size="large"
+                    onClick={() => handleViewAppointments(adminAppointments[0])}
+                  >
+                    View Appointment
                   </Button>
                 )}
               </Box>

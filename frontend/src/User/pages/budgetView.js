@@ -132,7 +132,7 @@ export default function CustomizedTables() {
           .then((response) => {
             Swal.fire('Deleted!', `Deleted The budget`, 'success');
             console.log(response.data);
-            navigate(`org/dashboard/events/${event_id}`)
+            navigate(`/org/dashboard/events/${event_id}`)
           });
          
           
