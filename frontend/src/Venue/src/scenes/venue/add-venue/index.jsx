@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import FlexBetween from "../../../components/FlexBetween";
 import Header from "../../../components/Header";
 import { useForm } from "react-hook-form";
+import Stack from "@mui/material/Stack";
 
 const VAddVenue = () => {
     const [image, setImage] = useState(null);
@@ -56,96 +57,105 @@ const VAddVenue = () => {
                     />
                 </FlexBetween>
                 <Box>
-                    <Box
-                        component="form"
-                        mt={10}
-                        sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                    <Stack
+                        sx={{
+                            width: '75%',
+                            minWidth: { xs: '300px', sm: '360px', md: '400px' },
+                            gap: '1.5rem',
+                            margin: 'auto',
+                        }}
                     >
-                        <TextField
-                            label="Venue Name"
-                            variant="outlined"
-                            name="name"
-                            {...register("name", { required: true })}
-                            error={errors.name}
-                            helperText={errors.name && "Venue name is required"}
-                        />
-                        <TextField
-                            label="Location"
-                            variant="outlined"
-                            name="location"
-                            {...register("location", { required: true })}
-                            error={errors.location}
-                            helperText={errors.location && "Location is required"}
-                        />
-                        <TextField
-                            label="Capacity"
-                            variant="outlined"
-                            name="capacity"
-                            {...register("capacity", { required: true })}
-                            error={errors.capacity}
-                            helperText={errors.capacity && "Capacity is required"}
-                        />
-                        <TextField
-                            label="Price"
-                            variant="outlined"
-                            name="price"
-                            {...register("price", { required: true })}
-                            error={errors.price}
-                            helperText={errors.price && "Price is required"}
-                        />
-                        <TextField
-                            label="Description"
-                            variant="outlined"
-                            name="description"
-                            {...register("description", { required: true })}
-                            error={errors.description}
-                            helperText={errors.description && "Description is required"}
-                        />
+                        <Box
+                            component="form"
+                            mt={10}
+                            sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                        >
+                            <TextField
+                                label="Venue Name"
+                                variant="outlined"
+                                name="name"
+                                {...register("name", { required: true })}
+                                error={errors.name}
+                                helperText={errors.name && "Venue name is required"}
+                            />
+                            <TextField
+                                label="Location"
+                                variant="outlined"
+                                name="location"
+                                {...register("location", { required: true })}
+                                error={errors.location}
+                                helperText={errors.location && "Location is required"}
+                            />
+                            <TextField
+                                label="Capacity"
+                                variant="outlined"
+                                name="capacity"
+                                {...register("capacity", { required: true })}
+                                error={errors.capacity}
+                                helperText={errors.capacity && "Capacity is required"}
+                            />
+                            <TextField
+                                label="Price"
+                                variant="outlined"
+                                name="price"
+                                {...register("price", { required: true })}
+                                error={errors.price}
+                                helperText={errors.price && "Price is required"}
+                            />
+                            <TextField
+                                label="Description"
+                                variant="outlined"
+                                name="description"
+                                {...register("description", { required: true })}
+                                error={errors.description}
+                                helperText={errors.description && "Description is required"}
+                            />
 
-                        <Box sx={{ display: "flex", gap: "10px" }}>
-                            <Button
-                                variant="contained"
-                                component="label"
-                                sx={{
-                                    '&:hover': {
-                                        backgroundColor: 'transparent',
-                                        color: 'inherit'
-                                    }
-                                }}
-                            >
-                                Upload Venue Image
-                                <input
-                                    hidden
-                                    accept="image/*"
-                                    multiple
-                                    type="file"
-                                    onChange={(e) => { setImage(e.target.files[0]) }}
-                                />
-                            </Button>
-                        </Box>
+                            <Box sx={{ display: "flex", gap: "10px" }}>
+                                <Button
+                                    variant="contained"
+                                    component="label"
+                                    sx={{
+                                        '&:hover': {
+                                            backgroundColor: 'transparent',
+                                            color: 'inherit'
+                                        }
+                                    }}
+                                >
+                                    Upload Venue Image
+                                    <input
+                                        hidden
+                                        accept="image/*"
+                                        multiple
+                                        type="file"
+                                        onChange={(e) => { setImage(e.target.files[0]) }}
+                                    />
+                                </Button>
+                            </Box>
 
-                        <Box display="flex" justifyContent="flex-end" alignItems="center" mt={5}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                style={{ backgroundColor: "#1769aa", color: "#fff" }}
-                                onClick={handleSubmit(onSubmit)}
-                            >
-                                Add Venue
-                            </Button>
-
-                            <Box marginLeft={1}>
+                            <Box display="flex" justifyContent="flex-end" alignItems="center" mt={5}>
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    style={{ backgroundColor: "#ff4569", color: "#fff" }}
-                                    onClick={() => window.location.reload()}
+                                    style={{ backgroundColor: "#1769aa", color: "#fff" }}
+                                    onClick={handleSubmit(onSubmit)}
                                 >
-                                    Cancel
+                                    Add Venue
                                 </Button>
+
+                                <Box marginLeft={1}>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        style={{ backgroundColor: "#ff4569", color: "#fff" }}
+                                        onClick={() => window.location.reload()}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Box>
                             </Box>
                         </Box>
-                    </Box>
+                    </Stack>
                     <ToastContainer />
                 </Box>
             </>

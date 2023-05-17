@@ -6,6 +6,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Stack,
   TextField,
 } from "@mui/material";
 import { jsPDF } from "jspdf";
@@ -140,60 +141,69 @@ const VVenueQuotation = () => {
         </FlexBetween>
       </div>
 
-      <FormControl fullWidth sx={{ mt: 4 }}>
-        <InputLabel id="venue-select-label">Venue</InputLabel>
-        <Select
-          labelId="venue-select-label"
-          id="venue-select"
-          value={venue}
-          label="Venue"
-          onChange={handleVenueChange}
-        >
-          {venues &&
-            venues.map((venue) => (
-              <MenuItem key={venue._id} value={venue.name}>
-                {venue.name}
-              </MenuItem>
-            ))}
-        </Select>
-      </FormControl>
+      <Stack
+        sx={{
+          width: '75%',
+          minWidth: { xs: '300px', sm: '360px', md: '400px' },
+          gap: '1.5rem',
+          margin: 'auto',
+        }}
+      >
 
-      {venue && (
-        <>
-          <TextField
-            fullWidth
-            sx={{ mt: 4 }}
-            label="Number of days"
-            type="number"
-            value={days}
-            onChange={handleDaysChange}
-            inputProps={{ min: 1 }}
-          />
+        <FormControl fullWidth sx={{ mt: 4 }}>
+          <InputLabel id="venue-select-label">Venue</InputLabel>
+          <Select
+            labelId="venue-select-label"
+            id="venue-select"
+            value={venue}
+            label="Venue"
+            onChange={handleVenueChange}
+          >
+            {venues &&
+              venues.map((venue) => (
+                <MenuItem key={venue._id} value={venue.name}>
+                  {venue.name}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
 
-          <TextField
-            fullWidth
-            sx={{ mt: 4 }}
-            label="Price per day"
-            type="number"
-            value={price}
-            disabled
-            InputProps={{ readOnly: true }}
-          />
-        </>
-      )}
+        {venue && (
+          <>
+            <TextField
+              fullWidth
+              sx={{ mt: 4 }}
+              label="Number of days"
+              type="number"
+              value={days}
+              onChange={handleDaysChange}
+              inputProps={{ min: 1 }}
+            />
 
-      <Box sx={{ mt: 4 }}>
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "#1769aa", color: "#fff", marginTop: "1rem", fontWeight: 600 }}
-          onClick={downloadQuotation}
-          disabled={!venue}
-          sx={!venue ? { opacity: 0.5 } : { opacity: 1 }}
-        >
-          Download Quotation
-        </Button>
-      </Box>
+            <TextField
+              fullWidth
+              sx={{ mt: 4 }}
+              label="Price per day"
+              type="number"
+              value={price}
+              disabled
+              InputProps={{ readOnly: true }}
+            />
+          </>
+        )}
 
+        <Box sx={{ mt: 4 }}>
+          <Button
+            variant="contained"
+            style={{ backgroundColor: "#1769aa", color: "#fff", marginTop: "1rem", fontWeight: 600 }}
+            onClick={downloadQuotation}
+            disabled={!venue}
+            sx={!venue ? { opacity: 0.5 } : { opacity: 1 }}
+          >
+            Download Quotation
+          </Button>
+        </Box>
+      </Stack>
     </Box>
   );
 };
