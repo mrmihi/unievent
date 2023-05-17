@@ -98,24 +98,24 @@ const Attendee = () => {
     const getCommonEditTextFieldProps = useCallback(
         (cell) => {
             return {
-                error: !!validationErrors[cell._id],
-                helperText: validationErrors[cell._id],
+                error: !!validationErrors[cell.id],
+                helperText: validationErrors[cell.id],
                 onBlur: (event) => {
                     const isValid =
-                        cell.column._id === "email"
+                        cell.column.id === "email"
                             ? validateEmail(event.target.value)
-                            : cell.column._id === "phoneNumber"
+                            : cell.column.id === "phoneNumber"
                             ? validatePhoneNumber(+event.target.value)
                             : validateRequired(event.target.value);
                     if (!isValid) {
                         //set validation error for cell if invalid
                         setValidationErrors({
                             ...validationErrors,
-                            [cell._id]: `${cell.column.columnDef.header} is required`,
+                            [cell.id]: `${cell.column.columnDef.header} is required`,
                         });
                     } else {
                         //remove validation error for cell if valid
-                        delete validationErrors[cell._id];
+                        delete validationErrors[cell.id];
                         setValidationErrors({
                             ...validationErrors,
                         });
@@ -337,14 +337,12 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
 const validateRequired = (value) => !!value.length;
 const validateEmail = (email) =>
-    !!email.length &&
-    email
-        .toLowerCase()
-        .match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
-
-const validatePhoneNumber = (phoneNumber) =>
-    !!phoneNumber.length && phoneNumber.match(/^[0-9]{10}$/);
+  !!email.length &&
+  email
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );
+const validatePhoneNumber = (phoneNumber) => phoneNumber >= 0 && phoneNumber <= 10;
 
 export default Attendee;
