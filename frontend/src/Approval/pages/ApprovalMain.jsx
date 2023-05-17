@@ -8,7 +8,9 @@ import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from "@mui/icons-material/Send";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from "@mui/icons-material/Close";
 
 function ApprovalMain() {
   const { id: eventID } = useParams();
@@ -88,7 +90,8 @@ function ApprovalMain() {
     navigate(`/org/dashboard/admin/list/${eventApprovalData._id}`);
   };
   const handleAddStaffBtn = () => {
-    navigate(`/org/dashboard/staff/list/${eventApprovalData._id}`);
+    navigate(`/org/dashboard/budget/list/${eventApprovalData._id}`);
+    // navigate(`/org/dashboard/admin/list/${eventApprovalData._id}`);
   };
   const handlePrintBtn = () => {
     navigate(`/org/dashboard/events/approval/print/${eventApprovalData._id}`);
@@ -134,6 +137,20 @@ function ApprovalMain() {
         position: "top-right",
       });
     }
+  };
+  const handleRemoveStaffBtn = async (role, requestID) => {
+    await API.delete(`approval/request/${requestID}`, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log(res.data.message);
+        toast.r("handleRemoveStaffBtn", { position: "top-center" });
+        updateEventApproval(role, "Draft", null)
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   };
 
   const updateEventApproval = async (role, status, id) => {
@@ -521,15 +538,6 @@ function ApprovalMain() {
   const RejectedBtn = "#dc3545";
   const normalBtn = "#007bff";
 
-  const statusText = (request) => {
-    if (request.status === "Not_Yet_Sent") return NotYetSentBtn;
-    if (lic.status === "Sent") return SentBtn;
-    if (lic.status === "Viewed") return ViewedBtn;
-    if (lic.status === "Approved") return ApprovedBtn;
-    if (lic.status === "Rejected") return RejectedBtn;
-    else return normalBtn;
-  };
-
   function getStatus(status) {
     switch (status) {
       case "Not_Yet_Sent":
@@ -593,7 +601,7 @@ function ApprovalMain() {
               <Typography variant="h5">Lecturer-In-Charge</Typography>
 
               {licReq != null ? (
-                <Typography variant="h5" color={statusText(licReq)}>
+                <Typography variant="h5">
                   Approval Status : {getStatus(licReq.status)}
                 </Typography>
               ) : null}
@@ -765,9 +773,21 @@ function ApprovalMain() {
           >
             <div className="p-4 flex flex-col justify-between h-full">
               {budget.firstname != null && budget.lastname != null ? (
-                <Typography variant="h3" fontWeight="bold">
+                 <div className="flex flex-row justify-between">
+                 <Typography variant="h3" fontWeight="bold">
                   {budget.firstname + " " + budget.lastname}
                 </Typography>
+                 {budgetReq != null && budgetReq.status == "Not_Yet_Sent"? (
+                   <IconButton
+                   size="large"
+                   color="error"
+                   onClick={() => handleRemoveStaffBtn("budget", budgetReq._id)}
+                 >
+                   <CloseIcon />
+                 </IconButton>
+                 ) :
+                 null}
+               </div>
               ) : (
                 <div className="flex flex-row justify-between">
                   <Typography variant="h3" fontWeight="bold">
@@ -787,7 +807,7 @@ function ApprovalMain() {
               <Typography variant="h5">Budget Approval</Typography>
 
               {budgetReq != null ? (
-                <Typography variant="h5" color={statusText(budgetReq)}>
+                <Typography variant="h5">
                   Approval Status : {getStatus(budgetReq.status)}
                 </Typography>
               ) : null}
@@ -868,9 +888,21 @@ function ApprovalMain() {
           >
             <div className="p-4 flex flex-col justify-between h-full">
               {admin.firstname != null && admin.lastname != null ? (
-                <Typography variant="h3" fontWeight="bold">
-                  {admin.firstname + " " + admin.lastname}
-                </Typography>
+                <div className="flex flex-row justify-between">
+                  <Typography variant="h3" fontWeight="bold">
+                    {admin.firstname + " " + admin.lastname}
+                  </Typography>
+                  {adminReq != null && adminReq.status == "Not_Yet_Sent" ? (
+                    <IconButton
+                    size="large"
+                    color="error"
+                    onClick={() => handleRemoveStaffBtn("admin", adminReq._id)}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                  ) :
+                  null}
+                </div>
               ) : (
                 <div className="flex flex-row justify-between">
                   <Typography variant="h3" fontWeight="bold">
@@ -887,10 +919,10 @@ function ApprovalMain() {
                 </div>
               )}
 
-              <Typography variant="h5">Administration</Typography>
+              <Typography variant="h5">Administration Staff</Typography>
 
               {adminReq != null ? (
-                <Typography variant="h5" color={statusText(adminReq)}>
+                <Typography variant="h5">
                   Approval Status : {getStatus(adminReq.status)}
                 </Typography>
               ) : null}

@@ -159,7 +159,7 @@ function App() {
                   element={<EventManagerView />}
                 />
                 <Route path="approval/:id" element={<ApprovalMain />} />
-                <Route path="staff/list/:id" element={<Staffs />} />
+                <Route path="/org/dashboard/budget/list/:id" element={<Staffs />} />
                 <Route path="admin/list/:id" element={<Admins />} />
                 <Route
                   path="approval/create/:id"
