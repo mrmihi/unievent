@@ -1,23 +1,17 @@
-import React from 'react'
-import {Box} from "@mui/material"
+import React from "react";
+import { Box } from "@mui/material";
 import Header from "../../components/Header";
-import FlexBetween from "../../components/FlexBetween";
+import BreakdownChart from "../../components/BreakdownChart";
 
+const Breakdown = () => {
+	return (
+		<Box m="1.5rem 2.5rem">
+			<Header title="BREAKDOWN" subtitle="Breakdown of Events By Category" />
+			<Box mt="40px" height="75vh">
+				<BreakdownChart />
+			</Box>
+		</Box>
+	);
+};
 
-const BreakdownChart = () => {
-  return (
-	<Box m="1.5rem 2.5rem">
-	<div>
-		<FlexBetween>
-		<Header
-			title="ATTENDEES Breakdown Chart"
-			
-		/>	
-		</FlexBetween>
-
-	</div>
-</Box>
-  )
-}
-
-export default BreakdownChart
+export default Breakdown;

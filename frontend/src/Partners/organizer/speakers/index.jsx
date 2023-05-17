@@ -20,6 +20,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import FlexBetween from '../../components/FlexBetween';
 import Header from '../../components/Header';
 import SpeakerPDF from '../../pdf/SpeakerPDF';
+import moment from 'moment';
 
 const Speaker = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -94,6 +95,7 @@ const Speaker = () => {
 
   //save updates
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
+    console.log(row);
     console.log(values);
     if (!Object.keys(validationErrors).length) {
       const newValues = {
@@ -234,6 +236,12 @@ const Speaker = () => {
       },
 
       {
+        accessorFn: (row) => {
+          console.log(row.sessionTime);
+          const time = moment(`${row.sessionTime}`);
+          const formattedTime = time.format('HH:mm A');
+          return formattedTime;
+        },
         accessorKey: 'sessionTime',
         header: 'Session Time',
         size: 140,
@@ -293,12 +301,19 @@ const Speaker = () => {
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing
-        onEditingRowSave={handleSaveRowEdits}
-        onEditingRowCancel={handleCancelRowEdits}
+        // onEditingRowSave={handleSaveRowEdits}
+        // onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: 'flex', gap: '1rem' }}>
             <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
+              <IconButton
+                onClick={() => {
+                  console.log(row.original);
+                  navigate('/org/dashboard/updateSpeaker/', {
+                    state: { speaker: row.original },
+                  });
+                }}
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -315,7 +330,7 @@ const Speaker = () => {
               <Button
                 sx={{ marginRight: '5px' }}
                 color="primary"
-                onClick={() => setCreateModalOpen(true)}
+                onClick={() => navigate('/org/dashboard/addSpeaker/')}
                 variant="contained"
               >
                 ADD A SPEAKER
