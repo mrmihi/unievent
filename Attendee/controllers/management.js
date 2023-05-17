@@ -80,9 +80,23 @@ const deleteAdministrator = async (req, res) => {
     }
 };
 
+const getEvents = async (req, res) => {
+
+    try {
+       
+        
+        const overallStat = await OverallStat.find();
+
+        res.status(200).json([overallStat[0]]);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getAdministrator,
     createAdministrator,
     updateAdministrator,
     deleteAdministrator,
+    getEvents,
 };
