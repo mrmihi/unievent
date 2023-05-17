@@ -23,7 +23,7 @@ import {
 } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useParams } from 'react-router';
@@ -31,7 +31,11 @@ import { useParams } from 'react-router';
 const validationSchema = yup.object({
   fullName: yup.string().required('Name is required'),
   sessionTime: yup.string().required('Session Time is required'),
-  contactNo: yup.string().required('Contact Number is required'),
+  contactNo: yup
+    .string()
+    .required('Contact Number is required')
+    .min(10, 'Contact Number should be at least 10')
+    .max(10, 'Contact Number should be at most 10'),
   email: yup.string().required('Email is required'),
 });
 
@@ -42,6 +46,7 @@ const AddSpeaker = () => {
   const [serverSuccessMessage, setServerSuccessMessage] = useState('');
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [imageUrl, setimageUrl] = useState('');
+  const today = dayjs().add(1, 'day');
 
   const formik = useFormik({
     initialValues: {
@@ -53,6 +58,11 @@ const AddSpeaker = () => {
     validationSchema: validationSchema,
     onSubmit: async (values, { resetForm }) => {
       setIsSubmitting(true);
+
+      if (!imageUrl) {
+        Swal.fire('', 'Please Upload an Image!', 'warning');
+        return;
+      }
 
       // perform submit here, e.g. send data to server
       console.log('Inside the onsubmit');
@@ -160,7 +170,7 @@ const AddSpeaker = () => {
             key="sessionTime"
             name="sessionTime"
             views={['hours', 'minutes', 'seconds']}
-            value={formik.values.sessionTime}
+            value={formik.values.sessionTime || today}
             onChange={(time) => formik.setFieldValue('sessionTime', time)}
           />
 
