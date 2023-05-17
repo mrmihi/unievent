@@ -2,6 +2,20 @@ const ApprovalRequestService = require("../services/approval.request.service");
 const { HTTP_STATUS } = require("../utils/http_status");
 const { makeResponse } = require("../utils/response");
 
+
+
+//Retrives all the approval requests for a particular 
+const getPendingApprovalRequestsOfUser = async (req, res) => {
+  const { id : userID } = req.params; 
+  const result = await ApprovalRequestService.getPendingApprovalRequestsOfUser(userID);
+  return makeResponse({
+    res,
+    message: result.message,
+    data: result.data,
+    success: result.success,
+  });
+};
+
 //Retrives all the approval requests for a particular 
 const getApprovalRequestsOfUser = async (req, res) => {
   const { id : userID } = req.params; 
@@ -93,5 +107,6 @@ module.exports = {
   updateApprovalRequest,
   deleteApprovalRequest,
   getApprovalRequestsOfUser,
+  getPendingApprovalRequestsOfUser,
   deleteRequestsByEventApprovalID
 };

@@ -34,8 +34,8 @@ export default function OLoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (Cookies.get("org_accessToken") && Cookies.get("org_role") === "org") {
-      navigate("/org/dashboard");
+    if (Cookies.get('org_accessToken') && Cookies.get('org_role') === 'org') {
+      navigate('/org/dashboard');
     }
   }, [navigate]);
 

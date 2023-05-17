@@ -303,12 +303,18 @@ const Opportunities = () => {
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing
-        onEditingRowSave={handleSaveRowEdits}
-        onEditingRowCancel={handleCancelRowEdits}
+        // onEditingRowSave={handleSaveRowEdits}
+        // onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: 'flex', gap: '1rem' }}>
             <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
+              <IconButton
+                onClick={() =>
+                  navigate('/org/dashboard/updateOpportunity/', {
+                    state: { opportunity: row.original },
+                  })
+                }
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -325,10 +331,10 @@ const Opportunities = () => {
               <Button
                 sx={{ marginRight: '5px' }}
                 color="primary"
-                onClick={() => setCreateModalOpen(true)}
+                onClick={() => navigate('/org/dashboard/addOpportunity/')}
                 variant="contained"
               >
-                ADD A Opportunity
+                ADD An Opportunity
               </Button>
               <OpportunityPDF tableData={tableData} />
             </div>

@@ -12,7 +12,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { toast, ToastContainer } from "react-toastify";
 
-const RespondedApprovalRequests = () => {
+const AllAppointments = (props) => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
 
@@ -20,21 +20,13 @@ const RespondedApprovalRequests = () => {
 
   const getData = async () => {
     try {
-      // const response = await axios.get(`/api/approval/request/user/${StaffID}`);
-      const response = await axios.get(`/api/approval/request`);
-
-      const data = response.data.data.map((request) => {
-        request.type = String(request.type).replace("_", " ");
-        if (request.status == "Approved" || request.status == "Rejected")
-          return request;
-      });
-      setTableData(data);
-
+      const response = await axios.get(`/api/approval/request/user/${StaffID}`);
+      setTableData(response.data.data);
     } catch (error) {
       console.log(error.response.data);
-      toast.info(error.response.data.message, {
-        position: "top-right",
-      });
+      // toast.info(error.response.data.message, {
+      //   position: "top-right",
+      // });
     }
   };
 
@@ -44,21 +36,6 @@ const RespondedApprovalRequests = () => {
     };
     fetchRegisteredData();
   }, [StaffID]);
-
-  const APPROVAL_REQUEST_STATUS = {
-    NOT_YET_SENT: "Not_Yet_Sent",
-    SENT: "Sent",
-    VIEWED: "Viewed",
-    APPROVED: "Approved",
-    REJECTED: "Rejected",
-  };
-
-  const REQUEST_TYPE = {
-    LIC: "LIC_Request",
-    VENUE: "Venue_Request",
-    FINANCE: "Budget_Request",
-    ADMIN: "Admin_Request",
-  };
 
   const columns = useMemo(
     () => [
@@ -81,13 +58,9 @@ const RespondedApprovalRequests = () => {
       {
         accessorKey: "type",
         header: "Type",
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          select: true,
-          selectOptions: REQUEST_TYPE.map((type) => ({
-            label: type,
-            value: type,
-          })),
-        }),
+        enableColumnOrdering: true,
+        enableEditing: false,
+        enableSorting: true,
       },
       {
         accessorKey: "requested_at",
@@ -124,35 +97,6 @@ const RespondedApprovalRequests = () => {
     ],
     []
   );
-
-  const handleViewBtn = (row) => {
-    Swal.fire({
-      title: "Request Note",
-      text: row.getValue("request_note"),
-      showCancelButton: false,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Okay",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        toast.info(`View Btn clicked on ${row.getValue("approval_id")}`, {
-          position: "top-center",
-        });
-      }
-    });
-  };
-
-  const handleApproveBtn = (row) => {
-    toast.info(`Approve Btn clicked on ${row.getValue("approval_id")}`, {
-      position: "top-right",
-    });
-  };
-
-  const handleRejectBtn = (row) => {
-    toast.info(`Reject Btn clicked on ${row.getValue("approval_id")}`, {
-      position: "top-right",
-    });
-  };
 
   return (
     <div className="mb-20 ml-10 mr-10">
@@ -198,4 +142,4 @@ const RespondedApprovalRequests = () => {
   );
 };
 
-export default RespondedApprovalRequests;
+export default AllAppointments;

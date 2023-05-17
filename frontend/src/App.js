@@ -40,6 +40,7 @@ import RDashboard from './Resource/scenes/dashboard';
 import ResourcesTable from './Resource/tables/allResources';
 import PageNotFound from './Events/pages/PageNotFound.jsx';
 import AllResourcesView from 'Resource/pages/AllResourcesView';
+import AddReservation from 'Resource/views/AddReservation';
 
 import Speaker from 'Partners/organizer/speakers';
 import Sponsors from 'Partners/organizer/sponsors';
@@ -103,6 +104,13 @@ import FBills from './Finance/scenes/finance/bills';
 import FPayments from './Finance/scenes/finance/payments';
 import FReport from './Finance/scenes/finance/report';
 import FPayPal from 'Finance/scenes/finance/paymentform';
+import AddSpeaker from 'Partners/organizer/speakers/AddSpeaker';
+import UpdateSpeaker from 'Partners/organizer/speakers/UpdateSpeaker';
+import AddSponsor from 'Partners/organizer/sponsors/AddSponsor';
+import UpdateSponsor from 'Partners/organizer/sponsors/UpdateSponsor';
+import UpdateOpportunity from 'Partners/organizer/opportunities/UpdateOpportunity';
+import AddOpportunity from 'Partners/organizer/opportunities/AddOpportunity';
+import VolunteerSchedule from 'Partners/user/volunteer/VolunteerSchedule';
 
 import ULayout from './User/scenes/layout/Layout';
 import UDashboard from './User/scenes/dashboard';
@@ -114,6 +122,8 @@ import USignUp from './User/pages/signUp';
 import UBudgetForm from './User/pages/budgetForm';
 import UBudgetView from './User/pages/budgetView';
 import UserProfileEdit from './User/pages/UserProfileEdit';
+import VenuesReviewsAdd from 'Org/VenueReviews/pages/VenueReviewsAdd';
+import VenuesReviewsUpdate from 'Org/VenueReviews/pages/VenuesReviewsUpdate';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -191,13 +201,16 @@ function App() {
                 <Route path="events-draft" element={<AllEventsTable />} />
                 <Route
                   path="/org/dashboard/events/approval/print/:id"
-                  element={<PrintAll />}
-                />
+                  element={<PrintAll />} />
                 {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
                 <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
-                <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
+              <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
+
+                <Route path='/org/dashboard/venues/reviews' element={<VenuesReviewsAdd/>}/> 
+                <Route path='/org/dashboard/venues/reviews/added' element={<VenuesReviewsUpdate/>}/>
               </Route>
+
               {/* Staff Dashbaord */}
               <Route path="/admin" element={<ALoginPage />} />
               <Route element={<ALayout />}>
@@ -206,6 +219,7 @@ function App() {
                   element={<Navigate to="/admin/dashboard" replace />}
                 />
                 <Route path="/admin/dashboard" element={<ADashboard />} />
+
                 <Route
                   path="/admin/appointment/requests"
                   element={<AAppointmentRequests />}
@@ -219,6 +233,7 @@ function App() {
                   path="/admin/approval/requests"
                   element={<AApproval />}
                 />
+
               </Route>
 
               {/* Event Routes */}
@@ -300,7 +315,14 @@ function App() {
               </Route>
 
               {/* Resource Routes */}
-              <Route path="/admin/resources" element={<AllResourcesView />} />
+              <Route
+                path="/resources/:eid/reservation"
+                element={<AllResourcesView />}
+              />
+              <Route
+                path="/resource/:rid/reservation/:eid"
+                element={<AddReservation />}
+              />
               <Route element={<RLayout />}>
                 <Route
                   path="/admin/resources/dashboard/*"
@@ -315,13 +337,28 @@ function App() {
                   element={<ResourcesTable />}
                 />
               </Route>
-              <Route path="*" element={<PageNotFound />} />
 
               {/*Partner Routes */}
               <Route element={<OLayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
                 <Route path="/org/dashboard/speakers/" element={<Speaker />} />
+                <Route
+                  path="/org/dashboard/addSpeaker/"
+                  element={<AddSpeaker />}
+                />
+                <Route
+                  path="/org/dashboard/updateSpeaker/"
+                  element={<UpdateSpeaker />}
+                />
                 <Route path="/org/dashboard/sponsors/" element={<Sponsors />} />
+                <Route
+                  path="/org/dashboard/addSponsor/"
+                  element={<AddSponsor />}
+                />
+                <Route
+                  path="/org/dashboard/updateSponsor/"
+                  element={<UpdateSponsor />}
+                />
                 <Route
                   path="/org/dashboard/volunteers/"
                   element={<Volunteers />}
@@ -329,6 +366,14 @@ function App() {
                 <Route
                   path="/org/dashboard/opportunities/"
                   element={<Opportunities />}
+                />
+                <Route
+                  path="/org/dashboard/addOpportunity/"
+                  element={<AddOpportunity />}
+                />
+                <Route
+                  path="/org/dashboard/updateOpportunity/"
+                  element={<UpdateOpportunity />}
                 />
               </Route>
               <Route
@@ -346,6 +391,10 @@ function App() {
               <Route
                 path="/event/appliedOpportunities/:userID"
                 element={<AppliedOpportunitiesList />}
+              />
+              <Route
+                path="/event/appliedOpportunities/schedule/:oppID"
+                element={<VolunteerSchedule />}
               />
               <Route
                 path="/event/updateVolunteerApplication/:volunteerID"

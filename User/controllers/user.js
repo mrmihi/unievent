@@ -2,6 +2,35 @@ const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const generateToken = require('../util/token.js');
 
+//get all admins
+const getAllAdmin = async (req, res) => {
+  try {
+    const users = await User.find({role : "admin"}); //find all admins
+    res.status(200).json(users); //return all users
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } //catch error
+}; 
+
+const getAllStaff = async (req, res) => {
+  try {
+    const users = await User.find({role : "staff"}); //find all users
+    res.status(200).json(users); //return all users
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } //catch error
+}; 
+
+const getUserByID = async (req, res) => {
+  try {
+    const { id : userID } = req.params;
+    const me = await User.findById(userID).select('-password');
+    res.status(200).json(me);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } //catch error
+};
+
 //create user
 const createUser = async (req, res) => {
   try {
@@ -156,5 +185,7 @@ module.exports = {
   deleteUser,
   updateUser,
   getMe,
-  getUserById
+  getUserByID,
+  getAllStaff,
+  getAllAdmin
 }; //export all functions

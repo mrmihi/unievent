@@ -30,6 +30,10 @@ import {
 } from '@mui/icons-material';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import EmailIcon from '@mui/icons-material/Email';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
@@ -70,61 +74,28 @@ const navItems = [
   },
   {
     text: 'Speakers',
-    icon: <PeopleIcon />,
+    icon: <CampaignIcon />,
   },
   {
     text: 'Sponsors',
-    icon: <PeopleIcon />,
+    icon: <CardGiftcardIcon />,
   },
   {
     text: 'Volunteers',
-    icon: <PeopleIcon />,
+    icon: <VolunteerActivismIcon />,
   },
   {
     text: 'Opportunities',
-    icon: <PeopleIcon />,
+    icon: <Diversity3Icon />,
   },
-  //   {
-  //     text: "Attendees",
-  //     icon: <Groups2Outlined />,
-  //   },
-  //   {
-  //     text: "DataFinalists",
-  //     icon: <ReceiptLongOutlined />,
-  //   },
-
-  //   {
-  //     text: "Venue Management",
-  //     icon: null,
-  //   },
-  //   {
-  //     text: "Overview",
-  //     icon: <PointOfSaleOutlined />,
-  //   },
-  //   {
-  //     text: "Daily",
-  //     icon: <TodayOutlined />,
-  //   },
-  //   {
-  //     text: "Monthly",
-  //     icon: <CalendarMonthOutlined />,
-  //   },
-  //   {
-  //     text: "Breakdown",
-  //     icon: <PieChartOutlined />,
-  //   },
-  //   {
-  //     text: "Resource Management",
-  //     icon: null,
-  //   },
-  //   {
-  //     text: "Administrator",
-  //     icon: <AdminPanelSettingsOutlined />,
-  //   },
-  //   {
-  //     text: "AttendeeStatus",
-  //     icon: <AssignmentIndOutlined />,
-  //   },
+    {
+      text: "Review Management",
+      icon: null,
+    },
+    {
+      text: "Venues",
+      icon: <AssignmentIndOutlined />,
+    },
 ];
 
 const Sidebar = ({
@@ -189,12 +160,15 @@ const Sidebar = ({
                     </Typography>
                   );
                 }
-                const lcText = text.toLowerCase();
+                let lcText = text.toLowerCase();
 
                 return (
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
+                        if (lcText === 'venues') {
+                          lcText = "venues/reviews"
+                        } 
                         navigate(`/org/dashboard/${lcText}`);
                         setActive(lcText);
                       }}

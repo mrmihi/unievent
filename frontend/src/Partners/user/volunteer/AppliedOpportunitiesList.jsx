@@ -53,7 +53,7 @@ const AppliedOpportunitiesList = () => {
           );
         });
         const results = await Promise.all(promises);
-        console.log(results);
+        console.log('result', results);
         const data = results.map((result) => result.data.data);
         setOpportunityData(data);
       } catch (error) {
@@ -161,9 +161,11 @@ const AppliedOpportunitiesList = () => {
                         Details
                       </Button>
                       <Button
-                        // onClick={() =>
-                        //   navigate(`/UpdateVolunteerApplication/${data._id}`)
-                        // }
+                        onClick={() =>
+                          navigate(
+                            `/event/appliedOpportunities/schedule/${data.opportunityID}`
+                          )
+                        }
                         variant="contained"
                         size="small"
                         sx={{
