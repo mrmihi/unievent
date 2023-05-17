@@ -10,7 +10,7 @@ const Actions = () => {
     },
     {
       name: 'Add to Calendar',
-      image: 'Calendar.svg',
+      image: 'CalendarBlue.svg',
       details: [
         'Add the Event to you favorite calendar',
         ' app and never miss the event!',
@@ -35,7 +35,7 @@ const Actions = () => {
           <img
             src={`/assets/${image}`}
             alt="Actions"
-            className="w-40 h-40 md:w-40 md:h-40 mx-16 p-2  flex justify-center items-center transform hover:scale-105 transition duration-300"
+            className="w-52 h-52 md:w-52 md:h-52 mx-16 p-2  flex justify-center items-center transform hover:scale-105 transition duration-300"
           />
           <span className="text-white text-xl font-semibold text-center mt-8 mb-6">
             {name}
