@@ -304,10 +304,7 @@ function App() {
 
               {/* Attendee Routes */}
               <Route element={<Layout />}>
-                <Route
-                  path="/"
-                  element={<Navigate to="/attendeemanager/dashboard" replace />}
-                />
+              
                 <Route
                   path="/attendeemanager/dashboard"
                   element={<Dashboard />}
