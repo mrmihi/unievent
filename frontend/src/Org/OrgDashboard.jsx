@@ -51,7 +51,7 @@ const Dashboard = () => {
             <Typography
               variant="h4"
               fontWeight="bold"
-              color={theme.palette.secondary.main}
+              color={theme.palette.secondary[200]}
             >
               Event Count
             </Typography>
@@ -63,7 +63,8 @@ const Dashboard = () => {
           </div>
           <Typography
             variant="h4"
-            color={theme.palette.secondary.main}
+            fontWeight="bold"
+            color={theme.palette.secondary[200]}
             mt={0.25}
             sx={{ textAlign: 'left' }}
           >
@@ -87,7 +88,7 @@ const Dashboard = () => {
             <Typography
               variant="h4"
               fontWeight="bold"
-              color={theme.palette.secondary.main}
+              color={theme.palette.secondary[200]}
             >
               Total Partners
             </Typography>
@@ -99,9 +100,10 @@ const Dashboard = () => {
           </div>
           <Typography
             variant="h4"
-            color={theme.palette.secondary.main}
+            color={theme.palette.secondary[200]}
             mt={0.25}
             sx={{ textAlign: 'left' }}
+            fontWeight="bold"
           >
             23
           </Typography>
@@ -123,7 +125,7 @@ const Dashboard = () => {
             <Typography
               variant="h4"
               fontWeight="bold"
-              color={theme.palette.secondary.main}
+              color={theme.palette.secondary[200]}
             >
               Total Organizations
             </Typography>
@@ -135,9 +137,10 @@ const Dashboard = () => {
           </div>
           <Typography
             variant="h4"
-            color={theme.palette.secondary.main}
+            color={theme.palette.secondary[200]}
             mt={0.25}
             sx={{ textAlign: 'left' }}
+            fontWeight="bold"
           >
             23
           </Typography>
@@ -158,7 +161,7 @@ const Dashboard = () => {
             <Typography
               variant="h4"
               fontWeight="bold"
-              color={theme.palette.secondary.main}
+              color={theme.palette.secondary[200]}
             >
               Total Organizations
             </Typography>
@@ -170,9 +173,10 @@ const Dashboard = () => {
           </div>
           <Typography
             variant="h4"
-            color={theme.palette.secondary.main}
+            color={theme.palette.secondary[200]}
             mt={0.25}
             sx={{ textAlign: 'left' }}
+            fontWeight="bold"
           >
             $89,000
           </Typography>
