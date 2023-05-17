@@ -108,6 +108,7 @@ import USignUp from "./User/pages/signUp";
 import UBudgetForm from "./User/pages/budgetForm";
 import UBudgetView from "./User/pages/budgetView";
 import UserProfileEdit from "./User/pages/UserProfileEdit";
+import ReservationTable from 'Resource/tables/allReservations';
 
 
 
@@ -227,6 +228,10 @@ function App() {
                 <Route
                   path="/admin/resources/dashboard/resources"
                   element={<ResourcesTable />}
+                />
+                <Route
+                  path="/admin/resources/dashboard/reservations"
+                  element={<ReservationTable />}
                 />
               </Route>
 
