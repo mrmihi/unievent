@@ -59,8 +59,6 @@ const Dashboard = () => {
                     &copy; 2023 UniEventPro. All Rights Reserved.
                 </Typography>
             </Box>
-
-
         </Box>
     );
 };

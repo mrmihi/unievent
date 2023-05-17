@@ -462,11 +462,8 @@ function App() {
               />
 
               {/* Finance Routes */}
-              <Route path="/finance/paypal" element={<FPayPal />} />
-              <Route
-                path="/finance/paymentpage"
-                element={<FPaymentOptions />}
-              />
+              <Route path="/finance/paypal/:id" element={<FPayPal />} />
+              <Route path="/finance/paymentpage" element={<FPaymentOptions />}/>
               <Route path="/finance/printbill" element={<FPrintBill />} />
               <Route path="*" element={<h1>Page not found!</h1>} />
               <Route path="/admin/finance" element={<FLoginPage />} />
@@ -582,8 +579,8 @@ function App() {
                   />
                   <Route path="/venue/:vid/book/:id" element={<VVenueBook />} />
                   <Route
-                    path="/venue/payment"
-                    element={<h1>payment page</h1>}
+                    path="/venue/payment/:id"
+                    element={<FPaymentOptions />}
                   />
                 </Route>
               </Route>

@@ -3,11 +3,16 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Swal from 'sweetalert2';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const paymentOptions = () => {
+
+const PaymentOptions = () => {
+  
+  const { id } = useParams(); 
+const navigate = useNavigate();  
+
   return (
     <>
       <Box  width="100%" position="relative" justifyContent="center" style={{backgroundColor: "#bbdefb"}}>
@@ -43,7 +48,7 @@ const paymentOptions = () => {
               <Box
                 mb="0.5rem"
                 p="1.5rem"
-                style={{ backgroundColor: '#bbdefb', borderRadius: '5px' }}
+                style={{ backgroundColor: '#FFFFF', borderRadius: '5px' , border: '2px solid #0123F5'}}
               >
                 <Typography variant="h5" color="text.primary" gutterBottom>
                   Account Number: 045-1523-256 <br />
@@ -53,7 +58,7 @@ const paymentOptions = () => {
               </Box>
               <Box
                 p="1.5rem"
-                style={{ backgroundColor: '#bbdefb', borderRadius: '5px' }}
+                style={{ backgroundColor: '#FFFFF', borderRadius: '5px' , border: '2px solid #0123F5'}}
               >
                 <Typography variant="h5" color="text.primary" gutterBottom>
                   Account Number: 076-9564-852 <br />
@@ -64,7 +69,7 @@ const paymentOptions = () => {
               <Box
                 mt="1rem"
                 p="1.5rem"
-                style={{ backgroundColor: '#fff9c4', borderRadius: '5px' }}
+                style={{ backgroundColor: '#F2F5FA', borderRadius: '5px' }}
               >
                 <Typography
                   variant="h5"
@@ -93,19 +98,19 @@ const paymentOptions = () => {
             </CardContent>
           </CardActionArea>
           <CardActions m="1rem">
-            <Link to="/finance/paypal">
-              <Button
+              <Button width="100%"
                 variant="contained"
                 type="submit"
-                color="secondary"
+                  
                 style={{
                   marginInline: '5px',
                   width: '70px',
+                  backgroundColor: '#0123F5',
                 }}
+                onClick={() => { navigate(`/finance/paypal/${id}`)}}
               >
                 pay
               </Button>
-            </Link>
           </CardActions>
         </Card>
       </Box>
@@ -128,7 +133,7 @@ const paymentOptions = () => {
               <Box
                 mt="1rem"
                 p="1.5rem"
-                style={{ backgroundColor: '#fff9c4', borderRadius: '5px' }}
+                style={{ backgroundColor: '#F2F5FA', borderRadius: '5px' }}
               >
                 <Typography
                   variant="h5"
@@ -138,7 +143,8 @@ const paymentOptions = () => {
                   style={{ fontStyle: 'bold' }}
                 >
                   Instructions
-                </Typography>
+                  </Typography>
+                  Please review and accept the <a href="https://www.paypal.com/lk/legalhub/useragreement-full" target="_blank" rel="noopener noreferrer" style={{fontStyle: 'italic' ,}}>PayPal User Agreement</a> before proceeding.
                 To make a payment using PayPal, please follow these
                 instructions:
                 <ol>
@@ -197,4 +203,4 @@ const paymentOptions = () => {
   );
 };
 
-export default paymentOptions;
+export default PaymentOptions;
