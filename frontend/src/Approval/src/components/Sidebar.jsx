@@ -28,7 +28,7 @@ const navItems = [
     {
         text: "Dashboard",
         icon: <HomeOutlined />,
-        location: "/admin/dashboard",
+        location: "/staff/dashboard",
     },
     {
         text: "Event Approval Management",
@@ -36,12 +36,12 @@ const navItems = [
     {
         text: "Approval Requests",
         icon: <PlaylistAddCheckIcon/> ,
-        location: "/admin/approval/requests",
+        location: "/staff/approval/requests",
     },
     {
         text: "All Requests",
         icon: <ViewListIcon/> ,
-        location: "/admin/approvals",
+        location: "/staff/approvals",
     },
     {
         text: "Appointment Management",
@@ -49,17 +49,17 @@ const navItems = [
     {
         text: "Upcoming Appointments",
         icon: <EventIcon/> ,
-        location: "/admin/appointments/upcoming",
+        location: "/staff/appointments/upcoming",
     },
     {
         text: "Appointment Requests",
         icon: <PlaylistAddCheckIcon/> ,
-        location: "/admin/appointment/requests",
+        location: "/staff/appointment/requests",
     },
     {
         text: "All Appointments",
         icon: <ViewListIcon/> ,
-        location: "/admin/appointments",
+        location: "/staff/appointments",
     },
 ];
 

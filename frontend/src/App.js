@@ -159,7 +159,7 @@ function App() {
                   element={<EventManagerView />}
                 />
                 <Route path="approval/:id" element={<ApprovalMain />} />
-                <Route path="staff/list/:id" element={<Staffs />} />
+                <Route path="/org/dashboard/budget/list/:id" element={<Staffs />} />
                 <Route path="admin/list/:id" element={<Admins />} />
                 <Route
                   path="approval/create/:id"
@@ -236,29 +236,29 @@ function App() {
               </Route>
 
               {/* Staff Dashbaord */}
-              <Route path="/admin" element={<ALoginPage />} />
+              {/* <Route path="/staff" element={<ALoginPage />} /> */}
               <Route element={<ALayout />}>
                 <Route
-                  path="/admin/dashboard/*"
-                  element={<Navigate to="/admin/dashboard" replace />}
+                  path="/staff/dashboard/*"
+                  element={<Navigate to="/staff/dashboard" replace />}
                 />
-                <Route path="/admin/dashboard" element={<ADashboard />} />
+                <Route path="/staff/dashboard" element={<ADashboard />} />
 
                 <Route
-                  path="/admin/appointment/requests"
+                  path="/staff/appointment/requests"
                   element={<AAppointmentRequests />}
                 />
-                <Route path="/admin/appointments" element={<AAppointments />} />
+                <Route path="/staff/appointments" element={<AAppointments />} />
                 <Route
-                  path="/admin/appointments/upcoming"
+                  path="/staff/appointments/upcoming"
                   element={<AAppointmentsUpcoming />}
                 />
                 <Route
-                  path="/admin/approvals"
+                  path="/staff/approvals"
                   element={<AApprovalRequests />}
                 />
                 <Route
-                  path="/admin/approval/requests"
+                  path="/staff/approval/requests"
                   element={<AApproval />}
                 />
               </Route>
