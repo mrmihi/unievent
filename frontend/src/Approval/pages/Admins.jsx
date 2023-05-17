@@ -122,7 +122,7 @@ const Admins = () => {
                         <Grid item xs={12} sm={6} md={4} key={admin._id}>
                             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         
-                                <CardMedia component="img" image={admin.img_url} alt={admin.name} style={{ height: '200px', width: '300px' }} />
+                                <CardMedia component="img" image={admin.profileimage} alt={admin.name} style={{ height: '200px', width: '300px' }} />
                                     <CardContent sx={{ flexGrow: 1 }}>
                                         <Typography gutterBottom variant="h5" component="h2">
                                             {admin.name}

@@ -71,10 +71,11 @@ import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 import ALayout from 'Approval/src/scenes/layout';
 import ADashboard from 'Approval/src/scenes/dashboard';
 import ALoginPage from 'Approval/src/scenes/login';
-import AApproval from 'Approval/src/scenes/approvalRequests';
-import AApprovalRequests from 'Approval/src/scenes/allApprovalRequests';
-import AAppointmentRequests from 'Approval/src/scenes/appointmentRequests';
-import AAppointments from 'Approval/src/scenes/upcomingAppointments';
+import AApproval from 'Approval/src/scenes/Approval_Requests/approvalRequests';
+import AApprovalRequests from 'Approval/src/scenes/Approval_Requests/allApprovalRequests';
+import AAppointmentRequests from 'Approval/src/scenes/Appointments/appointmentRequests';
+import AAppointments from 'Approval/src/scenes/Appointments/allAppointments';
+import AAppointmentsUpcoming from "Approval/src/scenes/Appointments/upcomingAppointments"
 
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
@@ -216,6 +217,7 @@ function App() {
                   element={<AAppointmentRequests />}
                 />
                 <Route path="/admin/appointments" element={<AAppointments />} />
+                <Route path="/admin/appointments/upcoming" element={<AAppointmentsUpcoming />} />
                 <Route
                   path="/admin/approvals"
                   element={<AApprovalRequests />}

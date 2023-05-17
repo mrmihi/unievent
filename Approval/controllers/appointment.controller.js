@@ -3,6 +3,18 @@ const { HTTP_STATUS } = require("../utils/http_status");
 const { makeResponse } = require("../utils/response");
 const { Appointment } = require("../models/approval.model");
 
+
+const getAppoinmentsOfUser = async (req, res) => {
+    const { id: userID } = req.params;
+    const result = await AppointmentService.getAppoinmentsOfUser(userID);
+    return makeResponse({
+        res,
+        message: result.message,
+        data: result.data,
+        success: result.success,
+    });
+}
+
 const getPendingAppoinmentsOfUser = async (req, res) => {
     const { id : userID } = req.params;
     const result = await AppointmentService.getPendingAppoinmentsOfUser(userID);
@@ -80,18 +92,6 @@ const deleteAppointment = async (req, res) => {
         data: result.data,
     });
 };
-
-const getAppoinmentsOfUser = async (req, res) => {
-    const { id: userID } = req.params;
-    const result = await AppointmentService.getAppoinmentsOfUser(userID);
-    return makeResponse({
-        res,
-        message: result.message,
-        data: result.data,
-        success: result.success,
-    });
-}
-
 module.exports = {
   getAllAppointment,
   createAppointment,
