@@ -49,7 +49,7 @@ const PaymentPage = () => {
       console.log(response.data);
       const booking = response.data;
       setPrice(booking.price);
-      //setVenue(booking.venue);
+      setVenue(booking.venue);
       setStartTime(formatDateTime(booking.start_time));
       setEndTime(formatDateTime(booking.end_time));
       setDuration(booking.duration);
