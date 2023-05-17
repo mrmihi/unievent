@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import API from "../components/api.approval";
+import Cookies from "js-cookie"
 
 function ApprovalMain() {
   const { id: eventID } = useParams();
@@ -18,7 +19,7 @@ function ApprovalMain() {
   const [admin, setAdmin] = useState({});
   const [adminReq, setAdminReq] = useState(null);
   const [org, setOrg] = useState({});
-  const loggedOrgId = "6448be13969607971f3761a3";
+  const loggedOrgId = Cookies.get("org_id");
   const [requestNoteLIC, setRequestNoteLIC] = useState("");
   const [requestNoteBudget, setRequestNoteBudget] = useState("");
   const [requestNoteAdmin, setRequestNoteAdmin] = useState("");
@@ -80,6 +81,9 @@ function ApprovalMain() {
   const handleAddStaffBtn = () => {
     navigate(`/org/dashboard/staff/list/${eventApprovalData._id}`);
   };
+  const handlePrintBtn = () => {
+    navigate(`/org/dashboard/events/approval/print/${eventApprovalData._id}`);
+  };
 
   const handleNoteChange = (event) => {
     const role = event.target.id;
@@ -138,7 +142,7 @@ function ApprovalMain() {
         setData(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         toast.error("Approval Request sending failed", {
           position: "top-right",
         });
@@ -153,7 +157,7 @@ function ApprovalMain() {
           approval_id: eventApprovalData._id,
           type: "Venue_Request",
           requested_at: venueBooking.created_at,
-          requested_to: venue._id,
+          requested_to: venueBooking.venue.manager,
           requested_by: loggedOrgId,
           status: "Sent",
         };
@@ -168,14 +172,6 @@ function ApprovalMain() {
           status: "Not_Yet_Sent",
         };
         break;
-        data = {
-          approval_id: eventApprovalData._id,
-          type: "Admin_Request",
-          requested_to: admin._id,
-          requested_by: loggedOrgId,
-          status: "Not_Yet_Sent",
-        };
-        break;
     }
 
     await API.post(`approval/request/`, data, {
@@ -183,7 +179,7 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        console.log(res.data.data);
+        //console.log(res.data.data);
         switch (role) {
           case "venue":
             setVenueReq(res.data.data);
@@ -197,7 +193,7 @@ function ApprovalMain() {
         }
       })
       .catch((err) => {
-        console.log(err.response.data);
+        //console.log(err.response.data);
       });
   };
 
@@ -234,14 +230,14 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        console.log(res.data.data);
+        //console.log(res.data.data);
         fetchApproval();
         toast.success("Request sent successfully", {
           position: "top-center",
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
       });
   };
 
@@ -251,8 +247,8 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log("fetchRequests " + role);
-        // console.log(res.data.data.requested_to);
+        // //console.log("fetchRequests " + role);
+        // //console.log(res.data.data.requested_to);
         switch (role) {
           case "lic":
             setLicReq(res.data.data);
@@ -272,7 +268,7 @@ function ApprovalMain() {
         setError({});
       })
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
         setLicReq(null);
         setBudgetReq(null);
         setAdminReq(null);
@@ -287,15 +283,15 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log("fetchOrgDetails");
-        // console.log(res.data);
+        // //console.log("fetchOrgDetails");
+        // //console.log(res.data);
         setOrg(res.data);
         setLic(res.data.incharge);
       })
       .catch((err) => {
         setLic({});
         setOrg({});
-        console.log(err.response);
+        //console.log(err.response);
       });
   };
 
@@ -305,8 +301,7 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log("fetchApproval");
-        console.log(res.data.data[0]);
+        //console.log(res.data.data[0].event_id.orgId);
         fetchOrgDetails(res.data.data[0].event_id.orgId);
 
         if (res.data.data[0].lic_approval != null) {
@@ -344,13 +339,13 @@ function ApprovalMain() {
         withCredentials: true,
       })
         .then((res) => {
-          // console.log("fetchVenueManagerDetails");
-          // console.log(res.data);
+          // //console.log("fetchVenueManagerDetails");
+          //console.log(res.data);
           setVenue(res.data);
         })
         .catch((err) => {
           setVenue({});
-          console.log(err);
+          //console.log(err);
         });
     };
 
@@ -359,13 +354,13 @@ function ApprovalMain() {
       withCredentials: true,
     })
       .then((res) => {
-        // console.log(res.data[0].venue.manager);
+        // //console.log(res.data[0]);
         setVenueBooking(res.data[0]);
         fetchVenueManagerDetails(res.data[0].venue.manager);
       })
       .catch((err) => {
         setVenueBooking({});
-        console.log(err.response);
+        //console.log(err.response);
       });
   };
 
@@ -390,11 +385,11 @@ function ApprovalMain() {
     if (eventApprovalData.admin_approval != null) {
       fetchRequests(eventApprovalData.admin_approval._id, "admin");
     }
-    
   }, [eventApprovalData]);
 
   useEffect(() => {
     if (eventApprovalData.venue_approval == null && venueBooking != null) {
+      console.log(venueBooking)
       createApprovalRequest("venue");
     }
   }, [venueBooking]);
@@ -413,18 +408,14 @@ function ApprovalMain() {
   const RejectedBtn = "#dc3545";
   const normalBtn = "#007bff";
 
-  const statusText =
-    lic.status === "Not_Yet_Sent"
-      ? NotYetSentBtn
-      : lic.status === "Sent"
-      ? SentBtn
-      : lic.status === "Viewed"
-      ? ViewedBtn
-      : lic.status === "Approved"
-      ? ApprovedBtn
-      : lic.status === "Rejected"
-      ? RejectedBtn
-      : normalBtn;
+  const statusText = (request) => {
+    if (request.status === "Not_Yet_Sent") return NotYetSentBtn;
+    if (lic.status === "Sent") return SentBtn;
+    if (lic.status === "Viewed") return ViewedBtn;
+    if (lic.status === "Approved") return ApprovedBtn;
+    if (lic.status === "Rejected") return RejectedBtn;
+    else return normalBtn;
+  };
 
   function getStatus(status) {
     switch (status) {
@@ -454,8 +445,13 @@ function ApprovalMain() {
             </Typography>
           </div>
           <div>
-            <Button variant="contained" color="secondary" size="large">
-              Cancel
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="large"
+              onClick={handlePrintBtn}
+            >
+              Print
             </Button>
           </div>
         </div>
@@ -472,7 +468,7 @@ function ApprovalMain() {
           >
             <div className="p-4 flex flex-col justify-between h-full">
               <Typography variant="h3" id="licApproval" fontWeight="bold">
-                {lic._id != null
+                {lic != null
                   ? lic.firstname + " " + lic.lastname
                   : "Not Added Yet"}
               </Typography>
@@ -484,7 +480,7 @@ function ApprovalMain() {
               <Typography variant="h5">Lecturer-In-Charge</Typography>
 
               {licReq != null ? (
-                <Typography variant="h5" color={statusText}>
+                <Typography variant="h5" color={statusText(licReq)}>
                   Approval Status : {getStatus(licReq.status)}
                 </Typography>
               ) : null}
@@ -563,13 +559,13 @@ function ApprovalMain() {
               </Typography>
 
               {venueBooking != null ? (
-                <Typography variant="h5" color={statusText}>
+                <Typography variant="h5">
                   Booking Status : {venueBooking.booking_status}
                 </Typography>
               ) : null}
 
               {venueBooking != null ? (
-                <Typography variant="h5" color={statusText}>
+                <Typography variant="h5">
                   Payment Status : {venueBooking.payment_status}
                 </Typography>
               ) : null}
@@ -634,7 +630,7 @@ function ApprovalMain() {
               <Typography variant="h5">Budget Approval</Typography>
 
               {budgetReq != null ? (
-                <Typography variant="h5" color={statusText}>
+                <Typography variant="h5" color={statusText(budgetReq)}>
                   Approval Status : {getStatus(budgetReq.status)}
                 </Typography>
               ) : null}
@@ -723,11 +719,11 @@ function ApprovalMain() {
               <Typography variant="h5">Administration</Typography>
 
               {adminReq != null ? (
-                <Typography variant="h5" color={statusText}>
+                <Typography variant="h5" color={statusText(adminReq)}>
                   Approval Status : {getStatus(adminReq.status)}
                 </Typography>
               ) : null}
-              
+
               {adminReq != null && adminReq.status != "Not_Yet_Sent" ? (
                 <Typography variant="h5">
                   {" "}

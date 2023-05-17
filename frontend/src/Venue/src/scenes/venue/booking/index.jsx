@@ -137,7 +137,7 @@ const VBookings = () => {
                                 <div>
                                     <p className="text-gray-600">Price: {selectedEvent.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
                                     <p className="text-gray-600">Venue: {selectedEvent.venue.name}</p>
-                                    <p className="text-gray-600">Organizer: {selectedEvent.organizer.name}</p>
+                                    <p className="text-gray-600">Organizer: {selectedEvent.event.org}</p>
                                 </div>
                             </div>
                             <Box mt={4}>

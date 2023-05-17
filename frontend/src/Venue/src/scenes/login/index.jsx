@@ -19,7 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const theme = createTheme();
 
@@ -32,6 +32,7 @@ const validationSchema = Yup.object().shape({
 
 export default function VLoginPage() {
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         const accessToken = Cookies.get("accessToken");
@@ -95,6 +96,10 @@ export default function VLoginPage() {
         },
     });
 
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword);
+      };
+
     return (
         <>
             <ThemeProvider theme={theme}>
@@ -141,7 +146,7 @@ export default function VLoginPage() {
                                     id="password"
                                     name="password"
                                     label="Password"
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -155,6 +160,7 @@ export default function VLoginPage() {
                                 <FormControlLabel
                                     control={<Checkbox value="remember" color="primary" />}
                                     label="Show Password"
+                                    onClick={handleShowPassword}
                                 />
                             </Grid>
                             <Grid item xs={12}>
