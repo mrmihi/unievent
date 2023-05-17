@@ -28,6 +28,7 @@ import moment from 'moment';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import OpportunityPDF from '../../pdf/OpportunityPDF';
 const Opportunities = () => {
+  const { eventID } = useParams();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -38,7 +39,6 @@ const Opportunities = () => {
 
   // let { eventID } = useParams();
   // eventID = eventID.toString();
-  const eventID = '643e6ca96030148f194b771d';
 
   const getRegisteredData = async () => {
     try {
@@ -331,7 +331,9 @@ const Opportunities = () => {
               <Button
                 sx={{ marginRight: '5px' }}
                 color="primary"
-                onClick={() => navigate('/org/dashboard/addOpportunity/')}
+                onClick={() =>
+                  navigate(`/org/dashboard/addOpportunity/${eventID}`)
+                }
                 variant="contained"
               >
                 ADD An Opportunity
