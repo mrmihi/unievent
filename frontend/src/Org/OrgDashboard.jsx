@@ -56,14 +56,12 @@ const Dashboard = () => {
               Event Count
             </Typography>
             <EmojiEventsIcon
-              color="#F0F0F0"
-              sx={{ fontSize: '60px', color: 'orange' }}
+              sx={{ fontSize: '60px', color: '#355FCC' }}
               mt={0.25}
             />
           </div>
           <Typography
             variant="h4"
-            fontWeight="bold"
             color={theme.palette.secondary[200]}
             mt={0.25}
             sx={{ textAlign: 'left' }}
@@ -94,7 +92,7 @@ const Dashboard = () => {
             </Typography>
             <People
               color="#F0F0F0"
-              sx={{ fontSize: '60px', color: 'orange' }}
+              sx={{ fontSize: '60px', color: '#355FCC' }}
               mt={0.25}
             />
           </div>
@@ -103,7 +101,6 @@ const Dashboard = () => {
             color={theme.palette.secondary[200]}
             mt={0.25}
             sx={{ textAlign: 'left' }}
-            fontWeight="bold"
           >
             23
           </Typography>
@@ -131,7 +128,7 @@ const Dashboard = () => {
             </Typography>
             <Diversity3Icon
               color="#F0F0F0"
-              sx={{ fontSize: '60px', color: 'orange' }}
+              sx={{ fontSize: '60px', color: '#355FCC' }}
               mt={0.25}
             />
           </div>
@@ -140,7 +137,6 @@ const Dashboard = () => {
             color={theme.palette.secondary[200]}
             mt={0.25}
             sx={{ textAlign: 'left' }}
-            fontWeight="bold"
           >
             23
           </Typography>
@@ -163,11 +159,11 @@ const Dashboard = () => {
               fontWeight="bold"
               color={theme.palette.secondary[200]}
             >
-              Total Organizations
+              Total Income
             </Typography>
             <MonetizationOnIcon
               color="#F0F0F0"
-              sx={{ fontSize: '60px', color: 'orange' }}
+              sx={{ fontSize: '60px', color: '#355FCC' }}
               mt={0.25}
             />
           </div>
@@ -176,7 +172,6 @@ const Dashboard = () => {
             color={theme.palette.secondary[200]}
             mt={0.25}
             sx={{ textAlign: 'left' }}
-            fontWeight="bold"
           >
             $89,000
           </Typography>

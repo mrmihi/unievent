@@ -201,14 +201,21 @@ function App() {
                 <Route path="events-draft" element={<AllEventsTable />} />
                 <Route
                   path="/org/dashboard/events/approval/print/:id"
-                  element={<PrintAll />} />
+                  element={<PrintAll />}
+                />
                 {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
                 <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
               <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
 
-                <Route path='/org/dashboard/venues/reviews' element={<VenuesReviewsAdd/>}/> 
-                <Route path='/org/dashboard/venues/reviews/added' element={<VenuesReviewsUpdate/>}/>
+                <Route
+                  path="/org/dashboard/venues/reviews"
+                  element={<VenuesReviewsAdd />}
+                />
+                <Route
+                  path="/org/dashboard/venues/reviews/added"
+                  element={<VenuesReviewsUpdate />}
+                />
               </Route>
 
               {/* Staff Dashbaord */}
@@ -233,7 +240,6 @@ function App() {
                   path="/admin/approval/requests"
                   element={<AApproval />}
                 />
-
               </Route>
 
               {/* Event Routes */}
@@ -341,18 +347,24 @@ function App() {
               {/*Partner Routes */}
               <Route element={<OLayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
-                <Route path="/org/dashboard/speakers/" element={<Speaker />} />
                 <Route
-                  path="/org/dashboard/addSpeaker/"
+                  path="/org/dashboard/speakers/:eventID"
+                  element={<Speaker />}
+                />
+                <Route
+                  path="/org/dashboard/addSpeaker/:eventID"
                   element={<AddSpeaker />}
                 />
                 <Route
                   path="/org/dashboard/updateSpeaker/"
                   element={<UpdateSpeaker />}
                 />
-                <Route path="/org/dashboard/sponsors/" element={<Sponsors />} />
                 <Route
-                  path="/org/dashboard/addSponsor/"
+                  path="/org/dashboard/sponsors/:eventID"
+                  element={<Sponsors />}
+                />
+                <Route
+                  path="/org/dashboard/addSponsor/:eventID"
                   element={<AddSponsor />}
                 />
                 <Route
