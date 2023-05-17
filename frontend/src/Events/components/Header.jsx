@@ -42,7 +42,7 @@ const Header = (props) => {
     },
     {
       name: 'Opportunities',
-      path: '/event/opportunities/',
+      path: `/event/opportunities/${props.id}`,
     },
   ];
 
