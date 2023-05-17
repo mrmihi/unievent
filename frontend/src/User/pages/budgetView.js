@@ -138,7 +138,7 @@ export default function CustomizedTables() {
         }
       });
     },
-    [history,tableData]
+    [tableData]
   );
 
   return (
@@ -184,7 +184,7 @@ export default function CustomizedTables() {
             <TableHead >
               <TableRow>
                 <StyledTableCell align="left">Description</StyledTableCell>
-                <StyledTableCell align="left">Amount</StyledTableCell>
+                <StyledTableCell align="left">Amount($)</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -206,7 +206,7 @@ export default function CustomizedTables() {
             <TableHead>
               <TableRow>
                 <StyledTableCell align="left">Description</StyledTableCell>
-                <StyledTableCell align="left">Amount</StyledTableCell>
+                <StyledTableCell align="left">Amount($)</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -222,8 +222,8 @@ export default function CustomizedTables() {
 
         </TableContainer>
         <Box>
-            <Typography variant="h3" sx={{ marginBottom: '20px', fontWeight: 'bold',marginTop:'50px' }}>Total Income Amount: {totalIncomeAmount}</Typography>
-            <Typography variant="h3" sx={{ marginBottom: '20px', fontWeight: 'bold' }}>Total Expense Amount: {totalExpenseAmount}</Typography>
+            <Typography variant="h3" sx={{ marginBottom: '20px', fontWeight: 'bold',marginTop:'50px' }}>Total Income Amount:$ {totalIncomeAmount}</Typography>
+            <Typography variant="h3" sx={{ marginBottom: '20px', fontWeight: 'bold' }}>Total Expense Amount:$  {totalExpenseAmount}</Typography>
             
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', gap: '20px' }} padding={6}>

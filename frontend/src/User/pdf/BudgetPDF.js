@@ -9,10 +9,10 @@ const doc = new jsPDF({
 });
 
 const exportPDF = (tableData) => {
-    doc.addImage(logo, 'PNG', 0, 0, 200, 50);
+    doc.addImage(logo, 'PNG', 0, 0, 300, 70);
     doc.setFontSize(13);
-    doc.text("Budget Report", 15, 53);
-    doc.text(`Report Generated ${moment().format("MMMM Do YYYY, h:mm:ss a")}`, 14, 59);
+    doc.text("Budget Report", 15, 70);
+    doc.text(`Report Generated ${moment().format("MMMM Do YYYY, h:mm:ss a")}`, 14, 75);
   
     if(!tableData) {
       console.log("No data");
@@ -36,12 +36,12 @@ const exportPDF = (tableData) => {
   
     const tableHeaders = ["Description", "Amount"];
 
-    doc.text(`Organization: ${headData[0][0]}`, 14, 70);
-    doc.text(`Event: ${headData[0][1]}`, 14, 75);
+    doc.text(`Organization: ${headData[0][0]}`, 14, 80);
+    doc.text(`Event: ${headData[0][1]}`, 14, 85);
     
     
     // Generate the income table
-    doc.text("Income", doc.internal.pageSize.width / 2, 79, { align: "center" });
+    doc.text("Income", doc.internal.pageSize.width / 2, 100, { align: "center" });
     autoTable(doc, {
       head: [tableHeaders],
       body: incomeData,
@@ -49,7 +49,7 @@ const exportPDF = (tableData) => {
         cellWidth: "auto",
         fontSize:14
       },
-      startY: 80,
+      startY: 90,
     });
   
     // Add some space between the tables

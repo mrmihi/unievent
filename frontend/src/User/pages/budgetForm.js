@@ -287,7 +287,7 @@ export default function BudgetForm() {
                               id="outlined-start-adornment"
                               sx={{ m: 0, width: '25ch' }}
                               InputProps={{
-                                startAdornment: <InputAdornment position="start">Rs.</InputAdornment>,
+                                startAdornment: <InputAdornment position="start">$.</InputAdornment>,
                               }}
                               value={row.amount}
                               onChange={(event) => {
@@ -322,7 +322,7 @@ export default function BudgetForm() {
                   <Grid item mt={1} component={Paper} elevation={6} square borderRadius={2}>
                     <Box>
                       <Typography component="h1" variant="h5" fontAmount='bold'>
-                        Total Income:{totalIncomeAmount}
+                        Total Income:$ {totalIncomeAmount}
                       </Typography>
                     </Box>
                   </Grid>
@@ -402,7 +402,7 @@ export default function BudgetForm() {
                               id="outlined-start-adornment"
                               sx={{ m: 0, width: '25ch' }}
                               InputProps={{
-                                startAdornment: <InputAdornment position="start">Rs.</InputAdornment>,
+                                startAdornment: <InputAdornment position="start">$</InputAdornment>,
                               }}
                               value={row.amount}
                               onChange={(event) => {
@@ -435,7 +435,7 @@ export default function BudgetForm() {
                   <Grid item mt={1} component={Paper} elevation={6} square borderRadius={2}>
                     <Box >
                       <Typography component="h1" variant="h5" fontAmount='bold'>
-                        Total Expenses: {totalExpenseAmount}
+                        Total Expenses:$ {totalExpenseAmount}
                       </Typography>
                     </Box>
                   </Grid>
@@ -450,7 +450,7 @@ export default function BudgetForm() {
             variant="contained"
             sx={{ mt: 3, mb: 2, fontSize: 20, mr: 2 }}
             onClick={()=>{
-                navigate("/admin/event")
+                navigate("/org/dashboard/events")
             }}
           >
             Back

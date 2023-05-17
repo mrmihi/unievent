@@ -133,6 +133,15 @@ function App() {
                 <Route path="/org/dashboard/admin/list/:id" element={<Admins />} />
                 <Route path="/org/dashboard/approval/appointment/:id" element={<RequestAppointment />} />
                 <Route path="events-draft" element={<AllEventsTable />} />
+                <Route
+                path="/org/event/budget/:eventid"
+                element={<UBudgetForm />}
+              />
+              <Route
+                path="/org/event/viewBudget/:event_id"
+                element={<UBudgetView />}
+              />
+
                 {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
                 <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
                 <Route path="approval/edit/:id" element={<ApprovalEdit />} />
@@ -403,18 +412,18 @@ function App() {
                 path="/admin/register"
                 element={<USignUp />}
               />
-              <Route
-                path="/admin/event/budget/:eventid"
+              {/* <Route
+                path="/org/event/budget/:eventid"
                 element={<UBudgetForm />}
-              />
+              /> */}
               <Route
                 path="/admin/profile"
                 element={<UProfilePage />}
               />
-              <Route
+              {/* <Route
                 path="/admin/event/viewBudget/:event_id"
                 element={<UBudgetView />}
-              />
+              /> */}
               <Route
                 path="/admin/profile/edit"
                 element={<UserProfileEdit />}
