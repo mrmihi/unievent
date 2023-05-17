@@ -8,7 +8,7 @@ import Toast from "./Toast";
 import Box from "@mui/material/Box";
 
 const InputClass =
-    "w-full py-4 placeholder:text-gray px-6 text-main border-2 mt-2 border-border rounded-md";
+    "w-full py-4 placeholder:text-gray px-6 text-black border-2 mt-2 border-border rounded-md";
 
 function RSVPEMAIL() {
     const [fullName, setFullName] = useState("");
@@ -83,7 +83,7 @@ function RSVPEMAIL() {
                                 className="box-2 bg-white pt-12 pb-6 sm:px-12 px-6 w-screen"
                             >
                                 <h2 className="sm:text-2xl text-xl text-center mb-12 font-semibold">
-                                    Administrator Emailer
+                                    Attendee Manager Emailer
                                 </h2>
                                 {/* fullName */}
                                 <div className="my-6">

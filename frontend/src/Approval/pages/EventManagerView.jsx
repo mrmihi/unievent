@@ -150,6 +150,15 @@ function EventManagerView() {
   const handleMakePaymentBtn = () => {
     navigate(`/venue/payment`);
   };
+  const handleViewSpeakersRequestBtn = () => {
+    navigate(`/org/dashboard/speakers/${eventID}`);
+  };
+  const handleViewSponsorsRequestBtn = () => {
+    navigate(`/org/dashboard/sponsors/${eventID}`);
+  };
+  const handleViewOpportunitiesRequestBtn = () => {
+    navigate(`/org/dashboard/opportunities/${eventID}`);
+  };
 
   const handlePublishBtn = () => {
     //Dinal
@@ -430,6 +439,68 @@ function EventManagerView() {
                   onClick={handleFillApprovalRequestBtn}
                 >
                   Fill Request Form
+                </Button>
+                {/* <Button
+                  variant="outlined"
+                  color="secondary"
+                  size="large"
+                  disabled
+                >
+                  Request Approval
+                </Button> */}
+              </Box>
+            </div>
+          </Box>
+
+          <Box
+            id="partnerBox"
+            width="48%"
+            bgcolor={boxColor}
+            mt="1%"
+            ml="0.5%"
+            height={200}
+            className="rounded-lg hover:border-2 hover:cursor-pointer hover:border-slate-400"
+          >
+            <div className="p-4 flex flex-col justify-between h-full">
+              <Typography variant="h4" id="partner" color="secondary">
+                Event Partners
+              </Typography>
+              {/* <Typography variant="h5" id="partnerStatus" color="secondary">
+                Status :{' '}
+                {approvalData != null
+                  ? approvalStatus(approvalData.status)
+                  : 'Unavailable'}
+              </Typography> */}
+              <Typography
+                variant="h6"
+                id="partner"
+                color="secondary"
+              ></Typography>
+
+              <Box className="flex w-full justify-around flex-row my-2">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                  onClick={handleViewSpeakersRequestBtn}
+                >
+                  View Speakers
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                  onClick={handleViewSponsorsRequestBtn}
+                >
+                  View Sponsors
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                  onClick={handleViewOpportunitiesRequestBtn}
+                >
+                  View Opportunities
                 </Button>
                 {/* <Button
                   variant="outlined"

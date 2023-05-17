@@ -12,12 +12,14 @@ const {
     deleteVenueById,
     getVenueAndReviews,
     publicVenueTimeTableToQR,
-    getBookingTableForVenue
+    getBookingTableForVenue,
+    showEligibleVenues
 } = require('../controllers/venue.controller');
 
 const venueRouter = express.Router();
 
 venueRouter.post('/', protect, venueManagerProtect, createVenue);
+venueRouter.get('/eligible/:id', showEligibleVenues);
 venueRouter.get('/', getAllVenues);
 venueRouter.get('/:id', getVenueById);
 venueRouter.get('/manager/:id', getVenuesByManagerId);

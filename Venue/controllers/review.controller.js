@@ -1,13 +1,10 @@
 const Review = require('../models/review.model');
-const Venue = require('../models/venue.model');
 
 const createReview = async (req, res) => {
     try {
-        const venue_id = req.body.venue;
-        const venue = await Venue.findById(venue_id);
-        const venueManager = venue.manager;
-        const count = await Review.countDocuments({ manager: venueManager });
-        const review = await Review.create({ ...req.body, organizer: req.org._id, manager: venueManager, row: count + 1 });
+        const organizer = req.org._id;
+        const count = await Review.countDocuments({ manager: req.body.manager });
+        const review = await Review.create({ ...req.body, organizer: organizer, row: count + 1 });
         res.status(201).json(review);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -49,11 +46,7 @@ const updateReviewById = async (req, res) => {
 const deleteReviewById = async (req, res) => {
     try {
         const { id } = req.params;
-        const review = await Review.findByIdAndUpdate(
-            { _id: id },
-            { isDeleted: true },
-            { new: true, runValidators: true }
-        );
+        const review = await Review.findByIdAndDelete(id);
         if (!review) return res.status(404).json({ message: 'Review not found' });
         res.status(200).json(review);
     } catch (error) {
@@ -72,8 +65,12 @@ const getReviewsByVenueId = async (req, res) => {
 
 const getReviewsByOrganizerId = async (req, res) => {
     try {
-        const id = "";
-        const reviews = await Review.find({ organizer: id });
+        const id = req.params.id;
+        const reviews = await Review.find({ organizer: id })
+            .populate('venue')
+            .populate('manager', 'name')
+            .populate('organizer', 'name')
+            .populate('event');
         res.status(200).json(reviews);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -84,7 +81,8 @@ const getReviewsByVenueManager = async (req, res) => {
     try {
         const reviews = await Review.find({ manager: req.params.id })
             .populate('organizer', 'name')
-            .populate('venue', 'name');
+            .populate('venue', 'name')
+            .populate('event', 'name');
         res.status(200).json(reviews);
     } catch (error) {
         res.status(500).json({ message: error.message });

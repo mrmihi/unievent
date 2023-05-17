@@ -30,6 +30,10 @@ import {
 } from '@mui/icons-material';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import EmailIcon from '@mui/icons-material/Email';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
@@ -69,29 +73,25 @@ const navItems = [
     icon: null,
   },
   {
-    text: 'Speakers',
-    icon: <PeopleIcon />,
+    text: 'All Speakers',
+    icon: <CampaignIcon />,
   },
   {
-    text: 'Sponsors',
-    icon: <PeopleIcon />,
+    text: 'All Sponsors',
+    icon: <CardGiftcardIcon />,
   },
   {
-    text: 'Volunteers',
-    icon: <PeopleIcon />,
+    text: 'All Volunteers',
+    icon: <VolunteerActivismIcon />,
   },
   {
-    text: 'Opportunities',
-    icon: <PeopleIcon />,
+    text: 'Review Management',
+    icon: null,
   },
-    {
-      text: "Review Management",
-      icon: null,
-    },
-    {
-      text: "Venues",
-      icon: <AssignmentIndOutlined />,
-    },
+  {
+    text: 'Venues',
+    icon: <AssignmentIndOutlined />,
+  },
 ];
 
 const Sidebar = ({
@@ -163,8 +163,8 @@ const Sidebar = ({
                     <ListItemButton
                       onClick={() => {
                         if (lcText === 'venues') {
-                          lcText = "venues/reviews"
-                        } 
+                          lcText = 'venues/reviews';
+                        }
                         navigate(`/org/dashboard/${lcText}`);
                         setActive(lcText);
                       }}

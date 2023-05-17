@@ -105,10 +105,20 @@ import FBills from './Finance/scenes/finance/bills';
 import FPayments from './Finance/scenes/finance/payments';
 import FReport from './Finance/scenes/finance/report';
 import FPayPal from 'Finance/scenes/finance/paymentform';
+import FPaymentOptions from 'Finance/scenes/finance/paymentpage';
+import FPrintBill from 'Finance/scenes/finance/printbill';
+
+import AddSpeaker from 'Partners/organizer/speakers/AddSpeaker';
+import UpdateSpeaker from 'Partners/organizer/speakers/UpdateSpeaker';
+import AddSponsor from 'Partners/organizer/sponsors/AddSponsor';
+import UpdateSponsor from 'Partners/organizer/sponsors/UpdateSponsor';
+import UpdateOpportunity from 'Partners/organizer/opportunities/UpdateOpportunity';
+import AddOpportunity from 'Partners/organizer/opportunities/AddOpportunity';
+import VolunteerSchedule from 'Partners/user/volunteer/VolunteerSchedule';
 
 import ULayout from './User/scenes/layout/Layout';
 import UDashboard from './User/scenes/dashboard';
-// import UAllEventView from './User/pages/A';
+
 import UProfilePage from './User/pages/profilePage';
 import ULogin from './User/pages/login';
 import UAllusers from './User/pages/allUsers';
@@ -117,6 +127,9 @@ import UBudgetForm from './User/pages/budgetForm';
 import UBudgetView from './User/pages/budgetView';
 import UserProfileEdit from './User/pages/UserProfileEdit';
 import VenuesReviewsAdd from 'Org/VenueReviews/pages/VenueReviewsAdd';
+import VenuesReviewsUpdate from 'Org/VenueReviews/pages/VenuesReviewsUpdate';
+import AllSpeakers from 'Partners/organizer/speakers/AllSpeakers';
+import AllSponsors from 'Partners/organizer/sponsors/AllSponsors';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -193,7 +206,16 @@ function App() {
                 />
                 <Route path="events-draft" element={<AllEventsTable />} />
                 <Route
+                  path="/org/event/budget/:eventid"
+                  element={<UBudgetForm />}
+                />
+                <Route
+                  path="/org/event/viewBudget/:event_id"
+                  element={<UBudgetView />}
+                />
+                <Route
                   path="/org/dashboard/events/approval/print/:id"
+
                   element={<PrintAll />} />
                 
                 <Route path='/org/event/budget/:eventid' element={<UBudgetForm/>}/> 
@@ -203,7 +225,15 @@ function App() {
                   element={<UBudgetView />}
                 />
 
-                <Route path='/org/dashboard/venues/reviews' element={<VenuesReviewsAdd/>}/> 
+
+                <Route
+                  path="/org/dashboard/venues/reviews"
+                  element={<VenuesReviewsAdd />}
+                />
+                <Route
+                  path="/org/dashboard/venues/reviews/added"
+                  element={<VenuesReviewsUpdate />}
+                />
               </Route>
 
               {/* Staff Dashbaord */}
@@ -229,7 +259,6 @@ function App() {
                   path="/admin/approval/requests"
                   element={<AApproval />}
                 />
-
               </Route>
 
               {/* Event Routes */}
@@ -337,15 +366,53 @@ function App() {
               {/*Partner Routes */}
               <Route element={<OLayout />}>
                 {/* <Route path="/admin/venue/dashboard/*" element={<Navigate to="/admin/venue/dashboard" replace />} /> */}
-                <Route path="/org/dashboard/speakers/" element={<Speaker />} />
-                <Route path="/org/dashboard/sponsors/" element={<Sponsors />} />
                 <Route
-                  path="/org/dashboard/volunteers/"
+                  path="/org/dashboard/speakers/:eventID"
+                  element={<Speaker />}
+                />
+                <Route
+                  path="/org/dashboard/addSpeaker/:eventID"
+                  element={<AddSpeaker />}
+                />
+                <Route
+                  path="/org/dashboard/updateSpeaker/"
+                  element={<UpdateSpeaker />}
+                />
+                <Route
+                  path="/org/dashboard/sponsors/:eventID"
+                  element={<Sponsors />}
+                />
+                <Route
+                  path="/org/dashboard/addSponsor/:eventID"
+                  element={<AddSponsor />}
+                />
+                <Route
+                  path="/org/dashboard/updateSponsor/"
+                  element={<UpdateSponsor />}
+                />
+                <Route
+                  path="/org/dashboard/all volunteers/"
                   element={<Volunteers />}
                 />
                 <Route
-                  path="/org/dashboard/opportunities/"
+                  path="/org/dashboard/opportunities/:eventID"
                   element={<Opportunities />}
+                />
+                <Route
+                  path="/org/dashboard/addOpportunity/:eventID"
+                  element={<AddOpportunity />}
+                />
+                <Route
+                  path="/org/dashboard/updateOpportunity/"
+                  element={<UpdateOpportunity />}
+                />
+                <Route
+                  path="/org/dashboard/all speakers/"
+                  element={<AllSpeakers />}
+                />
+                <Route
+                  path="/org/dashboard/all sponsors/"
+                  element={<AllSponsors />}
                 />
               </Route>
               <Route
@@ -365,12 +432,21 @@ function App() {
                 element={<AppliedOpportunitiesList />}
               />
               <Route
+                path="/event/appliedOpportunities/schedule/:oppID"
+                element={<VolunteerSchedule />}
+              />
+              <Route
                 path="/event/updateVolunteerApplication/:volunteerID"
                 element={<UpdateVolunteerApplication />}
               />
 
               {/* Finance Routes */}
               <Route path="/finance/paypal" element={<FPayPal />} />
+              <Route
+                path="/finance/paymentpage"
+                element={<FPaymentOptions />}
+              />
+              <Route path="/finance/printbill" element={<FPrintBill />} />
               <Route path="*" element={<h1>Page not found!</h1>} />
               <Route path="/admin/finance" element={<FLoginPage />} />
               <Route element={<FLayout />}>
@@ -503,6 +579,7 @@ function App() {
 
               <Route element={<ULayout />}>
 
+
               <Route
                 path="/admin/dashboard"
                 element={<UDashboard />}
@@ -536,6 +613,7 @@ function App() {
                 element={<UserProfileEdit />}
               />
             </Route>
+
 
             </Routes>
           </ThemeProvider>
