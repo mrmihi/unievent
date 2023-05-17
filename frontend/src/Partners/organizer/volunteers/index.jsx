@@ -219,12 +219,6 @@ const Volunteers = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: null,
-        header: 'ID',
-        Cell: ({ row }) => row.index + 1,
-        size: 5,
-      },
-      {
         accessorKey: '_id',
         header: 'ID',
         enableColumnOrdering: false,
