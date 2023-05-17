@@ -305,10 +305,6 @@ function App() {
               {/* Attendee Routes */}
               <Route element={<Layout />}>
                 <Route
-                  path="/"
-                  element={<Navigate to="/attendeemanager/dashboard" replace />}
-                />
-                <Route
                   path="/attendeemanager/dashboard"
                   element={<Dashboard />}
                 />
@@ -320,10 +316,7 @@ function App() {
                   path="/attendeemanager/attendees"
                   element={<Attendees />}
                 />
-                {/* <Route
-                path="/attendeemanager/dataFinalists"
-                element={<DataFinalists />}
-              /> */}
+
                 <Route
                   path="/attendeemanager/overview"
                   element={<Overview />}
