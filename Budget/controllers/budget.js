@@ -4,30 +4,24 @@ const Budget = require('../models/budget.models');
 //create budget
 const createBudget = async (req, res) => {
     try {
-        const { organizationName,eventName,income, expenses} = req.body // get income, expenses, categories from request body
-        // const createdBy = req.user._id//get user id from request
-
+        const { name, amount, categories} = req.body //get name, email, password and mobile from request body
+        const createdBy = req.user._id//get user id from request
         const budget = await Budget.create(
             {
-                income,
-                expenses,
-                // createdBy,
-                organizationName,
-                eventName
-
+                name,
+                amount,
+                categories,
+                createdBy
             }
         )
         if (budget) {
             res.status(201).json({
                 _id: budget._id,
-                income: budget.income,
-                expenses: budget.expenses,
-                // createdBy: budget.createdBy,
-                organizationName: budget.organizationName,
-                eventName: budget.eventName,
-                createdDate: budget.createdDate,
-                totalIncome: budget.totalIncome,
-                totalExpenses: budget.totalExpenses
+                name: budget.name,
+                amount: budget.amount,
+                categories: budget.categories,
+                createdBy: budget.createdBy,
+                createdAt: budget.createdAt
             })
         } else {
             res.status(400).json({ message: 'Invalid budget data' })
@@ -41,7 +35,7 @@ const createBudget = async (req, res) => {
 //get all budgets
 const getAllBudgets = async (req, res) => {
     try {
-        const budgets = await Budget.find({})
+        const budgets = await Budget.find({ createdBy: req.user._id })
         if (budgets) {
             res.status(200).json(budgets)
         } else {
@@ -121,31 +115,11 @@ const deleteBudget = async (req, res) => {
 }
 
 
-//delete all budgets
-const deleteAllBudgets = async (req, res) => {
-    try{
-        const budgets = await Budget.deleteMany({})//delete all users
-
-        if(!budgets){
-            return res.status(404).json({message: 'Budgets not found'})
-        }//if user is not deleted
-        else{
-            res.status(200).json({message: 'Budgets deleted successfully'})
-        }
-        
-    }catch(error){
-        res.status(500).json({message: error.message})
-    }
-}
-
-
-
 
 module.exports = {
     createBudget,
     getAllBudgets,
     getBudgetById,
     updateBudget,
-    deleteBudget,
-    deleteAllBudgets
+    deleteBudget
 }//export all functions

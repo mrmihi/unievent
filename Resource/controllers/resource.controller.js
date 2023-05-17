@@ -31,15 +31,6 @@ const getResourceById = async (req, res) => {
   });
 };
 
-// const getResourceById = async (req, res) => {
-//   try {
-//     const Resource = await Resource.findById(req.params.id);
-//     res.status(200).json(Resource);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// };
-
 const getAllResources = async (req, res) => {
   const resources = await Resource.find({});
   res.json(resources);

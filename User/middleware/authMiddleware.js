@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const protect = async (req, res, next) => {
   let token; //get token from header
- 
+
   //check if token is present
   if (
     req.headers.authorization &&
@@ -28,7 +28,6 @@ const protect = async (req, res, next) => {
     res.status(401).json({ message: 'Not authorized, no token' });
   } //if token is not present
 }; //protect
-
 
 //check if user is admin
 const adminProtect = async (req, res, next) => {

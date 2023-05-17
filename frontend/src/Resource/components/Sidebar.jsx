@@ -46,14 +46,6 @@ const navItems = [
     text: 'Resources',
     icon: <FeedbackIcon />,
   },
-  {
-    text: 'Reservations',
-    icon: <FeedbackIcon />,
-  },
-  {
-    text: 'Supplier Details',
-    icon: <FeedbackIcon />,
-  },
   //   {
   //     text: "Attendees",
   //     icon: <Groups2Outlined />,

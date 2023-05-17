@@ -40,7 +40,6 @@ import RDashboard from './Resource/scenes/dashboard';
 import ResourcesTable from './Resource/tables/allResources';
 import PageNotFound from './Events/pages/PageNotFound.jsx';
 import AllResourcesView from 'Resource/pages/AllResourcesView';
-import AddReservation from 'Resource/views/AddReservation';
 
 import Speaker from 'Partners/organizer/speakers';
 import Sponsors from 'Partners/organizer/sponsors';
@@ -68,23 +67,15 @@ import VAddVenue from 'Venue/src/scenes/venue/add-venue';
 import VVenuePage from 'Venue/src/scenes/venue/edit-venue-page';
 import VVenueProfile from 'Venue/src/scenes/venue/venue-profile';
 
-import ALayout from 'Approval/src/scenes/layout';
-import ADashboard from 'Approval/src/scenes/dashboard';
-import ALoginPage from 'Approval/src/scenes/login';
-import AApproval from 'Approval/src/scenes/approvalRequests';
-import AApprovalRequests from 'Approval/src/scenes/allApprovalRequests';
-import AAppointmentRequests from 'Approval/src/scenes/appointmentRequests';
-import AAppointments from 'Approval/src/scenes/upcomingAppointments';
-
 import EventManagerView from 'Approval/pages/EventManagerView';
 import ApprovalMain from 'Approval/pages/ApprovalMain';
 import Staffs from 'Approval/pages/Staffs';
 import Admins from 'Approval/pages/Admins';
+import ApprovalRequestMain from 'Approval/pages/ApprovalRequestMain.jsx';
+import ApprovalEdit from 'Approval/pages/ApprovalEdit.jsx';
 import RequestAppointment from 'Approval/pages/RequestAppointment.jsx';
+import ApprovalCreate from 'Approval/pages/ApprovalCreate';
 import PrintAll from 'Approval/pages/PrintAll';
-import ApprovalRequestMain from 'Approval/pages/Old/ApprovalRequestMain.jsx';
-import ApprovalCreate from 'Approval/pages/Old/ApprovalCreate';
-import ApprovalEdit from 'Approval/pages/Old/ApprovalEdit.jsx';
 
 import VAppointments from 'Venue/src/scenes/venue/appointments';
 import VAllBookings from 'Venue/src/scenes/venue/all-bookings';
@@ -92,7 +83,6 @@ import VBookings from 'Venue/src/scenes/venue/booking';
 import VVenueListPage from 'Venue/AddVenue/pages/VVenueListPage';
 import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
 import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
-import PublicVenueTable from 'Venue/PublicVenueTable';
 
 import FLayout from './Finance/scenes/layout';
 import FDashboard from 'Finance/scenes/dashboard';
@@ -111,19 +101,6 @@ import UpdateSponsor from 'Partners/organizer/sponsors/UpdateSponsor';
 import UpdateOpportunity from 'Partners/organizer/opportunities/UpdateOpportunity';
 import AddOpportunity from 'Partners/organizer/opportunities/AddOpportunity';
 import VolunteerSchedule from 'Partners/user/volunteer/VolunteerSchedule';
-
-import ULayout from './User/scenes/layout/Layout';
-import UDashboard from './User/scenes/dashboard';
-import UAllEventView from './User/pages/AllEventView';
-import UProfilePage from './User/pages/profilePage';
-import ULogin from './User/pages/login';
-import UAllusers from './User/pages/allUsers';
-import USignUp from './User/pages/signUp';
-import UBudgetForm from './User/pages/budgetForm';
-import UBudgetView from './User/pages/budgetView';
-import UserProfileEdit from './User/pages/UserProfileEdit';
-import VenuesReviewsAdd from 'Org/VenueReviews/pages/VenueReviewsAdd';
-import VenuesReviewsUpdate from 'Org/VenueReviews/pages/VenuesReviewsUpdate';
 
 function App() {
   // const mode = useSelector((state) => state.global.mode);
@@ -149,7 +126,6 @@ function App() {
 
             <Routes>
               {/* Approval Routes */}
-              {/* Org Dashbaord  */}
               <Route element={<OLayout />}>
                 <Route
                   path="org/dashboard/events/:id"
@@ -177,63 +153,6 @@ function App() {
                   path="appointment/:id"
                   element={<RequestAppointment />}
                 />
-
-                <Route
-                  path="/org/dashboard/events/:id"
-                  element={<EventManagerView />}
-                />
-                <Route
-                  path="/org/dashboard/events/approval/:id"
-                  element={<ApprovalMain />}
-                />
-                <Route
-                  path="/org/dashboard/staff/list/:id"
-                  element={<Staffs />}
-                />
-                <Route
-                  path="/org/dashboard/admin/list/:id"
-                  element={<Admins />}
-                />
-                <Route
-                  path="/org/dashboard/approval/appointment/:id"
-                  element={<RequestAppointment />}
-                />
-                <Route path="events-draft" element={<AllEventsTable />} />
-                <Route
-                  path="/org/dashboard/events/approval/print/:id"
-                  element={<PrintAll />} />
-                {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
-                <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
-                <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
-              <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
-
-                <Route path='/org/dashboard/venues/reviews' element={<VenuesReviewsAdd/>}/> 
-                <Route path='/org/dashboard/venues/reviews/added' element={<VenuesReviewsUpdate/>}/>
-              </Route>
-
-              {/* Staff Dashbaord */}
-              <Route path="/admin" element={<ALoginPage />} />
-              <Route element={<ALayout />}>
-                <Route
-                  path="/admin/dashboard/*"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
-                <Route path="/admin/dashboard" element={<ADashboard />} />
-
-                <Route
-                  path="/admin/appointment/requests"
-                  element={<AAppointmentRequests />}
-                />
-                <Route path="/admin/appointments" element={<AAppointments />} />
-                <Route
-                  path="/admin/approvals"
-                  element={<AApprovalRequests />}
-                />
-                <Route
-                  path="/admin/approval/requests"
-                  element={<AApproval />}
-                />
-
               </Route>
 
               {/* Event Routes */}
@@ -252,6 +171,7 @@ function App() {
                   path="/org/dashboard/*"
                   element={<Navigate to="/org/dashboard" replace />}
                 />
+
                 <Route path="/org/dashboard" element={<ODashboard />} />
                 <Route
                   path="/org/dashboard/events"
@@ -277,52 +197,36 @@ function App() {
 
               {/* Attendee Routes */}
               <Route element={<Layout />}>
-                <Route
-                  path="/administrator/dashboard"
-                  element={<Dashboard />}
-                />
-                <Route
-                  path="/administrator/feedBacks"
-                  element={<FeedBacks />}
-                />
-                <Route
-                  path="/administrator/attendees"
-                  element={<Attendees />}
-                />
-                <Route
-                  path="/administrator/dataFinalists"
-                  element={<DataFinalists />}
-                />
-                <Route path="/administrator/overview" element={<Overview />} />
-                <Route path="/administrator/daily" element={<Daily />} />
-                <Route path="/administrator/monthly" element={<Monthly />} />
-                <Route
-                  path="/administrator/breakdown"
-                  element={<Breakdown />}
-                />
-                <Route
-                  path="/administrator/rsvpemail"
-                  element={<RSVPEMAIL />}
-                />
-                <Route
-                  path="/administrator/administrator"
-                  element={<Administrator />}
-                />
-                <Route
-                  path="/administrator/attendeeStatus"
-                  element={<AttendeeStatus />}
-                />
+              <Route
+                path="/"
+                element={<Navigate to="/attendeemanager/dashboard" replace />}
+              />
+              <Route path="/attendeemanager/dashboard" element={<Dashboard />} />
+              <Route path="/attendeemanager/feedBacks" element={<FeedBacks />} />
+              <Route path="/attendeemanager/attendees" element={<Attendees />} />
+              {/* <Route
+                path="/attendeemanager/dataFinalists"
+                element={<DataFinalists />}
+              /> */}
+              <Route path="/attendeemanager/overview" element={<Overview />} />
+              <Route path="/attendeemanager/daily" element={<Daily />} />
+              <Route path="/attendeemanager/monthly" element={<Monthly />} />
+              <Route path="/attendeemanager/breakdown" element={<Breakdown />} />
+              <Route path="/attendeemanager/rsvpemail" element={<RSVPEMAIL />} />
+              <Route
+                path="/attendeemanager/administrator"
+                element={<Administrator />}
+              />
+              <Route
+                path="/attendeemanager/attendeeStatus"
+                element={<AttendeeStatus />}
+                // path="/event/opportunity/:opportunityID"
+                // element={<OpportunityDetails />}
+              />
               </Route>
 
               {/* Resource Routes */}
-              <Route
-                path="/resources/:eid/reservation"
-                element={<AllResourcesView />}
-              />
-              <Route
-                path="/resource/:rid/reservation/:eid"
-                element={<AddReservation />}
-              />
+              <Route path="/admin/resources" element={<AllResourcesView />} />
               <Route element={<RLayout />}>
                 <Route
                   path="/admin/resources/dashboard/*"
@@ -337,6 +241,7 @@ function App() {
                   element={<ResourcesTable />}
                 />
               </Route>
+              <Route path="*" element={<PageNotFound />} />
 
               {/*Partner Routes */}
               <Route element={<OLayout />}>
@@ -380,10 +285,7 @@ function App() {
                 path="/event/opportunities/"
                 element={<OpportunitiesList />}
               />
-              <Route
-                path="/event/opportunity/:opportunityID"
-                element={<OpportunityDetails />}
-              />
+       
               <Route
                 path="/applyAsAVolunteer/:opportunityID"
                 element={<OpportunityRegister />}
@@ -521,33 +423,6 @@ function App() {
                     element={<h1>payment page</h1>}
                   />
                 </Route>
-              </Route>
-
-              {/* public venue time table page */}
-              <Route
-                path="/venue/timetable/:id"
-                element={<PublicVenueTable />}
-              />
-
-              {/*User Routes */}
-
-              <Route path="/" element={<ULogin />} />
-
-              <Route element={<ULayout />}>
-                <Route path="/admin/dashboard" element={<UDashboard />} />
-                <Route path="/admin/event" element={<UAllEventView />} />
-                <Route path="/admin/allUsers" element={<UAllusers />} />
-                <Route path="/admin/register" element={<USignUp />} />
-                <Route path="/admin/event/budget" element={<UBudgetForm />} />
-                <Route path="/admin/profile" element={<UProfilePage />} />
-                <Route
-                  path="/admin/event/budget/view"
-                  element={<UBudgetView />}
-                />
-                <Route
-                  path="/admin/profile/edit"
-                  element={<UserProfileEdit />}
-                />
               </Route>
             </Routes>
           </ThemeProvider>

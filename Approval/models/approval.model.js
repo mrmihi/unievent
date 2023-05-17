@@ -12,7 +12,6 @@ const eventApprovalSchema = new Schema({
     budget_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
     admin_approval: { type: Schema.Types.ObjectId, ref: 'Approval_Request' },
     status: { type: String, enum : enums.EVENT_APPROVAL_STATUS, required: true},
-    history : [{type : String}]
 },{
     timestamps: true,
 });
