@@ -25,6 +25,7 @@ import { Dayjs } from 'dayjs';
 import EventPDF from '../pdf/EventPDF';
 import { ToastContainer, toast } from 'react-toastify';
 import '../styles/swalz.css';
+import Cookies from 'js-cookie';
 
 const OrgView = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -35,10 +36,13 @@ const OrgView = () => {
   const navigate = useNavigate();
   const { id: eventId } = useParams();
 
+  const orgId = Cookies.get('org_id');
+
+  console.log('orgId', orgId);
   // GET method
   const getEventData = async () => {
     try {
-      const response = await axios.get(`/api/events`);
+      const response = await axios.get(`/api/events/byorg/${orgId}`);
       setTableData(response.data);
     } catch (error) {
       console.log(error);
