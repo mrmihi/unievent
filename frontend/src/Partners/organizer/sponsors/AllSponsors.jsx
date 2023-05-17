@@ -19,27 +19,24 @@ import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import FlexBetween from '../../components/FlexBetween';
 import Header from '../../components/Header';
-import SpeakerPDF from '../../pdf/SpeakerPDF';
-import moment from 'moment';
+import SponsorPDF from '../../pdf/SponsorPDF';
 
-const Speaker = () => {
+const AllSponsors = () => {
   const { eventID } = useParams();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [serverSuccessMessage, setServerSuccessMessage] = useState('');
+
   const navigate = useNavigate();
 
   // let { eventID } = useParams();
   // eventID = eventID.toString();
-  // const eventID = '643e6ca96030148f194b771d';
 
   const getRegisteredData = async () => {
     try {
-      const response = await axios.get(`/api/partners/speakers/${eventID}`);
-      console.log(eventID);
-      console.log(response);
+      const response = await axios.get(`/api/partners/sponsors/`);
       console.log(response.data.data);
       setTableData(response.data.data);
     } catch (error) {
@@ -61,7 +58,7 @@ const Speaker = () => {
   //   tableData.push(values);
   //   try {
   //     await axios
-  //       .post(` api/partners/speakers`, values)
+  //       .post(` /api/partners/sponsors`, values)
   //       .then((response) => {
   //         setServerSuccessMessage(response.data.message);
   //         if (serverSuccessMessage !== "") {
@@ -77,28 +74,26 @@ const Speaker = () => {
   // };
 
   const handleCreateNewRow = async (values) => {
-    const newValues = {
-      ...values,
-      eventID: `${eventID}`,
-      organizationID: '642e4928973a5984d960f4bc',
-    };
-    tableData.push(newValues);
-    setTableData([...tableData]);
-    try {
-      const response = await axios.post(`/api/partners/speakers`, newValues);
-      console.log(response);
-      setServerSuccessMessage(response.data.message);
-      if (serverSuccessMessage !== '') {
-        Swal.fire('', response.data.message, 'success');
+    if (!Object.keys(validationErrors).length) {
+      const newValues = {
+        ...values,
+        eventID: `${eventID}`,
+        organizationID: '642e4928973a5984d960f4bc',
+      };
+      tableData.push(newValues);
+      setTableData([...tableData]);
+      try {
+        const response = await axios.post(`/api/partners/sponsors`, newValues);
+        console.log(response);
+        setServerSuccessMessage(response.data.message);
+      } catch (error) {
+        setServerErrorMessage(error.response.data.message);
       }
-    } catch (error) {
-      setServerErrorMessage(error.response.data.message);
     }
   };
 
   //save updates
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
-    console.log(row);
     console.log(values);
     if (!Object.keys(validationErrors).length) {
       const newValues = {
@@ -109,12 +104,14 @@ const Speaker = () => {
       tableData[row.index] = newValues;
       try {
         const response = await axios.put(
-          `/api/partners/speakers/${newValues._id}`,
+          ` /api/partners/sponsors/${newValues._id}`,
           newValues
         );
         setServerSuccessMessage(response.data.message);
         if (serverSuccessMessage !== '') {
-          Swal.fire('', response.data.message, 'success');
+          Swal.fire('', response.data.message, 'success').then(() =>
+            navigate('/volunteerOpportunities')
+          );
         }
       } catch (error) {
         setServerErrorMessage(error.response.data.message);
@@ -144,15 +141,15 @@ const Speaker = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           axios
-            .delete(`/api/partners/speakers/${row.getValue('_id')}`)
+            .delete(` /api/partners/sponsors/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Speaker`, 'success');
+              Swal.fire('Deleted!', `Deleted The Sponsor`, 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);
             })
             .catch((error) => {
-              Swal.fire('', 'Failed to Delete The Speaker', 'error');
+              Swal.fire('', 'Failed to Delete The Sponsor.', 'error');
               console.log(error);
             });
         }
@@ -214,6 +211,7 @@ const Speaker = () => {
         id: 'fullName', //id is still required when using accessorFn instead of accessorKey
         header: 'Full Name',
         size: 250,
+
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
@@ -228,7 +226,7 @@ const Speaker = () => {
             <img
               alt="avatar"
               height={30}
-              src={row.original.speakerImage}
+              src={row.original.sponsorImage}
               loading="lazy"
               style={{ borderRadius: '50%', height: '50px' }}
             />{' '}
@@ -239,14 +237,8 @@ const Speaker = () => {
       },
 
       {
-        accessorFn: (row) => {
-          console.log(row.sessionTime);
-          const time = moment(`${row.sessionTime}`);
-          const formattedTime = time.format('HH:mm A');
-          return formattedTime;
-        },
-        accessorKey: 'sessionTime',
-        header: 'Session Time',
+        accessorKey: 'packageType',
+        header: 'Package Type',
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -260,17 +252,9 @@ const Speaker = () => {
           type: 'email',
         }),
       },
-      {
-        accessorKey: 'contactNo',
-        header: 'Contact Number',
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: 'text',
-        }),
-      },
       // {
-      //   accessorKey: 'speakerImage',
-      //   header: 'SpeakerImage',
+      //   accessorKey: 'sponsorImage',
+      //   header: 'Sponsor Image',
       //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
       //     ...getCommonEditTextFieldProps(cell),
       //     type: 'text',
@@ -285,7 +269,7 @@ const Speaker = () => {
       <Box>
         <div className="mb-10">
           <FlexBetween>
-            <Header title="Speakers" subtitle="Welcome!" />
+            <Header title="Sponsors" subtitle="Welcome!" />
           </FlexBetween>
         </div>
       </Box>
@@ -300,7 +284,7 @@ const Speaker = () => {
         }}
         columns={columns}
         data={tableData}
-        initialState={{ columnVisibility: { speakerImage: false } }}
+        initialState={{ columnVisibility: { sponsorImage: false } }}
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing
@@ -311,9 +295,8 @@ const Speaker = () => {
             <Tooltip arrow placement="left" title="Edit">
               <IconButton
                 onClick={() => {
-                  console.log(row.original);
-                  navigate('/org/dashboard/updateSpeaker/', {
-                    state: { speaker: row.original },
+                  navigate('/org/dashboard/updateSponsor/', {
+                    state: { sponsor: row.original },
                   });
                 }}
               >
@@ -333,12 +316,14 @@ const Speaker = () => {
               <Button
                 sx={{ marginRight: '5px' }}
                 color="primary"
-                onClick={() => navigate(`/org/dashboard/addSpeaker/${eventID}`)}
+                onClick={() => {
+                  navigate(`/org/dashboard/addSponsor/${eventID}`);
+                }}
                 variant="contained"
               >
-                ADD A SPEAKER
+                ADD A SPONSOR
               </Button>
-              <SpeakerPDF tableData={tableData} />
+              <SponsorPDF tableData={tableData} />
             </div>
           </>
         )}
@@ -353,7 +338,7 @@ const Speaker = () => {
   );
 };
 
-//SponsorView of creating a mui dialog modal for creating new rows
+//Sponsors of creating a mui dialog modal for creating new rows
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
@@ -385,7 +370,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
           const imageUrl = response.data.secure_url;
           setValues({
             ...values,
-            speakerImage: imageUrl,
+            sponsorImage: imageUrl,
           });
         })
         .catch((error) => {
@@ -397,7 +382,6 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   useEffect(() => {
     uploadImage();
   }, [imageSelected]);
-
   return (
     <Dialog open={open}>
       <DialogTitle textAlign="center">Create New Account</DialogTitle>
@@ -442,8 +426,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
               }
             })}
             <TextField
-              key="speakerImage"
-              name="speakerImage"
+              key="sponsorImage"
+              label="Sponsor Image"
+              name="sponsorImage"
               type="file"
               onChange={(e) => {
                 setImageSelected(e.target.files[0]);
@@ -457,8 +442,13 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
       </DialogContent>
       <DialogActions sx={{ p: '1.25rem' }}>
         <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSubmit} variant="contained">
-          ADD THE SPEAKER
+        <Button
+          onClick={() => {
+            handleSubmit();
+          }}
+          variant="contained"
+        >
+          ADD THE SPONSOR
         </Button>
       </DialogActions>
     </Dialog>
@@ -475,4 +465,4 @@ const validateEmail = (email) =>
     );
 const validateAge = (age) => age >= 18 && age <= 50;
 
-export default Speaker;
+export default AllSponsors;

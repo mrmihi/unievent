@@ -32,6 +32,9 @@ import EmailIcon from '@mui/icons-material/Email';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 const navItems = [
   {
@@ -44,49 +47,19 @@ const navItems = [
   },
   {
     text: 'Resources',
-    icon: <FeedbackIcon />,
+    icon: <WidgetsIcon />,
   },
-  //   {
-  //     text: "Attendees",
-  //     icon: <Groups2Outlined />,
-  //   },
-  //   {
-  //     text: "DataFinalists",
-  //     icon: <ReceiptLongOutlined />,
-  //   },
 
-  //   {
-  //     text: "Venue Management",
-  //     icon: null,
-  //   },
-  //   {
-  //     text: "Overview",
-  //     icon: <PointOfSaleOutlined />,
-  //   },
-  //   {
-  //     text: "Daily",
-  //     icon: <TodayOutlined />,
-  //   },
-  //   {
-  //     text: "Monthly",
-  //     icon: <CalendarMonthOutlined />,
-  //   },
-  //   {
-  //     text: "Breakdown",
-  //     icon: <PieChartOutlined />,
-  //   },
-  //   {
-  //     text: "Resource Management",
-  //     icon: null,
-  //   },
-  //   {
-  //     text: "Administrator",
-  //     icon: <AdminPanelSettingsOutlined />,
-  //   },
-  //   {
-  //     text: "AttendeeStatus",
-  //     icon: <AssignmentIndOutlined />,
-  //   },
+  {
+    text: 'Reservations',
+    icon: <CheckBoxIcon />,
+  },
+  {
+    text: 'Supplier Details',
+    icon: <LocalShippingIcon />,
+  },
+
+
 ];
 
 const Sidebar = ({

@@ -22,7 +22,7 @@ import Header from '../../components/Header';
 import SpeakerPDF from '../../pdf/SpeakerPDF';
 import moment from 'moment';
 
-const Speaker = () => {
+const AllSpeakers = () => {
   const { eventID } = useParams();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
@@ -37,7 +37,7 @@ const Speaker = () => {
 
   const getRegisteredData = async () => {
     try {
-      const response = await axios.get(`/api/partners/speakers/${eventID}`);
+      const response = await axios.get(`/api/partners/speakers/`);
       console.log(eventID);
       console.log(response);
       console.log(response.data.data);
@@ -475,4 +475,4 @@ const validateEmail = (email) =>
     );
 const validateAge = (age) => age >= 18 && age <= 50;
 
-export default Speaker;
+export default AllSpeakers;

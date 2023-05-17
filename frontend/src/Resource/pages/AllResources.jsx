@@ -18,6 +18,16 @@ import { Link } from 'react-router-dom';
 import resourcesService from '../resources.service';
 import { useState, useEffect } from 'react';
 
+import { useNavigate, useParams } from 'react-router-dom';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+// import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+// import DirectionsIcon from '@mui/icons-material/Directions';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -33,6 +43,27 @@ function Copyright() {
 
 const theme = createTheme();
 
+const CustomizedInputBase = (props) => {
+  return (
+    <Paper
+      component="form"
+      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+    >
+      <InputBase
+        sx={{ ml: 1, flex: 1 }}
+        placeholder="Search Events."
+        inputProps={{ 'aria-label': 'search events' }}
+        value={props.keyword}
+        onChange={props.handleKeywordChange}
+      />
+      <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+        <SearchIcon />
+      </IconButton>
+      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+    </Paper>
+  );
+};
+
 export default function AllResources({ resources }) {
   return (
     <ThemeProvider theme={theme}>
@@ -40,9 +71,9 @@ export default function AllResources({ resources }) {
 
       <AppBar position="relative">
         <Toolbar>
-          <CameraIcon sx={{ mr: 2 }} />
+          <ShoppingBagIcon sx={{ mr: 2 }} />
           <Typography variant="h6" color="inherit" noWrap>
-            Events
+            Resources
           </Typography>
         </Toolbar>
       </AppBar>
@@ -67,20 +98,51 @@ export default function AllResources({ resources }) {
                       pt: '0%',
                     }}
                     image={resource.image_url}
-                    alt="random"
+                    alt="resource"
                   />
-
+                  
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {resource.name}
                     </Typography>
-                    <Typography>Quantity : {resource.quantity}</Typography>
-                    <Typography>
+                    {/* <Typography>Quantity : {resource.quantity}</Typography> */}
+                    {/* <Typography>
                       Available Quantity : {resource.availableQty}
-                    </Typography>
+
+                    </Typography> */}
+
+                      <div className="items-center justify-center">
+                        <Button
+                          variant="contained"
+                          className="w-full"
+                          component={Link}
+                          to={`/resource/${resource._id}/reservation/${eid}`}
+                        >
+                          Reserve
+                        </Button>
+                      </div>
+            
                   </CardContent>
+                  
                 </Card>
+                
+                {/* <div
+                      className="mt-5 w-3/4"
+                      style={{ marginTop: '-6rem', marginBottom: '3.5rem' }}
+                    >
+                      <Button
+                        variant="contained"
+                        className="w-full"
+                        style={{ marginTop: '1rem'}}
+                        component={Link}
+                        to={`/resource/${resource._id}/reservation/${eid}`}
+                      >
+                        Reserve
+                      </Button>
+                    </div> */}
+
               </Grid>
+              
             ))}
           </Grid>
         </Container>
