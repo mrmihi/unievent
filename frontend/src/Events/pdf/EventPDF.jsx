@@ -32,7 +32,7 @@ const EventPDF = ({ tableData }) => {
   return (
     <div>
       <Button
-        color="secondary"
+        //color="secondary"
         onClick={() => {
           exportPDF(tableData);
         }}

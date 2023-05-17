@@ -28,6 +28,7 @@ import moment from 'moment';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import OpportunityPDF from '../../pdf/OpportunityPDF';
 const Opportunities = () => {
+  const { eventID } = useParams();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -38,7 +39,6 @@ const Opportunities = () => {
 
   // let { eventID } = useParams();
   // eventID = eventID.toString();
-  const eventID = '643e6ca96030148f194b771d';
 
   const getRegisteredData = async () => {
     try {
@@ -303,12 +303,18 @@ const Opportunities = () => {
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing
-        onEditingRowSave={handleSaveRowEdits}
-        onEditingRowCancel={handleCancelRowEdits}
+        // onEditingRowSave={handleSaveRowEdits}
+        // onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: 'flex', gap: '1rem' }}>
             <Tooltip arrow placement="left" title="Edit">
-              <IconButton onClick={() => table.setEditingRow(row)}>
+              <IconButton
+                onClick={() =>
+                  navigate('/org/dashboard/updateOpportunity/', {
+                    state: { opportunity: row.original },
+                  })
+                }
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -325,10 +331,12 @@ const Opportunities = () => {
               <Button
                 sx={{ marginRight: '5px' }}
                 color="primary"
-                onClick={() => setCreateModalOpen(true)}
+                onClick={() =>
+                  navigate(`/org/dashboard/addOpportunity/${eventID}`)
+                }
                 variant="contained"
               >
-                ADD A Opportunity
+                ADD An Opportunity
               </Button>
               <OpportunityPDF tableData={tableData} />
             </div>

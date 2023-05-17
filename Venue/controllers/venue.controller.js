@@ -147,6 +147,20 @@ const getBookingTableForVenue = async (req, res) => {
   }
 };
 
+const showEligibleVenues = async (req, res) => {
+  const orgId = req.params.id;
+  try {
+      const bookings = await Booking.find({ organizer: orgId, booking_status: 'approved', payment_status: 'completed', review: 'false' })
+      .select('-review')
+      .populate('venue')
+      .populate('event', 'name')
+      .populate('organizer', 'name');
+      res.status(200).json(bookings);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createVenue,
   getAllVenues,
@@ -157,4 +171,5 @@ module.exports = {
   getVenueAndReviews,
   publicVenueTimeTableToQR,
   getBookingTableForVenue,
+  showEligibleVenues
 };

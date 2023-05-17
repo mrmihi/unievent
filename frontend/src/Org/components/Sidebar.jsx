@@ -26,12 +26,22 @@ import {
   TrendingUpOutlined,
   PieChartOutlined,
   AssignmentIndOutlined,
+  People,
 } from '@mui/icons-material';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import EmailIcon from '@mui/icons-material/Email';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
+import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import TodayIcon from '@mui/icons-material/Today';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import PeopleIcon from '@mui/icons-material/People';
 
 const navItems = [
   {
@@ -43,74 +53,45 @@ const navItems = [
     icon: null,
   },
   {
-    text: 'Event Form',
-    icon: <FeedbackIcon />,
+    text: 'Events',
+    icon: <EmojiEventsIcon />,
   },
   {
-    text: 'Events',
-    icon: <FeedbackIcon />,
+    text: 'Public Events',
+    icon: <TheaterComedyIcon />,
+  },
+  {
+    text: 'Event Form',
+    icon: <InsertDriveFileIcon />,
+  },
+  {
+    text: 'Event Calendar',
+    icon: <TodayIcon />,
   },
   {
     text: 'Partner Management',
     icon: null,
   },
   {
-    text: 'Speakers',
-    icon: <FeedbackIcon />,
+    text: 'All Speakers',
+    icon: <CampaignIcon />,
   },
   {
-    text: 'Sponsors',
-    icon: <FeedbackIcon />,
+    text: 'All Sponsors',
+    icon: <CardGiftcardIcon />,
   },
   {
-    text: 'Volunteers',
-    icon: <FeedbackIcon />,
+    text: 'All Volunteers',
+    icon: <VolunteerActivismIcon />,
   },
   {
-    text: 'Opportunities',
-    icon: <FeedbackIcon />,
+    text: 'Review Management',
+    icon: null,
   },
-  //   {
-  //     text: "Attendees",
-  //     icon: <Groups2Outlined />,
-  //   },
-  //   {
-  //     text: "DataFinalists",
-  //     icon: <ReceiptLongOutlined />,
-  //   },
-
-  //   {
-  //     text: "Venue Management",
-  //     icon: null,
-  //   },
-  //   {
-  //     text: "Overview",
-  //     icon: <PointOfSaleOutlined />,
-  //   },
-  //   {
-  //     text: "Daily",
-  //     icon: <TodayOutlined />,
-  //   },
-  //   {
-  //     text: "Monthly",
-  //     icon: <CalendarMonthOutlined />,
-  //   },
-  //   {
-  //     text: "Breakdown",
-  //     icon: <PieChartOutlined />,
-  //   },
-  //   {
-  //     text: "Resource Management",
-  //     icon: null,
-  //   },
-  //   {
-  //     text: "Administrator",
-  //     icon: <AdminPanelSettingsOutlined />,
-  //   },
-  //   {
-  //     text: "AttendeeStatus",
-  //     icon: <AssignmentIndOutlined />,
-  //   },
+  {
+    text: 'Venues',
+    icon: <AssignmentIndOutlined />,
+  },
 ];
 
 const Sidebar = ({
@@ -175,12 +156,15 @@ const Sidebar = ({
                     </Typography>
                   );
                 }
-                const lcText = text.toLowerCase();
+                let lcText = text.toLowerCase();
 
                 return (
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
+                        if (lcText === 'venues') {
+                          lcText = 'venues/reviews';
+                        }
                         navigate(`/org/dashboard/${lcText}`);
                         setActive(lcText);
                       }}
