@@ -25,7 +25,7 @@ userRouter.delete('/:id',deleteUser);//delete user
 userRouter.put('/:id', updateUser);//update user
 
 
-userRouter.get('/:id', getUserByID);//get user by id
+userRouter.get('/:id', getUserById);//get user by id
 
 
 module.exports = userRouter;

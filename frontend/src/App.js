@@ -95,30 +95,6 @@ import VVenueBook from 'Venue/AddVenue/pages/VVenueBook';
 import VViewVenueProfile from 'Venue/AddVenue/pages/VViewVenueProfile';
 import PublicVenueTable from 'Venue/PublicVenueTable';
 
-import { EventForm } from 'Events/scenes/EventForm';
-
-import FLayout from "./Finance/scenes/layout";
-import FDashboard from "Finance/scenes/dashboard";
-import FOverview from "Finance/scenes/finance/overview";
-import FLoginPage from "Finance/scenes/login";
-import FRefunds from "Finance/scenes/finance/refunds";
-import FTable from "./Finance/scenes/finance/table";
-import FBills from "./Finance/scenes/finance/bills";
-import FPayments from "./Finance/scenes/finance/payments";
-import FReport from "./Finance/scenes/finance/report";
-import FPayPal from "Finance/scenes/finance/paymentform";
-
-import ULayout from "./User/scenes/layout/Layout";
-import UDashboard from "./User/scenes/dashboard";
-import UAllEventView from "../src/Events/AllEvents";
-import UProfilePage from "./User/pages/profilePage";
-import ULogin from "./User/pages/login";
-import UAllusers from "./User/pages/allUsers";
-import USignUp from "./User/pages/signUp";
-import UBudgetForm from "./User/pages/budgetForm";
-import UBudgetView from "./User/pages/budgetView";
-import UserProfileEdit from "./User/pages/UserProfileEdit";
-
 import FLayout from './Finance/scenes/layout';
 import FDashboard from 'Finance/scenes/dashboard';
 import FOverview from 'Finance/scenes/finance/overview';
@@ -132,7 +108,7 @@ import FPayPal from 'Finance/scenes/finance/paymentform';
 
 import ULayout from './User/scenes/layout/Layout';
 import UDashboard from './User/scenes/dashboard';
-import UAllEventView from './User/pages/AllEventView';
+// import UAllEventView from './User/pages/A';
 import UProfilePage from './User/pages/profilePage';
 import ULogin from './User/pages/login';
 import UAllusers from './User/pages/allUsers';
@@ -219,10 +195,13 @@ function App() {
                 <Route
                   path="/org/dashboard/events/approval/print/:id"
                   element={<PrintAll />} />
-                {/* <Route path="approval/create/:id" element={<ApprovalCreate />} />
-                <Route path="approval/request/:id" element={<ApprovalRequestMain />} /> 
-                <Route path="/org/dashboard/events/approval/print/:id" element={<PrintAll />} />
-              <Route path="approval/r/appointment/:id" element={<RequestAppointment />} /> */}
+                
+                <Route path='/org/event/budget/:eventid' element={<UBudgetForm/>}/> 
+
+                <Route
+                  path="/org/event/viewBudget/:event_id"
+                  element={<UBudgetView />}
+                />
 
                 <Route path='/org/dashboard/venues/reviews' element={<VenuesReviewsAdd/>}/> 
               </Route>
@@ -528,10 +507,10 @@ function App() {
                 path="/admin/dashboard"
                 element={<UDashboard />}
               />
-              <Route
+              {/* <Route
                 path="/admin/event"
                 element={<UAllEventView />}
-              />
+              /> */}
               <Route
                 path="/admin/allUsers"
                 element={<UAllusers />}
