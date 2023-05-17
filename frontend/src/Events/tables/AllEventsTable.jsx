@@ -23,6 +23,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { Dayjs } from 'dayjs';
 import EventPDF from '../pdf/EventPDF';
+import { ToastContainer, toast } from 'react-toastify';
+import '../styles/swalz.css';
 
 const OrgView = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -77,16 +79,31 @@ const OrgView = () => {
 
   // PUT method
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
-    console.log(values._id);
-    console.log(values.status);
+    // console.log(values._id);
+    // console.log(values.status);
     if (!Object.keys(validationErrors).length) {
       const newValues = {
         ...values,
         status: values.status,
       };
+      if (values.category.length < 2) {
+        //Swal.fire('', 'Category should be more than 2 characters!', 'warning');
+        //toast.success('Category should be more than 2 characters!');
+        Swal.fire({
+          title: 'Alert',
+          text: 'Category should be more than 2 characters!',
+          icon: 'warning',
+          customClass: {
+            container: 'my-swal-container',
+            popup: 'my-swal-popup',
+          },
+        });
+        return;
+      }
       tableData[row.index] = newValues;
       try {
         const response = await axios.put(`/api/events/${row.getValue('_id')}`, {
+          category: values.category,
           status: values.status,
         });
         setServerSuccessMessage(response.data.message);
@@ -218,6 +235,7 @@ const OrgView = () => {
         accessorKey: 'name',
         header: 'Event Name',
         enableEditing: false,
+        enableSorting: true,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -227,7 +245,7 @@ const OrgView = () => {
         accessorKey: 'category',
         header: 'Category',
         enableColumnOrdering: false,
-        enableEditing: false,
+        enableEditing: true,
         enableSorting: false,
         size: 80,
         columnVisibility: false,
