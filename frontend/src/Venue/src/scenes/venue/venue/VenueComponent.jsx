@@ -62,22 +62,23 @@ const VenueComponent = ({ venue, onEdit, onDelete }) => {
                 alt={venue.name}
             />
             <CardContent sx={{ flexGrow: 1 }} onClick={goToVenueProfile}>
-                <Typography variant="h5" component="div" sx={{ marginBottom: "0.5rem" }}>
+                <Typography variant="h5" component="div" sx={{ marginBottom: "0.5rem", fontSize: 14 }}>
                     {venue.name}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ marginBottom: "1rem" }}>
+                <Typography variant="body2" color="text.secondary" sx={{ marginBottom: "1rem", fontSize: 14 }}>
                     {venue.location}
                 </Typography>
-                <Typography variant="body2" sx={{ marginBottom: "0.5rem" }}>
+                <Typography variant="body2" sx={{ marginBottom: "0.5rem", fontSize: 14 }}>
                     Capacity: {venue.capacity}
                 </Typography>
-                <Typography variant="body2" sx={{ marginBottom: "0.5rem" }}>
-                    Price: {venue.price}
+                <Typography variant="body2" sx={{ marginBottom: "0.5rem", fontSize: 14 }}>
+                    Price: ${(venue.price).toFixed(2)}
                 </Typography>
-                <Typography variant="body2" sx={{ marginBottom: "0.5rem" }}>
+                <Typography variant="body2" sx={{ marginBottom: "0.5rem", fontSize: 14 }}>
                     Description: {venue.description}
                 </Typography>
             </CardContent>
+
             <CardActions sx={{ marginLeft: "auto" }}>
                 <Button
                     size="small"
