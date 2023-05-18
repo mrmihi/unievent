@@ -56,18 +56,37 @@ const updateVenueById = async (req, res) => {
     const originalPrice = venue.price;
     const venueImage = venue.image_url;
     const venueName = venue.name;
-    
-    const updatedVenue = await Venue.findOneAndUpdate({ _id: id }, req.body, { new: true, runValidators: true });
+
+    const updatedVenue = await Venue.findOneAndUpdate({ _id: id }, req.body, {
+      new: true,
+      runValidators: true,
+    });
     const discountedPrice = updatedVenue.price;
-    const priceDropPercentage = ((originalPrice - discountedPrice) / originalPrice) * 100;
+    const priceDropPercentage =
+      ((originalPrice - discountedPrice) / originalPrice) * 100;
     let venueSubscribersEmails = [];
-    
-    if(originalPrice > discountedPrice) {
-      const venueSubscribers = await VenueSubscription.find({ venue: id, active: true }).select('email');
-      venueSubscribersEmails = venueSubscribers.map(subscriber => subscriber.email);
-      SendPriceDropMail(venueSubscribersEmails, venueName, priceDropPercentage, venueImage, discountedPrice, originalPrice);
+
+    if (originalPrice > discountedPrice) {
+      const venueSubscribers = await VenueSubscription.find({
+        venue: id,
+        active: true,
+      }).select('email');
+      venueSubscribersEmails = venueSubscribers.map(
+        (subscriber) => subscriber.email
+      );
+      console.log(venueSubscribers);
+      SendPriceDropMail(
+        venueSubscribersEmails,
+        venueName,
+        priceDropPercentage,
+        venueImage,
+        discountedPrice,
+        originalPrice
+      );
     }
-    res.status(200).json({ message: 'Venue updated successfully', updatedVenue });
+    res
+      .status(200)
+      .json({ message: 'Venue updated successfully', updatedVenue });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -137,7 +156,12 @@ const publicVenueTimeTableToQR = async (req, res) => {
 const getBookingTableForVenue = async (req, res) => {
   try {
     const { id } = req.params;
-    const bookings = await Booking.find({ venue: id, booking_status: "approved", payment_status: "completed" }).select('-booking_status -payment_status -price -created_at -updated_at')
+    const bookings = await Booking.find({
+      venue: id,
+      booking_status: 'approved',
+      payment_status: 'completed',
+    })
+      .select('-booking_status -payment_status -price -created_at -updated_at')
       .populate('organizer', 'name')
       .populate('venue', 'name')
       .populate('event', 'name');
@@ -150,14 +174,19 @@ const getBookingTableForVenue = async (req, res) => {
 const showEligibleVenues = async (req, res) => {
   const orgId = req.params.id;
   try {
-      const bookings = await Booking.find({ organizer: orgId, booking_status: 'approved', payment_status: 'completed', review: 'false' })
+    const bookings = await Booking.find({
+      organizer: orgId,
+      booking_status: 'approved',
+      payment_status: 'completed',
+      review: 'false',
+    })
       .select('-review')
       .populate('venue')
       .populate('event', 'name')
       .populate('organizer', 'name');
-      res.status(200).json(bookings);
+    res.status(200).json(bookings);
   } catch (error) {
-      res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -171,5 +200,5 @@ module.exports = {
   getVenueAndReviews,
   publicVenueTimeTableToQR,
   getBookingTableForVenue,
-  showEligibleVenues
+  showEligibleVenues,
 };
