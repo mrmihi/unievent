@@ -35,7 +35,9 @@ const ReservationTable = () => {
   // GET method
   const getReservationData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/reservations`);
+      const response = await axios.get(
+        `http://localhost:5000/api/reservations`
+      );
       setTableData(response.data);
     } catch (error) {
       console.log(error);
@@ -87,7 +89,7 @@ const ReservationTable = () => {
         const response = await axios.put(
           `/api/reservations/${row.getValue('_id')}`,
           {
-            availableQty: values.availableQty,
+            booking_status: values.booking_status,
           }
         );
         setServerSuccessMessage(response.data.message);
@@ -202,7 +204,7 @@ const ReservationTable = () => {
     [validationErrors]
   );
 
-  // const statusValues = ['Archived', 'Active', 'Upcoming'];
+  const statusValues = ['Approved', 'Rejected', 'Pending'];
 
   const columns = useMemo(
     () => [
@@ -216,8 +218,8 @@ const ReservationTable = () => {
         columnVisibility: false,
       },
       {
-        accessorKey: 'start_time',
-        header: 'Resources Name',
+        accessorKey: 'resource.name',
+        header: 'Resource Name',
         enableEditing: false,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -225,22 +227,48 @@ const ReservationTable = () => {
         }),
       },
       {
-        accessorKey: 'end_time',
-        header: 'Quantity',
-        enableColumnOrdering: false,
+        accessorKey: 'event.name',
+        header: 'Event Name',
         enableEditing: false,
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'start_time',
+        header: 'Event Date',
+        enableEditing: false,
+        size: 140,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+      },
+      {
+        accessorKey: 'duration',
+        header: 'Duration',
+        enableColumnOrdering: false,
+        enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 80,
         columnVisibility: false,
       },
       {
-        accessorKey: 'duration',
-        header: 'Available Quantity',
+        accessorKey: 'booking_status',
+        header: 'Reservation Approval Status',
         enableColumnOrdering: false,
         enableEditing: true, //disable editing on this column
         enableSorting: false,
         size: 80,
         columnVisibility: false,
+        muiTableBodyCellEditTextFieldProps: () => ({
+          children: statusValues.map((value) => (
+            <MenuItem key={value} value={value}>
+              {value}
+            </MenuItem>
+          )),
+          select: true,
+        }),
       },
     ],
     [getCommonEditTextFieldProps]
@@ -294,14 +322,14 @@ const ReservationTable = () => {
               flexWrap: 'wrap',
             }}
           >
-            <Button
+            {/* <Button
               color="secondary"
               onClick={() => setCreateModalOpen(true)}
               variant="contained"
             >
               Create A New Resources
             </Button>
-            <ResourcesPDF tableData={tableData} />
+            <ResourcesPDF tableData={tableData} /> */}
           </Box>
         )}
       />
