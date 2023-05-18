@@ -595,7 +595,7 @@ function App() {
                   path="/admin/profile/edit"
                   element={<UserProfileEdit />}
                 />
-                <Route path="/admin/events" element={<AllEventsAdmin/>}/>
+                <Route path="/admin/event" element={<AllEventsAdmin/>}/>
               </Route>
             </Routes>
           </ThemeProvider>

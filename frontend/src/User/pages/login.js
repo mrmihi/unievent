@@ -80,7 +80,7 @@ export default function LoginPage() {
                 else if (accessToken && role === "admin") {
                     navigate("/admin/dashboard");
                 } else if (accessToken && role === "student") {
-                    navigate("/register");
+                    navigate("/events");
                 }
                 else if(accessToken&&role==="staff"){
                     navigate("/staff/dashboard")

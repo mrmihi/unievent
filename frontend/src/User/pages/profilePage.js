@@ -14,7 +14,7 @@ import Grid from "@mui/material/Grid";
 import Paper from '@mui/material/Paper';
 import "../styles/profilePage.css";
 import {Image} from 'cloudinary-react';
-
+import Swal from 'sweetalert2';
 
 function Copyright(props) {
   return (
@@ -93,17 +93,39 @@ export default function ProfilePage() {
 
   const handleDelete = async (event) => {
     event.preventDefault();
-    try {
-      await axios.delete(`http://localhost:3000/api/users/${id}`);// send post request to register route
-      // alert('Registration Successful');// alert user
-      // setRegisterSuccess(true);
-
-    } catch (error) {
-      console.log(error);
-      // alert('Registration Failed');// alert user
-      // setRegisterError(true);
+  
+    // Show confirmation dialog using SweetAlert2
+    const result = await Swal.fire({
+      title: 'Are you sure you want to delete your account?',
+      text: 'This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#BF6868',
+      cancelButtonColor: '#6C757D',
+      confirmButtonText: 'Yes, delete my account'
+    });
+  
+    // If user confirms deletion, proceed with the delete request
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:3000/api/users/${id}`);
+        await Swal.fire({
+          title: 'Account deleted',
+          text: 'Your account has been deleted successfully.',
+          icon: 'success',
+          timer: 2000
+        });
+        window.location.href = '/'; // redirect to login page after successful delete
+      } catch (error) {
+        console.log(error);
+        await Swal.fire({
+          title: 'Error',
+          text: 'An error occurred while deleting your account.',
+          icon: 'error'
+        });
+      }
     }
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
