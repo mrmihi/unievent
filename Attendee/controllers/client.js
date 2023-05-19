@@ -156,7 +156,7 @@ const getDataFinalists = async (req, res) => {
 
       return sortFormatted;
     };
-    const sortFormatted = Boolean(sort) ? generateSort() : {};
+    const sortFormatted = (sort) ? generateSort() : {};
 
     const dataFinalists = await DataFinalists.find({
       $or: [
