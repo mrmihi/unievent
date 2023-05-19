@@ -131,7 +131,7 @@ const VAppointments = (props) => {
             },
           }}
           columns={columns}
-          data={tableData != null ? tableData : []} 
+          data={tableData !== null ? tableData : []} 
           enableColumnOrdering
           enableSorting
           initialState={{

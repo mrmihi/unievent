@@ -21,12 +21,12 @@ function EventManagerView() {
 
   useEffect(() => {
     var approvalStatus = "Draft";
-    if (approvalData._id != null) {
+    if (approvalData._id !== null) {
       if (
-        approvalData.lic_approval != null &&
-        approvalData.venue_approval != null &&
-        approvalData.budget_approval != null &&
-        approvalData.admin_approval != null
+        approvalData.lic_approval !== null &&
+        approvalData.venue_approval !== null &&
+        approvalData.budget_approval !== null &&
+        approvalData.admin_approval !== null
       ) {
         approvalStatus = "Initiated";
         if (approvalData.lic_approval.status == "Sent")
@@ -168,7 +168,7 @@ function EventManagerView() {
       })
         .then((res) => {
           console.log(res.data[0]);
-          if (res.data[0].venue != null) setVenueData(res.data[0]);
+          if (res.data[0].venue !== null) setVenueData(res.data[0]);
         })
         .catch((err) => {
           setVenueData(null);
@@ -246,23 +246,23 @@ function EventManagerView() {
         <div className="flex flex-row">
           <div className="flex flex-col w-2/3">
             <Typography id="eventName" variant="h4">
-              {eventData != null ? eventData.name : "Event Name"}
+              {eventData !== null ? eventData.name : "Event Name"}
             </Typography>
             <Typography id="eventDescription" variant="h6">
-              {eventData != null ? eventData.description : "Description"}
+              {eventData !== null ? eventData.description : "Description"}
             </Typography>
             <Typography id="eventDate" variant="h6">
-              {eventData != null
+              {eventData !== null
                 ? String(eventData.startTime).split("T")[0]
                 : "Date"}
             </Typography>
             <Typography id="eventStartTime" variant="h6">
-              {eventData != null
+              {eventData !== null
                 ? String(eventData.startTime).split("T")[1]
                 : "Start Time"}
             </Typography>
             <Typography id="eventEndTime" variant="h6">
-              {eventData != null
+              {eventData !== null
                 ? String(eventData.endTime).split("T")[1]
                 : "End Time"}
             </Typography>
@@ -306,7 +306,7 @@ function EventManagerView() {
               <Typography variant="h4" id="eventVenue">
                 Event Venue
               </Typography>
-              {venueData != null ? (
+              {venueData !== null ? (
                 <Typography variant="h5" id="eventVenue">
                   Location : {venueData.venue.name}
                 </Typography>
@@ -316,19 +316,19 @@ function EventManagerView() {
                 </Typography>
               )}
               <Typography variant="h5" id="eventVenueStatus">
-                {venueData != null
+                {venueData !== null
                   ? "Booking Status : " + venueData.booking_status
                   : ""}
               </Typography>
               <Typography variant="h5" id="eventVenuePaymentStatus">
-                {venueData != null
+                {venueData !== null
                   ? "Payment Status : " + venueData.payment_status
                   : ""}
               </Typography>
 
               <Typography variant="h6" id="eventVenue"></Typography>
               <Box className="flex w-full justify-around flex-row my-2">
-                {venueData == null ? (
+                {venueData === null ? (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -423,7 +423,7 @@ function EventManagerView() {
                 Event Budget
               </Typography>
               <Typography variant="h5" id="eventBudgetStatus" color="secondary">
-                {budgetData == null ? "Not Created Yet" : "Created"}
+                {budgetData === null ? "Not Created Yet" : "Created"}
               </Typography>
               <Typography
                 variant="h6"
@@ -432,7 +432,7 @@ function EventManagerView() {
               ></Typography>
 
               <Box className="flex w-full justify-around flex-row my-2">
-                {budgetData == null ? (
+                {budgetData === null ? (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -474,7 +474,7 @@ function EventManagerView() {
                 color="secondary"
               >
                 Status :{" "}
-                {approvalData != null
+                {approvalData !== null
                   ? approvalStatusFunc(approvalStatus)
                   : "Unavailable"}
               </Typography>

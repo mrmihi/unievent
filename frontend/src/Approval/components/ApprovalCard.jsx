@@ -54,16 +54,16 @@ function ApprovalCard(props){
     }
 
     useEffect(() => {
-        if(props.data.lic_approval != null){
+        if(props.data.lic_approval !== null){
             getApprovalRequest(props.data.lic_approval._id, "lic")
         }
-        if(props.data.venue_approval != null){
+        if(props.data.venue_approval !== null){
             getApprovalRequest(props.data.venue_approval._id, "venue")
         }
-        if(props.data.budget_approval != null){
+        if(props.data.budget_approval !== null){
             getApprovalRequest(props.data.budget_approval._id, "budget")    
         }
-        if(props.data.admin_approval != null){
+        if(props.data.admin_approval !== null){
             getApprovalRequest(props.data.admin_approval._id, "admin")
         }
         
@@ -94,7 +94,7 @@ function ApprovalCard(props){
     } 
     return (
         <Card className=" w-full rounded border-2 items-center align-middle justify-center">
-        { eventApproval.event_id != null ? 
+        { eventApproval.event_id !== null ? 
         <CardContent>
             
         <div className="flex flex-row items-center justify-between m-4">
@@ -129,7 +129,7 @@ function ApprovalCard(props){
             Event Start Time
             </Typography>
             <Typography variant="h5" component="h5" className="w-1/2">
-            {String(eventApproval.event_id.startTime).split("T")[0] != null ? String(eventApproval.event_id.startTime).split("T")[0] : "Not Yet Set"}
+            {String(eventApproval.event_id.startTime).split("T")[0] !== null ? String(eventApproval.event_id.startTime).split("T")[0] : "Not Yet Set"}
             </Typography>
         </div>
 
@@ -138,7 +138,7 @@ function ApprovalCard(props){
             <Typography variant="h6"  component="h5" className="w-1/2">
             LIC Approval
             </Typography>
-            {(licApproval.requested_to != null) ? 
+            {(licApproval.requested_to !== null) ? 
                 (
                     <div className="flex flex-row w-1/2">
                     <Typography variant="h5" component="h5" className="w-1/2">
@@ -161,7 +161,7 @@ function ApprovalCard(props){
             <Typography variant="h6"  component="h5" className="w-1/2">
             Venue Manager Approval
             </Typography>
-            {(venueManagerApproval.requested_to != null) ? 
+            {(venueManagerApproval.requested_to !== null) ? 
                 (
                     <div className="flex w-1/2 flex-row">
                     <Typography variant="h5" component="h5" className="w-1/2">
@@ -184,7 +184,7 @@ function ApprovalCard(props){
             <Typography variant="h6"  component="h5" className="w-1/2">
             Budget Approval
             </Typography>
-            {(budgetApproval.requested_to != null) ? 
+            {(budgetApproval.requested_to !== null) ? 
                 (
                     <div className="w-1/2 flex flex-row">
                     <Typography variant="h5" component="h5" className="w-1/2">
@@ -207,7 +207,7 @@ function ApprovalCard(props){
             <Typography variant="h6"  component="h5" className="w-1/2">
             Admin Approval
             </Typography>
-            {(adminApproval.requested_to != null) ? 
+            {(adminApproval.requested_to !== null) ? 
                 (
                     <div className="w-1/2 flex flex-row">
                     <Typography variant="h5" component="h5" className="w-1/2">
