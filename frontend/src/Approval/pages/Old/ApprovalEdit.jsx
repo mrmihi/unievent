@@ -97,7 +97,7 @@ const ApprovalEdit = () => {
 
   const getOptions = async () => {
     await axios
-      .get(`http://localhost:5000/api/users/`, {
+      .get("http://localhost:5000/api/users/", {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })

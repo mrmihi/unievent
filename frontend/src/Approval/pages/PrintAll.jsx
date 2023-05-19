@@ -203,8 +203,8 @@ const PrintAll = () => {
         `${'LIC Approval'}`,
         `${licDate}`,
         `${requestStatus(licStatus)}`,
-        `_ _ _ _ _ _`,
-        `_ _ _ _ _ _ _`,
+        "_ _ _ _ _ _",
+        "_ _ _ _ _ _ _",
       ],
       [
         `${
@@ -216,8 +216,8 @@ const PrintAll = () => {
         `${'venue Approval'}`,
         `${venueDate}`,
         `${requestStatus(venueStatus)}`,
-        `_ _ _ _ _ _`,
-        `_ _ _ _ _ _ _ `,
+        "_ _ _ _ _ _",
+        "_ _ _ _ _ _ _ ",
       ],
       [
         `${
@@ -229,8 +229,8 @@ const PrintAll = () => {
         `${'Budget Approval'}`,
         `${budgetDate}`,
         `${requestStatus(budgetStatus)}`,
-        `_ _ _ _ _ _`,
-        `_ _ _ _ _ _ _`,
+        "_ _ _ _ _ _",
+        "_ _ _ _ _ _ _",
       ],
       [
         `${
@@ -242,8 +242,8 @@ const PrintAll = () => {
         `${'Admin Approval'}`,
         `${adminDate}`,
         `${requestStatus(adminStatus)}`,
-        `_ _ _ _ _ _`,
-        `_ _ _ _ _ _ _ `,
+        "_ _ _ _ _ _",
+        "_ _ _ _ _ _ _ ",
       ],
     ];
 

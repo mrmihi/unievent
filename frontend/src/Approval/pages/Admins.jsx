@@ -56,7 +56,7 @@ const Admins = () => {
     };
 
     // console.log(data);
-    await API.post(`approval/request/`, data, {
+    await API.post("approval/request/", data, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

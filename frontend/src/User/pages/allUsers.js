@@ -61,7 +61,7 @@ const Opportunities = () => {
   const getRegisteredData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/users`,
+        "http://localhost:5000/api/users",
       );
       console.log(response.data);
       setTableData(response.data);
@@ -85,7 +85,7 @@ const Opportunities = () => {
     setTableData([...tableData]);
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/users/register`,
+        "http://localhost:3000/api/users/register",
         newValues
       );
       console.log(response);
@@ -144,7 +144,7 @@ const Opportunities = () => {
           axios
             .delete(`http://localhost:3000/api/users/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The user`, 'success');
+              Swal.fire('Deleted!', "Deleted The user", 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);

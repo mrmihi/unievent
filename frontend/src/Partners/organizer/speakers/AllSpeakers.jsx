@@ -37,7 +37,7 @@ const AllSpeakers = () => {
 
   const getRegisteredData = async () => {
     try {
-      const response = await axios.get(`/api/partners/speakers/`);
+      const response = await axios.get("/api/partners/speakers/");
       console.log(eventID);
       console.log(response);
       console.log(response.data.data);
@@ -85,7 +85,7 @@ const AllSpeakers = () => {
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(`/api/partners/speakers`, newValues);
+      const response = await axios.post("/api/partners/speakers", newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
@@ -146,7 +146,7 @@ const AllSpeakers = () => {
           axios
             .delete(`/api/partners/speakers/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Speaker`, 'success');
+              Swal.fire('Deleted!', "Deleted The Speaker", 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);

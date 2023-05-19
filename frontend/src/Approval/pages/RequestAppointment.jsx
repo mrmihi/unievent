@@ -44,7 +44,7 @@ const RequestAppointment = () => {
 
   const sendAppointmentRequest = async (data) => {
     axios.
-      post(`http://localhost:5000/api/approval/appointment/`, 
+      post("http://localhost:5000/api/approval/appointment/", 
       data,
       {
         headers: { "Content-Type": "application/json" },

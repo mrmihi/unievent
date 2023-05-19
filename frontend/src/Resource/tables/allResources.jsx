@@ -35,7 +35,7 @@ const OrgView = () => {
   // GET method
   const getResourceData = async () => {
     try {
-      const response = await axios.get(`/api/resources`);
+      const response = await axios.get("/api/resources");
       setTableData(response.data);
     } catch (error) {
       console.log(error);
@@ -60,7 +60,7 @@ const OrgView = () => {
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(`/api/resources`, newValues);
+      const response = await axios.post("/api/resources", newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
@@ -125,7 +125,7 @@ const OrgView = () => {
           axios
             .delete(`/api/resources/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Resources!`, 'success');
+              Swal.fire('Deleted!', "Deleted The Resources!", 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);

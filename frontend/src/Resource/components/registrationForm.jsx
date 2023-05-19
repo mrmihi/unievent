@@ -28,7 +28,7 @@ const OpportunityRegister = () => {
 
   const registerToAnEvent = async (data) => {
     try {
-      const response = await axios.post(`/api/registrants`, data);
+      const response = await axios.post("/api/registrants", data);
       setServerSuccessMessage(response.data);
       console.log(`response: ${response}`);
     } catch (error) {

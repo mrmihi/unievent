@@ -83,7 +83,7 @@ const Sponsors = () => {
       tableData.push(newValues);
       setTableData([...tableData]);
       try {
-        const response = await axios.post(`/api/partners/sponsors`, newValues);
+        const response = await axios.post("/api/partners/sponsors", newValues);
         console.log(response);
         setServerSuccessMessage(response.data.message);
       } catch (error) {
@@ -143,7 +143,7 @@ const Sponsors = () => {
           axios
             .delete(` /api/partners/sponsors/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Sponsor`, 'success');
+              Swal.fire('Deleted!', "Deleted The Sponsor", 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);
