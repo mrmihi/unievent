@@ -26,7 +26,7 @@ import { DateField } from '@mui/x-date-pickers/DateField';
 import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 const validationSchema = yup.object({
   fullName: yup.string().required('Name is required'),
@@ -56,12 +56,15 @@ const UpdateSpeaker = () => {
     onSubmit: async (values, { resetForm }) => {
       setIsSubmitting(true);
 
+      if (!imageUrl) {
+        Swal.fire('', 'Please Upload an Image!', 'warning');
+        return;
+      }
+
       // perform submit here, e.g. send data to server
       const newValues = {
         ...values,
         speakerImage: imageUrl,
-        eventID: '643e6ca96030148f194b771d',
-        organizationID: '642e4928973a5984d960f4bc',
       };
 
       try {

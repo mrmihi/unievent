@@ -11,9 +11,9 @@ const Layout = () => {
   const isNonMobile = useMediaQuery('(min-width: 600px)');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  // if (!Cookies.get("token") && Cookies.get("role") !== "venue") {
-  //     return <Navigate to="/admin/venue" />;
-  // }
+  if (!Cookies.get("token") && Cookies.get("org_role") !== "org") {
+      return <Navigate to="/org/login" />;
+  }
 
   return (
     <Box display={isNonMobile ? 'flex' : 'block'} width="100%" height="100%">

@@ -15,11 +15,10 @@ const exportPDF = (tableData) => {
   const data = tableData.map((event) => [
     event.name,
     event.quantity,
-    event.availableQty,
   ]);
   // Or use javascript directly:
   autoTable(doc, {
-    head: [['Name', 'Quantity', 'AvlQty']],
+    head: [['Name', 'Quantity']],
     body: data,
     startY: 60,
   });

@@ -28,6 +28,7 @@ import moment from 'moment';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import OpportunityPDF from '../../pdf/OpportunityPDF';
 const Opportunities = () => {
+  const { eventID } = useParams();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -38,7 +39,6 @@ const Opportunities = () => {
 
   // let { eventID } = useParams();
   // eventID = eventID.toString();
-  const eventID = '643e6ca96030148f194b771d';
 
   const getRegisteredData = async () => {
     try {
@@ -194,6 +194,8 @@ const Opportunities = () => {
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 80,
+        columnVisibility: false,
+        isVisible: false,
       },
       {
         accessorFn: (row) => `${row.name} `,
@@ -299,7 +301,9 @@ const Opportunities = () => {
         }}
         columns={columns}
         data={tableData}
-        initialState={{ columnVisibility: { opportunityImage: false } }}
+        initialState={{
+          columnVisibility: { _id: false, opportunityImage: false },
+        }}
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing
@@ -331,7 +335,9 @@ const Opportunities = () => {
               <Button
                 sx={{ marginRight: '5px' }}
                 color="primary"
-                onClick={() => navigate('/org/dashboard/addOpportunity/')}
+                onClick={() =>
+                  navigate(`/org/dashboard/addOpportunity/${eventID}`)
+                }
                 variant="contained"
               >
                 ADD An Opportunity

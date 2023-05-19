@@ -225,6 +225,8 @@ const Volunteers = () => {
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 80,
+        columnVisibility: false,
+        isVisible: false,
       },
       {
         accessorFn: (row) => `${row.fullName} `,
@@ -321,7 +323,7 @@ const Volunteers = () => {
         }}
         columns={columns}
         data={tableData}
-        // initialState={{ columnVisibility: { : false } }}
+        initialState={{ columnVisibility: { _id: false } }}
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing

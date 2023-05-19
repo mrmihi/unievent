@@ -6,7 +6,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AnimatedRoutes/>
+      {/* <AnimatedRoutes/> */}
     </BrowserRouter>
   )
 }

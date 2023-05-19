@@ -23,6 +23,7 @@ import SpeakerPDF from '../../pdf/SpeakerPDF';
 import moment from 'moment';
 
 const Speaker = () => {
+  const { eventID } = useParams();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -32,11 +33,13 @@ const Speaker = () => {
 
   // let { eventID } = useParams();
   // eventID = eventID.toString();
-  const eventID = '643e6ca96030148f194b771d';
+  // const eventID = '643e6ca96030148f194b771d';
 
   const getRegisteredData = async () => {
     try {
       const response = await axios.get(`/api/partners/speakers/${eventID}`);
+      console.log(eventID);
+      console.log(response);
       console.log(response.data.data);
       setTableData(response.data.data);
     } catch (error) {
@@ -204,6 +207,8 @@ const Speaker = () => {
         enableEditing: false, //disable editing on this column
         enableSorting: false,
         size: 80,
+        columnVisibility: false,
+        isVisible: false,
       },
       {
         accessorFn: (row) => `${row.fullName} `,
@@ -297,7 +302,7 @@ const Speaker = () => {
         }}
         columns={columns}
         data={tableData}
-        initialState={{ columnVisibility: { speakerImage: false } }}
+        initialState={{ columnVisibility: { _id: false, speakerImage: false } }}
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing
@@ -330,7 +335,7 @@ const Speaker = () => {
               <Button
                 sx={{ marginRight: '5px' }}
                 color="primary"
-                onClick={() => navigate('/org/dashboard/addSpeaker/')}
+                onClick={() => navigate(`/org/dashboard/addSpeaker/${eventID}`)}
                 variant="contained"
               >
                 ADD A SPEAKER

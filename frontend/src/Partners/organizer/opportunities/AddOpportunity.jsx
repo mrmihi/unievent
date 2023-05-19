@@ -24,9 +24,10 @@ import {
 } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers/DateField';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useParams } from 'react-router';
 
 const validationSchema = yup.object({
   name: yup.string().required('Name is required'),
@@ -36,27 +37,34 @@ const validationSchema = yup.object({
 });
 
 const AppOpportunity = () => {
+  const { eventID } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageSelected, setImageSelected] = useState('');
   const [serverSuccessMessage, setServerSuccessMessage] = useState('');
   const [serverErrorMessage, setServerErrorMessage] = useState('');
   const [imageUrl, setimageUrl] = useState('');
-
+  const oneYearFromNow = dayjs().add(1, 'year');
+  const today = dayjs().add(1, 'day');
   const formik = useFormik({
     initialValues: {
       name: '',
       description: '',
-      date: '',
+      date: today,
       time: '',
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { resetForm }) => {
       setIsSubmitting(true);
 
+      if (!imageUrl) {
+        Swal.fire('', 'Please Upload an Image!', 'warning');
+        return;
+      }
+
       const newValues = {
         ...values,
         opportunityImage: imageUrl,
-        eventID: '643e6ca96030148f194b771d',
+        eventID: `${eventID}`,
       };
 
       try {
@@ -149,12 +157,14 @@ const AppOpportunity = () => {
           <DatePicker
             label="Date"
             value={formik.values.date}
-            onChange={(date) => formik.setFieldValue('date', date)}
+            defaultValue={today}
+            disablePast
+            maxDate={oneYearFromNow}
           />
           <MobileTimePicker
             key="Time"
             name="time"
-            value={formik.values.time}
+            value={formik.values.time || today}
             onChange={(time) => {
               formik.setFieldValue('time', time);
             }}

@@ -2,27 +2,31 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Button } from '@mui/material';
 import logo from './image.png';
+import moment from 'moment';
 const doc = new jsPDF();
 
 const exportPDF = (tableData) => {
-  doc.addImage(logo, 'PNG', 0, 0, 200, 50);
-  doc.setFontSize(18);
-  // doc.text('Event Report', 30, 20);
+  doc.addImage(logo, 'PNG', 0, 0, 210, 60);
+  doc.setFontSize(12);
+  doc.text('Event Report', 15, 60);
+  doc.text('Date: ' + new Date().toLocaleString(), 15, 70);
 
   // It can parse html:
   // <table id="my-table"><!-- ... --></table>
   autoTable(doc, { html: '#my-table' });
   const data = tableData.map((event) => [
     event.name,
-    event.description,
-    event.category,
+    moment(`${event.startTime}`).format('DD-MM-YYYY'),
     event.status,
   ]);
   // Or use javascript directly:
   autoTable(doc, {
-    head: [['Name', 'Description', 'Category', 'Status']],
+    head: [['Event', 'Date', 'Status']],
     body: data,
-    startY: 60,
+    styles: {
+      cellWidth: 'wrap',
+    },
+    startY: 80,
   });
 
   doc.save('Events.pdf');
@@ -32,7 +36,7 @@ const EventPDF = ({ tableData }) => {
   return (
     <div>
       <Button
-        //color="secondary"
+        color="primary"
         onClick={() => {
           exportPDF(tableData);
         }}

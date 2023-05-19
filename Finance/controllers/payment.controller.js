@@ -32,14 +32,39 @@ const createPayment = async (req, res) => {
 
 //update payment
 const updatePaymentById = async (req, res) => {
-    try {
-      const{ id } = req.params;
-      const payment = await Payment.findByIdAndUpdate({_id: id}, req.body, {new: true, runValidators: true});
-      res.status(200).json(payment);
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  };
+  const { id } = req.params;
+  const {
+    start_time,
+    end_time,
+    duration,
+    status,
+    venue,
+    price,
+    organizer,
+    paymentImage,
+  } = req.body;
+
+  try {
+    const updatedPayment = await Payment.findByIdAndUpdate(
+      id,
+      {
+        start_time,
+        end_time,
+        duration,
+        status,
+        venue,
+        price,
+        organizer,
+        paymentImage,
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updatedPayment);
+  } catch (error) {
+    res.status(500).json({ message: 'Could not update payment.' });
+  }
+};
 
 //delete payment by id
 const deletePaymentById = async (req, res) => {

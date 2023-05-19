@@ -9,7 +9,34 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Card, CardContent, CardMedia, Typography, Rating } from "@mui/material";
+import FileSaver from 'file-saver';
 
+const getDescription = (description) => {
+    if (!description) {
+        return null;
+    }
+
+    const words = description.split(' ');
+    const lineBreakInterval = 12; // Number of words before adding a line break
+    const lines = [];
+
+    for (let i = 0; i < words.length; i += lineBreakInterval) {
+        const lineWords = words.slice(i, i + lineBreakInterval);
+        const line = lineWords.join(' ');
+        lines.push(line);
+    }
+
+    return (
+        <div>
+            {lines.map((line, index) => (
+                <React.Fragment key={index}>
+                    {line}
+                    <br />
+                </React.Fragment>
+            ))}
+        </div>
+    );
+};
 
 const VVenueProfile = () => {
     const id = useParams().id;
@@ -44,6 +71,25 @@ const VVenueProfile = () => {
         setReviews(sortedReviews);
     };
 
+    const downloadQRCode = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/venues/qr/${id}`, {
+                responseType: 'arraybuffer', // Set the response type to array buffer
+            });
+
+            // Get the content type from the response headers
+            const contentType = response.headers['content-type'];
+
+            // Create a new blob from the response data and content type
+            const blob = new Blob([response.data], { type: contentType });
+
+            // Use the FileSaver.js library to save the blob as a file
+            FileSaver.saveAs(blob, `${venue.name}-${venue.location}.png`);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <Box m="1.5rem 2.5rem">
             <Box>
@@ -64,29 +110,31 @@ const VVenueProfile = () => {
                 <Card sx={{ display: "flex", marginBottom: "1.5rem" }}>
                     <CardMedia
                         component="img"
-                        sx={{ width: "30%", height: "30%" }}
+                        sx={{ width: "500px", height: "500px" }}
                         image={venue.image_url}
                         alt={venue.name}
                     />
                     <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
                         <CardContent>
-                            <Typography variant="h5" component="div" sx={{ marginBottom: "0.5rem" }}>
+                            <Typography variant="h5" component="div" sx={{ marginBottom: "0.5rem", fontSize: 18 }}>
                                 {venue.name}
                             </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ marginBottom: "1rem" }}>
+                            <Typography variant="body2" color="text.secondary" sx={{ marginBottom: "1rem", fontSize: 18 }}>
                                 {venue.location}
                             </Typography>
-                            <Typography variant="body2" sx={{ marginBottom: "0.5rem" }}>
+                            <Typography variant="body2" sx={{ marginBottom: "0.5rem", fontSize: 18 }}>
                                 Capacity: {venue.capacity}
                             </Typography>
-                            <Typography variant="body2" sx={{ marginBottom: "0.5rem" }}>
-                                Price: {venue.price}
+                            <Typography variant="body2" sx={{ marginBottom: "0.5rem", fontSize: 18 }}>
+                                Price: ${parseFloat(venue.price).toFixed(2)}
                             </Typography>
-                            <Typography variant="body2" sx={{ marginBottom: "0.5rem" }}>
-                                Description: {venue.description}
+                            <Typography variant="body2" sx={{ marginBottom: "0.5rem", fontSize: 18 }}>
+                                Description: {getDescription(venue.description)}
                             </Typography>
+                            <Button onClick={downloadQRCode}>Download the Venue QR Code</Button>
                         </CardContent>
                     </Box>
+
                 </Card>
                 <Box>
                     <Typography variant="h2" sx={{ marginBottom: "1rem" }}>
