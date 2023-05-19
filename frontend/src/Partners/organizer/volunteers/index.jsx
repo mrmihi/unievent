@@ -30,7 +30,7 @@ const Volunteers = () => {
   const navigate = useNavigate();
   const getRegisteredData = async () => {
     try {
-      const response = await axios.get(`/api/partners/volunteers/`);
+      const response = await axios.get("/api/partners/volunteers/");
       console.log(response.data.data);
       setTableData(response.data.data);
     } catch (error) {
@@ -60,7 +60,7 @@ const Volunteers = () => {
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(`/api/partners/speakers`, newValues);
+      const response = await axios.post("/api/partners/speakers", newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
@@ -129,7 +129,7 @@ const Volunteers = () => {
             .then((response) => {
               Swal.fire(
                 'Deleted!',
-                `Deleted The Volunteer Application`,
+                "Deleted The Volunteer Application",
                 'success'
               );
               console.log(response);

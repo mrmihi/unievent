@@ -120,7 +120,7 @@ const navigate = useNavigate();
                   width: '100%',
                   backgroundColor: '#d32f2f',
                 }}
-                onClick={() => { navigate(``)}}
+                onClick={() => { navigate("")}}
               >
                 cancel
               </Button>

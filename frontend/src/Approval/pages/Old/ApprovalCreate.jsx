@@ -32,7 +32,7 @@ const ApprovalCreate = (props) => {
 
   const getApprovers = async () => {
     await axios
-      .get(`http://localhost:5000/api/users/`, {
+      .get("http://localhost:5000/api/users/", {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })
@@ -99,7 +99,7 @@ const ApprovalCreate = (props) => {
     //If it does not exist, create a new one
     const createApprovalRequest = async () => {
       await API.post(
-        `approval/event/`,
+        "approval/event/",
         {
           event_id: event_id.toString(),
           status: "Initiated",

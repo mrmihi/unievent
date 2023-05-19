@@ -132,7 +132,7 @@ export default function CustomizedTables() {
           axios
           .delete(`http://localhost:5000/api/budgets/${budgetId}`)
           .then((response) => {
-            Swal.fire('Deleted!', `Deleted The budget`, 'success');
+            Swal.fire('Deleted!', "Deleted The budget", 'success');
             console.log(response.data);
             navigate(`/org/dashboard/events/${event_id}`)
           });

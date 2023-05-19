@@ -68,7 +68,7 @@ const OrgView = () => {
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(`/api/events`, newValues);
+      const response = await axios.post("/api/events", newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
@@ -143,7 +143,7 @@ const OrgView = () => {
           axios
             .delete(`/api/events/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Event!`, 'success');
+              Swal.fire('Deleted!', "Deleted The Event!", 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);

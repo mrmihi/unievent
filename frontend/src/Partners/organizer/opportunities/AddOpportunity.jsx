@@ -69,7 +69,7 @@ const AppOpportunity = () => {
 
       try {
         const response = await axios.post(
-          `/api/partners/opportunities`,
+          "/api/partners/opportunities",
           newValues
         );
         console.log(response);

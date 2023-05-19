@@ -70,7 +70,7 @@ const Attendee = () => {
         if (result.isConfirmed) {
           deleteAttendee(row.original._id)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted your application`, 'success');
+              Swal.fire('Deleted!', "Deleted your application", 'success');
               console.log(response);
             })
             .catch((error) => {

@@ -74,7 +74,7 @@ const AddSpeaker = () => {
       };
 
       try {
-        const response = await axios.post(`/api/partners/speakers`, newValues);
+        const response = await axios.post("/api/partners/speakers", newValues);
         console.log(response);
         setServerSuccessMessage(response.data.message);
         if (response.data.message !== '') {

@@ -62,7 +62,7 @@ const AddReservation = () => {
           position: toast.POSITION.TOP_CENTER,
         });
         setTimeout(() => {
-          navigate(`/org/dashboard/events`);
+          navigate("/org/dashboard/events");
         }, 2000);
       })
       .catch((err) => {

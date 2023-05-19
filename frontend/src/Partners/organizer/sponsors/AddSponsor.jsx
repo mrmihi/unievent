@@ -68,7 +68,7 @@ const AddSponsor = () => {
       };
 
       try {
-        const response = await axios.post(`/api/partners/sponsors`, newValues);
+        const response = await axios.post("/api/partners/sponsors", newValues);
         console.log(response);
         setServerSuccessMessage(response.data.message);
         if (response.data.message !== '') {

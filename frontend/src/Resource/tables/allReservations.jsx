@@ -36,7 +36,7 @@ const ReservationTable = () => {
   const getReservationData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/reservations`
+        "http://localhost:5000/api/reservations"
       );
       setTableData(response.data);
     } catch (error) {
@@ -62,7 +62,7 @@ const ReservationTable = () => {
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(`/api/reservations`, newValues);
+      const response = await axios.post("/api/reservations", newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
@@ -125,7 +125,7 @@ const ReservationTable = () => {
           axios
             .delete(`/api/reservations/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Resources!`, 'success');
+              Swal.fire('Deleted!', "Deleted The Resources!", 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);

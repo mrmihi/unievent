@@ -126,7 +126,7 @@ const getEventApprovalsByOrgId = async (orgID) => {
     if (eventApprovals.length == 0) {
       return {
         success: false,
-        message: `No Event Approval found`,
+        message: "No Event Approval found",
         data: req.body,
       };
     }

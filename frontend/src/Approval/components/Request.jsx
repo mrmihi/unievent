@@ -53,7 +53,7 @@ function Request(props) {
 
     if (eventApprovalID != "") {
       await API.post(
-        `approval/request/`,
+        "approval/request/",
         {
           approval_id: approvalID,
           type: requestType(requestTo),
@@ -226,7 +226,7 @@ function Request(props) {
         <div className="w-full flex flex-col align-middle justify-between items-center">
           <div
           css={myCardStyles}
-            className={` w-full rounded border-2 items-center align-middle justify-center`}
+            className={" w-full rounded border-2 items-center align-middle justify-center"}
           >
             <CardContent>
               <div className="flex flex-row items-center justify-between">

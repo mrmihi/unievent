@@ -163,7 +163,7 @@ function ForwardRequestTo(props) {
         <div className="w-full flex flex-col align-middle justify-between items-center">
           <Card
             css={myCardStyles}
-            className={`w-full rounded border-2 items-center align-middle justify-center`}
+            className={"w-full rounded border-2 items-center align-middle justify-center"}
           >
             <CardContent>
               {/* Request Note */}

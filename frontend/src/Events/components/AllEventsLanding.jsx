@@ -163,7 +163,7 @@ const AllEventsLanding = (props) => {
         className="w-full h-full bg-black absolute top-0 right-0"
       />
       <div
-        className={`w-full absolute bottom-0 z-40 transition duration-300`}
+        className={"w-full absolute bottom-0 z-40 transition duration-300"}
         id="register"
       >
         {/* <Register showDivider={false} comingSoon={true} /> */}

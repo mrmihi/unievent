@@ -90,7 +90,7 @@ function EventManagerView() {
     const getApprovalDetails = async () => {
       const createApprovalRequest = async () => {
         await API.post(
-          `approval/event/`,
+          "approval/event/",
           {
             event_id: eventID.toString(),
             status: "Draft",

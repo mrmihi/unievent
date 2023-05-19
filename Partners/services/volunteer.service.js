@@ -117,7 +117,7 @@ const updateVolunteerApplication = async (id, body) => {
     return {
       status: 200,
       data: response,
-      message: `Updated Volunteer application successfully`,
+      message: "Updated Volunteer application successfully",
     };
   } catch (error) {
     return { status: 400, message: error.message };
