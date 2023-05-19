@@ -74,8 +74,8 @@ function ForwardRequestTo(props) {
     setOptions(props.options);
     setApprover(props.approver);
     setRequestTo(props.to);
-    if (props.approver != null) setName(props.approver.name);
-    if (props.request != null) setRequest(props.request);
+    if (props.approver !== null) setName(props.approver.name);
+    if (props.request !== null) setRequest(props.request);
   }, [props]);
 
   const [isButtonClicked, setButtonClicked] = useState(false);
@@ -125,7 +125,7 @@ function ForwardRequestTo(props) {
           </Button>
 
           
-          {request.status != null ? (
+          {request.status !== null ? (
             <Button
               variant="outlined"
               css={
@@ -223,7 +223,7 @@ function ForwardRequestTo(props) {
                 -
                 <div className="w-1/2 flex justify-center align-middle items-center">
                   <Typography variant="h6" component="h6">
-                    {approver != null ? approver.name : null}
+                    {approver !== null ? approver.name : null}
                   </Typography>
                 </div>
               </div>

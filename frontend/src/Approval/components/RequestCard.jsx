@@ -62,7 +62,7 @@ function RequestCard(){
             LIC Approval
             </Typography>
             <Typography variant="h5" component="h5" className="w-1/2">
-            {(eventApproval.lic_approval != null) ? eventApproval.lic_approval._id : "Not Yet Sent"}
+            {(eventApproval.lic_approval !== null) ? eventApproval.lic_approval._id : "Not Yet Sent"}
             </Typography>
         </div>
 
@@ -72,7 +72,7 @@ function RequestCard(){
             Venue Manager Approval
             </Typography>
             <Typography variant="h5" component="h5" className="w-1/2">
-            {(eventApproval.vm_approval != null) ? eventApproval.vm_approval._id : "Not Yet Sent"}
+            {(eventApproval.vm_approval !== null) ? eventApproval.vm_approval._id : "Not Yet Sent"}
             </Typography>
         </div>
 
@@ -82,7 +82,7 @@ function RequestCard(){
             Budget Approval
             </Typography>
             <Typography variant="h5" component="h5" className="w-1/2">
-            {(eventApproval.budget_approval != null) ? eventApproval.budget_approval._id : "Not Yet Sent"}
+            {(eventApproval.budget_approval !== null) ? eventApproval.budget_approval._id : "Not Yet Sent"}
             </Typography>
         </div>
 
@@ -92,7 +92,7 @@ function RequestCard(){
             Admin Approval
             </Typography>
             <Typography variant="h5" component="h5" className="w-1/2">
-            {(eventApproval.admin_approval != null) ? eventApproval.admin_approval._id : "Not Yet Sent"}
+            {(eventApproval.admin_approval !== null) ? eventApproval.admin_approval._id : "Not Yet Sent"}
             </Typography>
         </div>
         </CardContent>

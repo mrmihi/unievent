@@ -167,7 +167,7 @@ const ApprovalCreate = (props) => {
           });
         });
     };
-    if (lic == null || venue == null || budget == null || admin == null) {
+    if (lic === null || venue === null || budget === null || admin === null) {
       toast.error("Please save the added Approvers to proceed", {
         position: "top-right",
       });

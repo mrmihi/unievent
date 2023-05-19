@@ -110,7 +110,7 @@ function Request(props) {
             .classList.toggle("hidden");
       })
       .catch((err) => {
-        if (err.response.data != null)
+        if (err.response.data !== null)
           toast.error(err.response.data.message, {
             position: "top-right",
           });
@@ -132,7 +132,7 @@ function Request(props) {
 
   const handleView = () => {
     const approverChosen = document.getElementById(`chooseApprover${requestTo}`).value;
-    if (approverChosen != null && approverChosen != "") {
+    if (approverChosen !== null && approverChosen != "") {
       document.getElementById(requestTo).classList.toggle("hidden");
     } else {
       toast.error("Please select a Staff to View Details", {
