@@ -1,0 +1,13 @@
+"react-pdf": "^6.2.2",
+"chartjs": "^0.3.24",
+
+
+BackEnd
+
+"jspdf": "^2.5.1",
+        "jspdf-autotable": "^3.5.28",
+        "lodash": "^4.17.21",
+        "moment": "^2.29.4",
+        "react-confirm-alert": "^3.0.6",
+        "react-material-ui-carousel": "^3.4.2",
+                "chart.js": "^4.2.1",
