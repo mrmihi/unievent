@@ -17,13 +17,14 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import API from "../components/api.approval";
 import { toast, ToastContainer } from "react-toastify";
+import Cookie from "js-cookie";
 
 const Admins = () => {
   const [searchText, setSearchText] = useState("");
   const [admins, setAdmins] = useState([]);
   const { id: approvalID } = useParams();
   const navigate = useNavigate();
-  const loggedOrgId = "6448be13969607971f3761a3";
+  const loggedOrgId = Cookie.get("org_id");
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
@@ -31,7 +32,7 @@ const Admins = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/users/admin")
+      .get("http://localhost:5000/api/users/staff")
       .then((response) => {
         console.log(response.data);
         setAdmins(response.data);
@@ -55,7 +56,7 @@ const Admins = () => {
     };
 
     // console.log(data);
-    await API.post(`approval/request/`, data, {
+    await API.post("approval/request/", data, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     })

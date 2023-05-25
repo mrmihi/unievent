@@ -38,7 +38,7 @@ const OrgView = () => {
   // GET method
   const getPaymentData = async () => {
     try {
-      const response = await axios.get(`/api/payments`);
+      const response = await axios.get("/api/payments");
       setTableData(response.data);
     } catch (error) {
       console.log(error);
@@ -63,7 +63,7 @@ const OrgView = () => {
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(`/api/payments`, newValues);
+      const response = await axios.post("/api/payments", newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
@@ -82,16 +82,15 @@ const OrgView = () => {
     console.log(values.status);
     if (!Object.keys(validationErrors).length) {
       const newValues = {
-        ...values,
-        availableQty: values.availableQty,
+        ...row.original,
+        price: parseFloat(values.price.replace(/[^\d.-]/g, '')), // Parse the edited price value to a float
+        status: values.status, //
       };
       tableData[row.index] = newValues;
       try {
         const response = await axios.put(
           `/api/payments/${row.getValue('_id')}`,
-          {
-            availableQty: values.availableQty,
-          }
+          newValues
         );
         setServerSuccessMessage(response.data.message);
         if (serverSuccessMessage !== '') {
@@ -126,7 +125,7 @@ const OrgView = () => {
           axios
             .delete(`/api/payments/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Payment!`, 'success');
+              Swal.fire('Deleted!', "Deleted The Payment!", 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);
@@ -222,10 +221,14 @@ const OrgView = () => {
     setImagePublicId(null);
   };
 
-
   const columns = useMemo(
     () => [
-      { accessorKey: null, header: "ID", Cell: ({ row }) => row.index + 1, size: 5, },
+      {
+        accessorKey: null,
+        header: 'ID',
+        Cell: ({ row }) => row.index + 1,
+        size: 5,
+      },
       {
         accessorKey: '_id',
         header: 'Payment_ID',
@@ -240,11 +243,12 @@ const OrgView = () => {
         header: 'Start_time',
         enableEditing: false,
         size: 80,
-        
+
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        Cell: ({ cell }) => dayjs(cell.row.original.start_time).format('DD/MM/YYYY hh.mmA'),
+        Cell: ({ cell }) =>
+          dayjs(cell.row.original.start_time).format('DD/MM/YYYY hh.mmA'),
         //Cell: ({ value }) => dayjs.utc(value).format('DD/MM/YYYY, hh:mm A'),
       },
       {
@@ -255,7 +259,8 @@ const OrgView = () => {
         enableSorting: false,
         size: 80,
         columnVisibility: false,
-        Cell: ({ cell }) => dayjs(cell.row.original.end_time).format('DD/MM/YYYY hh.mmA'),
+        Cell: ({ cell }) =>
+          dayjs(cell.row.original.end_time).format('DD/MM/YYYY hh.mmA'),
         //Cell: ({ value }) => dayjs(value).format('YYYY/MM/DD hh:mmA'),
       },
       {
@@ -285,7 +290,8 @@ const OrgView = () => {
         columnVisibility: false,
         Cell: ({ cell }) => {
           const price = cell.row.original.price;
-          const formattedPrice = typeof price === 'number' ? `USD ${price.toFixed(2)}` : '';
+          const formattedPrice =
+            typeof price === 'number' ? `USD ${price.toFixed(2)}` : '';
           return formattedPrice;
         },
       },
@@ -316,8 +322,8 @@ const OrgView = () => {
         size: 80,
         columnVisibility: false,
         Cell: ({ cell }) => (
-          <Image 
-          cloudName="dtf9sr7jl"
+          <Image
+            cloudName="dtf9sr7jl"
             publicId={cell.row.original.paymentImage}
             width="50"
             height="50"
@@ -331,9 +337,9 @@ const OrgView = () => {
 
   if (!tableData) return <h1>Loading...</h1>;
 
-  return ( 
-  <Box m="0.5rem 0.5rem">
-    <Typography variant="h4" sx={{ mb: '2rem' }}>
+  return (
+    <Box m="0.5rem 0.5rem">
+      <Typography variant="h4" sx={{ mb: '2rem' }}>
         Payments
       </Typography>
       <MaterialReactTable
@@ -348,7 +354,7 @@ const OrgView = () => {
         columns={columns}
         data={tableData}
         initialState={{
-          columnVisibility: { _id: false, venue: false , organizer:false},
+          columnVisibility: { _id: false, venue: false, organizer: false },
           density: 'compact',
         }}
         editingMode="modal" //default
@@ -380,9 +386,11 @@ const OrgView = () => {
               flexWrap: 'wrap',
             }}
           >
-            
-            
-            <PaymentPDF tableData={tableData} variant="contained" color="secondary"/>
+            <PaymentPDF
+              tableData={tableData}
+              variant="contained"
+              color="secondary"
+            />
           </Box>
         )}
       />
@@ -414,7 +422,15 @@ const OrgView = () => {
             }}
             onClick={(event) => event.stopPropagation()}
           >
-            <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               <Image
                 cloudName="dtf9sr7jl"
                 publicId={imagePublicId}
@@ -432,7 +448,7 @@ const OrgView = () => {
               }}
               onClick={handleCloseModal}
             >
-              <ClearIcon sx={{ fontSize: 40 }}/>
+              <ClearIcon sx={{ fontSize: 40 }} />
             </button>
           </div>
         </div>
@@ -445,8 +461,6 @@ const OrgView = () => {
         onSubmit={handleCreateNewRow}
       />
     </Box>
-    
-    
   );
 };
 

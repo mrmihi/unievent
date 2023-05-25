@@ -44,7 +44,7 @@ const RequestAppointment = () => {
 
   const sendAppointmentRequest = async (data) => {
     axios.
-      post(`http://localhost:5000/api/approval/appointment/`, 
+      post("http://localhost:5000/api/approval/appointment/", 
       data,
       {
         headers: { "Content-Type": "application/json" },
@@ -135,7 +135,7 @@ const RequestAppointment = () => {
   const handleLinkChange = (value) => {
     setMeetingLink(value);
     setMeetingLinkError(null);
-    if (meetinglink == "" || meetinglink == null)
+    if (meetinglink == "" || meetinglink === null)
       setMeetingLinkError("Required");
     else
       try {
@@ -146,38 +146,38 @@ const RequestAppointment = () => {
   };
 
   const handleSubmitBtn = () => {
-    if (date == null) setDateError("Required");
-    if (startTime == null) setStartTimeError("Required");
-    if (endTime == null) setEndTimeError("Required");
+    if (date === null) setDateError("Required");
+    if (startTime === null) setStartTimeError("Required");
+    if (endTime === null) setEndTimeError("Required");
 
-    if (mode == null) setModeError("Required");
+    if (mode === null) setModeError("Required");
     else {
       if (mode == "Virtual") {
-        if (meetinglink == null) {
+        if (meetinglink === null) {
           setMeetingLinkError("Required");
           setLocationError(null);
         } else handleLinkChange(meetinglink);
       } else if (mode == "Physical") {
-        if (location == null) {
+        if (location === null) {
           setMeetingLinkError(null);
           setLocationError("Required");
         }
       } else if (mode == "Either") {
-        if (location == null || location == "") setLocationError("Required");
-        if (meetinglink == null || meetinglink == "")
+        if (location === null || location == "") setLocationError("Required");
+        if (meetinglink === null || meetinglink == "")
           setMeetingLinkError("Required");
         else handleLinkChange(meetinglink);
       }
     }
 
-    if (appointmentNote == null) setAppointmentNoteError("Required");
+    if (appointmentNote === null) setAppointmentNoteError("Required");
 
-    if (dateError == null && date != null)
-      if (startTimeError == null && startTime != null)
-        if (endTimeError == null && endTime != null)
-          if (modeError == null && mode != null)
-            if (locationError == null && meetinglinkError == null)
-              if (appointmentNoteError == null && appointmentNote != null) {
+    if (dateError === null && date !== null)
+      if (startTimeError === null && startTime !== null)
+        if (endTimeError === null && endTime !== null)
+          if (modeError === null && mode !== null)
+            if (locationError === null && meetinglinkError === null)
+              if (appointmentNoteError === null && appointmentNote !== null) {
                 const appointment = {
                   approval_request_id : requestID,
                   date: date.toString(),
@@ -285,13 +285,13 @@ const RequestAppointment = () => {
               setModeError(null);
               if (event.target.value == "Physical") {
                 setMeetingLinkError(null);
-                if (location == null || location == "")
+                if (location === null || location == "")
                   setLocationError("Required");
               }
 
               if (event.target.value == "Either") {
                 handleLinkChange(meetinglink);
-                if (location == null || location == "")
+                if (location === null || location == "")
                   setLocationError("Required");
               }
 

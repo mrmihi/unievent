@@ -75,7 +75,7 @@ const updateAnOpportunity = async (id, body) => {
     return {
       status: 200,
       data: response,
-      message: `Updated the Opportunity successfully`,
+      message: "Updated the Opportunity successfully",
     };
   } catch (error) {
     return { status: 400, message: error.message };

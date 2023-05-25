@@ -53,7 +53,7 @@ function Request(props) {
 
     if (eventApprovalID != "") {
       await API.post(
-        `approval/request/`,
+        "approval/request/",
         {
           approval_id: approvalID,
           type: requestType(requestTo),
@@ -110,7 +110,7 @@ function Request(props) {
             .classList.toggle("hidden");
       })
       .catch((err) => {
-        if (err.response.data != null)
+        if (err.response.data !== null)
           toast.error(err.response.data.message, {
             position: "top-right",
           });
@@ -132,7 +132,7 @@ function Request(props) {
 
   const handleView = () => {
     const approverChosen = document.getElementById(`chooseApprover${requestTo}`).value;
-    if (approverChosen != null && approverChosen != "") {
+    if (approverChosen !== null && approverChosen != "") {
       document.getElementById(requestTo).classList.toggle("hidden");
     } else {
       toast.error("Please select a Staff to View Details", {
@@ -226,7 +226,7 @@ function Request(props) {
         <div className="w-full flex flex-col align-middle justify-between items-center">
           <div
           css={myCardStyles}
-            className={` w-full rounded border-2 items-center align-middle justify-center`}
+            className={" w-full rounded border-2 items-center align-middle justify-center"}
           >
             <CardContent>
               <div className="flex flex-row items-center justify-between">

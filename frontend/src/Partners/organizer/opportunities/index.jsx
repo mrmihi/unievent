@@ -70,7 +70,7 @@ const Opportunities = () => {
     setTableData([...tableData]);
     try {
       const response = await axios.post(
-        `/api/partners/opportunities`,
+        "/api/partners/opportunities",
         newValues
       );
       console.log(response);
@@ -133,7 +133,7 @@ const Opportunities = () => {
           axios
             .delete(`/api/partners/opportunities/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Opportunity`, 'success');
+              Swal.fire('Deleted!', "Deleted The Opportunity", 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);

@@ -69,19 +69,19 @@ const ApprovalEdit = () => {
       withCredentials: true,
     })
       .then((res) => {
-        if (res.data.data[0].lic_approval != null) {
+        if (res.data.data[0].lic_approval !== null) {
           fetchRequest(res.data.data[0].lic_approval._id, "lic");
         }
 
-        if (res.data.data[0].venue_approval != null) {
+        if (res.data.data[0].venue_approval !== null) {
           fetchRequest(res.data.data[0].venue_approval._id, "venue");
         }
 
-        if (res.data.data[0].budget_approval != null) {
+        if (res.data.data[0].budget_approval !== null) {
           fetchRequest(res.data.data[0].budget_approval._id, "budget");
         }
 
-        if (res.data.data[0].admin_approval != null) {
+        if (res.data.data[0].admin_approval !== null) {
           fetchRequest(res.data.data[0].admin_approval._id, "admin");
         }
         setError({});
@@ -97,7 +97,7 @@ const ApprovalEdit = () => {
 
   const getOptions = async () => {
     await axios
-      .get(`http://localhost:5000/api/users/`, {
+      .get("http://localhost:5000/api/users/", {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })
@@ -144,28 +144,28 @@ const ApprovalEdit = () => {
           options={staffs}
           approver={lic.requested_to}
           request={lic}
-          sentTo={lic.requested_to != null ? lic.requested_to.name : "Loading"}
+          sentTo={lic.requested_to !== null ? lic.requested_to.name : "Loading"}
         />
         <ForwardRequestTo
           to="Venue Manager"
           options={venueManagers}
           approver={venue.requested_to}
           request={venue}
-          sentTo={venue.requested_to != null ? venue.requested_to.name : "Loading"}
+          sentTo={venue.requested_to !== null ? venue.requested_to.name : "Loading"}
         />
         <ForwardRequestTo
           to="Finance Manager"
           options={staffs}
           approverID={budget.requested_to}
           request={budget}
-          sentTo={budget.requested_to != null ? budget.requested_to.name : "Loading"}
+          sentTo={budget.requested_to !== null ? budget.requested_to.name : "Loading"}
         />
         <ForwardRequestTo
           to="Admin"
           options={admins}
           approverID={admin.requested_to}
           request={admin}
-          sentTo={admin.requested_to != null ? admin.requested_to.name : "Loading"}
+          sentTo={admin.requested_to !== null ? admin.requested_to.name : "Loading"}
         />
       </div>
 

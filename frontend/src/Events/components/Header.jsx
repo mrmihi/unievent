@@ -49,7 +49,7 @@ const Header = (props) => {
   return (
     <div>
       <div
-        className={`w-full flex flex-col md:flex-row justify-between items-center p-5 py-4 fixed top-0 z-50 backdrop-blur-[5px] border-b border-white/10`}
+        className={"w-full flex flex-col md:flex-row justify-between items-center p-5 py-4 fixed top-0 z-50 backdrop-blur-[5px] border-b border-white/10"}
       >
         <div className="w-full md:w-5/12 pl-2 md:pl-12">
           <img src="/assets/UNIEVENTPRO.svg" className="w-15 h-15" alt="logo" />

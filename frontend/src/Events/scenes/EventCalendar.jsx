@@ -14,7 +14,7 @@ const EventCalendar = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/events`)
+      .get("/api/events")
       .then((res) => {
         if (res.data) {
           setEvents(res.data);

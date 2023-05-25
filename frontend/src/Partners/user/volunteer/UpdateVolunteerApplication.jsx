@@ -102,7 +102,7 @@ const UpdateVolunteerApplication = () => {
           .then((response) => {
             Swal.fire(
               'Deleted!',
-              `{"Your file has been deleted."}`,
+              '{"Your file has been deleted."}',
               'success'
             ).then(navigate(`/appliedOpportunitiesList/${volunteer.userID}`));
             console.log(response);

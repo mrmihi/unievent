@@ -101,14 +101,14 @@ export const api = createApi({
         }),
 
         getAttendeeStatus: build.query({
-            query: () => `client/attendeeStatus`,
+            query: () => "client/attendeeStatus",
             providesTags: ["AttendeeStatus"],
         }),
 
         createAttendeeStatus: build.mutation({
             query(newAttendeeStatus) {
                 return {
-                    url: `client/attendeeStatus`,
+                    url: "client/attendeeStatus",
                     method: "POST",
                     body: newAttendeeStatus,
                 };
@@ -135,7 +135,7 @@ export const api = createApi({
         createAdminsitrator: build.mutation({
             query(newAdminsitrator) {
                 return {
-                    url: `management/administrator`,
+                    url: "management/administrator",
                     method: "POST",
                     body: newAdminsitrator,
                 };

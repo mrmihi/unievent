@@ -228,7 +228,7 @@ const AppointmentRequests = () => {
             },
           }}
           columns={columns}
-          data={tableData != null ? tableData : null}
+          data={tableData !== null ? tableData : null}
           enableColumnOrdering
           enableEditing
           enableSorting

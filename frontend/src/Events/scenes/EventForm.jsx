@@ -100,7 +100,7 @@ export function EventForm() {
       };
 
       try {
-        const response = await axios.post(`/api/events`, newValues);
+        const response = await axios.post("/api/events", newValues);
         console.log(response);
         setServerSuccessMessage(response.data.message);
         if (response.data.message !== '') {

@@ -92,7 +92,7 @@ const updateSpeakerDetails = async (id, body) => {
     return {
       status: 200,
       data: response,
-      message: `Updated the speaker successfully`,
+      message: "Updated the speaker successfully",
     };
   } catch (error) {
     return { status: 400, message: error.message };

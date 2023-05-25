@@ -97,7 +97,6 @@ function SingleEvent() {
 
       {/* </div> */}
 
-
       <div className="mx-5 mt-8 pt-[80px]">
         <Title title="When and Where" aos="fade-left" />
         <div className="flex justify-center mt-[60px]">
@@ -128,31 +127,43 @@ function SingleEvent() {
             <br></br>
             {event.venue}
           </span>
-          <div
-            className="mt-8 text-center ml-12 mr-12 mb-6 mx-4  border-2 border-sky-900 border-solid
+        </div>
+
+        <div
+          className="mt-8 text-center ml-12 mr-12 mb-6 mx-4  border-2 border-sky-900 border-solid
                      rounded-md	"
+        >
+          <br></br>
+          <br></br>
+          <Button variant="outlined" color="primary" size="medium">
+            Capacity : {event.capacity}
+          </Button>
+          <br></br>
+          <br></br>
+          <Button variant="outlined" color="primary" size="medium">
+            Registrants : {event.attendeeCount}
+          </Button>
+          <br></br>
+          <br></br>
+          <Button
+            // sx={{ width: 300 }}
+            variant="contained"
+            color="primary"
+            size="medium"
+            {...(event.attendeeCount < event.capacity
+              ? {}
+              : { disabled: true })}
+            onClick={() => {
+              navigate(`/events/${id}/register`);
+            }}
           >
-            <Button variant="outlined" color="primary" size="medium">
-              {event.attendeeCount}
-            </Button>
-            <Button
-              // sx={{ width: 300 }}
-              variant="contained"
-              color="primary"
-              size="medium"
-              {...(event.attendeeCount < event.capacity
-                ? {}
-                : { disabled: true })}
-              onClick={() => {
-                navigate(`/events/${id}/register`);
-              }}
-            >
-              {event.attendeeCount < event.capacity
-                ? 'Register'
-                : 'Registrations Exceeded'}
-            </Button>
-            <CalendarEvent {...event} />
-          </div>
+            {event.attendeeCount < event.capacity
+              ? 'Register'
+              : 'Registrations Exceeded'}
+          </Button>
+          <CalendarEvent {...event} />
+          <br></br>
+          <br></br>
         </div>
 
         <Description

@@ -134,7 +134,7 @@ const Landing = (props) => {
         className="w-full h-full bg-black absolute top-0 right-0"
       />
       <div
-        className={`w-full absolute bottom-0 z-40 transition duration-300`}
+        className={"w-full absolute bottom-0 z-40 transition duration-300"}
         id="register"
       >
         {/* <Register showDivider={false} comingSoon={true} /> */}
@@ -152,7 +152,7 @@ const Landing = (props) => {
 
           <span
             data-heading={props.name}
-            className={`font-extrabold font-poppins text-center text-5xl md:text-7xl bg-clip-text bg-gradient-to-r px-2 p-4 transform text-neutral-700 uppercase`}
+            className={"font-extrabold font-poppins text-center text-5xl md:text-7xl bg-clip-text bg-gradient-to-r px-2 p-4 transform text-neutral-700 uppercase"}
           >
             {props.name}
           </span>

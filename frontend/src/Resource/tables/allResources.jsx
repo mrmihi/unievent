@@ -35,7 +35,7 @@ const OrgView = () => {
   // GET method
   const getResourceData = async () => {
     try {
-      const response = await axios.get(`/api/resources`);
+      const response = await axios.get("/api/resources");
       setTableData(response.data);
     } catch (error) {
       console.log(error);
@@ -60,7 +60,7 @@ const OrgView = () => {
     tableData.push(newValues);
     setTableData([...tableData]);
     try {
-      const response = await axios.post(`/api/resources`, newValues);
+      const response = await axios.post("/api/resources", newValues);
       console.log(response);
       setServerSuccessMessage(response.data.message);
       if (serverSuccessMessage !== '') {
@@ -80,14 +80,16 @@ const OrgView = () => {
     if (!Object.keys(validationErrors).length) {
       const newValues = {
         ...values,
-        availableQty: values.availableQty,
+        name: values.name,
+        quantity: values.quantity,
       };
       tableData[row.index] = newValues;
       try {
         const response = await axios.put(
           `/api/resources/${row.getValue('_id')}`,
           {
-            availableQty: values.availableQty,
+            name: values.name,
+            quantity: values.quantity,
           }
         );
         setServerSuccessMessage(response.data.message);
@@ -123,7 +125,7 @@ const OrgView = () => {
           axios
             .delete(`/api/resources/${row.getValue('_id')}`)
             .then((response) => {
-              Swal.fire('Deleted!', `Deleted The Resources!`, 'success');
+              Swal.fire('Deleted!', "Deleted The Resources!", 'success');
               console.log(response);
               tableData.splice(row.index, 1);
               setTableData([...tableData]);
@@ -218,7 +220,7 @@ const OrgView = () => {
       {
         accessorKey: 'name',
         header: 'Resources Name',
-        enableEditing: false,
+        enableEditing: true,
         size: 140,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -228,19 +230,11 @@ const OrgView = () => {
         accessorKey: 'quantity',
         header: 'Quantity',
         enableColumnOrdering: false,
-        enableEditing: false,
+        enableEditing: true,
         enableSorting: false,
         size: 80,
         columnVisibility: false,
-      },
-      {
-        accessorKey: 'availableQty',
-        header: 'Available Quantity',
-        enableColumnOrdering: false,
-        enableEditing: true, //disable editing on this column
-        enableSorting: false,
-        size: 80,
-        columnVisibility: false,
+        type: 'number',
       },
     ],
     [getCommonEditTextFieldProps]

@@ -4,7 +4,7 @@ import axios from "axios";
 export const IpAddress = async ({ setLoading, setIpData }) => {
   try {
     let res = await axios.get(
-      `http://api.ipstack.com/check?access_key=c1611048089c513c9658afbbcb8f1b6e`
+      "http://api.ipstack.com/check?access_key=c1611048089c513c9658afbbcb8f1b6e"
     );
     if (res) {
       setLoading(false);
@@ -19,7 +19,7 @@ export const IpAddress = async ({ setLoading, setIpData }) => {
 export const SendEmail = async ({ fullName, email, message, setSend }) => {
   try {
     const datas = { fullName, email, message };
-    let res = await axios.post(`/api/client/send`, datas);
+    let res = await axios.post("/api/client/send", datas);
     if (res) {
       setSend(res.data);
     }

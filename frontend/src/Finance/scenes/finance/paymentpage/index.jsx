@@ -15,7 +15,7 @@ const navigate = useNavigate();
 
   return (
     <>
-      <Box  width="100%" position="relative" justifyContent="center" style={{backgroundColor: "#bbdefb"}}>
+      <Box  pt="2rem" width="100%" position="relative" justifyContent="center" style={{backgroundColor: "#bbdefb"}}>
         <center>
         <Typography variant='h2'>
           Payment Options
@@ -48,7 +48,7 @@ const navigate = useNavigate();
               <Box
                 mb="0.5rem"
                 p="1.5rem"
-                style={{ backgroundColor: '#FFFFF', borderRadius: '5px' , border: '2px solid #0123F5'}}
+                style={{ backgroundColor: '#FFFFF', borderRadius: '5px' , border: '2px solid #F2F5FA'}}
               >
                 <Typography variant="h5" color="text.primary" gutterBottom>
                   Account Number: 045-1523-256 <br />
@@ -58,7 +58,7 @@ const navigate = useNavigate();
               </Box>
               <Box
                 p="1.5rem"
-                style={{ backgroundColor: '#FFFFF', borderRadius: '5px' , border: '2px solid #0123F5'}}
+                style={{ backgroundColor: '#FFFFF', borderRadius: '5px' , border: '2px solid #F2F5FA'}}
               >
                 <Typography variant="h5" color="text.primary" gutterBottom>
                   Account Number: 076-9564-852 <br />
@@ -104,12 +104,25 @@ const navigate = useNavigate();
                   
                 style={{
                   marginInline: '5px',
-                  width: '70px',
+                  width: '100%',
                   backgroundColor: '#0123F5',
                 }}
                 onClick={() => { navigate(`/finance/paypal/${id}`)}}
               >
                 pay
+              </Button>
+              <Button width="100%"
+                variant="contained"
+                type="submit"
+                  
+                style={{
+                  marginInline: '5px',
+                  width: '100%',
+                  backgroundColor: '#d32f2f',
+                }}
+                onClick={() => { navigate("")}}
+              >
+                cancel
               </Button>
           </CardActions>
         </Card>
